@@ -1,0 +1,21 @@
+{
+  "menuItem": [
+    {
+      "menuIcon": "material-symbols:dashboard-rounded",
+      "menuTitle": "Dashbord",
+      "bgColor": "cyan-500",
+      "routes": "/dashbordhome"
+    },
+    {
+      "menuIcon": "material-symbols:dashboard-rounded",
+      "menuTitle": "About",
+      "bgColor": "red-500",
+      "routes": "/"
+    },
+    {
+      "menuIcon": "pixel:user-solid",
+      "menuTitle": "User",
+      "routes": "/usertablenew"
+    }
+  ]
+}

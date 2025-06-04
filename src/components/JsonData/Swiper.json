@@ -1,0 +1,13 @@
+{
+    "swiper_image": [
+        {
+            "img": "http://127.0.0.1:5500/corpex-html/assets/images/slider/image-3.jpg"
+        },
+        {
+            "img": "https://img.freepik.com/premium-photo/head-shot-pleasant-happy-young-woman-freelancer-working-computer-night-attractive-businesswoman-studying-online-using-laptop-software-web-surfing-information-shopping-internet-storexa_516988-5243.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740"
+        },
+        {
+            "img": "https://img.freepik.com/free-photo/two-young-girls-computer-night_169016-59877.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740"
+        }
+    ]
+}
