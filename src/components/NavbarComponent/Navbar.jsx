@@ -153,8 +153,6 @@ function Navbar() {
                 </div>
             </header>
 
-
-
         </Fragment>
     )
 }

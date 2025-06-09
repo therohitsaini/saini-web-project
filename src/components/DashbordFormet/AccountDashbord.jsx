@@ -30,7 +30,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
     // console.log("districList", districList)
 
     // console.log("allState", City.getAllCities())
-    console.log("userData_", data)
+    console.log("userData_", img)
 
 
     const fullname = useRef("")
@@ -133,8 +133,6 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
     const stateOnchangeHandler = (state_Data) => {
         setSelectedState(state_Data);
         const cities = City.getCitiesOfState(seletedCountryList.isoCode, state_Data.isoCode);
-        // const districtsOnly = cities.filter(city => city.name.toLowerCase().includes(""));
-        // setDistric_(districtsOnly.length ? districtsOnly : cities);
         setDistric_(cities)
     };
 
@@ -143,17 +141,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
         setError(false)
     }
 
-    const genderOptions = [
-        { label: "Male" },
-        { label: "Female" },
-        { label: "Other" },
-    ]
-
-
-    // const countryHandler = (e) => {
-    //     const data = e.target.value
-    //     seletedCountryList(data)
-    // }
+   
 
 
     return (
@@ -385,20 +373,6 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
 
                 </div>
 
-
-
-
-                {/* <select
-                    //  onChange={(e) => stateOnchangeHandler(state_.find((s) => c.isoCode === e.target.value))}
-                    className='border border-teal-50 bg-black p-2 px-5'>
-                    <option>Select State</option>
-
-                    {
-                        distric_.map((dis_Data) => <option key={dis_Data.isoCode} value={dis_Data.isoCode}>{dis_Data.name}</option>)
-
-                    }
-
-                </select> */}
 
             </div>
         </Fragment >

@@ -20,6 +20,7 @@ import Admin from './components/DashbordFormet/DashbordPages/Admin';
 import Uploadimg from './components/Uploadimg';
 import RolePermissionForm from './components/DashbordFormet/DashbordPages/RolePermissionForm';
 import RolePermission from './components/DashbordFormet/RolePermission';
+import Footer from './components/FooterComp/Footer';
 // import ReactCityState from './components/DashbordFormet/DashbordPages/ReactCityState';
 
 
@@ -36,10 +37,11 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/' element={<SignIn />} />
           <Route path='/home' element={< Home />} />
+          <Route path='/footer' element={< Footer />} />
           <Route path='/dashboardmenu' element={<DashbordMenu />} />
           <Route path='/herosection' element={<HeroSection />} />
           <Route path='/dashbordcomplete' element={< DashboardLayoutWithRoutes />} />
-          {/* <Route path='/usertable/:id' element={<UserTable />} /> */}
+          <Route path='/usertable/' element={<UserTable />} />
           <Route path='/usertablenew' element={<UserTableNew />} />
           <Route path='/muiappbar' element={<MuiAppBar />} />
           <Route path='dashboardhomepage' element={< DashbordHomePage />} />
@@ -49,7 +51,7 @@ function App() {
           <Route path='/dashbord' element={<  Dashbord />} />
           <Route path='/uploadimg' element={<  Uploadimg />} />
           <Route path='/admin' element={<  Admin />} />
-          <Route path='/roleform' element={< RolePermission  />} />
+          <Route path='/roleform' element={< RolePermission />} />
 
           {/* <Route path='/reactcitystate' element={<ReactCityState />} /> */}
 

@@ -1,20 +1,15 @@
-import * as React from 'react';
-import { createTheme, styled } from '@mui/material/styles';
 import { AppProvider } from '@toolpad/core/AppProvider';
-import { DashboardLayout, ThemeSwitcher } from '@toolpad/core/DashboardLayout';
+import { DashboardLayout} from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import UserTable from './UserTable';
 import { useState } from 'react';
-import { Avatar, Box, Button, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { CustomAppTitle, demoTheme, NAVIGATION, ToolbarActionsSearch, useDemoRouter } from '../MuiFunction/MuiFunction';
+import { CustomAppTitle, NAVIGATION, ToolbarActionsSearch, useDemoRouter } from '../MuiFunction/MuiFunction';
 import DashbordHomePage from '../../MuiDasbordPages/DashbordHomePage';
-import { useMemo } from 'react';
 import { useEffect } from 'react';
 import RolePermission from './RolePermission';
-import Account from './AccountDashbord';
 import AccountDashbord from './AccountDashbord';
 import ResetPassword from './DashbordPages/ResetPassword';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,  } from 'react-redux';
 import { userInformationCurrent } from '../../Store/UserDetailsHeader/action';
 import CreateUserComponents from './DashbordPages/CreateUserComponents';
 

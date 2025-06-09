@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from 'react';
 import {
     DataGrid,
 } from '@mui/x-data-grid';
@@ -25,7 +25,6 @@ function UserTable() {
     const [arrIds, setArrIds] = useState([]);
     const [refreshFlag, setRefreshFlag] = useState(false);
     const [isTrue, setIsTrue] = useState(false)
-    // const [isActive, setIsActive] = useState(true)
     const [checkStatus, setCheckStatus] = useState()
     const [status, setStatus] = useState(true)
     const [isTure_, setIsTrue_] = useState(false)
@@ -41,7 +40,7 @@ function UserTable() {
         router.navigate("/user/adduser");
     };
 
-   
+
     const handleActionClick = (data = {}) => {
         setOpen(true);
         setIsUpdateOnComponent(false)
@@ -129,8 +128,8 @@ function UserTable() {
         { field: 'Username', headerName: 'Username', width: 200 },
         { field: 'emailID', headerName: 'User Mail ID', width: 250 },
         { field: 'permission', headerName: 'Permissions', width: 160 },
-  
-      
+
+
         {
             field: 'status',
             headerName: 'Status',
@@ -234,6 +233,8 @@ function UserTable() {
         status: item.userStatus
     }));
 
+  
+
     return (
         <Fragment>
             {isUpdateOnComponent ?
@@ -290,8 +291,7 @@ function UserTable() {
                     <span onClick={() => setIsUpdateOnComponent(true)} className='flex items-center gap-1 my-10 hover:bg-slate-300/20 rounded-md px-2 py-1 w-20 cursor-pointer duration-700'> <ArrowBackIcon /> Back</span>
 
                     <RoleUpdateModal
-                        // open={open}
-                        // setOpen={setOpen}
+
                         setAutoComplete={setAutoComplete}
                         autoComplete={autoComplete}
                         id={id_}
@@ -301,6 +301,10 @@ function UserTable() {
                         setRefreshFlag={setRefreshFlag}
                         setIsTrue={setIsTrue}
                         isTrue={isTrue}
+                        // setImagePicker={setImagePicker}
+                        // imagePicker={imagePicker}
+                        // userProfilePictureHandler={userProfilePictureHandler}
+
                     />
                 </div>
             }
