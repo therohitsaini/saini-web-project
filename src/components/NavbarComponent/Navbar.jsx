@@ -99,7 +99,7 @@ function Navbar() {
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
                         <div className='nav-logo h-10 w-50  '>
-                            <img className='h-full w-full object-contain ' src="http://127.0.0.1:5500/corpex-html/assets/images/logo-light.png" alt="not found" />
+                            <img className='h-full w-full object-contain ' src="../src/assets/logo-light (1).png" alt="not found" />
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             <ul className='text-white flex gap-5 font-semibold text-[17px]'>

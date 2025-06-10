@@ -21,6 +21,7 @@ import Uploadimg from './components/Uploadimg';
 import RolePermissionForm from './components/DashbordFormet/DashbordPages/RolePermissionForm';
 import RolePermission from './components/DashbordFormet/RolePermission';
 import Footer from './components/FooterComp/Footer';
+import Service from './components/PagesComp/Service';
 // import ReactCityState from './components/DashbordFormet/DashbordPages/ReactCityState';
 
 
@@ -52,6 +53,8 @@ function App() {
           <Route path='/uploadimg' element={<  Uploadimg />} />
           <Route path='/admin' element={<  Admin />} />
           <Route path='/roleform' element={< RolePermission />} />
+          <Route path='/service' element={< Service />} />
+
 
           {/* <Route path='/reactcitystate' element={<ReactCityState />} /> */}
 
