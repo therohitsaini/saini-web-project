@@ -11,24 +11,27 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import { Button } from '@mui/material';
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 
+export const footerIcone = [
+    {
+        icone: "bxl:instagram",
+    },
+    {
+        icone: "ei:sc-facebook",
+    },
+    {
+        icone: "simple-line-icons:social-twitter",
+    },
+    {
+        icone: "akar-icons:linkedin-v2-fill",
+    },
+    {
+        icone: "entypo-social:pinterest"
+    }
 
+]
 const Footer = () => {
     const [facebookHover, setFacebookHover] = useState(false)
-    const footerIcone = [
-        {
-            icone: "bxl:instagram",
-        },
-        {
-            icone: "ei:sc-facebook",
-        },
-        {
-            icone: "simple-line-icons:social-twitter",
-        },
-        {
-            icone: "akar-icons:linkedin-v2-fill",
-        },
 
-    ]
 
     const listItem = [
         {
@@ -181,7 +184,7 @@ const Footer = () => {
                                 <div className='flex gap-3'>
                                     {
                                         footerIcone?.map((item_, index) => {
-                                            console.log("item", item_.icone)
+                                        
                                             return (
                                                 <Icone key={index} item_={item_.icone} />
                                             )

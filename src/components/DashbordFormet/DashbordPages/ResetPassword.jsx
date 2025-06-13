@@ -92,8 +92,8 @@ function ResetPassword() {
                     {response_ ? response_ : " Password update successfully....!"}
                 </Alert>
             </Snackbar>
-            <div className='reset-password-main h-screen -mt-25  bg-[#131312] flex justify-center items-center' >
-                <form className='h-[300px] w-[500px]  rounded-md p-1 px-5 flex flex-col gap-4 justify-center inset-shadow-sm inset-shadow-cyan-800'>
+            <div className='reset-password-main h-[600px] -mt-25  bg-[#131312] flex justify-center items-center' >
+                <form className='h-[400px] w-[600px]  rounded-md p-1 px-5 flex flex-col gap-4 justify-center  border border-slate-500/20'>
                     <h1 className='font-serif text-2xl text-cyan-800 mb-2'>Reset Password</h1>
 
                     <TextField inputRef={old_Password} id="outlined-basic" type='password' label="Old Password" variant="outlined" size='small' sx={{ width: "100%", bgcolor: isOldPassword ? "rgba(219, 160, 161) " : "" }} />

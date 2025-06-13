@@ -4,9 +4,8 @@ import { margin } from "@mui/system";
 
 
 function Icone({ item_ }) {
+    
     const [linkdinHover, setLinkdinHover] = useState(false)
-
-
 
     return (
         <div className={`icon-linkdin h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${linkdinHover ? "bg-red-600/40" : "bg-white/50"}`}>
@@ -16,6 +15,7 @@ function Icone({ item_ }) {
             </div>
         </div>
     )
+
 }
 
 export default Icone
@@ -46,7 +46,7 @@ export const ContactComponent = ({ Icone_Contact, heading, paragraph }) => {
             <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
                 <div onMouseOver={() => setFacebookHover(true)} onMouseLeave={() => setFacebookHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500 " : "bg-white"}`}>
                     {/* <Icone_Contact sx={{ color: facebookHover ? "white" : "#db3125", fontSize: 23 }} /> */}
-                    <Icon fontSize={20} className={`${facebookHover ? "text-white" : ""}`}  color="#db3125" icon={Icone_Contact} />
+                    <Icon fontSize={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" icon={Icone_Contact} />
                 </div>
             </div>
 

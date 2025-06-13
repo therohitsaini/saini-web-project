@@ -4,7 +4,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import Person4Icon from '@mui/icons-material/Person4';
-import { Avatar, createTheme, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Avatar, Button, createTheme, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { useMemo, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,7 +17,8 @@ import Groups3Icon from '@mui/icons-material/Groups3';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePathAction } from '../../Store/UserDetailsHeader/action';
-
+import FeedIcon from '@mui/icons-material/Feed';
+import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline';
 
 // import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 
@@ -29,7 +30,7 @@ export const NAVIGATION = (isAdmin) => {
 
         { kind: 'header', title: 'Main items' },
         { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
-        { segment: 'permissions', title: 'Permissions', icon: <DashboardIcon /> },
+        { segment: 'permissions', title: 'Permissions', icon: <WorkspacesOutlineIcon /> },
 
         {
             segment: 'user',
@@ -37,8 +38,8 @@ export const NAVIGATION = (isAdmin) => {
             icon: <Groups3Icon />,
             children: [
                 // ...(isAdmin === 'Super_admin' ? [
-                    { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
-                    { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
+                { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
+                { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
                 // ] : []),
             ],
         },
@@ -58,7 +59,10 @@ export const NAVIGATION = (isAdmin) => {
                 { segment: 'resetPassword', title: 'Reset Password', icon: <LockResetIcon fontSize="small" /> },
             ],
         },
-        // { segment: 'integrations', title: 'Integrations', icon: <LayersIcon /> },
+        { kind: 'divider' },
+        { kind: 'header', title: 'Header Settings' },
+        { segment: 'header', title: 'Header Section', icon: <FeedIcon /> },
+
     ]
 };
 
@@ -78,7 +82,7 @@ export const CustomAppTitle = () => {
 
 export const useDemoRouter = (initialPath) => {
     const dispatch = useDispatch()
-const pathname = useSelector(state => state.user_info.pathname) ?? initialPath;
+    const pathname = useSelector(state => state.user_info.pathname) ?? initialPath;
 
     const router = useMemo(() => {
         return {
@@ -111,10 +115,8 @@ export const demoTheme = createTheme({     // theme com------>
 
 export const ToolbarActionsSearch = () => {   // search componets
     return (
-        <Stack direction="row" sx={{ display: 'flex', alignItems: "center" }} >
-            {/* <Stack>
-            <Typography  component={"h3"}>helle</Typography>
-        </Stack> */}
+        <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2 }} >
+
             <Tooltip title="Search" enterDelay={1000}>
                 <div>
                     <IconButton
@@ -147,6 +149,13 @@ export const ToolbarActionsSearch = () => {   // search componets
                 sx={{ display: { xs: 'none', md: 'inline-block' }, mr: 1 }}
             />
             {/* <ThemeSwitcher /> */}
+            <Stack>
+                <Button
+                    sx={{ textTransform: 'none', }}
+                    variant="outlined" href="/home">
+                    Visit Website
+                </Button>
+            </Stack>
             <ProfileSection />
 
         </Stack >

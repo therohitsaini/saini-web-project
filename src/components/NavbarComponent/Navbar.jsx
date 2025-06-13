@@ -14,88 +14,58 @@ import NavSearchModalComp from '../../ModalComponent/NavSearchModalComp';
 import SwipeComp from '../SwiperCrowsal/SwiperComp';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
+import Icone from '../IconeComp/Icone';
+import { footerIcone } from '../FooterComp/Footer';
+import  {HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
-function Navbar() {
+function Navbar({ data }) {
 
-    const [hoverEmailIsTure, setHoverEmailIsTure] = useState(false)
-    const [hoverCustomerSupport, setHoverCustomerSupport] = useState(false)
-    const [facebookHover, setFacebookHover] = useState(false)
-    const [twitterHover, setTwitterHover] = useState(false)
-    const [instagramHover, setInstagramHover] = useState(false)
-    const [linkdinHover, setLinkdinHover] = useState(false)
-    const [pintHover, setPintHover] = useState(false)
     const [searchHover, setSearchHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
     const [searchBarIsTrue, setSearchBarIsTrue] = useState(false)
 
-    //[opacity-50 bg-transparent ]
+
     return (
         <Fragment>
             <NavSearchModalComp searchBarIsTrue={searchBarIsTrue} setSearchBarIsTrue={setSearchBarIsTrue} />
             <header className='header p-2 w-full px-20   flex flex-col fixed z-40'>
-                <div className='contact-section grid grid-cols-3 inset-0   p-3'>
+                <div className="w-full    grid grid-cols-3   ">
 
-                    <div className='mail-section flex gap-2 items-center '>
-                        <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${hoverEmailIsTure ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setHoverEmailIsTure(true)} onMouseLeave={() => setHoverEmailIsTure(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${hoverEmailIsTure ? "bg-red-500 " : "bg-white"}`}>
-                                <MailOutlineIcon sx={{ color: hoverEmailIsTure ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
 
-                        <div className='mail-section text-white  font-semibold'>
-                            <h1 className='heading text-white text-[18px]'>Email Address</h1>
-                            <Link className='text-[16px]' to={"#"} >email@company.com</Link>
-                        </div>
+                    <div className=" w-full">
+                        {
+                            data?.headerData.headerTopBar
+                                ?.find(sec => sec.section === "HeaderTopLeftBar")
+                                ?.item.map((item, index) => (
+                                    <HeaderTopBarComp key={`left-${index}`} data={item} />
+                                ))
+                        }
                     </div>
 
-                    <div className='social-icon-section flex gap-4 justify-center'>
-                        <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setFacebookHover(true)} onMouseLeave={() => setFacebookHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500 " : "bg-white"}`}>
-                                <FacebookIcon sx={{ color: facebookHover ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
-
-                        <div className={`icon-rwitter h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${twitterHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setTwitterHover(true)} onMouseLeave={() => setTwitterHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${twitterHover ? "bg-red-500 " : "bg-white"}`}>
-                                <TwitterIcon sx={{ color: twitterHover ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
-
-                        <div className={`icon-instagram h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${instagramHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setInstagramHover(true)} onMouseLeave={() => setInstagramHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${instagramHover ? "bg-red-500 " : "bg-white"}`}>
-                                <InstagramIcon sx={{ color: instagramHover ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
-
-                        <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${pintHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setPintHover(true)} onMouseLeave={() => setPintHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${pintHover ? "bg-red-500 " : "bg-white"}`}>
-                                <PinterestIcon sx={{ color: pintHover ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
-
-                        <div className={`icon-linkdin h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${linkdinHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setLinkdinHover(true)} onMouseLeave={() => setLinkdinHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${linkdinHover ? "bg-red-500 " : "bg-white"}`}>
-                                <LinkedInIcon sx={{ color: linkdinHover ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
-
+                    <div className="w-full flex justify-center items-center gap-4">
+                        {data?.headerData.headerTopBar
+                            ?.find(sec => sec.section === "HeaderCenterIcone")
+                            ?.item.map((item, index) => (
+                                <HeaderTopBarCenterIcone item={item} />
+                            ))}
                     </div>
 
-                    <div className='customer-sport-section flex gap-2 items-center justify-end'>
-                        <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${hoverCustomerSupport ? "bg-red-600/40" : "bg-white/50"}`}>
-                            <div onMouseOver={() => setHoverCustomerSupport(true)} onMouseLeave={() => setHoverCustomerSupport(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${hoverCustomerSupport ? "bg-red-500 " : "bg-white"}`}>
-                                <CallIcon sx={{ color: hoverCustomerSupport ? "white" : "#db3125", fontSize: 23 }} />
-                            </div>
-                        </div>
 
-                        <div className='mail-section  text-white  font-semibold '>
-                            <h1 className='heading text-white text-[18px]'>Customer Support</h1>
-                            <Link className='text-[16px]' to={"#"} >7097597570</Link>
+                    <div className="w-full pl-55">
+                        {
+                            data.headerData.headerTopBar
+                                ?.find(sec => sec.section === "HeaderTopRightBar")
+                                ?.item.map((item, index) => (
+                                    <HeaderTopBarCompRightContent key={`right-${index}`} data={item} />
 
-                        </div>
+                                ))
+                        }
                     </div>
 
                 </div>
+
+            
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
                         <div className='nav-logo h-10 w-50  '>
@@ -150,9 +120,10 @@ function Navbar() {
 
                     </div>
 
+
+
                 </div>
             </header>
-
         </Fragment>
     )
 }

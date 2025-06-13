@@ -1,5 +1,5 @@
 import { AppProvider } from '@toolpad/core/AppProvider';
-import { DashboardLayout} from '@toolpad/core/DashboardLayout';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import UserTable from './UserTable';
 import { useState } from 'react';
@@ -9,9 +9,12 @@ import { useEffect } from 'react';
 import RolePermission from './RolePermission';
 import AccountDashbord from './AccountDashbord';
 import ResetPassword from './DashbordPages/ResetPassword';
-import { useDispatch,  } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import { userInformationCurrent } from '../../Store/UserDetailsHeader/action';
 import CreateUserComponents from './DashbordPages/CreateUserComponents';
+import HeaderCustomize from './HeaderCustomize';
+import HeaderTopBarTabs from '../NavbarComponent/HeaderTopBarTabs';
+import HeaderSideBarTabs from '../NavbarComponent/HeaderSideBarTabs';
 
 
 
@@ -122,6 +125,10 @@ const MuiAppBar = (props) => {
         return <ResetPassword />;
 
     }
+    // function SalesPage() {
+    //     return <HeaderCustomize />;
+
+    // }
 
     function NotFoundPage() {
         return <div>404 - Page Not Found</div>;
@@ -148,8 +155,13 @@ const MuiAppBar = (props) => {
                 return <AccountDashbord setData={setData} data={data} user_ID={user_ID} userProfilePic={userProfilePic} setProfileRefress={setProfileRefress} profileRefress={profileRefress} />;
             case '/account/resetPassword':
                 return <ResetPassword />;
-            case '/reports/traffic':
-                return <TrafficPage />;
+            case '/header':
+                // return <HeaderCustomize />;
+                // return <HeaderTopBarTabs />;
+                return <HeaderSideBarTabs />;
+
+
+
             case '/integrations':
                 return <IntegrationsPage />;
             default:
@@ -204,7 +216,11 @@ const MuiAppBar = (props) => {
                     },
                     "& .MuiDataGridVariables": {
                         backgroundColor: "white"
+                    },
+                    "& .MuiStack-root": {
+
                     }
+
 
                 }}
             >

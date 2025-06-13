@@ -10,7 +10,7 @@ import { swiper_image } from "../JsonData/Swiper.json"
 function SwipeComp() {
 
     return (
-        <div className='swiper-main border border-red-500'>
+        <div className='swiper-main '>
             <div>
                 <Swiper
                     spaceBetween={30}
