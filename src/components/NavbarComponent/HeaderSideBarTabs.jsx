@@ -69,8 +69,11 @@ export default function HeaderSideBarTabs() {
     }
     const [formData, setFormData] = useState(initialState);
     const [formDataRight, setFormDataRight] = useState(initialStateRight)
+    const [iconFields, setIconFields] = useState([
+        { menuItem: '', menuItemRoute: '' }
+    ]);
 
-    console.log("formDataRight", formDataRight)
+    console.log("navMenuItem", iconFields)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -93,6 +96,10 @@ export default function HeaderSideBarTabs() {
                 (section) => section.section === "HeaderTopRightBar"
             )?.item[0];
 
+
+
+
+
             setFormData((pre) => ({
 
                 pre,
@@ -112,6 +119,18 @@ export default function HeaderSideBarTabs() {
                 item_IconeUrlRight: topRight?.item_IconeUrl || "",
 
             }))
+
+            const navBarListItem = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "NavManuItem"
+            )?.item;
+
+            const mappedMenuItems = navBarListItem?.map(data => ({
+                menuItem: data.item_Title || '',
+                menuItemRoute: data.item_IconeUrl || '',
+            }));
+
+            setIconFields(mappedMenuItems)
+
         }
 
 
@@ -146,6 +165,14 @@ export default function HeaderSideBarTabs() {
                     }
                 ]
             };
+        } else if (section === "NavManuItem") {
+            payload = {
+                section: section,
+                item: iconFields.map(field => ({
+                    item_Title: field.menuItem,
+                    item_IconeUrl: field.menuItemRoute
+                }))
+            };
         }
 
 
@@ -163,7 +190,7 @@ export default function HeaderSideBarTabs() {
                 alert("Succesfully")
             }
             // setFormData(initialState);
-            console.log(responseJson);
+            // console.log(responseJson);
         } catch (error) {
             console.log(error);
         }
@@ -183,7 +210,13 @@ export default function HeaderSideBarTabs() {
                         value={value}
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
-                        sx={{ borderRight: 2, borderColor: 'divider', minWidth: 200, height: 400 }}
+                        sx={{
+                            borderRight: 2,
+                            borderColor: 'divider',
+                            minWidth: 200, height: 400,
+                            position: 'sticky',
+                            top: 120,
+                        }}
                         TabIndicatorProps={{
                             style: {
                                 backgroundColor: "#f6f0f0"
@@ -202,7 +235,7 @@ export default function HeaderSideBarTabs() {
                         />
 
                         <Tab sx={{
-                            bgcolor: value === 1 ? '#3105c2' : 'transparent',
+                            backgroundColor: value === 1 ? 'rgba(26, 13, 207, 0.6) !important' : 'transparent',
                             color: value === 1 ? 'black' : 'white',
                             borderRadius: 1,
                             textTransform: 'none',
@@ -224,6 +257,9 @@ export default function HeaderSideBarTabs() {
                         }} label="Site Logo" {...a11yProps(3)} />
 
                         <Tab sx={{
+                            backgroundColor: value === 4 ? 'rgba(26, 13, 207, 0.6) !important' : 'transparent',
+                            color: value === 4 ? 'black' : 'white',
+                            borderRadius: 1,
                             textTransform: 'none',
                         }} label=" Site Menu List" {...a11yProps(4)} />
                         <Tab sx={{ textTransform: 'none', }} label="Item Six" {...a11yProps(5)} />
@@ -249,7 +285,7 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>
-                    <NavbarListItem />
+                    <NavbarListItem submitHandler={submitHandler} setIconFields={setIconFields} iconFields={iconFields} />
                 </TabPanel>
 
                 <TabPanel value={value} index={5}>

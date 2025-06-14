@@ -71,11 +71,12 @@ export default function NavbarLogo() {
 
 // <-------------------------- ------------- Navbar List Item --------------------  --------------->
 
-export const NavbarListItem = () => {
-    const [iconFields, setIconFields] = useState([
-        { item_Title: "", icon: '', url: '' }
-    ]);
 
+
+export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => {
+
+
+    // Handle changes for individual fields
     const handleChange = (index, event) => {
         const { name, value } = event.target;
         const updatedFields = [...iconFields];
@@ -83,76 +84,78 @@ export const NavbarListItem = () => {
         setIconFields(updatedFields);
     };
 
-    // Add new field set
+    // Add a new field set
     const addNewField = () => {
-        const inistialState = {
-            item_Title: "",
-            icon: '',
-            url: ''
-        }
-        setIconFields([...iconFields, inistialState]);
+        const newField = { menuItem: '', menuItemRoute: '' };
+        setIconFields([...iconFields, newField]);
     };
 
-    // Remove a field set
+    // Remove a specific field set
     const removeField = (index) => {
         const updatedFields = iconFields.filter((_, i) => i !== index);
         setIconFields(updatedFields);
     };
+
+
+
     return (
         <Fragment>
-            <form className='flex justify-center flex-col items-center'>
-
-                <div className="flex flex-col gap-4  ">
-                    <div className='flex justify-between w-full '>
-                        <h1 className='flex justify-start w-full'>Site Menu Item</h1>
-                        <Button sx={{ width: "50%", textTransform: "none" }} variant="outlined">Save Changes</Button>
-                    </div>
-                    {iconFields.map((field, index) => (
-                        <div
-                            key={index}
-                            className="border border-slate-400/20 rounded-md p-5 w-[100%] relative"
+            <form className="flex justify-center flex-col items-center">
+                <div className="flex flex-col gap-4 w-full max-w-2xl">
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-lg font-semibold">Site Menu Items</h1>
+                        <Button
+                            onClick={() => submitHandler("NavManuItem")}
+                            variant="outlined"
+                            sx={{ textTransform: 'none' }}
                         >
-                            <div className="flex justify-between gap-2 mb-3">
-                                <TextField
-                                    label={`Menu  ${index + 1}`}
-                                    size="small"
-                                    variant="outlined"
-                                    name="item_Title"
-                                    value={field.item_Title}
-                                    onChange={(e) => handleChange(index, e)}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label={`Menu Route ${index + 1}`}
-                                    size="small"
-                                    variant="outlined"
-                                    name="icon"
-                                    value={field.icon}
-                                    onChange={(e) => handleChange(index, e)}
-                                    fullWidth
-                                />
+                            Save Changes
+                        </Button>
+                    </div>
 
-                                <Tooltip title="Delete">
-                                    <IconButton
-                                        onClick={() => removeField(index)}
-                                        color="error"
-                                        disabled={iconFields.length === 1}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton >
-                                </Tooltip>
+                    {
+                        iconFields && iconFields?.map((field, index) => (
+                            <div
+                                key={index}
+                                className="border border-slate-400/20 rounded-md p-5 w-full relative"
+                            >
+                                <div className="flex justify-between gap-4 mb-3">
+                                    <TextField
+                                        label={`Menu ${index + 1}`}
+                                        size="small"
+                                        variant="outlined"
+                                        name="menuItem"
+                                        value={field.menuItem}
+                                        onChange={(e) => handleChange(index, e)}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        label={`Route ${index + 1}`}
+                                        size="small"
+                                        variant="outlined"
+                                        name="menuItemRoute"
+                                        value={field.menuItemRoute}
+                                        onChange={(e) => handleChange(index, e)}
+                                        fullWidth
+                                    />
+                                    <Tooltip title="Delete">
+                                        <IconButton
+                                            onClick={() => removeField(index)}
+                                            color="error"
+                                            disabled={iconFields.length === 1}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
 
-                    <div className='button-wrraper flex justify-end'>
+                    <div className="flex justify-end">
                         <Button
                             onClick={addNewField}
                             variant="outlined"
-
-                            sx={{
-                                textTransform: "none"
-                            }}
+                            sx={{ textTransform: 'none' }}
                         >
                             + Add More
                         </Button>
@@ -160,8 +163,9 @@ export const NavbarListItem = () => {
                 </div>
             </form>
         </Fragment>
-    )
-}
+    );
+};
+
 
 
 
