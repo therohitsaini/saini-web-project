@@ -170,8 +170,8 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                 </Alert>
             </Snackbar>
             < ConnfirmInfoDiolog isDilogTrue={isDilogTrue} setIsDilogeTrue={setIsDilogeTrue} updateUserProfleHandler={updateUserProfleHandler} />
-            <div className='w-full  bg-[#131312] -mt-20 '>
-                <div className='profile-main   flex flex-col gap-7  bg-[#131312] py-10 px-10  w-[700px]'>
+            <div className='w-full  flex justify-center  '>
+                <div className='profile-main   flex flex-col gap-7  py-10 px-10  w-[700px]'>
 
 
                     <h1 className='heading text-white  text-3xl'>Profile Details</h1>

@@ -15,6 +15,7 @@ import CreateUserComponents from './DashbordPages/CreateUserComponents';
 import HeaderCustomize from './HeaderCustomize';
 import HeaderTopBarTabs from '../NavbarComponent/HeaderTopBarTabs';
 import HeaderSideBarTabs from '../NavbarComponent/HeaderSideBarTabs';
+import HeroSectionCustome from '../HeroSectionCustomer/HeroSectionCustome';
 
 
 
@@ -125,10 +126,10 @@ const MuiAppBar = (props) => {
         return <ResetPassword />;
 
     }
-    // function SalesPage() {
-    //     return <HeaderCustomize />;
+    function SalesPage() {
+        return <HeroSectionCustome />;
 
-    // }
+    }
 
     function NotFoundPage() {
         return <div>404 - Page Not Found</div>;
@@ -159,7 +160,10 @@ const MuiAppBar = (props) => {
                 // return <HeaderCustomize />;
                 // return <HeaderTopBarTabs />;
                 return <HeaderSideBarTabs />;
-
+            case '/herosection':
+                // return <HeaderCustomize />;
+                // return <HeaderTopBarTabs />;
+                return <HeroSectionCustome />;
 
 
             case '/integrations':
@@ -213,8 +217,11 @@ const MuiAppBar = (props) => {
                     "& .MuiDataGridVariables": {
                         backgroundColor: "white"
                     },
-                    "& .MuiStack-root": {
-
+                    "& .MuiBreadcrumbs-ol": {
+                        display: "none"
+                    },
+                    "& .css-lc31tn": {
+                        display: "none"
                     }
 
 

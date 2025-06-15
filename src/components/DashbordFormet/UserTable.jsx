@@ -28,7 +28,7 @@ function UserTable() {
     const [checkStatus, setCheckStatus] = useState()
     const [status, setStatus] = useState(true)
     const [isTure_, setIsTrue_] = useState(false)
-    const [isUpdateOnComponent, setIsUpdateOnComponent] = useState(false)
+    const [isUpdateOnComponent, setIsUpdateOnComponent] = useState(true)
 
     console.log("arrIds", arrIds)
 
@@ -287,7 +287,7 @@ function UserTable() {
                         <CircularProgress color="inherit" />
                     </Backdrop>
                 </div>
-                : <div className='update-component -mt-25  bg-[#121212] flex flex-col justify-center  '>
+                : <div className='update-component   bg-[#121212] flex flex-col justify-center  '>
                     <span onClick={() => setIsUpdateOnComponent(true)} className='flex items-center gap-1 my-10 hover:bg-slate-300/20 rounded-md px-2 py-1 w-20 cursor-pointer duration-700'> <ArrowBackIcon /> Back</span>
 
                     <RoleUpdateModal

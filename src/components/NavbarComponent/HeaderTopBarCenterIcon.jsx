@@ -35,11 +35,11 @@ function HeaderTopBarCenterIcon() {
     return (
         <form className='flex justify-center flex-col items-center'>
 
-            <div className="flex flex-col gap-4  ">
+            <div className="flex flex-col gap-4 shadow-black shadow-xl ">
                 <h1 className='flex justify-start w-full'>Header To Bar Center Icone</h1>
 
                 {
-                      iconFields.map((field, index) => (
+                    iconFields.map((field, index) => (
                         <div
                             key={index}
                             className="border border-slate-400/20 rounded-md p-5 w-[100%] relative"

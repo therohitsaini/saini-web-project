@@ -63,6 +63,10 @@ export const NAVIGATION = (isAdmin) => {
         { kind: 'header', title: 'Header Settings' },
         { segment: 'header', title: 'Header Section', icon: <FeedIcon /> },
 
+        { kind: 'divider' },
+        { kind: 'header', title: 'Hero Section Setting' },
+        { segment: 'herosection', title: 'Hero Section', icon: <FeedIcon /> },
+
     ]
 };
 

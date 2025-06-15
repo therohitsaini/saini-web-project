@@ -16,11 +16,11 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
         }));
     };
 
-    console.log("formData", formData)
+
     return (
         <Fragment >
             <from className="form flex justify-center items-center  h-[420px]  w-full">
-                <div className="border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f] flex flex-col gap-4 w-[80%]">
+                <div className="border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
                     <Typography component="span">Top Bar Email Section</Typography>
                     <Divider />
                     <TextField
@@ -28,7 +28,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                         size="small"
                         variant="outlined"
                         name="item_Title"
-                        value={formData.item_Title}
+                        value={formData?.item_Title}
                         onChange={onChangeHandler}
                     />
                     <TextField
@@ -48,7 +48,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                         onChange={onChangeHandler}
                     />
                     <TextField
-                        label="Icone Url"
+                        label="URL"
                         size="small"
                         variant="outlined"
                         name="item_IconeUrl"
@@ -62,9 +62,9 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                     }} onClick={() => submitHandler("HeaderTopLeftBar")}
                         variant='contained'
                     >
-                        Update hanlder
+                        Save Changes
                     </Button>
-                    
+
                 </div>
             </from>
         </Fragment>

@@ -15,7 +15,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler }) {
     return (
         <Fragment >
             <form className='form-header-top-right   flex justify-center items-center  h-[420px]'>
-                <div className="border border-slate-400/20 rounded-md p-5  bg-[#1f1e1f] flex flex-col gap-4 w-[80%]">
+                <div className="border border-slate-400/20 rounded-md p-5  bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
                     <Typography component="span">Top Bar Support Section</Typography>
                     <Divider />
                     <TextField
@@ -43,7 +43,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler }) {
                         onChange={onChangeHandler}
                     />
                     <TextField
-                        label="Icone Url"
+                        label=" Url"
                         size="small"
                         variant="outlined"
                         name="item_IconeUrlRight"

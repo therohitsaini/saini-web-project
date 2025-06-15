@@ -7,6 +7,7 @@ import Footer from '../FooterComp/Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getHeaderData } from '../../Store/ApisStore/ApisCollection'
+import Loader from '../CurculeLoader/Loader'
 
 function Home() {
 
@@ -24,6 +25,7 @@ function Home() {
 
     return (
         <Fragment>
+           
             <Navbar data={headerToBarData} />
             <HeroSection />
             <Footer />

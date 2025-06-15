@@ -11,8 +11,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHeaderData } from '../../Store/ApisStore/ApisCollection';
 import { useEffect } from 'react';
 import HeaderTopBarCenterIcon from './HeaderTopBarCenterIcon';
-import NavbarSettings, { NavbarListItem } from './HeaderNavbarCustomizer/NavbarComponents';
+import NavbarSettings, { CartSection, HeaderButtomBar, HeaderButtomLeft, NavbarListItem, NavBarSearchSection, NavButton_Profile } from './HeaderNavbarCustomizer/NavbarComponents';
 import NavbarLogo from './HeaderNavbarCustomizer/NavbarComponents';
+
+
+
+export const tabsData = [
+    {
+        value: 0,
+        label: "Email Section"
+    },
+    {
+        value: 1,
+        label: "Center Icone"
+    },
+    {
+        value: 2,
+        label: "Support Section"
+    },
+    {
+        value: 3,
+        label: "Site Logo"
+    },
+    {
+        value: 4,
+        label: "Site Menu List"
+    },
+    {
+        value: 5,
+        label: "Site Search"
+    },
+    {
+        value: 6,
+        label: "Site Cart"
+    },
+    {
+        value: 7,
+        label: "Site Button"
+    },
+    {
+        value: 8,
+        label: "Herring Section"
+    },
+    {
+        value: 9,
+        label: "Opening Hour"
+    }
+]
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -73,6 +119,10 @@ export default function HeaderSideBarTabs() {
         { menuItem: '', menuItemRoute: '' }
     ]);
 
+    const [headerButtom, setHeaderButtom] = useState(
+        { hirringTitle: "", openingTime: "", closeTimnig: "" }
+    )
+
     console.log("navMenuItem", iconFields)
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -95,9 +145,6 @@ export default function HeaderSideBarTabs() {
             const topRight = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "HeaderTopRightBar"
             )?.item[0];
-
-
-
 
 
             setFormData((pre) => ({
@@ -189,18 +236,19 @@ export default function HeaderSideBarTabs() {
             if (fetchData.ok) {
                 alert("Succesfully")
             }
-            // setFormData(initialState);
-            // console.log(responseJson);
+
         } catch (error) {
             console.log(error);
         }
     };
 
+
+
     return (
-        <div className='-mt-22 w-full  '>
+        <div className=' w-full  '>
 
             <Box
-                sx={{ bgcolor: 'background.paper', display: 'flex', pt: 15, }}
+                sx={{ bgcolor: 'background.paper', display: 'flex', }}
             >
                 <div className="pb-5" >
                     {/* <h1 className='bg-cyan-300' >Header Customize Manu</h1> */}
@@ -223,47 +271,24 @@ export default function HeaderSideBarTabs() {
                             }
                         }}
                     >
-                        <Tab sx={{
-                            textTransform: 'none',
-                            bgcolor: value === 0 ? '#3105c2' : 'transparent',
-                            color: value === 0 ? 'black' : 'white',
-                            borderRadius: 1,
 
-                        }}
+                        {
+                            tabsData?.map((tabs) => {
+                                return (
+                                    <Tab sx={{
+                                        textTransform: 'none',
+                                        bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
+                                        color: value === tabs.value ? 'black' : 'white',
+                                        borderRadius: 1,
 
-                            label="Email Section" {...a11yProps(0)}
-                        />
+                                    }}
 
-                        <Tab sx={{
-                            backgroundColor: value === 1 ? 'rgba(26, 13, 207, 0.6) !important' : 'transparent',
-                            color: value === 1 ? 'black' : 'white',
-                            borderRadius: 1,
-                            textTransform: 'none',
-                        }} label="Center Iocne" {...a11yProps(1)} />
+                                        label={tabs.label} {...a11yProps(tabs.value)}
+                                    />
+                                )
+                            })
+                        }
 
-                        <Tab sx={{
-                            textTransform: 'none',
-                            bgcolor: value === 2 ? '#3105c2' : 'transparent',
-                            color: value === 2 ? 'black' : 'white',
-                            borderRadius: 1,
-                        }} label="Support Section" {...a11yProps(2)} />
-
-                        <Tab sx={{
-                            textTransform: 'none',
-                            bgcolor: value === 3 ? '#3105c2' : 'transparent',
-                            opacity: 1,
-                            color: value === 3 ? 'black' : 'white',
-                            borderRadius: 1,
-                        }} label="Site Logo" {...a11yProps(3)} />
-
-                        <Tab sx={{
-                            backgroundColor: value === 4 ? 'rgba(26, 13, 207, 0.6) !important' : 'transparent',
-                            color: value === 4 ? 'black' : 'white',
-                            borderRadius: 1,
-                            textTransform: 'none',
-                        }} label=" Site Menu List" {...a11yProps(4)} />
-                        <Tab sx={{ textTransform: 'none', }} label="Item Six" {...a11yProps(5)} />
-                        <Tab sx={{ textTransform: 'none', }} label="Item Seven" {...a11yProps(6)} />
 
                     </Tabs>
                 </div>
@@ -289,11 +314,23 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={5}>
-                    Item Six
+                    <NavBarSearchSection />
                 </TabPanel>
 
                 <TabPanel value={value} index={6}>
-                    Item Seven
+                    <CartSection />
+                </TabPanel>
+
+                <TabPanel value={value} index={7}>
+                    <NavButton_Profile />
+                </TabPanel>
+
+                <TabPanel value={value} index={8}>
+                    <HeaderButtomLeft />
+                </TabPanel>
+
+                <TabPanel value={value} index={9}>
+                    <HeaderButtomBar setHeaderButtom={setHeaderButtom} headerButtom={headerButtom} submitHandler={submitHandler} />
                 </TabPanel>
 
             </Box>

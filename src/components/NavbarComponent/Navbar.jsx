@@ -16,7 +16,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 import Icone from '../IconeComp/Icone';
 import { footerIcone } from '../FooterComp/Footer';
-import  {HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
+import { HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 function Navbar({ data }) {
@@ -25,6 +25,7 @@ function Navbar({ data }) {
     const [cartHover, setCartHover] = useState(false)
     const [searchBarIsTrue, setSearchBarIsTrue] = useState(false)
 
+    console.log("navData", data)
 
     return (
         <Fragment>
@@ -65,23 +66,22 @@ function Navbar({ data }) {
 
                 </div>
 
-            
+
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
                         <div className='nav-logo h-10 w-50  '>
                             <img className='h-full w-full object-contain ' src="../src/assets/logo-light (1).png" alt="not found" />
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
-                            <ul className='text-white flex gap-5 font-semibold text-[17px]'>
-
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >Home</Link> </li>
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >About Us</Link> </li>
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >Page</Link> </li>
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >Service</Link> </li>
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >Blog</Link> </li>
-                                <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >Contact</Link> </li>
-
-                            </ul>
+                            {
+                                data.headerData.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
+                                    return (
+                                        <ul key={index} className='text-white flex gap-5 font-semibold text-[17px]'>
+                                            <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >{item_ ? item_.item_Title : "HOME"}</Link> </li>
+                                        </ul>
+                                    )
+                                })
+                            }
                             <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
                                 <div onClick={() => setSearchBarIsTrue(!searchBarIsTrue)} onMouseOver={() => setSearchHover(true)} onMouseLeave={() => setSearchHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl   ${searchHover ? "bg-red-500 " : "bg-white"}`}>
                                     <SearchIcon sx={{ color: searchHover ? "white" : "#db3125", fontSize: 23, }} />
