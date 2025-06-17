@@ -22,8 +22,8 @@ const VisuallyHiddenInput = styled('input')({
 export default function NavbarLogo() {
     return (
         <div className='w-[100%] justify-center items-center h-[400px] flex flex-col' >
-            <div className='flex flex-col w-97  p-5  border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
-                <h1 className='w-96 mb-4 font-bold '> Change Site logo </h1>
+            <div className='flex flex-col w-97 gap-4  p-5  border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
+                <h1 className='w-96  font-bold '> Change Site logo </h1>
                 <Divider />
 
                 <Button
@@ -44,10 +44,10 @@ export default function NavbarLogo() {
                     />
                 </Button>
                 {/* OR */}
-                <p className='my-4 relative'>
+                {/* <p className='my-4 relative'>
                     <Divider />
                     <span className="w-full flex justify-center absolute -top-3" ><sapn className="bg-[#1f1e1f] " >OR</sapn></span>
-                </p>
+                </p> */}
                 <TextField
                     label="Site Logo"
                     size="small"
@@ -57,7 +57,7 @@ export default function NavbarLogo() {
                 </TextField>
 
                 <Button sx={{
-                    my: 2,
+                    // my: 2,
                     textTransform: "none"
                 }} variant='outlined'>Submit</Button>
             </div>

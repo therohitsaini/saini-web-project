@@ -259,11 +259,13 @@ export default function HeaderSideBarTabs() {
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
                         sx={{
+
                             borderRight: 2,
                             borderColor: 'divider',
                             minWidth: 200, height: 400,
                             position: 'sticky',
                             top: 120,
+                            
                         }}
                         TabIndicatorProps={{
                             style: {
