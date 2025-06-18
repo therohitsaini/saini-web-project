@@ -16,6 +16,7 @@ import HeaderCustomize from './HeaderCustomize';
 import HeaderTopBarTabs from '../NavbarComponent/HeaderTopBarTabs';
 import HeaderSideBarTabs from '../NavbarComponent/HeaderSideBarTabs';
 import HeroSectionCustome from '../HeroSectionCustomer/HeroSectionCustome';
+import InFo from '../HeroInfoSection/InFo';
 
 
 
@@ -166,8 +167,8 @@ const MuiAppBar = (props) => {
                 return <HeroSectionCustome />;
 
 
-            case '/integrations':
-                return <IntegrationsPage />;
+            case '/info':
+                return <InFo />;
             default:
                 return <NotFoundPage />;
 

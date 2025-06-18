@@ -18,7 +18,6 @@ export const HeaderTopBarComp = ({ data }) => {
                         </div>
                     </div>
 
-
                     <div className='mail-section text-white  font-semibold'>
                         <h1 className='heading text-white text-[18px]'>{data?.item_Title}</h1>
                         <Link className='text-[16px]' to={"#"} >{data?.item_ContactId}</Link>

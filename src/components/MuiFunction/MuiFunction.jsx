@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changePathAction } from '../../Store/UserDetailsHeader/action';
 import FeedIcon from '@mui/icons-material/Feed';
 import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import AdjustIcon from '@mui/icons-material/Adjust';
 
 // import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 
@@ -62,10 +64,9 @@ export const NAVIGATION = (isAdmin) => {
         { kind: 'divider' },
         { kind: 'header', title: 'Web Site Settings' },
         { segment: 'header', title: 'Header Section', icon: <FeedIcon /> },
+        { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon /> },
+        { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
 
-        // { kind: 'divider' },
-        // { kind: 'header', title: 'Hero Section Setting' },
-        { segment: 'herosection', title: 'Hero Section', icon: <FeedIcon /> },
 
     ]
 };

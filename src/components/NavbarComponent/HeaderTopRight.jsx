@@ -1,8 +1,8 @@
-import { Button, Divider, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { Fragment } from 'react'
 
-function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler }) {
+function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, selectedIcon, setSelectedIcon, allFaMdIcons }) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -11,6 +11,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler }) {
             [name]: value,
         }));
     };
+
 
     return (
         <Fragment >
@@ -34,15 +35,58 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler }) {
                         value={formDataRight.item_ContactIdRight}
                         onChange={onChangeHandler}
                     />
-                    <TextField
+                    {/* <TextField
                         label="Icone"
                         size="small"
                         variant="outlined"
                         name="item_IconeRight"
                         value={formDataRight.item_IconeRight}
                         onChange={onChangeHandler}
+                    /> */}
+                    {/* <TextField
+                        label=" Url"
+                        size="small"
+                        variant="outlined"
+                        name="item_IconeUrlRight"
+                        value={formDataRight.item_IconeUrlRight}
+                        onChange={onChangeHandler}
+                    /> */}
+
+                    <Autocomplete
+                        options={allFaMdIcons}
+                        value={selectedIcon}
+                        onChange={(e, newValue) => {
+                            if (newValue) setSelectedIcon(newValue);
+                        }}
+                        size='small'
+
+                        getOptionLabel={(option) => option.label}
+                        isOptionEqualToValue={(option, value) => option.label === value?.label}
+                        renderOption={(props, option) => (
+                            <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <option.Icon />
+                                {option.label}
+                            </Box>
+                        )}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Search Font Awesome icon..."
+                                variant="outlined"
+                                fullWidth
+                                InputProps={{
+                                    ...params.InputProps,
+                                    startAdornment: selectedIcon?.Icon && (
+                                        <InputAdornment position="start" sx={{ mr: 1 }}>
+                                            <selectedIcon.Icon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        )}
                     />
-                    <TextField
+
+                       <TextField
                         label=" Url"
                         size="small"
                         variant="outlined"

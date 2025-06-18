@@ -11,8 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHeaderData } from '../../Store/ApisStore/ApisCollection';
 import { useEffect } from 'react';
 import HeaderTopBarCenterIcon from './HeaderTopBarCenterIcon';
-import NavbarSettings, { CartSection, HeaderButtomBar, HeaderButtomLeft, NavbarListItem, NavBarSearchSection, NavButton_Profile } from './HeaderNavbarCustomizer/NavbarComponents';
+import { CartSection, HeaderButtomBar, HeaderButtomLeft, NavbarListItem, NavBarSearchSection, NavButton_Profile } from './HeaderNavbarCustomizer/NavbarComponents';
 import NavbarLogo from './HeaderNavbarCustomizer/NavbarComponents';
+import * as MdIcons from 'react-icons/md';
+
 
 
 
@@ -244,6 +246,23 @@ export default function HeaderSideBarTabs() {
 
 
 
+    const allFaMdIcons_ = [
+        ...Object.entries(MdIcons),
+        // ...Object.entries(FaIcons),
+
+    ]
+
+
+    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
+        label: name,
+        Icon
+    }))
+
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIcons.find((i) => i.label === 'FaBeer')
+    );
+
+
     return (
         <div className=' w-full  '>
 
@@ -265,7 +284,7 @@ export default function HeaderSideBarTabs() {
                             minWidth: 200, height: 400,
                             position: 'sticky',
                             top: 120,
-                            
+
                         }}
                         TabIndicatorProps={{
                             style: {
@@ -304,7 +323,14 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={2}>
-                    <HeaderTopRight formDataRight={formDataRight} setFormDataRight={setFormDataRight} submitHandler={submitHandler} />
+                    <HeaderTopRight
+                        formDataRight={formDataRight}
+                        setFormDataRight={setFormDataRight}
+                        submitHandler={submitHandler}
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={3}>
@@ -316,7 +342,13 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={5}>
-                    <NavBarSearchSection />
+                    <NavBarSearchSection
+
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+                        
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={6}>

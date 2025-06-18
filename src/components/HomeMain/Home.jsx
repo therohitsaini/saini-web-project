@@ -28,7 +28,7 @@ function Home() {
            
             <Navbar data={headerToBarData} />
             <HeroSection />
-            <Footer />
+            {/* <Footer /> */}
         </Fragment>
     )
 }

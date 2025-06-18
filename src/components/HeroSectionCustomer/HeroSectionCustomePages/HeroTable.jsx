@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -36,18 +37,40 @@ const rows = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function HeroAllComponents() {
+export default function HeroTable({ setIsTableTrue }) {
     return (
-        <Paper sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{ pagination: { paginationModel } }}
-                pageSizeOptions={[5, 10]}
-                checkboxSelection
-                sx={{ border: 0 }}
-            />
-        </Paper>
+        <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
+
+            <div>
+                <Button
+                    onClick={() => setIsTableTrue(true)}
+                    sx={{
+
+                        px: 10,
+                        textTransform: "none",
+                        fontVariant: "all-small-caps"
+                    }} variant="outlined">
+                    +Add More
+                </Button>
+            </div>
+            <Paper sx={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    initialState={{ pagination: { paginationModel } }}
+                    pageSizeOptions={[5, 10]}
+                    checkboxSelection
+                    sx={{
+                        '& .MuiDataGrid-columnHeader': {
+                            color: 'white',
+                        },
+                        '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
+                            display: 'flex', justifyContent: "center"
+                        },
+                    }}
+                />
+            </Paper>
+        </div>
     );
 }
 

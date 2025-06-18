@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Divider, IconButton, TextField, Tooltip } from '@mui/material'
+import { Autocomplete, Box, Divider, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material'
 import { Fragment } from 'react';
 
 
@@ -166,20 +166,54 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
 // <---------------- ---------------------------------Navbar Search section ------------------  ------------------------->  //
 
-export const NavBarSearchSection = () => {
+export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons }) => {
     return (
         <Fragment>
             <div className='nav-serach-section w-full h-[400px] flex justify-center items-center'>
                 <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-96 rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
                     <h1>Navbar Search Icone</h1>
                     <Divider />
-                    <TextField
+                    {/* <TextField
                         label="Search Icone"
                         size="small"
                         variant="outlined"
-                    >
+                    > */}
 
-                    </TextField>
+                    {/* </TextField> */}
+
+                    <Autocomplete
+                        options={allFaMdIcons}
+                        value={selectedIcon}
+                        onChange={(e, newValue) => {
+                            if (newValue) setSelectedIcon(newValue);
+                        }}
+                        size='small'
+
+                        getOptionLabel={(option) => option.label}
+                        isOptionEqualToValue={(option, value) => option.label === value?.label}
+                        renderOption={(props, option) => (
+                            <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <option.Icon />
+                                {option.label}
+                            </Box>
+                        )}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Icone"
+                                variant="outlined"
+                                fullWidth
+                                InputProps={{
+                                    ...params.InputProps,
+                                    startAdornment: selectedIcon?.Icon && (
+                                        <InputAdornment position="start" sx={{ mr: 1 }}>
+                                            <selectedIcon.Icon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        )}
+                    />
 
                     <Button sx={{
                         my: 2,

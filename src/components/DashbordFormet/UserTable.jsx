@@ -30,7 +30,7 @@ function UserTable() {
     const [isTure_, setIsTrue_] = useState(false)
     const [isUpdateOnComponent, setIsUpdateOnComponent] = useState(true)
 
-    console.log("arrIds", arrIds)
+    // console.log("arrIds", arrIds)
 
     const router = useDemoRouter("/dashboard");
 

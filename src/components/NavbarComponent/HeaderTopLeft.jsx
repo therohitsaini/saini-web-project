@@ -1,8 +1,12 @@
-import { Button, Divider, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Fragment } from 'react'
+import * as FaIcons from 'react-icons/fa';
+import * as MdIcons from 'react-icons/md';
+// import { useState } from 'react';
+// import { Autocomplete, , Box, Typography, InputAdornment } from '@mui/material';
 
 
 function HeaderTopLeft({ formData, setFormData, submitHandler }) {
@@ -16,38 +20,53 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
         }));
     };
 
+    const allFaMdIcons_ = [
+        ...Object.entries(MdIcons),
+        ...Object.entries(FaIcons),
+
+    ]
+
+    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
+        label: name,
+        Icon
+    }))
+
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIcons.find((i) => i.label === '')
+    )
 
     return (
         <Fragment >
-            <from className="form flex justify-center items-center  h-[420px]  w-full">
-                <div className="border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
-                    <Typography component="span">Top Bar Email Section</Typography>
-                    <Divider />
-                    <TextField
-                        label="Title"
-                        size="small"
-                        variant="outlined"
-                        name="item_Title"
-                        value={formData?.item_Title}
-                        onChange={onChangeHandler}
-                    />
-                    <TextField
-                        label="Contact"
-                        size="small"
-                        variant="outlined"
-                        name="item_ContactId"
-                        value={formData.item_ContactId}
-                        onChange={onChangeHandler}
-                    />
-                    <TextField
+            <div className='header-left-form-main  h-[70vh] flex items-center'>
+                <from className="form flex justify-center items-center  h-[420px]  w-full">
+                    <div className="border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
+                        <Typography component="span">Top Bar Email Section</Typography>
+                        <Divider />
+                        <TextField
+                            label="Title"
+                            size="small"
+                            variant="outlined"
+                            name="item_Title"
+                            value={formData?.item_Title}
+                            onChange={onChangeHandler}
+                        />
+                        <TextField
+                            label="Contact"
+                            size="small"
+                            variant="outlined"
+                            name="item_ContactId"
+                            value={formData.item_ContactId}
+                            onChange={onChangeHandler}
+                        />
+                        {/* <TextField
                         label="Icone"
                         size="small"
                         variant="outlined"
                         name="item_Icone"
                         value={formData.item_Icone}
                         onChange={onChangeHandler}
-                    />
-                    <TextField
+                    /> */}
+                        {/* <TextField
                         label="URL"
                         size="small"
                         variant="outlined"
@@ -55,18 +74,63 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                         value={formData.item_IconeUrl}
                         onChange={onChangeHandler}
 
-                    />
+                    /> */}
 
-                    <Button sx={{
-                        textTransform: 'none',
-                    }} onClick={() => submitHandler("HeaderTopLeftBar")}
-                        variant='contained'
-                    >
-                        Save Changes
-                    </Button>
+                        <Autocomplete
+                            options={allFaMdIcons}
+                            value={selectedIcon}
+                            onChange={(e, newValue) => {
+                                if (newValue) setSelectedIcon(newValue);
+                            }}
+                            size='small'
 
-                </div>
-            </from>
+                            getOptionLabel={(option) => option.label}
+                            isOptionEqualToValue={(option, value) => option.label === value?.label}
+                            renderOption={(props, option) => (
+                                <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <option.Icon />
+                                    {option.label}
+                                </Box>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Search Iocne"
+                                    variant="outlined"
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: selectedIcon?.Icon && (
+                                            <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                <selectedIcon.Icon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            )}
+                        />
+
+                        <TextField
+                            label="URL"
+                            size="small"
+                            variant="outlined"
+                            name="item_IconeUrl"
+                            value={formData.item_IconeUrl}
+                            onChange={onChangeHandler}
+
+                        />
+
+                        <Button sx={{
+                            textTransform: 'none',
+                        }} onClick={() => submitHandler("HeaderTopLeftBar")}
+                            variant='contained'
+                        >
+                            Save Changes
+                        </Button>
+
+                    </div>
+                </from>
+            </div>
         </Fragment>
     )
 }
