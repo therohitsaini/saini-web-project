@@ -2,7 +2,17 @@ import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@
 import React from 'react'
 import { Fragment } from 'react'
 
-function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
+function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService, inFoService, infoHandler }) {
+
+    console.log("inFoService", inFoService)
+    console.log("selectedIcon", selectedIcon)
+    const inFoOnchange = (event) => {
+        const { name, value } = event.target
+        setInFoService((pre) => ({
+            ...pre, [name]: value
+        }))
+
+    }
     return (
         <Fragment>
             <div className='service main  h-[500px] flex items-center justify-center'>
@@ -12,15 +22,22 @@ function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
                     <TextField
                         size='small'
                         label="Heading"
+                        name='inFoHeading'
+                        value={inFoService.inFoHeading}
+                        onChange={inFoOnchange}
                     ></TextField>
                     <TextField
                         size='small'
                         label="Description"
+                        name='inFoDescription'
+                        value={inFoService.inFoDescription}
+                        onChange={inFoOnchange}
                     ></TextField>
 
                     <Autocomplete
                         options={allFaMdIcons}
                         value={selectedIcon}
+                        name="inFoIcone"
                         onChange={(e, newValue) => {
                             if (newValue) setSelectedIcon(newValue);
                         }}
@@ -53,6 +70,7 @@ function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
                     />
 
                     <Button
+                        onClick={() => infoHandler("ServiceInFo")}
                         variant='outlined'
                     >Save Changes</Button>
 

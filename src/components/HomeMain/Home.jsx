@@ -25,9 +25,9 @@ function Home() {
 
     return (
         <Fragment>
-           
+
             <Navbar data={headerToBarData} />
-            <HeroSection />
+            <HeroSection info={headerToBarData} />
             {/* <Footer /> */}
         </Fragment>
     )

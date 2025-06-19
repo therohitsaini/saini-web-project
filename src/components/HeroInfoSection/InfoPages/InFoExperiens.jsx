@@ -2,7 +2,16 @@ import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@
 import React from 'react'
 import { Fragment } from 'react'
 
-function InFoExperiens({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
+function InFoExperiens({ setSelectedIcon, selectedIcon, allFaMdIcons, inFoExprince, setInFoExprince, infoHandler }) {
+
+    const inFoOnchange = (event) => {
+
+        const { name, value } = event.target
+        setInFoExprince((pre) => ({
+            ...pre, [name]: value
+        }))
+    }
+
     return (
         <Fragment>
             <div className='service main  h-[500px] flex items-center justify-center'>
@@ -12,10 +21,17 @@ function InFoExperiens({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
                     <TextField
                         size='small'
                         label="Heading"
+                        name='inFoHeading'
+                        value={inFoExprince.inFoHeading}
+                        onChange={inFoOnchange}
                     ></TextField>
+                    
                     <TextField
                         size='small'
                         label="Description"
+                        name='inFoDescription'
+                        value={inFoExprince.inFoDescription}
+                        onChange={inFoOnchange}
                     ></TextField>
 
                     <Autocomplete
@@ -53,6 +69,7 @@ function InFoExperiens({ setSelectedIcon, selectedIcon, allFaMdIcons }) {
                     />
 
                     <Button
+                        onClick={() => infoHandler("InFoExperiens")}
                         variant='outlined'
                     >Save Changes</Button>
 

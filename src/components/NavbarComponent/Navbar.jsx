@@ -25,7 +25,7 @@ function Navbar({ data }) {
     const [cartHover, setCartHover] = useState(false)
     const [searchBarIsTrue, setSearchBarIsTrue] = useState(false)
 
-    console.log("navData", data)
+   
 
     return (
         <Fragment>

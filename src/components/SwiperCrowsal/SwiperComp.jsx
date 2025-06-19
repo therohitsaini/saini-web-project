@@ -67,7 +67,7 @@ import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { swiper_image } from "../JsonData/Swiper.json";
 
-function SwipeComp() {
+function SwipeComp({ info }) {
     return (
         <div className='swiper-main h-[800px]'>
             <Swiper

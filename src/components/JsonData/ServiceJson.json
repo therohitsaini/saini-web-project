@@ -1,0 +1,52 @@
+{
+    "ServiceDefultValue": [
+        {
+            "iconeTop": "",
+            "serviceHeading": "Banking & Marketing",
+            "ServiceDescription": "Banking & Marketing There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Finance & Insurance",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Transportation",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Defence Security",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Resource Industry",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Health Scienced",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Customer Service",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        },
+        {
+            "iconeTop": "",
+            "serviceHeading": "Other Servicesd",
+            "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
+            "iconeBottom": ""
+        }
+    ]
+}
