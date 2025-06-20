@@ -17,6 +17,7 @@ import HeaderTopBarTabs from '../NavbarComponent/HeaderTopBarTabs';
 import HeaderSideBarTabs from '../NavbarComponent/HeaderSideBarTabs';
 import HeroSectionCustome from '../HeroSectionCustomer/HeroSectionCustome';
 import InFo from '../HeroInfoSection/InFo';
+import ServiceCustom from '../ServiceCustomize/ServiceCustom';
 
 
 
@@ -157,18 +158,19 @@ const MuiAppBar = (props) => {
                 return <AccountDashbord setData={setData} data={data} user_ID={user_ID} userProfilePic={userProfilePic} setProfileRefress={setProfileRefress} profileRefress={profileRefress} />;
             case '/account/resetPassword':
                 return <ResetPassword />;
-            case '/header':
-                // return <HeaderCustomize />;
-                // return <HeaderTopBarTabs />;
-                return <HeaderSideBarTabs />;
-            case '/herosection':
-                // return <HeaderCustomize />;
-                // return <HeaderTopBarTabs />;
-                return <HeroSectionCustome />;
 
+            case '/header':
+                return <HeaderSideBarTabs />;
+
+            case '/herosection':
+                return <HeroSectionCustome />;
 
             case '/info':
                 return <InFo />;
+
+            case '/service':
+                return <ServiceCustom />;
+
             default:
                 return <NotFoundPage />;
 

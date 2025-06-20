@@ -1,14 +1,11 @@
 import React from 'react'
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Icon } from "@iconify/react"
 import { Fragment } from 'react'
 import ServicedefaultData from "../JsonData/ServiceJson.json"
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 
-const Service = () => {
-
-
-
+const Service = ({ serviceCard }) => {
 
     return (
         <Fragment>
@@ -19,15 +16,15 @@ const Service = () => {
                 </div>
                 <div className='service-card-section grid grid-cols-4 my-10 gap-5 px-20' >
                     {
-                        ServicedefaultData?.ServiceDefultValue?.map((item_, index_) => {
+                      (serviceCard?.length ? serviceCard :  ServicedefaultData?.ServiceDefultValue)?.map((item_, index_) => {
                             return (
-                                <div className="relative overflow-hidden group  ">
+                                <div key={item_._id || index_} className="relative overflow-hidden group  ">
 
                                     <div className="w-full h-full bg-red-100 z-20 group-hover:bg-[#df442d] relative  duration-700">
                                         <div className='z-50 flex flex-col items-center gap-5 px-5'>
                                             <div className='icone-top-warraper  h-13 w-14 rounded-b-xl bg-red-200 px-0.5 pb-1 ' >
-                                                <div className='icone-top-warraper h-full w-full  rounded-b-xl bg-white' >
-
+                                                <div className='icone-top-warraper h-full w-full  rounded-b-xl bg-white flex justify-center items-center' >
+                                                    <Icon fontSize={25} color="#de442c" icon={item_.iconeTop} />
                                                 </div>
                                             </div>
                                             <h2 className=" text-back text-[18px] font-semibold z-50 text-center">
@@ -39,7 +36,7 @@ const Service = () => {
                                             <div className={`icon-main h-12 w-12 rounded-b-3xl z-50  flex justify-center items-end rounded-t-xl duration-700 bg-orange-600/40 group-hover:bg-white/20  mb-10`}>
                                                 <div
                                                     className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm bg-[#de442c] text-white  group-hover:bg-white group-hover:text-orange-800`}>
-                                                    <Icon fontSize={25} icon={"lets-icons:trophy-light"} />
+                                                    <KeyboardDoubleArrowRightIcon fontSize='15px' />
                                                 </div>
                                             </div>
                                         </div>

@@ -21,38 +21,39 @@ export default function HeroSectionCustome() {
     const [isTureTable, setIsTableTrue] = useState(false)
 
     const initialState = {
-        play_Icone: "",
-        hero_Title: "",
-        hero_Headline: "",
-        hero_Images: "",
-        hero_Button: ""
+        heroImgUrl: "",
+        heroPlay_Button: "",
+        heroSlideSubTitle: "",
+        heroSlideTitle: "",
+        heroButton_One: "",
+        heroButton_Two: ""
 
     }
     const [heroFormData, setHeroFormData] = useState(initialState);
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
-    
+
     const submitHandler = async () => {
-        let payload = {
-            HeroSection: [{
-                item:
-                {
+        // let payload = {
+        //     HeroSection: [{
+        //         item:
+        //         {
 
-                    play_Icone: heroFormData.play_Icone,
-                    hero_Title: heroFormData.hero_Title,
-                    hero_Headline: heroFormData.hero_Headline,
-                    hero_Images: heroFormData.hero_Images,
-                    hero_Button: heroFormData.hero_Button
+        //             heroPlay_Button: heroFormData.heroPlay_Button,
+        //             heroSlideSubTitle: heroFormData.heroSlideSubTitle,
+        //             heroSlideTitle: heroFormData.heroSlideTitle,
+        //             heroButton_One: heroFormData.heroButton_One,
+        //             heroButton_Two: heroFormData.heroButton_Two
 
-                }
-            }]
-        }
+        //         }
+        //     }]
+        // }
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/683e90debc43f5b825e98d4a`;
             const fetchData = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(heroFormData)
             });
 
             const responseJson = await fetchData.json();
@@ -152,10 +153,11 @@ export default function HeroSectionCustome() {
 
                                         <TextField
                                             size='small'
-                                            name='play_Icone'
-                                            value={heroFormData.play_Icone}
+
+                                            name='heroPlay_Button'
+                                            value={heroFormData.heroPlay_Button}
                                             onChange={handleChange}
-                                            label="Url"
+                                            label="heroPlay_Button"
                                             sx={{
                                                 width: '400px'
                                             }}
@@ -168,8 +170,8 @@ export default function HeroSectionCustome() {
                                         <TextField
                                             size='small'
                                             label="Title"
-                                            name='hero_Title'
-                                            value={heroFormData.hero_Title}
+                                            name='heroSlideSubTitle'
+                                            value={heroFormData.heroSlideSubTitle}
                                             onChange={handleChange}
                                             fullWidth
                                         />
@@ -177,8 +179,8 @@ export default function HeroSectionCustome() {
                                         <TextField
                                             size='small'
                                             label="Heading"
-                                            name='hero_Headline'
-                                            value={heroFormData.hero_Headline}
+                                            name='heroSlideTitle'
+                                            value={heroFormData.heroSlideTitle}
                                             onChange={handleChange}
                                             fullWidth
                                         />
@@ -189,8 +191,8 @@ export default function HeroSectionCustome() {
                                         <TextField
                                             size='small'
                                             label="Button Text 1"
-                                            name='hero_Button'
-                                            value={heroFormData.hero_Button}
+                                            name='heroButton_One'
+                                            value={heroFormData.heroButton_One}
                                             onChange={handleChange}
                                             fullWidth
                                         />
@@ -198,8 +200,8 @@ export default function HeroSectionCustome() {
                                         <TextField
                                             size='small'
                                             label="Button Text 2"
-                                            name='play_Icone'
-                                            // value={heroFormData.play_Icone}
+                                            name='heroButton_Two'
+                                            value={heroFormData.heroButton_Two}
                                             onChange={handleChange}
                                             fullWidth
                                         />

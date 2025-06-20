@@ -66,7 +66,6 @@ function Navbar({ data }) {
 
                 </div>
 
-
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
                         <div className='nav-logo h-10 w-50  '>
