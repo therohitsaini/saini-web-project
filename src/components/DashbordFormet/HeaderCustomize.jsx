@@ -131,7 +131,7 @@ const HeaderCustomize = () => {
                 </div>
 
                 <form className="grid grid-cols-3 mt-2 gap-3">
-                    {/* Left Section */}
+                
                     <div className="border border-slate-400/20 rounded-md p-5 h-80 bg-[#1f1e1f] flex flex-col gap-4">
                         <Typography component="span">Top Bar Email Section</Typography>
                         <Divider />
@@ -169,7 +169,7 @@ const HeaderCustomize = () => {
                         />
                     </div>
 
-                    {/* Right Section */}
+                   
                     <div className="border border-slate-400/20 rounded-md p-5 h-80 bg-[#1f1e1f] flex flex-col gap-4">
                         <Typography component="span">Top Bar Support Section</Typography>
                         <Divider />

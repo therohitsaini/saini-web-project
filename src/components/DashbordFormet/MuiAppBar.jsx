@@ -18,6 +18,7 @@ import HeaderSideBarTabs from '../NavbarComponent/HeaderSideBarTabs';
 import HeroSectionCustome from '../HeroSectionCustomer/HeroSectionCustome';
 import InFo from '../HeroInfoSection/InFo';
 import ServiceCustom from '../ServiceCustomize/ServiceCustom';
+import FunfactTable from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 
 
 
@@ -170,6 +171,8 @@ const MuiAppBar = (props) => {
 
             case '/service':
                 return <ServiceCustom />;
+            case '/funfact':
+                return <FunfactTable />;
 
             default:
                 return <NotFoundPage />;

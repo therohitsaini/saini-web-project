@@ -32,6 +32,8 @@ export default function HeroSectionCustome() {
     const [heroFormData, setHeroFormData] = useState(initialState);
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
 
+    console.log("data", heroFormData)
+
     const submitHandler = async () => {
         // let payload = {
         //     HeroSection: [{
@@ -68,13 +70,6 @@ export default function HeroSectionCustome() {
     };
 
     const handleChange = (event) => {
-
-        // const updatedFields = [...heroFormData];
-        // updatedFields[index][name] = value;
-        // setHeroFormData((pre) => {
-        //     pre, [name] = value
-        // });
-
         const { name, value } = event.target;
 
         setHeroFormData((prevState) => ({
@@ -82,14 +77,9 @@ export default function HeroSectionCustome() {
             [name]: value,
         }));
 
-
     };
 
-    console.log("heroFormData", heroFormData)
-
-
-
-
+    // console.log("heroFormData", heroFormData)
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -122,6 +112,7 @@ export default function HeroSectionCustome() {
                                 }} variant="outlined">
                                 Hero Section Data
                             </Button>
+                            
                         </div>
                         <div className="flex flex-col gap-4 shadow-black shadow-xl  p-5 rounded-md bg-[#1f1e1f]  w-full ">
                             <h1 className='flex justify-start w-full'>Slider Image</h1>

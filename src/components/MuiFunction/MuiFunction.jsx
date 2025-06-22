@@ -22,6 +22,7 @@ import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CurrencyFrancIcon from '@mui/icons-material/CurrencyFranc';
 
 // import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 
@@ -68,6 +69,8 @@ export const NAVIGATION = (isAdmin) => {
         { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon /> },
         { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
         { segment: 'service', title: 'Service Section', icon: <AutorenewIcon /> },
+        { segment: 'funfact', title: 'Funfact Section', icon: <CurrencyFrancIcon /> },
+
 
     ]
 };

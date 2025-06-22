@@ -1,0 +1,47 @@
+.dotted-border {
+  position: relative;
+  animation: spin 6s linear infinite;
+}
+
+.dotted-border::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  background-image: repeating-linear-gradient(
+      to right,
+      red 0px,
+      red 2px,
+      white 2px,
+      red 4px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      red 0px,
+      red 2px,
+      white 2px,
+      red 4px,
+      transparent 6px
+    );
+  background-size: 100% 100%;
+  animation: moveDots 3s linear infinite;
+  z-index: -1;
+}
+
+@keyframes moveDots {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -37,9 +37,9 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
 
     return (
         <Fragment >
-            <div className='header-left-form-main  h-[70vh] flex items-center'>
+            <div className='header-left-form-main  h-[530px] flex items-center'>
                 <from className="form flex justify-center items-center  h-[420px]  w-full">
-                    <div className="border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
+                    <div className="border border-slate-400/20 rounded-md p-5  flex flex-col gap-4 w-[80%]">
                         <Typography component="span">Top Bar Email Section</Typography>
                         <Divider />
                         <TextField

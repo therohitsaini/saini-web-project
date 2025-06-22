@@ -96,7 +96,7 @@ function Navbar({ data }) {
                             </div>
 
                             <div className='nav-quate-btn  h-13 w-33 rounded-l-3xl rounded-r-xl bg-orange-500/20 p-1.5 pl-0 pr-2 group hover:bg-white/20'>
-                                <button class="relative inline-block h-full w-full font-semibold text-white bg-orange-600 overflow-hidden group rounded-l-3xl rounded-r-xl">
+                                <button class="relative inline-block h-full w-full font-semibold text-white bg-[#de442c] overflow-hidden group rounded-l-3xl rounded-r-xl">
                                     <span class="relative z-10 transition-colors duration-500 group-hover:text-[#db3125] font-semibold">Get a Ouate</span>
                                     <span class="absolute top-0 right-0 w-0 h-full bg-white transition-all duration-700 group-hover:w-full group-hover:left-auto group-hover:right-0 z-0"></span>
                                 </button>
@@ -105,7 +105,7 @@ function Navbar({ data }) {
                         </div>
                     </nav>
                 </div>
-                <div className='time-section grid grid-cols-2 bg-orange-700 p-3'>
+                <div className='time-section grid grid-cols-2 bg-[#de442c] p-3'>
                     <div className='hiring-section flex gap-2 text-white items-center'>
                         <CampaignIcon sx={{ color: "white", fontSize: 28 }} />
                         <h1 className='font-semibold text-[18px]'>Hiring:</h1>

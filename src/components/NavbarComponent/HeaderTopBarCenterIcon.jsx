@@ -33,9 +33,9 @@ function HeaderTopBarCenterIcon() {
     };
 
     return (
-        <form className='flex justify-center flex-col items-center'>
+        <form className='flex justify-center flex-col items-center  min-h-[550px]'>
 
-            <div className="flex flex-col gap-4 shadow-black shadow-xl ">
+            <div className="flex flex-col gap-4  px-5 ">
                 <h1 className='flex justify-start w-full'>Header To Bar Center Icone</h1>
 
                 {

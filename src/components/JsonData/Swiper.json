@@ -1,15 +1,29 @@
 {
     "swiper_image": [
         {
-            "img": "../src/assets/image-3.jpg",
-            "text": "we create digital products Simple,Intuitive & Expertly Crafted"
+            "heroImgUrl": "../src/assets/image-3.jpg",
+            "text": "we create digital products Simple,Intuitive & Expertly Crafted",
+            "heroPlay_Button": "",
+            "heroSlideSubTitle": "we create digital products",
+            "heroSlideTitle": "Simple,Intuitive & Expertly Crafted",
+            "heroButton_One": "Get Started",
+            "heroButton_Two": "Read More"
         },
         {
-            "img": "https://img.freepik.com/premium-photo/head-shot-pleasant-happy-young-woman-freelancer-working-computer-night-attractive-businesswoman-studying-online-using-laptop-software-web-surfing-information-shopping-internet-storexa_516988-5243.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740",
-            "text": "Find Value And Build Some"
+            "heroImgUrl": "https://img.freepik.com/premium-photo/head-shot-pleasant-happy-young-woman-freelancer-working-computer-night-attractive-businesswoman-studying-online-using-laptop-software-web-surfing-information-shopping-internet-storexa_516988-5243.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740",
+            "heroPlay_Button": "",
+            "heroSlideSubTitle": "we create digital products",
+            "heroSlideTitle": "Find Value And Build Some Confidence",
+            "heroButton_One": "Get Started",
+            "heroButton_Two": "Read More"
         },
         {
-            "img": "https://img.freepik.com/free-photo/two-young-girls-computer-night_169016-59877.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740"
+            "heroImgUrl": "https://img.freepik.com/free-photo/two-young-girls-computer-night_169016-59877.jpg?uid=R167309508&ga=GA1.1.548591987.1746426012&semt=ais_hybrid&w=740",
+            "heroPlay_Button": "",
+            "heroSlideSubTitle": "we create digital products",
+            "heroSlideTitle": "Business Planning Strategy & Excution",
+            "heroButton_One": "Get Started",
+            "heroButton_Two": "Read More"
         }
     ]
 }

@@ -2,7 +2,7 @@ import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@
 import React from 'react'
 import { Fragment } from 'react'
 
-function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService, inFoService, infoHandler }) {
+function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService, inFoService, infoHandler }) {
 
     console.log("inFoService", inFoService)
     console.log("selectedIcon", selectedIcon)
@@ -15,8 +15,8 @@ function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoServi
     }
     return (
         <Fragment>
-            <div className='service main  h-[500px] flex items-center justify-center'>
-                <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f]  shadow-black shadow-xl'>
+            <div className='service main  h-[590px] flex items-center justify-center'>
+                <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f]  '>
                     <h1>Customize Service</h1>
                     <Divider />
                     <TextField
@@ -81,4 +81,4 @@ function ServiceInFo({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoServi
     )
 }
 
-export default ServiceInFo
+export default InFoForm

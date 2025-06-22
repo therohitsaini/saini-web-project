@@ -7,40 +7,51 @@ import { getHeaderData } from '../../../Store/ApisStore/ApisCollection';
 import { useEffect } from 'react';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
 
 export default function HeroTable({ setIsTableTrue }) {
+    const [reFresh, setRefresh] = useState(false)
+    const [heroID, setHeroID] = useState()
 
     const dispatch = useDispatch()
     const HeroSection_ = useSelector((state) => state.getHeaderDataReducer_.headerData?.HeroSection);
 
     useEffect(() => {
+        const userID = localStorage.getItem("user-ID")
+        setHeroID(userID)
+    }, [])
+
+    console.log("heroID", heroID)
+
+    useEffect(() => {
         dispatch(getHeaderData());
-    }, [dispatch]);
+    }, [dispatch, reFresh]);
 
     console.log("HeroSection__", HeroSection_)
 
 
     const handleActionClickDelete = async (data = {}) => {
-        // alert(JSON.stringify(data.id))
-
 
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
-
         try {
+
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/delete-dyanamic-data/`;
             const fetchData = await fetch(url, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data, pageId: "683e90debc43f5b825e98d4a" })
+                body: JSON.stringify({ data: data.id, pageId: heroID })
             });
             const response = await fetchData.json();
-            // console.log(response);
-            alert(JSON.stringify(response))
-            // setRefreshFlag(prev => !prev);
+            if (fetchData.ok) {
+
+                setRefresh(prev => !prev);
+            }
+
         } catch (error) {
             console.error(error);
         }
@@ -68,8 +79,9 @@ export default function HeroTable({ setIsTableTrue }) {
             renderCell: (params) => (
                 <div className='flex gap-1'>
                     <Tooltip title="Update">
-                        <IconButton onClick={() => handleActionClick(params.row)}>
-                            <EditSquareIcon />
+                        <IconButton sx={{}} onClick={() => handleActionClick(params.row)}>
+
+                            <Icon icon={"clarity:update-line"} />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
@@ -99,6 +111,7 @@ export default function HeroTable({ setIsTableTrue }) {
     }))
 
     const paginationModel = { page: 0, pageSize: 5 };
+    
     return (
         <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
 
@@ -106,7 +119,6 @@ export default function HeroTable({ setIsTableTrue }) {
                 <Button
                     onClick={() => setIsTableTrue(true)}
                     sx={{
-
                         px: 10,
                         textTransform: "none",
                         fontVariant: "all-small-caps"
@@ -114,6 +126,7 @@ export default function HeroTable({ setIsTableTrue }) {
                     +Add More
                 </Button>
             </div>
+
             <Paper sx={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={rows}
@@ -130,6 +143,7 @@ export default function HeroTable({ setIsTableTrue }) {
                         },
                     }}
                 />
+
             </Paper>
         </div>
     );

@@ -20,7 +20,7 @@ const Service = ({ serviceCard }) => {
                             return (
                                 <div key={item_._id || index_} className="relative overflow-hidden group  ">
 
-                                    <div className="w-full h-full bg-red-100 z-20 group-hover:bg-[#df442d] relative  duration-700">
+                                    <div className="w-full h-full bg-red-100 z-20 group-hover:bg-[#de442c] relative  duration-700">
                                         <div className='z-50 flex flex-col items-center gap-5 px-5'>
                                             <div className='icone-top-warraper  h-13 w-14 rounded-b-xl bg-red-200 px-0.5 pb-1 ' >
                                                 <div className='icone-top-warraper h-full w-full  rounded-b-xl bg-white flex justify-center items-center' >

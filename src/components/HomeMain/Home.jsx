@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { getHeaderData } from '../../Store/ApisStore/ApisCollection'
 import Loader from '../CurculeLoader/Loader'
 import Service from '../PagesComp/Service'
+import Funfact from '../FunfactSection/FunfactUI/Funfact'
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
@@ -32,7 +33,7 @@ function Home() {
                     method: "GET"
                 })
                 const responseJson = await fetchData.json()
-                setServiceCard(responseJson?.data)
+                setServiceCard(responseJson?.dat)
             } catch (error) {
 
                 console.log(error)
@@ -75,6 +76,7 @@ function Home() {
             <Navbar data={headerToBarData} />
             <HeroSection info={headerToBarData} />
             <Service serviceCard={serviceCard} />
+            <Funfact />
         </Fragment>
     )
 }

@@ -22,6 +22,8 @@ import Footer from './components/FooterComp/Footer';
 import Service from './components/PagesComp/Service';
 import HeaderTopBarTabs from './components/NavbarComponent/HeaderTopBarTabs';
 import HeaderSideBarTabs from './components/NavbarComponent/HeaderSideBarTabs';
+import Funfact from './components/FunfactSection/FunfactUI/Funfact';
+import FunfactTable from './components/FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 
 
 
@@ -56,6 +58,10 @@ function App() {
           <Route path='/roleform' element={< RolePermission />} />
           <Route path='/service' element={< Service />} />
           <Route path='/header-side-bar-tabs' element={< HeaderSideBarTabs />} />
+          <Route path='/serive-funfact' element={< Funfact />} />
+          <Route path='/serive-funfact-tabel' element={<FunfactTable />} />
+
+
           {/* <Route path='/auto' element={< AutoIcone />} /> */}
 
 

@@ -21,8 +21,8 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function NavbarLogo() {
     return (
-        <div className='w-[100%] justify-center items-center h-[400px] flex flex-col' >
-            <div className='flex flex-col w-97 gap-4  p-5  border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
+        <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
+            <div className='flex flex-col w-[500px] gap-4  p-5  border border-slate-400/20 rounded-md  ' >
                 <h1 className='w-96  font-bold '> Change Site logo </h1>
                 <Divider />
 
