@@ -65,7 +65,7 @@ const LastWord = styled.span`
 
 
 function SwipeComp({ info }) {
-    const HeroCrowsel = info.headerData.HeroSection;
+    const HeroCrowsel = info.headerData?.HeroSection;
     const [activeIndex, setActiveIndex] = useState(0);
     const [animateText, setAnimateText] = useState(true);
 

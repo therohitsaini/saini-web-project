@@ -25,7 +25,59 @@ function Navbar({ data }) {
     const [cartHover, setCartHover] = useState(false)
     const [searchBarIsTrue, setSearchBarIsTrue] = useState(false)
 
-   
+    const headerTopBarDefualt = [
+        {
+            section: "HeaderTopLeftBar",
+            item: [
+                {
+                    item_Title: "Email Address",
+                    item_ContactId: "email@gmail.com",
+                    item_Icone: "ic:outline-email",
+                    item_IconeUrl: "",
+
+                }
+            ],
+
+        },
+        {
+            section: "HeaderCenterIcone",
+            item: [
+                {
+                    item_Title: "",
+                    item_Icone: "ri:facebook-fill",
+                    item_IconeUrl: ""
+
+                },
+                {
+                    item_Title: "Customer Support",
+                    item_Icone: "iconoir:instagram",
+                    item_IconeUrl: "",
+
+                }, {
+                    item_Title: "Customer Support",
+                    item_Icone: "mingcute:twitter-line",
+                    item_IconeUrl: "",
+
+                }
+            ],
+
+        },
+        {
+            section: "HeaderTopRightBar",
+            item: [
+                {
+                    item_Title: "Customer Support",
+                    item_ContactId: "9929306874",
+                    item_Icone: "tdesign:call-1",
+                    item_IconeUrl: "",
+
+                }
+            ],
+
+        },
+    ]
+
+
 
     return (
         <Fragment>
@@ -36,8 +88,7 @@ function Navbar({ data }) {
 
                     <div className=" w-full">
                         {
-                            data?.headerData.headerTopBar
-                                ?.find(sec => sec.section === "HeaderTopLeftBar")
+                            (data?.headerData?.headerTopBar ? data?.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopLeftBar")
                                 ?.item.map((item, index) => (
                                     <HeaderTopBarComp key={`left-${index}`} data={item} />
                                 ))
@@ -45,18 +96,18 @@ function Navbar({ data }) {
                     </div>
 
                     <div className="w-full flex justify-center items-center gap-4">
-                        {data?.headerData.headerTopBar
-                            ?.find(sec => sec.section === "HeaderCenterIcone")
-                            ?.item.map((item, index) => (
-                                <HeaderTopBarCenterIcone item={item} />
-                            ))}
+                        {
+                            (data?.headerData?.headerTopBar ? data?.headerData?.headerTopBar : headerTopBarDefualt)
+                                ?.find(sec => sec.section === "HeaderCenterIcone")
+                                ?.item.map((item, index) => (
+                                    <HeaderTopBarCenterIcone item={item} />
+                                ))}
                     </div>
 
 
                     <div className="w-full pl-55">
                         {
-                            data.headerData.headerTopBar
-                                ?.find(sec => sec.section === "HeaderTopRightBar")
+                            (data.headerData?.headerTopBar ? data.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopRightBar")
                                 ?.item.map((item, index) => (
                                     <HeaderTopBarCompRightContent key={`right-${index}`} data={item} />
 
@@ -73,7 +124,7 @@ function Navbar({ data }) {
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             {
-                                data.headerData.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
+                                data?.headerData?.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
                                     return (
                                         <ul key={index} className='text-white flex gap-5 font-semibold text-[17px]'>
                                             <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >{item_ ? item_.item_Title : "HOME"}</Link> </li>

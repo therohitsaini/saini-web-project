@@ -61,7 +61,7 @@ export const HeaderTopBarCenterIcone = ({ item }) => {
     return (
         <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${hoverEmailIsTure ? "bg-red-600/40" : "bg-white/50"}`}>
             <div onMouseOver={() => setHoverEmailIsTure(true)} onMouseLeave={() => setHoverEmailIsTure(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${hoverEmailIsTure ? "bg-red-500 " : "bg-white"}`}>
-                <Icon color='red' icon={item?.item_Icone} />
+                <Icon fontSize={18} color={hoverEmailIsTure ? "white" : "red"} icon={item?.item_Icone} />
             </div>
         </div>
     )

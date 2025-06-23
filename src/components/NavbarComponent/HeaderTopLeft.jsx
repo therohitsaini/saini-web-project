@@ -20,6 +20,8 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
         }));
     };
 
+    console.log("formData___", formData)
+
     const allFaMdIcons_ = [
         ...Object.entries(MdIcons),
         ...Object.entries(FaIcons),
@@ -76,11 +78,15 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
 
                     /> */}
 
-                        <Autocomplete
+                        {/* <Autocomplete
                             options={allFaMdIcons}
                             value={selectedIcon}
                             onChange={(e, newValue) => {
                                 if (newValue) setSelectedIcon(newValue);
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    item_Icone: newValue.label, // <-- Save icon name to formData
+                                }));
                             }}
                             size='small'
 
@@ -108,7 +114,47 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                                     }}
                                 />
                             )}
-                        />
+                        /> */}
+
+                        {/* <Autocomplete
+                            options={allFaMdIcons}
+                            value={selectedIcon}
+                            onChange={(e, newValue) => {
+                                if (newValue) {
+                                    setSelectedIcon(newValue);
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        item_Icone: newValue.label, // <-- Save icon name to formData
+                                    }));
+                                }
+                            }}
+                            size='small'
+                            getOptionLabel={(option) => option.label}
+                            isOptionEqualToValue={(option, value) => option.label === value?.label}
+                            renderOption={(props, option) => (
+                                <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <option.Icon />
+                                    {option.label}
+                                </Box>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Search Icon"
+                                    variant="outlined"
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: selectedIcon?.Icon && (
+                                            <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                <selectedIcon.Icon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            )}
+                        /> */}
+
 
                         <TextField
                             label="URL"

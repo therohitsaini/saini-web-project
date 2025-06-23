@@ -1,15 +1,13 @@
-import React, { Fragment, useState } from 'react'
-import ReactTostError from '../ReactToast/ReactTostError'
-import DeshFormet from '../DashbordFormet/DashbordMenu'
+import  { Fragment, useState } from 'react'
 import Navbar from '../NavbarComponent/Navbar'
 import HeroSection from '../PagesComp/HeroSection'
 import Footer from '../FooterComp/Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getHeaderData } from '../../Store/ApisStore/ApisCollection'
-import Loader from '../CurculeLoader/Loader'
 import Service from '../PagesComp/Service'
 import Funfact from '../FunfactSection/FunfactUI/Funfact'
+import { getServiceData } from '../../Store/ServiceSectionRedux/ApisSeriveCollaction'
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
@@ -19,11 +17,15 @@ function Home() {
 
     useEffect(() => {
         dispatch(getHeaderData())
+        dispatch(getServiceData())
+
     }, [dispatch])
 
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_)
+    const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
+    console.log("rohitRedux______", funfactData)
 
     const getServiceCardData = async () => {
         try {
@@ -63,6 +65,8 @@ function Home() {
     //     }
     // }
 
+    // console.log("funfactData", funfactData)
+
     useEffect(() => {
         getServiceCardData()
     }, [])
@@ -76,7 +80,7 @@ function Home() {
             <Navbar data={headerToBarData} />
             <HeroSection info={headerToBarData} />
             <Service serviceCard={serviceCard} />
-            <Funfact />
+            <Funfact funfactData={funfactData} />
         </Fragment>
     )
 }

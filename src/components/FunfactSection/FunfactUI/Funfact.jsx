@@ -2,24 +2,25 @@
 import React from 'react';
 import CounterBox from '../CounterBox';
 
-const data = [
-    { countTo: 70, label: 'Our Visionary Speakers' },
-    { countTo: 120, label: 'International Sponsors' },
-    { countTo: 15, label: 'Our Satisfied Client' },
-    { countTo: 15, label: 'Our Satisfied Client' },
- 
+const defualtData = [
+    { projectCount: 100, aboutProject: 'Our Visionary Speakers' },
+    { projectCount: 120, aboutProject: 'International Sponsors' },
+    { projectCount: 150, aboutProject: 'Our Satisfied Client' },
+    { projectCount: 125, aboutProject: 'Our Satisfied Client' },
+
 
 
 ];
 
-function Funfact() {
+function Funfact({ funfactData }) {
     return (
         <div className='funfact-section-main h-auto min-h-[400px] w-full relative bg-black flex flex-wrap gap-10 justify-center items-center py-16'>
             <div className='absolute inset-0 bg-black/80 z-10'></div>
             <div className='relative z-20 grid grid-cols-4 gap-10 w-full px-30'>
-                {data.map((item, index) => (
-                    <CounterBox key={index} countTo={item.countTo} label={item.label} />
-                ))}
+                {
+                    (funfactData ? funfactData : defualtData)?.map((item, index) => (
+                        <CounterBox key={index} countTo={item.projectCount} label={item.aboutProject} />
+                    ))}
             </div>
         </div>
     );

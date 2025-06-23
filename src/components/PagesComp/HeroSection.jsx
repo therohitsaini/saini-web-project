@@ -31,7 +31,7 @@ function HeroSection({ info }) {
         }
     ];
     // console.log("info", info?.headerData.inFoData)
-    const data = info?.headerData.inFoData
+    const data = info?.headerData?.inFoData
 
     return (
         <Fragment>

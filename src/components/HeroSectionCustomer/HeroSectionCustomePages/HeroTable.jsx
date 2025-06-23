@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 export default function HeroTable({ setIsTableTrue }) {
     const [reFresh, setRefresh] = useState(false)
     const [heroID, setHeroID] = useState()
+    // const []
 
     const dispatch = useDispatch()
     const HeroSection_ = useSelector((state) => state.getHeaderDataReducer_.headerData?.HeroSection);
@@ -57,8 +58,12 @@ export default function HeroTable({ setIsTableTrue }) {
         }
     };
 
+    const heroUpdatehandle = (data = {}) => {
+        setIsTableTrue(true)
+    }
+
     const columns = [
-        //  { field: 'id', headerName: 'ID', width: 90 },
+        //  { field: 'id', headerName: 'ID', width: 290 },
         { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
         { field: 'playButton', headerName: 'Play Button', width: 220 },
         {
@@ -79,7 +84,7 @@ export default function HeroTable({ setIsTableTrue }) {
             renderCell: (params) => (
                 <div className='flex gap-1'>
                     <Tooltip title="Update">
-                        <IconButton sx={{}} onClick={() => handleActionClick(params.row)}>
+                        <IconButton sx={{}} onClick={() => heroUpdatehandle(params.row)}>
 
                             <Icon icon={"clarity:update-line"} />
                         </IconButton>
@@ -111,7 +116,7 @@ export default function HeroTable({ setIsTableTrue }) {
     }))
 
     const paginationModel = { page: 0, pageSize: 5 };
-    
+
     return (
         <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
 
