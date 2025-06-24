@@ -14,7 +14,7 @@ export const allFaMdIcons_ = {
     ...FaIcons,
 };
 
-function HeaderTopLeft({ formData, setFormData, submitHandler, setIconFields, iconFields }) {
+function HeaderTopLeft({ formData, setFormData, submitHandler,  }) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -81,7 +81,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setIconFields, ic
                         <Autocomplete
                             options={allFaMdIcons}
                             value={selectedIcon}
-                            defaultValue={formData.item_Icone}
+                            // defaultValue={formData.item_Icone}
                             onChange={(e, newValue) => {
                                 if (newValue) setSelectedIcon(newValue);
                                 setFormData((prev) => ({

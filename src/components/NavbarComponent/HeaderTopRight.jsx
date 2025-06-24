@@ -1,5 +1,6 @@
 import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typography } from '@mui/material'
 import React from 'react'
+import { useEffect } from 'react';
 import { Fragment } from 'react'
 
 import * as FaIcons from 'react-icons/fa';
@@ -12,10 +13,19 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
         setFormDataRight((prevState) => ({
             ...prevState,
             [name]: value,
-        }));
+        }));1
     };
 
-    console.log("formDataRight", formDataRight)
+
+    useEffect(() => {
+        if (formDataRight?.item_IconeRight) {
+            const foundIcon = allFaMdIcons.find(i => i.label === formDataRight.item_IconeRight);
+            if (foundIcon) {
+                setSelectedIcon(foundIcon);
+            }
+        }
+    }, [formDataRight?.item_IconeRight]);
+
 
 
     return (
@@ -44,28 +54,26 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                     <Autocomplete
                         options={allFaMdIcons}
                         value={selectedIcon}
-                        // defaultValue={formData.item_Icone}
                         onChange={(e, newValue) => {
                             if (newValue) setSelectedIcon(newValue);
-                            setFormDataRight((prev) => ({
+                            setFormDataRight(prev => ({
                                 ...prev,
-                                item_IconeRight: newValue ? newValue.label : "", // Save icon name like "FaPhone" or "MdEmail"
+                                item_IconeRight: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
-
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
                             <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <option.Icon />
+                                {option.Icon && <option.Icon />}
                                 {option.label}
                             </Box>
                         )}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Search Iocne"
+                                label="Search Icon"
                                 variant="outlined"
                                 fullWidth
                                 InputProps={{

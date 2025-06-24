@@ -18,6 +18,7 @@ import Icone from '../IconeComp/Icone';
 import { footerIcone } from '../FooterComp/Footer';
 import { HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { allFaMdIcons_ } from './HeaderTopLeft';
 
 function Navbar({ headerData }) {
 
@@ -76,9 +77,9 @@ function Navbar({ headerData }) {
 
         },
     ]
-
-    console.log("headerData____________--", headerData.
-headerTopBar)
+    const sectionData = headerData.headerTopBar?.find(sec => sec.section === "HeaderCartIcone");
+    const sectionDataSearch = headerData.headerTopBar?.find(sec => sec.section === "HeaderSerchIcone");
+    console.log("sectionDataSearch", sectionDataSearch)
 
     return (
         <Fragment>
@@ -91,7 +92,7 @@ headerTopBar)
                         {
                             headerData.headerTopBar && headerData.headerTopBar.find(sec => sec.section === "HeaderTopLeftBar")
                                 ?.item.map((item, index) => (
-                                    
+
                                     <HeaderTopBarComp key={`left-${index}`} headerData={item} />
                                 ))
                         }
@@ -99,8 +100,8 @@ headerTopBar)
 
                     <div className="w-full flex justify-center items-center gap-4">
                         {
-                            (headerData?.headerData?.headerTopBar ? headerData?.headerData?.headerTopBar : headerTopBarDefualt)
-                                ?.find(sec => sec.section === "HeaderCenterIcone")
+                            headerData.headerTopBar
+                                ?.find(sec => sec.section === "HeaderTopBarCenterIcon")
                                 ?.item.map((item, index) => (
                                     <HeaderTopBarCenterIcone item={item} />
                                 ))}
@@ -109,9 +110,9 @@ headerTopBar)
 
                     <div className="w-full pl-55">
                         {
-                            (headerData.headerData?.headerTopBar ? headerData.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopRightBar")
+                            (headerData.headerTopBar)?.find(sec => sec.section === "HeaderTopRightBar")
                                 ?.item.map((item, index) => (
-                                    <HeaderTopBarCompRightContent key={`right-${index}`} headerData={item} />
+                                    <HeaderTopBarCompRightContent key={`right-${index}`} item_={item} />
 
                                 ))
                         }
@@ -126,7 +127,7 @@ headerTopBar)
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             {
-                                headerData?.headerData?.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
+                                (headerData.headerTopBar)?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
                                     return (
                                         <ul key={index} className='text-white flex gap-5 font-semibold text-[17px]'>
                                             <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >{item_ ? item_.item_Title : "HOME"}</Link> </li>
@@ -134,26 +135,73 @@ headerTopBar)
                                     )
                                 })
                             }
-                            <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                                <div onClick={() => setSearchBarIsTrue(!searchBarIsTrue)} onMouseOver={() => setSearchHover(true)} onMouseLeave={() => setSearchHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl   ${searchHover ? "bg-red-500 " : "bg-white"}`}>
-                                    <SearchIcon sx={{ color: searchHover ? "white" : "#db3125", fontSize: 23, }} />
-                                </div>
-                            </div>
 
-                            <div className={`icon-main h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${cartHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                                <div onMouseOver={() => setCartHover(true)} onMouseLeave={() => setCartHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl   ${cartHover ? "bg-red-500 " : "bg-white"}`}>
-                                    <Badge color="secondary" sx={{ color: cartHover ? "white" : "#db3125", fontSize: 23 }} badgeContent={0}>
-                                        <ShoppingCartIcon />
-                                    </Badge>
-                                </div>
-                            </div>
+                            {
+                                sectionDataSearch?.item?.map((item_, index) => {
+                                    const iconName = item_?.item_Icone;
+                                    const IconComponent = allFaMdIcons_[iconName];
 
-                            <div className='nav-quate-btn  h-13 w-33 rounded-l-3xl rounded-r-xl bg-orange-500/20 p-1.5 pl-0 pr-2 group hover:bg-white/20'>
-                                <button class="relative inline-block h-full w-full font-semibold text-white bg-[#de442c] overflow-hidden group rounded-l-3xl rounded-r-xl">
-                                    <span class="relative z-10 transition-colors duration-500 group-hover:text-[#db3125] font-semibold">Get a Ouate</span>
-                                    <span class="absolute top-0 right-0 w-0 h-full bg-white transition-all duration-700 group-hover:w-full group-hover:left-auto group-hover:right-0 z-0"></span>
-                                </button>
-                            </div>
+                                    return (
+                                        <div key={index} className={`icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
+                                            <div
+                                                // onClick={() => setSearchBarIsTrue(!searchBarIsTrue)}
+                                                onMouseOver={() => setSearchHover(true)}
+                                                onMouseLeave={() => setSearchHover(false)}
+                                                className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${searchHover ? "bg-red-500" : "bg-white"}`}
+                                            >
+                                                {IconComponent ? (
+                                                    <IconComponent
+                                                        color={searchHover ? "white" : "red"} size={18}
+                                                    />
+                                                ) : (
+                                                    <span></span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+
+
+                            {
+                                sectionData?.item?.map((item_, index) => {
+                                    const iconName = item_?.item_Icone;
+                                    const IconComponent = allFaMdIcons_[iconName];
+
+                                    return (
+                                        <div key={index} className={`icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${cartHover ? "bg-red-600/40" : "bg-white/50"}`}>
+                                            <div
+                                                // onClick={() => setSearchBarIsTrue(!searchBarIsTrue)}
+                                                onMouseOver={() => setCartHover(true)}
+                                                onMouseLeave={() => setCartHover(false)}
+                                                className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${cartHover ? "bg-red-500" : "bg-white"}`}
+                                            >
+                                                {IconComponent ? (
+                                                    <IconComponent
+                                                        color={cartHover ? "white" : "red"} size={18}
+                                                    />
+                                                ) : (
+                                                    <span>Get Start</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+                            {
+                                (headerData.headerTopBar)?.find((sec) => sec.section === "navButton")?.item.map((item_, _) => {
+                                    return (
+                                        <div className='nav-quate-btn  h-13 w-33 rounded-l-3xl rounded-r-xl bg-orange-500/20 p-1.5 pl-0 pr-2 group hover:bg-white/20'>
+                                            <button class="relative inline-block h-full w-full font-semibold text-white bg-[#de442c] overflow-hidden group rounded-l-3xl rounded-r-xl">
+                                                <span class="relative z-10 transition-colors duration-500 group-hover:text-[#db3125] font-semibold">{item_.item_Title || "Get Start"}</span>
+                                                <span class="absolute top-0 right-0 w-0 h-full bg-white transition-all duration-700 group-hover:w-full group-hover:left-auto group-hover:right-0 z-0"></span>
+                                            </button>
+                                        </div>
+                                    )
+                                })
+
+                            }
+
 
                         </div>
                     </nav>
@@ -175,8 +223,8 @@ headerTopBar)
 
 
                 </div>
-            </header>
-        </Fragment>
+            </header >
+        </Fragment >
     )
 }
 

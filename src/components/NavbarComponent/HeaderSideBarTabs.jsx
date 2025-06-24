@@ -14,8 +14,7 @@ import HeaderTopBarCenterIcon from './HeaderTopBarCenterIcon';
 import { CartSection, HeaderButtomBar, HeaderButtomLeft, NavbarListItem, NavBarSearchSection, NavButton_Profile } from './HeaderNavbarCustomizer/NavbarComponents';
 import NavbarLogo from './HeaderNavbarCustomizer/NavbarComponents';
 import * as MdIcons from 'react-icons/md';
-
-
+import * as FaIcons from 'react-icons/fa';
 
 
 export const tabsData = [
@@ -118,14 +117,48 @@ export default function HeaderSideBarTabs() {
     const [formData, setFormData] = useState(initialState);
     const [formDataRight, setFormDataRight] = useState(initialStateRight)
     const [iconFields, setIconFields] = useState([
-        { menuItem: '', menuItemRoute: '' }
+        {
+            menuItem: '',
+            menuItemRoute: ''
+        }
     ]);
 
-    const [headerButtom, setHeaderButtom] = useState(
-        { hirringTitle: "", openingTime: "", closeTimnig: "" }
+    const [iconeCenter, setIconeCenter] = useState(
+        [{
+            item_Center_Name: "",
+            item_Center_Icone: "",
+            item_Center_Icone_Path: "",
+        }]
     )
 
-    console.log("navMenuItem", iconFields)
+    const [headerButtom, setHeaderButtom] = useState(
+        {
+            item_Icone: "",
+            item_Title: "",
+            openingTime: "",
+            closeTimnig: ""
+        }
+    )
+
+    const [headerButtomLeft, setHeaderButtomLeft] = useState(
+        {
+            item_Icone: "",
+            item_Title: "",
+            item_Paragraph: ""
+        }
+    )
+
+    const [searchIcone, setSearchIcone] = useState(
+        { item_SearchIcone: "" }
+    )
+    const [cartIcone, setCartIcone] = useState(
+        { item_CartIcone: "" }
+    )
+
+    const [headerButton, setHeaderButton] = useState({
+        buttonText: ""
+    })
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -138,8 +171,8 @@ export default function HeaderSideBarTabs() {
     }, [dispatch]);
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
-    console.log("headerToBarData________", headerToBarData)
-    
+
+
     useEffect(() => {
 
         if (headerToBarData?.headerData?.headerTopBar?.length > 0) {
@@ -150,6 +183,12 @@ export default function HeaderSideBarTabs() {
             const topRight = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "HeaderTopRightBar"
             )?.item[0];
+
+            const topCenter = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "HeaderTopBarCenterIcon"
+            )?.item;
+
+
 
 
             setFormData((pre) => ({
@@ -172,6 +211,14 @@ export default function HeaderSideBarTabs() {
 
             }))
 
+            const mapCenterIcone = topCenter.map((icone) => ({
+                item_Center_Name: icone.item_Title || "",
+                item_Center_Icone_Path: icone.item_IconeUrl || "",
+                item_Center_Icone: icone.item_Icone || ""
+            }))
+            setIconeCenter(mapCenterIcone)
+
+
             const navBarListItem = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "NavManuItem"
             )?.item;
@@ -183,7 +230,41 @@ export default function HeaderSideBarTabs() {
 
             setIconFields(mappedMenuItems)
 
+
+            const navSearchIcone = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "HeaderSerchIcone"
+            )?.item[0];
+
+            setSearchIcone((pre) => ({
+                ...pre,
+                item_SearchIcone: navSearchIcone?.item_Icone || ""
+
+            }))
+
+            const navCartIcone = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "HeaderCartIcone"
+            )?.item;
+
+
+            setCartIcone((pre) => ({
+                ...pre,
+                item_CartIcone: navCartIcone?.item_Icone || ""
+
+            }))
+
+
+            const navButton = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "navButton"
+            )?.item;
+
+            setHeaderButton((pre) => ({
+                ...pre,
+                buttonText: navButton?.item_Title
+            }))
+
         }
+
+
 
 
     }, [headerToBarData])
@@ -204,7 +285,18 @@ export default function HeaderSideBarTabs() {
                     }
                 ]
             };
-        } else if (section === "HeaderTopRightBar") {
+        }
+        else if (section === "HeaderTopBarCenterIcon") {
+            payload = {
+                section: section,
+                item: iconeCenter?.map(field => ({
+                    item_Title: field.item_Center_Name,
+                    item_IconeUrl: field.item_Center_Icone_Path,
+                    item_Icone: field.item_Center_Icone
+                }))
+            }
+        }
+        else if (section === "HeaderTopRightBar") {
 
             payload = {
                 section: section,
@@ -226,7 +318,69 @@ export default function HeaderSideBarTabs() {
                 }))
             };
         }
+        else if (section === "HeaderSerchIcone") {
+            payload = {
+                section: section,
+                item: [
+                    {
+                        item_Icone: searchIcone.item_SearchIcone
+                    }
+                ]
+            };
+        }
+        else if (section === "HeaderCartIcone") {
+            payload = {
+                section: section,
+                item: [
+                    {
+                        item_Icone: cartIcone.item_CartIcone
+                    }
+                ]
+            };
+        }
+        else if (section === "navButton") {
+            payload = {
+                section: section,
+                item: [
+                    {
+                        item_Title: headerButton.buttonText
+                    }
+                ]
+            };
+        }
+        else if (section === "HeaderButtomHirring") {
+            payload = {
+                section: section,
+                item: [
+                    {
+                        item_Icone: headerButtomLeft.item_Icone,
+                        item_Title: headerButtomLeft.item_Title,
+                        item_IconeUrl: headerButtomLeft.item_Paragraph
 
+                    }
+                ]
+            };
+        }
+        else if (section === "HeaderButtomBar") {
+            payload = {
+                section: section,
+                item: [
+                    {
+                        item_Icone: headerButtom.item_Icone,
+                        item_Title: headerButtom.item_Title,
+                        item_ContactId: headerButtom.openingTime,
+                        item_IconeUrl: headerButtom.closeTimnig
+
+                    }
+                ]
+            };
+        }
+
+        //HeaderButtomHirring {
+        //     item_Icone: "",
+        //     item_Title: "",
+        //     item_Paragraph: ""
+        // }
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/683e90debc43f5b825e98d4a`;
@@ -247,22 +401,18 @@ export default function HeaderSideBarTabs() {
         }
     };
 
-
-
     const allFaMdIcons_ = [
         ...Object.entries(MdIcons),
-        // ...Object.entries(FaIcons),
+        ...Object.entries(FaIcons),
 
     ]
-
-
     const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
         label: name,
         Icon
     }))
 
     const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === 'FaBeer')
+        allFaMdIcons.find((i) => i.label === '')
     );
 
 
@@ -322,17 +472,28 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel sx={{ width: '100%' }} value={value} index={1}>
-                    <HeaderTopBarCenterIcon />
+                    <HeaderTopBarCenterIcon
+
+                        setIconeCenter={setIconeCenter}
+                        iconeCenter={iconeCenter}
+                        submitHandler={submitHandler}
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={2}>
                     <HeaderTopRight
+
                         formDataRight={formDataRight}
                         setFormDataRight={setFormDataRight}
                         submitHandler={submitHandler}
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
                         allFaMdIcons={allFaMdIcons}
+
                     />
                 </TabPanel>
 
@@ -350,24 +511,54 @@ export default function HeaderSideBarTabs() {
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
                         allFaMdIcons={allFaMdIcons}
+                        searchIcone={searchIcone}
+                        setSearchIcone={setSearchIcone}
+                        submitHandler={submitHandler}
 
                     />
                 </TabPanel>
 
                 <TabPanel value={value} index={6}>
-                    <CartSection />
+                    <CartSection
+
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+                        submitHandler={submitHandler}
+                        cartIcone={cartIcone}
+                        setCartIcone={setCartIcone}
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={7}>
-                    <NavButton_Profile />
+                    <NavButton_Profile
+                        submitHandler={submitHandler}
+                        headerButton={headerButton}
+                        setHeaderButton={setHeaderButton}
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={8}>
-                    <HeaderButtomLeft />
+                    <HeaderButtomLeft
+
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+                        setHeaderButtomLeft={setHeaderButtomLeft}
+                        headerButtomLeft={headerButtomLeft}
+                        submitHandler={submitHandler}
+
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={9}>
-                    <HeaderButtomBar setHeaderButtom={setHeaderButtom} headerButtom={headerButtom} submitHandler={submitHandler} />
+                    <HeaderButtomBar
+                        setSelectedIcon={setSelectedIcon}
+                        selectedIcon={selectedIcon}
+                        allFaMdIcons={allFaMdIcons}
+                        setHeaderButtom={setHeaderButtom}
+                        headerButtom={headerButtom}
+                        submitHandler={submitHandler} />
                 </TabPanel>
 
             </Box>

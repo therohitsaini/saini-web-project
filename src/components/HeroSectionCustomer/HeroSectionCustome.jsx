@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -82,7 +80,6 @@ export default function HeroSectionCustome() {
 
     };
 
-    // console.log("heroFormData", heroFormData)
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -112,7 +109,7 @@ export default function HeroSectionCustome() {
                                     textTransform: "none",
                                     fontVariant: "all-small-caps"
                                 }} variant="outlined">
-                               Back
+                                Back
                             </Button>
 
                         </div>
@@ -225,3 +222,6 @@ export default function HeroSectionCustome() {
         </div>
     );
 }
+
+
+

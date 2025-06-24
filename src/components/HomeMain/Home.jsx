@@ -26,7 +26,7 @@ function Home() {
 
     // const headerToBarData = useSelector((state) => state.getHeaderDataReducer_)
 
-    const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
+    const heroSection = useSelector((state) => state.getHeaderDataReducer_);
     // const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
 
@@ -53,7 +53,7 @@ function Home() {
         getHeaderDataBy_()
     }, [])
 
-    console.log("headerData", headerData.headerTopBar)
+    console.log("headerData_____________________Rohit", headerData)
 
     const getServiceCardData = async () => {
         try {
@@ -76,8 +76,6 @@ function Home() {
 
     useEffect(() => {
         getServiceCardData()
-
-
     }, [])
 
 
@@ -86,7 +84,7 @@ function Home() {
         <Fragment>
 
             <Navbar headerData={headerData} />
-            <HeroSection info={headerToBarData} />
+            <HeroSection info={heroSection} />
             <Service serviceCard={serviceCard} />
             {/* <Funfact funfactData={funfactData} /> */}
             <PortfolioSection />
