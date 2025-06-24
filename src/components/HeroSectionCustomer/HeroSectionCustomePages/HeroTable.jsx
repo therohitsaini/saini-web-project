@@ -146,6 +146,7 @@ export default function HeroTable({ setIsTableTrue }) {
                         '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
                             display: 'flex', justifyContent: "center"
                         },
+                        fontVariant:"all-small-caps"
                     }}
                 />
 

@@ -30,9 +30,12 @@ export default function HeroSectionCustome() {
 
     }
     const [heroFormData, setHeroFormData] = useState(initialState);
-    const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
+    const data = useSelector((state) => state?.getHeaderDataReducer_);
+    console.log("rohit", data)
 
-    console.log("data", heroFormData)
+    useEffect(() => {
+        // if ()
+    })
 
     const submitHandler = async () => {
         // let payload = {
@@ -97,7 +100,6 @@ export default function HeroSectionCustome() {
 
     return (
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
-
             {
                 isTureTable ?
                     <form className='flex justify-center flex-col items-center w-full  min-h-[500px]  px-30 gap-3'>
@@ -110,9 +112,9 @@ export default function HeroSectionCustome() {
                                     textTransform: "none",
                                     fontVariant: "all-small-caps"
                                 }} variant="outlined">
-                                Hero Section Data
+                               Back
                             </Button>
-                            
+
                         </div>
                         <div className="flex flex-col gap-4 shadow-black shadow-xl  p-5 rounded-md bg-[#1f1e1f]  w-full ">
                             <h1 className='flex justify-start w-full'>Slider Image</h1>

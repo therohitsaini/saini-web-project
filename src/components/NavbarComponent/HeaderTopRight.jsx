@@ -2,7 +2,10 @@ import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typograp
 import React from 'react'
 import { Fragment } from 'react'
 
-function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, selectedIcon, setSelectedIcon, allFaMdIcons }) {
+import * as FaIcons from 'react-icons/fa';
+import * as MdIcons from 'react-icons/md';
+
+function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaMdIcons, selectedIcon, setSelectedIcon }) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -11,6 +14,8 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, select
             [name]: value,
         }));
     };
+
+    console.log("formDataRight", formDataRight)
 
 
     return (
@@ -35,28 +40,17 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, select
                         value={formDataRight.item_ContactIdRight}
                         onChange={onChangeHandler}
                     />
-                    {/* <TextField
-                        label="Icone"
-                        size="small"
-                        variant="outlined"
-                        name="item_IconeRight"
-                        value={formDataRight.item_IconeRight}
-                        onChange={onChangeHandler}
-                    /> */}
-                    {/* <TextField
-                        label=" Url"
-                        size="small"
-                        variant="outlined"
-                        name="item_IconeUrlRight"
-                        value={formDataRight.item_IconeUrlRight}
-                        onChange={onChangeHandler}
-                    /> */}
 
                     <Autocomplete
                         options={allFaMdIcons}
                         value={selectedIcon}
+                        // defaultValue={formData.item_Icone}
                         onChange={(e, newValue) => {
                             if (newValue) setSelectedIcon(newValue);
+                            setFormDataRight((prev) => ({
+                                ...prev,
+                                item_IconeRight: newValue ? newValue.label : "", // Save icon name like "FaPhone" or "MdEmail"
+                            }));
                         }}
                         size='small'
 
@@ -71,7 +65,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, select
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Search Font Awesome icon..."
+                                label="Search Iocne"
                                 variant="outlined"
                                 fullWidth
                                 InputProps={{
@@ -86,7 +80,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, select
                         )}
                     />
 
-                       <TextField
+                    <TextField
                         label=" Url"
                         size="small"
                         variant="outlined"

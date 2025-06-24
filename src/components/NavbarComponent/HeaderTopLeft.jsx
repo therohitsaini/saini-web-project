@@ -9,7 +9,12 @@ import * as MdIcons from 'react-icons/md';
 // import { Autocomplete, , Box, Typography, InputAdornment } from '@mui/material';
 
 
-function HeaderTopLeft({ formData, setFormData, submitHandler }) {
+export const allFaMdIcons_ = {
+    ...MdIcons,
+    ...FaIcons,
+};
+
+function HeaderTopLeft({ formData, setFormData, submitHandler, setIconFields, iconFields }) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -20,11 +25,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
         }));
     };
 
-    console.log("formData___", formData)
+
 
     const allFaMdIcons_ = [
         ...Object.entries(MdIcons),
         ...Object.entries(FaIcons),
+        // ...MdIcons,
+        // ...FaIcons,
 
     ]
 
@@ -34,8 +41,17 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
     }))
 
     const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === '')
+        allFaMdIcons.find((i) => i.label === formData?.item_Icone) || null
     )
+
+    useEffect(() => {
+        if (formData?.item_Icone) {
+            const foundIcon = allFaMdIcons.find(i => i.label === formData?.item_Icone)
+            if (foundIcon) {
+                setSelectedIcon(foundIcon)
+            }
+        }
+    }, [formData?.item_Icone])
 
     return (
         <Fragment >
@@ -60,32 +76,17 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                             value={formData.item_ContactId}
                             onChange={onChangeHandler}
                         />
-                        {/* <TextField
-                        label="Icone"
-                        size="small"
-                        variant="outlined"
-                        name="item_Icone"
-                        value={formData.item_Icone}
-                        onChange={onChangeHandler}
-                    /> */}
-                        {/* <TextField
-                        label="URL"
-                        size="small"
-                        variant="outlined"
-                        name="item_IconeUrl"
-                        value={formData.item_IconeUrl}
-                        onChange={onChangeHandler}
 
-                    /> */}
 
-                        {/* <Autocomplete
+                        <Autocomplete
                             options={allFaMdIcons}
                             value={selectedIcon}
+                            defaultValue={formData.item_Icone}
                             onChange={(e, newValue) => {
                                 if (newValue) setSelectedIcon(newValue);
                                 setFormData((prev) => ({
                                     ...prev,
-                                    item_Icone: newValue.label, // <-- Save icon name to formData
+                                    item_Icone: newValue ? newValue.label : "", // Save icon name like "FaPhone" or "MdEmail"
                                 }));
                             }}
                             size='small'
@@ -114,46 +115,8 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                                     }}
                                 />
                             )}
-                        /> */}
+                        />
 
-                        {/* <Autocomplete
-                            options={allFaMdIcons}
-                            value={selectedIcon}
-                            onChange={(e, newValue) => {
-                                if (newValue) {
-                                    setSelectedIcon(newValue);
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        item_Icone: newValue.label, // <-- Save icon name to formData
-                                    }));
-                                }
-                            }}
-                            size='small'
-                            getOptionLabel={(option) => option.label}
-                            isOptionEqualToValue={(option, value) => option.label === value?.label}
-                            renderOption={(props, option) => (
-                                <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <option.Icon />
-                                    {option.label}
-                                </Box>
-                            )}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Search Icon"
-                                    variant="outlined"
-                                    fullWidth
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        startAdornment: selectedIcon?.Icon && (
-                                            <InputAdornment position="start" sx={{ mr: 1 }}>
-                                                <selectedIcon.Icon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            )}
-                        /> */}
 
 
                         <TextField

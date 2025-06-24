@@ -19,7 +19,7 @@ import { footerIcone } from '../FooterComp/Footer';
 import { HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-function Navbar({ data }) {
+function Navbar({ headerData }) {
 
     const [searchHover, setSearchHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
@@ -77,7 +77,8 @@ function Navbar({ data }) {
         },
     ]
 
-
+    console.log("headerData____________--", headerData.
+headerTopBar)
 
     return (
         <Fragment>
@@ -88,16 +89,17 @@ function Navbar({ data }) {
 
                     <div className=" w-full">
                         {
-                            (data?.headerData?.headerTopBar ? data?.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopLeftBar")
+                            headerData.headerTopBar && headerData.headerTopBar.find(sec => sec.section === "HeaderTopLeftBar")
                                 ?.item.map((item, index) => (
-                                    <HeaderTopBarComp key={`left-${index}`} data={item} />
+                                    
+                                    <HeaderTopBarComp key={`left-${index}`} headerData={item} />
                                 ))
                         }
                     </div>
 
                     <div className="w-full flex justify-center items-center gap-4">
                         {
-                            (data?.headerData?.headerTopBar ? data?.headerData?.headerTopBar : headerTopBarDefualt)
+                            (headerData?.headerData?.headerTopBar ? headerData?.headerData?.headerTopBar : headerTopBarDefualt)
                                 ?.find(sec => sec.section === "HeaderCenterIcone")
                                 ?.item.map((item, index) => (
                                     <HeaderTopBarCenterIcone item={item} />
@@ -107,9 +109,9 @@ function Navbar({ data }) {
 
                     <div className="w-full pl-55">
                         {
-                            (data.headerData?.headerTopBar ? data.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopRightBar")
+                            (headerData.headerData?.headerTopBar ? headerData.headerData?.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopRightBar")
                                 ?.item.map((item, index) => (
-                                    <HeaderTopBarCompRightContent key={`right-${index}`} data={item} />
+                                    <HeaderTopBarCompRightContent key={`right-${index}`} headerData={item} />
 
                                 ))
                         }
@@ -124,7 +126,7 @@ function Navbar({ data }) {
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             {
-                                data?.headerData?.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
+                                headerData?.headerData?.headerTopBar?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
                                     return (
                                         <ul key={index} className='text-white flex gap-5 font-semibold text-[17px]'>
                                             <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >{item_ ? item_.item_Title : "HOME"}</Link> </li>

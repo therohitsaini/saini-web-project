@@ -131,12 +131,15 @@ export default function HeaderSideBarTabs() {
     };
 
 
-    const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
+
 
     useEffect(() => {
         dispatch(getHeaderData());
     }, [dispatch]);
 
+    const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
+    console.log("headerToBarData________", headerToBarData)
+    
     useEffect(() => {
 
         if (headerToBarData?.headerData?.headerTopBar?.length > 0) {
@@ -151,7 +154,7 @@ export default function HeaderSideBarTabs() {
 
             setFormData((pre) => ({
 
-                pre,
+                ...pre,
                 item_Title: topLeft?.item_Title || "",
                 item_ContactId: topLeft?.item_ContactId || "",
                 item_Icone: topLeft?.item_Icone || "",
@@ -161,7 +164,7 @@ export default function HeaderSideBarTabs() {
 
             setFormDataRight((pre) => ({
 
-                pre,
+                ...pre,
                 item_TitleRight: topRight?.item_Title || "",
                 item_ContactIdRight: topRight?.item_ContactId || "",
                 item_IconeRight: topRight?.item_Icone || "",
@@ -347,7 +350,7 @@ export default function HeaderSideBarTabs() {
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
                         allFaMdIcons={allFaMdIcons}
-                        
+
                     />
                 </TabPanel>
 
