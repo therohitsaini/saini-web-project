@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Checkbox, Divider, InputAdornment, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ export const allFaMdIcons_ = {
     ...FaIcons,
 };
 
-function HeaderTopLeft({ formData, setFormData, submitHandler,  }) {
+function HeaderTopLeft({ formData, setFormData, submitHandler, }) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -53,6 +53,11 @@ function HeaderTopLeft({ formData, setFormData, submitHandler,  }) {
         }
     }, [formData?.item_Icone])
 
+
+    console.log("formData", formData)
+
+
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     return (
         <Fragment >
             <div className='header-left-form-main  h-[530px] flex items-center'>
@@ -128,6 +133,21 @@ function HeaderTopLeft({ formData, setFormData, submitHandler,  }) {
                             onChange={onChangeHandler}
 
                         />
+                        <div className='flex items-center gap-2'>
+                            <Checkbox
+                                defaultChecked
+                                checked={formData?.item_ShowOnWebsite || false}
+                                onChange={(e) => {
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        item_ShowOnWebsite: e.target.checked,
+                                    }));
+                                }}
+                                sx={{ m: 0, p: 0 }}
+                                size="small"
+                            />
+                            <p className='text-[14px] text-slate-500'>If you want show in our website</p>
+                        </div>
 
                         <Button sx={{
                             textTransform: 'none',

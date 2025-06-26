@@ -17,6 +17,7 @@ export default function HeroSectionCustome() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch();
     const [isTureTable, setIsTableTrue] = useState(false)
+    const [userId, setUserId] = useState()
 
     const initialState = {
         heroImgUrl: "",
@@ -31,55 +32,108 @@ export default function HeroSectionCustome() {
     const data = useSelector((state) => state?.getHeaderDataReducer_);
     console.log("rohit", data)
 
+    // const submitHandler = async () => {
+
+    //     const formData = new FormData();
+
+    //     if (heroFormData.heroImgUrl) {
+    //         formData.append('image', heroFormData.heroImgUrl);
+    //     }
+
+    //     formData.append('heroPlay_Button', heroFormData.heroPlay_Button);
+    //     formData.append('heroSlideSubTitle', heroFormData.heroSlideSubTitle);
+    //     formData.append('heroSlideTitle', heroFormData.heroSlideTitle);
+    //     formData.append('heroButton_One', heroFormData.heroButton_One);
+    //     formData.append('heroButton_Two', heroFormData.heroButton_Two);
+
+    //     try {
+    //         const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/683e90debc43f5b825e98d4a`;
+    //         const fetchData = await fetch(url,{
+    //             method: "PUT",
+    //             body: formData
+    //         });
+
+    //         const responseJson = await fetchData.json();
+
+    //         if (fetchData.ok) {
+    //             alert("Succesfully")
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+
     useEffect(() => {
-        // if ()
-    })
+        const idFromStorage = localStorage.getItem("user-ID");
 
-    const submitHandler = async () => {
-        // let payload = {
-        //     HeroSection: [{
-        //         item:
-        //         {
-
-        //             heroPlay_Button: heroFormData.heroPlay_Button,
-        //             heroSlideSubTitle: heroFormData.heroSlideSubTitle,
-        //             heroSlideTitle: heroFormData.heroSlideTitle,
-        //             heroButton_One: heroFormData.heroButton_One,
-        //             heroButton_Two: heroFormData.heroButton_Two
-
-        //         }
-        //     }]
-        // }
-
-        try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/683e90debc43f5b825e98d4a`;
-            const fetchData = await fetch(url, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(heroFormData)
-            });
-
-            const responseJson = await fetchData.json();
-
-            if (fetchData.ok) {
-                alert("Succesfully")
-            }
-
-        } catch (error) {
-            console.log(error);
+        // Optional: Validate ID format
+        if (idFromStorage && /^[0-9a-fA-F]{24}$/.test(idFromStorage)) {
+            setUserId(idFromStorage);
+        } else {
+            console.warn("Invalid or missing user ID.");
         }
-    };
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
         setHeroFormData((prevState) => ({
             ...prevState,
             [name]: value,
         }));
-
+    };
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setHeroFormData((prev) => ({
+                ...prev,
+                heroImgUrl: file,
+            }));
+        }
     };
 
+    const submitHandler = async () => {
+        const formData = new FormData();
+
+        // Append the image file if selected
+        if (heroFormData.heroImgUrl) {
+            formData.append("heroImg", heroFormData.heroImgUrl);
+        }
+
+        // Append all the text fields
+        formData.append("heroPlay_Button", heroFormData.heroPlay_Button);
+        formData.append("heroSlideSubTitle", heroFormData.heroSlideSubTitle);
+        formData.append("heroSlideTitle", heroFormData.heroSlideTitle);
+        formData.append("heroButton_One", heroFormData.heroButton_One);
+        formData.append("heroButton_Two", heroFormData.heroButton_Two);
+
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/${userId}`;
+
+            const response = await fetch(url, {
+                method: "PUT",
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Hero section updated successfully!");
+                console.log("Updated Data:", result);
+            } else {
+                console.error("Error response:", result);
+                alert("Failed to update hero section.");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    };
+
+
+
+    console.log("heroFormData", heroFormData)
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -120,24 +174,33 @@ export default function HeroSectionCustome() {
                             >
                                 <div className="flex flex-col justify-between gap-2 mb-3">
                                     <div className='flex gap-3'>
-                                        <Button
+                                        {/* <Button
                                             component="label"
                                             role={undefined}
                                             variant="outlined"
                                             tabIndex={-1}
                                             startIcon={<CloudUploadIcon />}
 
-                                            sx={{
-                                                textTransform: "none",
-                                                fontVariant: 'all-small-caps',
-                                                width: '400px'
-                                            }}
+
                                         >
                                             Slider images
                                             <VisuallyHiddenInput
                                                 type="file"
                                                 // onChange={(event) => console.log(event.)}
                                                 multiple
+                                            />
+                                        </Button> */}
+                                        <Button
+                                            component="label"
+                                            variant="outlined"
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload Image
+                                            <input
+                                                type="file"
+                                                hidden
+                                                accept="image/*"
+                                                onChange={handleFileChange}
                                             />
                                         </Button>
 
@@ -215,13 +278,145 @@ export default function HeroSectionCustome() {
                         </div>
                     </form>
                     :
-                    <HeroTable setIsTableTrue={setIsTableTrue} />
+                    <HeroTable setIsTableTrue={setIsTableTrue} userId={userId}  />
             }
 
 
-        </div>
+        </div >
     );
 }
 
 
+// import React, { useState } from 'react';
+// import { Button, TextField, styled } from '@mui/material';
+// import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+// const VisuallyHiddenInput = styled('input')({
+//     clip: 'rect(0 0 0 0)',
+//     clipPath: 'inset(50%)',
+//     height: 1,
+//     overflow: 'hidden',
+//     position: 'absolute',
+//     bottom: 0,
+//     left: 0,
+//     whiteSpace: 'nowrap',
+//     width: 1,
+// });
+
+// export default function HeroSectionCustom() {
+//     const [heroFormData, setHeroFormData] = useState({
+//         heroImgUrl: null,
+//         heroPlay_Button: '',
+//         heroSlideSubTitle: '',
+//         heroSlideTitle: '',
+//         heroButton_One: '',
+//         heroButton_Two: ''
+//     });
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setHeroFormData((prev) => ({
+//             ...prev,
+//             [name]: value
+//         }));
+//     };
+
+//     const handleFileChange = (e) => {
+//         const file = e.target.files[0];
+//         if (file) {
+//             setHeroFormData((prev) => ({
+//                 ...prev,
+//                 heroImgUrl: file
+//             }));
+//         }
+//     };
+
+//     const submitHandler = async () => {
+//         try {
+//             const formData = new FormData();
+//             if (heroFormData.heroImgUrl) {
+//                 formData.append('image', heroFormData.heroImgUrl);
+//             }
+
+//             formData.append('heroPlay_Button', heroFormData.heroPlay_Button);
+//             formData.append('heroSlideSubTitle', heroFormData.heroSlideSubTitle);
+//             formData.append('heroSlideTitle', heroFormData.heroSlideTitle);
+//             formData.append('heroButton_One', heroFormData.heroButton_One);
+//             formData.append('heroButton_Two', heroFormData.heroButton_Two);
+
+//             const response = await fetch('http://localhost:5000/admin-api/hero-section/683e90debc43f5b825e98d4a', {
+//                 method: 'PUT',
+//                 body: formData
+//             });
+
+//             const result = await response.json();
+//             if (response.ok) {
+//                 alert('Uploaded successfully!');
+//                 console.log(result);
+//             } else {
+//                 alert('Upload failed.');
+//                 console.error(result);
+//             }
+//         } catch (error) {
+//             console.error('Error:', error);
+//         }
+//     };
+//     console.log("heroFormData", heroFormData)
+//     return (
+//         <div className='p-5'>
+//             <h2>Hero Section Upload</h2>
+
+//             <Button
+//                 component="label"
+//                 variant="outlined"
+//                 startIcon={<CloudUploadIcon />}
+//                 sx={{ my: 2 }}
+//             >
+//                 Upload Image
+//                 <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+//             </Button>
+
+//             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+//                 <TextField
+//                     label="Play Button"
+//                     name="heroPlay_Button"
+//                     value={heroFormData.heroPlay_Button}
+//                     onChange={handleChange}
+//                 />
+//                 <TextField
+//                     label="Sub Title"
+//                     name="heroSlideSubTitle"
+//                     value={heroFormData.heroSlideSubTitle}
+//                     onChange={handleChange}
+//                 />
+//                 <TextField
+//                     label="Main Title"
+//                     name="heroSlideTitle"
+//                     value={heroFormData.heroSlideTitle}
+//                     onChange={handleChange}
+//                 />
+//                 <TextField
+//                     label="Button Text 1"
+//                     name="heroButton_One"
+//                     value={heroFormData.heroButton_One}
+//                     onChange={handleChange}
+//                 />
+//                 <TextField
+//                     label="Button Text 2"
+//                     name="heroButton_Two"
+//                     value={heroFormData.heroButton_Two}
+//                     onChange={handleChange}
+//                 />
+//             </div>
+
+//             <Button
+//                 variant="contained"
+//                 sx={{ mt: 3 }}
+//                 onClick={submitHandler}
+//             >
+//                 Submit All Data
+//             </Button>
+//         </div>
+//     );
+// }
 

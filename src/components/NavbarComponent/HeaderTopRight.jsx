@@ -18,6 +18,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
 
 
     useEffect(() => {
+        
         if (formDataRight?.item_IconeRight) {
             const foundIcon = allFaMdIcons.find(i => i.label === formDataRight.item_IconeRight);
             if (foundIcon) {

@@ -2,10 +2,10 @@
 import { fetchHeaderData } from "./action"
 
 
-export const getHeaderData = () => {
+export const getHeaderData = ( userId ) => {
     return async (dispatch) => {
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/get-header-data/${"683e90debc43f5b825e98d4a"}`
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/get-header-data/${userId}`
             const fetchData = await fetch(url, {
                 method: "GET"
             })

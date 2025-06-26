@@ -159,17 +159,19 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
 // <---------------- ---------------------------------Navbar Search section ------------------  ------------------------->  //
 
-export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, searchIcone, setSearchIcone, submitHandler }) => {
+export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, headerButtom, setHeaderButtomLeft, submitHandler }) => {
 
     useEffect(() => {
-        if (searchIcone?.item_SearchIcone && !searchIcone.Icon) {
-            const foundIcon = allFaMdIcons.find(i => i.label === searchIcone.item_SearchIcone);
+        if (headerButtom?.item_Icone && !headerButtom.Icon) {
+            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
             if (foundIcon) {
-                setSearchIcone(foundIcon);
+                setHeaderButtomLeft(foundIcon);
             }
         }
-    }, [searchIcone?.item_SearchIcone, allFaMdIcons]);
-    console.log("searchIcone_____", searchIcone)
+    }, [headerButtom?.item_Icone, allFaMdIcons]);
+    console.log("headerButtom_____", headerButtom)
+
+
     return (
         <Fragment>
             <div className='nav-serach-section w-full h-[400px] flex justify-center items-center'>
@@ -184,9 +186,9 @@ export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcon
 
                         onChange={(e, newValue) => {
                             if (newValue) setSelectedIcon(newValue);
-                            setSearchIcone(prev => ({
+                            setHeaderButtomLeft(prev => ({
                                 ...prev,
-                                item_SearchIcone: newValue ? newValue.label : ""
+                                item_Icone: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
@@ -386,8 +388,17 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
             ...prev, [name]: value
         }))
     }
+    
+    useEffect(() => {
 
-    console.log("headerButtom", headerButtom)
+        if (headerButtom?.item_Icone) {
+            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
+            if (foundIcon) {
+                setSelectedIcon(foundIcon);
+            }
+        }
+    }, [headerButtom?.item_Icone]);
+    console.log("headerButtom_____Icone", headerButtom)
 
     return (
         <Fragment>
@@ -484,7 +495,7 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
 // <---------------- --------------------------------- Header Buttom left section  ------------------  ------------------------->  //
 
 
-export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, setHeaderButtomLeft, headerButtomLeft, submitHandler }) => {
+export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, setHeaderButtomLeft, headerButtom, submitHandler }) => {
 
     const buttomBarOnchange = (e) => {
         const { name, value } = e.target
@@ -492,6 +503,17 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
             ...prev, [name]: value
         }))
     }
+
+
+    useEffect(() => {
+
+        if (headerButtom?.item_Icone) {
+            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
+            if (foundIcon) {
+                setSelectedIcon(foundIcon);
+            }
+        }
+    }, [headerButtom?.item_Icone]);
 
 
     return (
@@ -504,6 +526,7 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
                     <Autocomplete
                         options={allFaMdIcons}
                         value={selectedIcon}
+
 
                         onChange={(e, newValue) => {
                             if (newValue) setSelectedIcon(newValue);
@@ -543,7 +566,7 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
                         label="Title"
                         size="small"
                         name='item_Title'
-                        value={headerButtomLeft?.item_Title}
+                        value={headerButtom?.item_Title}
                         onChange={buttomBarOnchange}
                         variant="outlined"
                     >
@@ -553,7 +576,7 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
                         label="Dscriptions"
                         size="small"
                         name="item_Paragraph"
-                        value={headerButtomLeft?.item_Paragraph}
+                        value={headerButtom?.item_Paragraph}
                         onChange={buttomBarOnchange}
                         variant="outlined"
                     >

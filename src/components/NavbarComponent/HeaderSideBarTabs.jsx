@@ -105,6 +105,7 @@ export default function HeaderSideBarTabs() {
         item_Title: "",
         item_Icone: "",
         item_IconeUrl: "",
+        item_ShowOnWebsite: true
 
     }
 
@@ -259,7 +260,31 @@ export default function HeaderSideBarTabs() {
 
             setHeaderButton((pre) => ({
                 ...pre,
-                buttonText: navButton?.item_Title
+                buttonText: navButton?.item_Title || ""
+            }))
+
+            const headerBottomLeft = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "HeaderButtomHirring"
+            )?.item[0];
+
+            setHeaderButtomLeft((pre) => ({
+                ...pre,
+                item_Icone: headerBottomLeft?.item_Icone || "",
+                item_Title: headerBottomLeft?.item_Title || "",
+                item_Paragraph: headerBottomLeft?.item_IconeUrl || ""
+            }))
+
+            const headerBottomRight = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "HeaderButtomBar"
+            )?.item[0];
+
+            setHeaderButtom((pre) => ({
+                ...pre,
+                item_Icone: headerBottomRight.item_Icone || "",
+                item_Title: headerBottomRight.item_Title || "",
+                openingTime: headerBottomRight.item_ContactId || "",
+                closeTimnig: headerBottomRight.item_IconeUrl || ""
+
             }))
 
         }
@@ -282,6 +307,7 @@ export default function HeaderSideBarTabs() {
                         item_Title: formData.item_Title,
                         item_Icone: formData.item_Icone,
                         item_IconeUrl: formData.item_IconeUrl,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
                     }
                 ]
             };

@@ -13,11 +13,9 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
-export default function HeroTable({ setIsTableTrue }) {
+export default function HeroTable({ setIsTableTrue, userId }) {
     const [reFresh, setRefresh] = useState(false)
     const [heroID, setHeroID] = useState()
-    // const []
-
     const dispatch = useDispatch()
     const HeroSection_ = useSelector((state) => state.getHeaderDataReducer_.headerData?.HeroSection);
 
@@ -26,13 +24,10 @@ export default function HeroTable({ setIsTableTrue }) {
         setHeroID(userID)
     }, [])
 
-    console.log("heroID", heroID)
-
     useEffect(() => {
-        dispatch(getHeaderData());
+        const userID = localStorage.getItem("user-ID")
+        dispatch(getHeaderData(userID));
     }, [dispatch, reFresh]);
-
-    console.log("HeroSection__", HeroSection_)
 
 
     const handleActionClickDelete = async (data = {}) => {
@@ -59,7 +54,9 @@ export default function HeroTable({ setIsTableTrue }) {
     };
 
     const heroUpdatehandle = (data = {}) => {
+        alert(JSON.stringify(data.id))
         setIsTableTrue(true)
+
     }
 
     const columns = [
@@ -101,9 +98,7 @@ export default function HeroTable({ setIsTableTrue }) {
         },
     ];
 
-    // const handleActionClickDelete = (data = {}) => {
-    //     alert(JSON.stringify(data.id))
-    // }
+  
 
 
     const rows = HeroSection_ && HeroSection_?.map((item_) => ({
@@ -146,7 +141,7 @@ export default function HeroTable({ setIsTableTrue }) {
                         '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
                             display: 'flex', justifyContent: "center"
                         },
-                        fontVariant:"all-small-caps"
+                        fontVariant: "all-small-caps"
                     }}
                 />
 
