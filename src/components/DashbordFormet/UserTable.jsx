@@ -187,10 +187,7 @@ function UserTable() {
 
 
     const hanlderActiveToggle = async (id) => {
-        // setCheckStatus(false)
-        // const confirmDelete = window.confirm("You Want to Active this User");
-        // if (!confirmDelete) return;
-        // setCheckStatus(JSON.stringify(userLoginInformation.userStatus))
+      
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin/change-satuts/${id}`
             const updateStatus = await fetch(url, {

@@ -29,7 +29,7 @@ const headerTopBarDefualt = [
                 item_ContactId: "email@gmail.com",
                 item_Icone: "ic:outline-email",
                 item_IconeUrl: "",
-              
+
 
             }
         ],
@@ -101,41 +101,13 @@ function Navbar({ headerData }) {
                                     console.log("headerTopBarDefualt__________T", headerTopBarDefualt)
                                     return (
                                         // isTrue && (
-                                            <HeaderTopBarComp key={index} headerData={item} />
+                                        <HeaderTopBarComp key={index} headerData={item} />
                                         // )
                                     )
                                 })
                         }
 
                     </div>
-
-                    {/* <div className="w-full">
-                        {
-                            (
-                                (() => {
-                                    // Get section from backend
-                                    const backendSection = headerData?.headerTopBar?.find(sec => sec.section === "HeaderTopLeftBar");
-                                    const backendItems = backendSection?.item?.filter(item => item?.item_ShowOnWebsite);
-
-                                    // If backend has at least one valid item => use it
-                                    if (backendItems && backendItems.length > 0) {
-                                        return backendItems.map((item, index) => (
-                                            <HeaderTopBarComp key={`left-backend-${index}`} headerData={item} />
-                                        ));
-                                    }
-
-                                    // Else: fallback to default section
-                                    const defaultSection = headerTopBarDefualt?.find(sec => sec.section === "HeaderTopLeftBar");
-                                    const defaultItems = defaultSection?.item?.filter(item => item?.item_ShowOnWebsite);
-
-                                    return defaultItems?.map((item, index) => (
-                                        <HeaderTopBarComp key={`left-default-${index}`} headerData={item} />
-                                    ));
-                                })()
-                            )
-                        }
-                    </div> */}
-
 
                     <div className="w-full flex justify-center items-center gap-4">
                         {

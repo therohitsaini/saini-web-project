@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService, inFoService, infoHandler }) {
 
     console.log("inFoService", inFoService)
-    console.log("selectedIcon", selectedIcon)
+  
     const inFoOnchange = (event) => {
         const { name, value } = event.target
         setInFoService((pre) => ({

@@ -98,6 +98,7 @@ function a11yProps(index) {
 
 export default function HeaderSideBarTabs() {
     const [value, setValue] = useState(0);
+    const [userIDMain, setUserIDMain] = useState()
     const dispatch = useDispatch();
 
     const initialState = {
@@ -164,11 +165,15 @@ export default function HeaderSideBarTabs() {
         setValue(newValue);
     };
 
+    useEffect(() => {
+        const userID = localStorage.getItem("user-ID")
+        setUserIDMain(userID)
 
+    }, [dispatch])
 
 
     useEffect(() => {
-        dispatch(getHeaderData());
+        dispatch(getHeaderData("685ce1733b28b00f29622728"));
     }, [dispatch]);
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
@@ -409,7 +414,7 @@ export default function HeaderSideBarTabs() {
         // }
 
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/683e90debc43f5b825e98d4a`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/${userIDMain}`;
             const fetchData = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

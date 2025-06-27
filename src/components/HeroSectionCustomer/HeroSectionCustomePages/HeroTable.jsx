@@ -13,7 +13,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
-export default function HeroTable({ setIsTableTrue, userId }) {
+export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
     const [reFresh, setRefresh] = useState(false)
     const [heroID, setHeroID] = useState()
     const dispatch = useDispatch()
@@ -54,7 +54,12 @@ export default function HeroTable({ setIsTableTrue, userId }) {
     };
 
     const heroUpdatehandle = (data = {}) => {
-        alert(JSON.stringify(data.id))
+        setHeroFormData((pre) => ({
+            ...pre,
+            _id: data.id,
+            heroImgUrl: data.heroImgUrl,
+            heroSlideSubTitle: data.heroSlideSubTitle
+        }))
         setIsTableTrue(true)
 
     }
@@ -98,7 +103,7 @@ export default function HeroTable({ setIsTableTrue, userId }) {
         },
     ];
 
-  
+
 
 
     const rows = HeroSection_ && HeroSection_?.map((item_) => ({

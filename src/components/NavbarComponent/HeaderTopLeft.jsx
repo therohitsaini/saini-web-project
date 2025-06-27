@@ -54,7 +54,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, }) {
     }, [formData?.item_Icone])
 
 
-    console.log("formData", formData)
+
 
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };

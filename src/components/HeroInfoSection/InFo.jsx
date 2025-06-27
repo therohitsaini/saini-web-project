@@ -24,13 +24,10 @@ export default function InFo() {
     const [inFoService, setInFoService] = useState(
         { inFoHeading: "", inFoDescription: "", inFoIcone: "" }
     )
-
-
-
-
     const dispatch = useDispatch()
-    const inFoDataRedux = useSelector((state) => state.getHeaderDataReducer_.headerData.inFoData);
-    // console.log("inFoDataRedux___", inFoDataRedux.headerData.inFoData)
+    const inFoDataRedux = useSelector((state) => state.getHeaderDataReducer_.headerData);
+    console.log("inFoDataRedux", inFoDataRedux)
+
     useEffect(() => {
         dispatch(getHeaderData());
     }, [dispatch]);
@@ -56,11 +53,10 @@ export default function InFo() {
         allFaMdIcons.find((i) => i.label === '')
     )
 
-
     const infoHandler = async () => {
-
+        const id = localStorage.getItem("user-ID")
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/update-info/683e90debc43f5b825e98d4a`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/update-info/${id}`;
             const fetchData = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -71,7 +67,10 @@ export default function InFo() {
 
             if (fetchData.ok) {
                 alert("Succesfully")
+                setInFoService({ inFoHeading: "", inFoDescription: "", inFoIcone: "" })
             }
+
+
         } catch (error) {
             console.log("Internal Error", error)
         }

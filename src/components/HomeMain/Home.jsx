@@ -28,7 +28,7 @@ function Home() {
     // const headerToBarData = useSelector((state) => state.getHeaderDataReducer_)
 
     const heroSection = useSelector((state) => state.getHeaderDataReducer_);
-    // const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
+    const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
     useEffect(() => {
 
@@ -104,13 +104,13 @@ function Home() {
     return (
         <Fragment>
             <div className='nav-hero-conrainer relative' >
-                <div className='nav-main absolute z-50'>
+                <div className='nav-main absolute z-50 w-full'>
                     <Navbar headerData={headerData} />
                 </div>
                 <HeroSection info={heroSectionData} />
             </div>
             <Service serviceCard={serviceCard} />
-            {/* <Funfact funfactData={funfactData} /> */}
+            <Funfact funfactData={funfactData} />
             <PortfolioSection />
         </Fragment>
     )

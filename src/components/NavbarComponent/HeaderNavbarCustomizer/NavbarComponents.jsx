@@ -169,7 +169,7 @@ export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcon
             }
         }
     }, [headerButtom?.item_Icone, allFaMdIcons]);
-    console.log("headerButtom_____", headerButtom)
+    // console.log("headerButtom_____", headerButtom)
 
 
     return (

@@ -10,14 +10,17 @@ import { getHeaderData } from '../../Store/ApisStore/ApisCollection';
 import { useEffect } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton, styled, TextField, Tooltip } from '@mui/material';
+import { Autocomplete, Button, IconButton, InputAdornment, styled, TextField, Tooltip } from '@mui/material';
 import HeroTable from './HeroSectionCustomePages/HeroTable';
+import * as FaIcons from 'react-icons/fa';
+import * as MdIcons from 'react-icons/md';
 
 export default function HeroSectionCustome() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch();
     const [isTureTable, setIsTableTrue] = useState(false)
     const [userId, setUserId] = useState()
+    const [heroDataByID, setHeroDataByID] = useState([])
 
     const initialState = {
         heroImgUrl: "",
@@ -30,50 +33,35 @@ export default function HeroSectionCustome() {
     }
     const [heroFormData, setHeroFormData] = useState(initialState);
     const data = useSelector((state) => state?.getHeaderDataReducer_);
-    console.log("rohit", data)
 
-    // const submitHandler = async () => {
+    console.log("heroFormData", heroFormData)
 
-    //     const formData = new FormData();
+    const allFaMdIcons_ = [
+        ...Object.entries(MdIcons),
+        ...Object.entries(FaIcons),
+        // ...MdIcons,
+        // ...FaIcons,
 
-    //     if (heroFormData.heroImgUrl) {
-    //         formData.append('image', heroFormData.heroImgUrl);
-    //     }
+    ]
 
-    //     formData.append('heroPlay_Button', heroFormData.heroPlay_Button);
-    //     formData.append('heroSlideSubTitle', heroFormData.heroSlideSubTitle);
-    //     formData.append('heroSlideTitle', heroFormData.heroSlideTitle);
-    //     formData.append('heroButton_One', heroFormData.heroButton_One);
-    //     formData.append('heroButton_Two', heroFormData.heroButton_Two);
+    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
+        label: name,
+        Icon
+    }))
 
-    //     try {
-    //         const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/683e90debc43f5b825e98d4a`;
-    //         const fetchData = await fetch(url,{
-    //             method: "PUT",
-    //             body: formData
-    //         });
-
-    //         const responseJson = await fetchData.json();
-
-    //         if (fetchData.ok) {
-    //             alert("Succesfully")
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIcons.find((i) => i.label === heroFormData?.heroPlay_Button) || null
+    )
 
     useEffect(() => {
-        const idFromStorage = localStorage.getItem("user-ID");
 
-        // Optional: Validate ID format
+        const idFromStorage = localStorage.getItem("user-ID");
         if (idFromStorage && /^[0-9a-fA-F]{24}$/.test(idFromStorage)) {
             setUserId(idFromStorage);
         } else {
             console.warn("Invalid or missing user ID.");
         }
+
     }, []);
 
     const handleChange = (event) => {
@@ -95,13 +83,11 @@ export default function HeroSectionCustome() {
 
     const submitHandler = async () => {
         const formData = new FormData();
-
-        // Append the image file if selected
         if (heroFormData.heroImgUrl) {
             formData.append("heroImg", heroFormData.heroImgUrl);
         }
 
-        // Append all the text fields
+
         formData.append("heroPlay_Button", heroFormData.heroPlay_Button);
         formData.append("heroSlideSubTitle", heroFormData.heroSlideSubTitle);
         formData.append("heroSlideTitle", heroFormData.heroSlideTitle);
@@ -110,7 +96,6 @@ export default function HeroSectionCustome() {
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/hero-section/${userId}`;
-
             const response = await fetch(url, {
                 method: "PUT",
                 body: formData,
@@ -119,7 +104,7 @@ export default function HeroSectionCustome() {
             const result = await response.json();
 
             if (response.ok) {
-                alert("Hero section updated successfully!");
+                alert("Sussfully ")
                 console.log("Updated Data:", result);
             } else {
                 console.error("Error response:", result);
@@ -131,21 +116,35 @@ export default function HeroSectionCustome() {
         }
     };
 
+    const getHeroDataByID = async (userId) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-hero/get-hero-image/by-id/${userId}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
 
 
-    console.log("heroFormData", heroFormData)
+            const JsonData = await response.json();
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
+            if (response.ok) {
+                setHeroDataByID(JsonData)
+            }
+            else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        getHeroDataByID(userId)
+    }, [])
+
+
+
 
 
 
@@ -153,7 +152,7 @@ export default function HeroSectionCustome() {
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
             {
                 isTureTable ?
-                    <form className='flex justify-center flex-col items-center w-full  min-h-[500px]  px-30 gap-3'>
+                    <form className='flex justify-center flex-col items-center w-full  min-h-[560px]  px-30 gap-3'>
                         <div className='w-full'>
                             <Button
                                 onClick={() => setIsTableTrue(false)}
@@ -167,30 +166,18 @@ export default function HeroSectionCustome() {
                             </Button>
 
                         </div>
-                        <div className="flex flex-col gap-4 shadow-black shadow-xl  p-5 rounded-md bg-[#1f1e1f]  w-full ">
+                        <div className="flex flex-col gap-4 border border-slate-800  p-5 rounded-md   w-full ">
                             <h1 className='flex justify-start w-full'>Slider Image</h1>
                             <div
                                 className="border border-slate-400/20 rounded-md p-5 w-[100%] relative flex justify-center"
                             >
                                 <div className="flex flex-col justify-between gap-2 mb-3">
                                     <div className='flex gap-3'>
-                                        {/* <Button
-                                            component="label"
-                                            role={undefined}
-                                            variant="outlined"
-                                            tabIndex={-1}
-                                            startIcon={<CloudUploadIcon />}
 
-
-                                        >
-                                            Slider images
-                                            <VisuallyHiddenInput
-                                                type="file"
-                                                // onChange={(event) => console.log(event.)}
-                                                multiple
-                                            />
-                                        </Button> */}
                                         <Button
+                                            sx={{
+                                                width: '400px'
+                                            }}
                                             component="label"
                                             variant="outlined"
                                             startIcon={<CloudUploadIcon />}
@@ -204,16 +191,55 @@ export default function HeroSectionCustome() {
                                             />
                                         </Button>
 
-                                        <TextField
+                                        {/* <TextField
                                             size='small'
-
+                                            fullWidth
                                             name='heroPlay_Button'
                                             value={heroFormData.heroPlay_Button}
                                             onChange={handleChange}
                                             label="heroPlay_Button"
-                                            sx={{
-                                                width: '400px'
+                                           
+                                        /> */}
+
+                                        <Autocomplete
+                                            options={allFaMdIcons}
+                                            value={selectedIcon}
+
+                                            onChange={(e, newValue) => {
+                                                if (newValue) setSelectedIcon(newValue);
+                                                setHeroFormData((prev) => ({
+                                                    ...prev,
+                                                    heroPlay_Button: newValue ? newValue.label : "",
+                                                }));
                                             }}
+                                            size='small'
+
+                                            getOptionLabel={(option) => option.label}
+                                            isOptionEqualToValue={(option, value) => option.label === value?.label}
+                                            renderOption={(props, option) => (
+                                                <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <option.Icon />
+                                                    {option.label}
+                                                </Box>
+                                            )}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="Search Iocne"
+                                                    variant="outlined"
+                                                    sx={{
+                                                        width: '400px'
+                                                    }}
+                                                    InputProps={{
+                                                        ...params.InputProps,
+                                                        startAdornment: selectedIcon?.Icon && (
+                                                            <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                                <selectedIcon.Icon />
+                                                            </InputAdornment>
+                                                        ),
+                                                    }}
+                                                />
+                                            )}
                                         />
 
                                     </div>
@@ -278,7 +304,7 @@ export default function HeroSectionCustome() {
                         </div>
                     </form>
                     :
-                    <HeroTable setIsTableTrue={setIsTableTrue} userId={userId}  />
+                    <HeroTable setIsTableTrue={setIsTableTrue} userId={userId} setHeroFormData={setHeroFormData} />
             }
 
 

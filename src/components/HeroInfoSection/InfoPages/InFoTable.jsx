@@ -5,14 +5,43 @@ import React from 'react'
 import { useState } from 'react';
 import { Fragment } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useEffect } from 'react';
+import { getInfoData } from '../../../Store/infoApiesStore/infoApiRedux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 
-const InFoTable = ({ setInFoIsTrue, inFoDataRedux }) => {
+const InFoTable = ({ setInFoIsTrue }) => {
+    const [inFoData, setInFoData] = useState([])
+
+    const dispatch = useDispatch()
+
+    const getInfoData = async () => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/685ce1733b28b00f29622728`
+            const fatchData = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            const jsonResponse = await fatchData.json()
+            if (fatchData.ok) {
+                setInFoData(jsonResponse.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // const inFoRedux = useSelector((state) => state.getInFoDataReducer_)
 
 
+    useEffect(() => {
+        getInfoData()
+    }, [])
 
+
+ 
     const columns = [
         //  { field: 'id', headerName: 'ID', width: 90 },
         { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
@@ -34,7 +63,7 @@ const InFoTable = ({ setInFoIsTrue, inFoDataRedux }) => {
             renderCell: (params) => (
                 <div className='flex gap-1'>
                     <Tooltip title="Update">
-                        <IconButton sx={{}} 
+                        <IconButton sx={{}}
                         // onClick={() => handleActionClick(params.row)}
                         >
 
@@ -43,8 +72,9 @@ const InFoTable = ({ setInFoIsTrue, inFoDataRedux }) => {
                     </Tooltip>
                     <Tooltip title="Delete">
                         <IconButton
+
                         //  onClick={() => handleActionClickDelete(params.row)}
-                         >
+                        >
                             <DeleteIcon color="error" />
                         </IconButton>
                     </Tooltip>
@@ -54,12 +84,11 @@ const InFoTable = ({ setInFoIsTrue, inFoDataRedux }) => {
             filterable: false,
         },
     ]
-    const rows = inFoDataRedux && inFoDataRedux?.map((item_) => ({
+    const rows = inFoData?.map((item_) => ({
         id: item_._id,
         bgimg: item_.inFoHeading,
-        playButton: item_.inFoDescription,
-        subTitle: item_.inFoIcone,
-
+        // playButton: item_.inFoDescription,
+        subTitle: item_.inFoDescription,
 
     }))
     const paginationModel = { page: 0, pageSize: 5 };
