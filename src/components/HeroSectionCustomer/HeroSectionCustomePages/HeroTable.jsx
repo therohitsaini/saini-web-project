@@ -43,8 +43,8 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                 body: JSON.stringify({ data: data.id, pageId: heroID })
             });
             const response = await fetchData.json();
+            
             if (fetchData.ok) {
-
                 setRefresh(prev => !prev);
             }
 

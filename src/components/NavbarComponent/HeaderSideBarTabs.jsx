@@ -101,9 +101,10 @@ export default function HeaderSideBarTabs() {
     const [value, setValue] = useState(0);
     const [userIDMain, setUserIDMain] = useState()
     const dispatch = useDispatch();
-    console.log("userIDMain", userIDMain)
+
 
     const initialState = {
+
         item_ContactId: "",
         item_Title: "",
         item_Icone: "",
@@ -113,6 +114,7 @@ export default function HeaderSideBarTabs() {
     }
 
     const initialStateRight = {
+
         item_ContactIdRight: "",
         item_TitleRight: "",
         item_IconeRight: "",
@@ -151,7 +153,7 @@ export default function HeaderSideBarTabs() {
             item_Paragraph: ""
         }
     )
-    console.log("ID_ICOEN", headerButtomLeft)
+
 
     const [searchIcone, setSearchIcone] = useState(
         { item_SearchIcone: "" }
@@ -159,7 +161,7 @@ export default function HeaderSideBarTabs() {
     const [cartIcone, setCartIcone] = useState(
         { item_CartIcone: "" }
     )
-
+    console.log("RDFE", cartIcone)
     const [headerButton, setHeaderButton] = useState({
         buttonText: ""
     })
@@ -177,7 +179,7 @@ export default function HeaderSideBarTabs() {
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
-        dispatch(getHeaderData("685efa2843641b31b1b13d1f"));
+        dispatch(getHeaderData(userID));
     }, [dispatch]);
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
@@ -221,10 +223,10 @@ export default function HeaderSideBarTabs() {
 
             }))
 
-            const mapCenterIcone = topCenter.map((icone) => ({
-                item_Center_Name: icone.item_Title || "",
-                item_Center_Icone_Path: icone.item_IconeUrl || "",
-                item_Center_Icone: icone.item_Icone || ""
+            const mapCenterIcone = topCenter?.map((icone) => ({
+                item_Center_Name: icone?.item_Title || "",
+                item_Center_Icone_Path: icone?.item_IconeUrl || "",
+                item_Center_Icone: icone?.item_Icone || ""
             }))
             setIconeCenter(mapCenterIcone)
 
@@ -234,9 +236,12 @@ export default function HeaderSideBarTabs() {
             )?.item;
 
             const mappedMenuItems = navBarListItem?.map(data => ({
+                id: data._id || data.id,
                 menuItem: data.item_Title || '',
                 menuItemRoute: data.item_IconeUrl || '',
             }));
+            // console.log("LIISTID", headerToBarData.headerData.headerTopBar)
+            // console.log("mappedMenuItems", mappedMenuItems)
 
             setIconFields(mappedMenuItems)
 
@@ -253,7 +258,7 @@ export default function HeaderSideBarTabs() {
 
             const navCartIcone = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "HeaderCartIcone"
-            )?.item;
+            )?.item[0];
 
 
             setCartIcone((pre) => ({
@@ -265,7 +270,7 @@ export default function HeaderSideBarTabs() {
 
             const navButton = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "navButton"
-            )?.item;
+            )?.item[0];
 
             setHeaderButton((pre) => ({
                 ...pre,
@@ -432,24 +437,52 @@ export default function HeaderSideBarTabs() {
         }
     };
 
-    const allFaMdIcons_ = [
-        ...Object.entries(MdIcons),
-        ...Object.entries(FaIcons),
 
-    ]
-    // const allFaMdIconsList = allFaMdIcons_.map(([name, Icon]) => ({
-    //     label: name,
-    //     Icon
-    // }))
+    // LOGO API 
+
+
+    const [file, setFile] = useState("");
+    const [text, setText] = useState("");
+
+    const submitHandler_ = async (section) => {
+        const id = localStorage.getItem("user-ID");
+        const formData = new FormData();
+
+        formData.append("section", section);
+
+        if (section === "Logo") {
+            if (file) {
+                formData.append("imageLogo", file);
+            } else {
+                formData.append("textLogo", text);
+            }
+        } else {
+            formData.append("item", JSON.stringify(iconFields)); // For other sections like NavManuItem
+        }
+
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/logo/logo/${id}`;
+
+            const res = await fetch(url, {
+                method: "POST",
+                body: formData // ✅ no content-type header here
+            });
+
+            const result = await res.json();
+            console.log("Saved:", result);
+        } catch (err) {
+            console.error("Submit error:", err);
+        }
+    };
+
+
+
 
     const allFaMdIconsList = Object.entries(allFaMdIconsMap).map(([name, Icon]) => ({
         label: name,
         Icon,
     }));
 
-    // const [selectedIcon, setSelectedIcon] = useState(
-    //     allFaMdIconsList.find((i) => i.label === '')
-    // );
     const [selectedIcon, setSelectedIcon] = useState(
         allFaMdIconsList.find((i) => i.label === formData?.item_Icone) || null
     );
@@ -462,6 +495,29 @@ export default function HeaderSideBarTabs() {
             .filter((icon) => icon.label.toLowerCase().includes(term))
             .slice(0, 100); // limit to 100 max
     }, [inputValue]);
+
+
+    const deleteListItem = async (data = {}) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmDelete) return;
+        try {
+
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/delete-dyanamic-data/`;
+            const fetchData = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: data.id, pageId: userIDMain })
+            });
+            const response = await fetchData.json();
+
+            if (fetchData.ok) {
+                setRefresh(prev => !prev);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div className=' w-full  '>
@@ -555,7 +611,11 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={3}>
-                    <NavbarLogo />
+                    <NavbarLogo
+                        setFile={setFile}
+                        setText={setText}
+                        handleSubmitLogo={submitHandler_}
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>

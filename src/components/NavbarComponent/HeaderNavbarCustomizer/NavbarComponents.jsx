@@ -7,6 +7,7 @@ import { Fragment } from 'react';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
+import { allFaMdIconsList } from '../HeaderTopLeft';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -20,7 +21,9 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function NavbarLogo() {
+export default function NavbarLogo({ setFile, setText, handleSubmitLogo }) {
+
+    console.log("setText", setText)
     return (
         <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
             <div className='flex flex-col w-[500px] gap-4  p-5  border border-slate-400/20 rounded-md  ' >
@@ -40,27 +43,26 @@ export default function NavbarLogo() {
                     Upload Site Logo
                     <VisuallyHiddenInput
                         type="file"
-                        onChange={(event) => console.log(event.target.files)}
+                        onChange={(e) => setFile(e.target.files[0])}
                         multiple
                     />
                 </Button>
-                {/* OR */}
-                {/* <p className='my-4 relative'>
-                    <Divider />
-                    <span className="w-full flex justify-center absolute -top-3" ><sapn className="bg-[#1f1e1f] " >OR</sapn></span>
-                </p> */}
+
                 <TextField
                     label="Site Logo"
                     size="small"
+                    onChange={(e) => setText(e.target.value)}
                     variant="outlined"
                 >
 
                 </TextField>
 
-                <Button sx={{
-                    // my: 2,
-                    textTransform: "none"
-                }} variant='outlined'>Submit</Button>
+                <Button
+                    onClick={() => handleSubmitLogo("Logo")}
+                    sx={{
+                        // my: 2,
+                        textTransform: "none"
+                    }} variant='outlined'>Submit</Button>
             </div>
         </div>
     );
@@ -77,18 +79,40 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
         setIconFields(updatedFields);
     };
 
-    // Add a new field set
     const addNewField = () => {
         const newField = { menuItem: '', menuItemRoute: '' };
         setIconFields((prevFields) => [...(Array.isArray(prevFields) ? prevFields : []), newField]);
     };
 
-    // Remove a specific field set
-    const removeField = (index) => {
-        const updatedFields = iconFields.filter((_, i) => i !== index);
-        setIconFields(updatedFields);
-    };
 
+    const removeField = async (index, id) => {
+
+        const userIDMain = localStorage.getItem("user-ID")
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmDelete) return;
+        try {
+
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/delete-header/list-item/`;
+            const fetchData = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: id, pageId: userIDMain })
+            });
+            const response = await fetchData.json();
+
+            if (fetchData.ok) {
+                alert("Succfully ")
+                setRefresh(prev => !prev);
+                const updatedFields = iconFields.filter((_, i) => i !== index);
+                setIconFields(updatedFields);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+    console.log("iconFields", iconFields)
     return (
         <Fragment>
             <form className="flex justify-center flex-col items-center min-h-[530px]">
@@ -130,7 +154,7 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
                                 />
                                 <Tooltip title="Delete">
                                     <IconButton
-                                        onClick={() => removeField(index)}
+                                        onClick={() => removeField(index, field.id)}
                                         color="error"
                                         disabled={iconFields.length === 1}
                                     >
@@ -159,24 +183,128 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
 // <---------------- ---------------------------------Navbar Search section ------------------  ------------------------->  //
 
-export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, headerButtomLeft, setHeaderButtomLeft, submitHandler, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) => {
+// export const NavBarSearchSection = ({
+//     selectedIcon,
+//     setSelectedIcon,
+//     allFaMdIcons,
+//     // headerButtomLeft,
+//     // setHeaderButtomLeft,
+//     submitHandler,
+//     filteredIcons,
+//     setInputValue,
+//     inputValue,
+//     setSearchIcone,
+//     searchIcone
+// }) => {
+
+//     useEffect(() => {
+//         if (searchIcone?.item_SearchIcone) {
+//             const foundIcon = allFaMdIconsList.find(i => i.label === searchIcone.item_SearchIcone);
+//             if (foundIcon) {
+//                 setSearchIcone(foundIcon);
+//             }
+//         }
+//     }, [searchIcone?.item_SearchIcone, allFaMdIcons]);
+//     // console.log("headerButtom_____", headerButtomLeft)
+//     console.log("searchIcone___", searchIcone)
+
+//     return (
+//         <Fragment>
+//             <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
+//                 <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
+//                     <h1>Navbar Search Icone</h1>
+//                     <Divider />
+
+//                     <Autocomplete
+//                         options={filteredIcons}
+//                         value={selectedIcon}
+//                         onChange={(e, newValue) => {
+//                             setSelectedIcon(newValue);
+//                             setSearchIcone(prev => ({
+//                                 ...prev,
+//                                 item_SearchIcone: newValue ? newValue.label : ""
+//                             }));
+//                         }}
+//                         size='small'
+//                         inputValue={inputValue}
+//                         onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+
+//                         getOptionLabel={(option) => option.label}
+//                         isOptionEqualToValue={(option, value) => option.label === value?.label}
+//                         renderOption={(props, option) => (
+//                             <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+//                                 <option.Icon />
+//                                 {option.label}
+//                             </Box>
+//                         )}
+//                         renderInput={(params) => (
+//                             <TextField
+//                                 {...params}
+//                                 label="Icone"
+//                                 variant="outlined"
+//                                 fullWidth
+//                                 InputProps={{
+//                                     ...params.InputProps,
+//                                     startAdornment: selectedIcon?.Icon && (
+//                                         <InputAdornment position="start" sx={{ mr: 1 }}>
+//                                             <selectedIcon.Icon />
+//                                         </InputAdornment>
+//                                     ),
+//                                 }}
+//                             />
+//                         )}
+//                     />
+
+//                     <Button sx={{
+//                         my: 2,
+//                         textTransform: "none"
+//                     }} variant='outlined'
+//                         onClick={() => submitHandler("HeaderSerchIcone")}
+//                     >Save Changes</Button>
+//                 </from>
+
+//             </div>
+//         </Fragment>
+//     )
+// }
+
+export const NavBarSearchSection = ({
+    selectedIcon,
+    setSelectedIcon,
+    allFaMdIcons,
+    submitHandler,
+    filteredIcons,
+    setInputValue,
+    inputValue,
+    setSearchIcone,
+    searchIcone
+}) => {
+
+    // useEffect(() => {
+    //     if (searchIcone?.item_SearchIcone && Array.isArray(allFaMdIcons)) {
+    //         const foundIcon = allFaMdIcons.find(i => i.label === searchIcone.item_SearchIcone);
+    //         if (foundIcon) {
+    //             setSearchIcone({
+    //                 ...foundIcon,
+    //                 item_SearchIcone: foundIcon.label
+    //             });
+    //         }
+    //     }
+    // }, [searchIcone?.item_SearchIcone, allFaMdIcons]);
+
 
     useEffect(() => {
-        if (headerButtomLeft?.item_Icone && !headerButtomLeft.Icon) {
-            const foundIcon = allFaMdIcons.find(i => i.label === headerButtomLeft.item_Icone);
-            if (foundIcon) {
-                setHeaderButtomLeft(foundIcon);
-            }
+        if (searchIcone?.item_SearchIcone) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === searchIcone?.item_SearchIcone);
+            if (foundIcon) setSelectedIcon(foundIcon);
         }
-    }, [headerButtomLeft?.item_Icone, allFaMdIcons]);
-    // console.log("headerButtom_____", headerButtomLeft)
-
+    }, [searchIcone?.item_SearchIcone]);
 
     return (
         <Fragment>
             <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
-                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
-                    <h1>Navbar Search Icone</h1>
+                <form className="nav-serach-form flex flex-col gap-4 border border-slate-500/20 p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl">
+                    <h1>Navbar Search Icon</h1>
                     <Divider />
 
                     <Autocomplete
@@ -184,27 +312,26 @@ export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcon
                         value={selectedIcon}
                         onChange={(e, newValue) => {
                             setSelectedIcon(newValue);
-                            setHeaderButtomLeft(prev => ({
-                                ...prev,
-                                item_Icone: newValue ? newValue.label : ""
-                            }));
+                            setSearchIcone({
+                                ...newValue,
+                                item_SearchIcone: newValue ? newValue.label : ""
+                            });
                         }}
                         size='small'
                         inputValue={inputValue}
                         onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
                             <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <option.Icon />
+                                {option.Icon && <option.Icon />}
                                 {option.label}
                             </Box>
                         )}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Icone"
+                                label="Icon"
                                 variant="outlined"
                                 fullWidth
                                 InputProps={{
@@ -219,38 +346,31 @@ export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcon
                         )}
                     />
 
-                    <Button sx={{
-                        my: 2,
-                        textTransform: "none"
-                    }} variant='outlined'
-                        onClick={() => submitHandler("HeaderSerchIcone")}
-                    >Save Changes</Button>
-                </from>
-
+                    <Button
+                        sx={{ my: 2, textTransform: "none" }}
+                        variant='outlined'
+                        onClick={() => submitHandler("HeaderSerchIcone", searchIcone)} // ✅ payload added
+                    >
+                        Save Changes
+                    </Button>
+                </form>
             </div>
         </Fragment>
-    )
-}
+    );
+};
+
 
 // <-------------------------------------------------Navbar Cart section ------------------  ------------------------->  //
 
 export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submitHandler, cartIcone, setCartIcone, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) => {
 
+
     useEffect(() => {
-        if (cartIcone?.item_CartIcone && allFaMdIconsList?.length) {
-            const foundIcon = allFaMdIconsList.find(
-                (i) => i.label === cartIcone.item_CartIcone
-            );
-            if (foundIcon) {
-                setSelectedIcon(foundIcon); // sets the object
-                setInputValue(foundIcon.label); // sets the visible label
-            } else {
-                console.warn("Icon label not found in list:", cartIcone.item_CartIcone);
-            }
+        if (cartIcone?.item_CartIcone) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === cartIcone?.item_CartIcone);
+            if (foundIcon) setSelectedIcon(foundIcon);
         }
-    }, [cartIcone?.item_CartIcone, allFaMdIconsList]);
-
-
+    }, [cartIcone?.item_CartIcone]);
 
     return (
         <Fragment>

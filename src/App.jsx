@@ -25,6 +25,7 @@ import HeaderSideBarTabs from './components/NavbarComponent/HeaderSideBarTabs';
 import Funfact from './components/FunfactSection/FunfactUI/Funfact';
 import FunfactTable from './components/FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 import PortfolioSection from './components/PagesComp/Portfolio';
+import PrincingSection from './components/PrincingSection/pages/PrincingSection';
 
 
 
@@ -62,6 +63,8 @@ function App() {
           <Route path='/serive-funfact' element={< Funfact />} />
           <Route path='/serive-funfact-tabel' element={<FunfactTable />} />
           <Route path='/portfollio-section' element={< PortfolioSection />} />
+          <Route path='/princing-section' element={< PrincingSection />} />
+
 
 
 

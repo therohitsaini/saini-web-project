@@ -19,12 +19,13 @@ function Funfact({ funfactData }) {
             <div className='absolute inset-0 bg-black/80 z-10'></div>
             <div className='relative z-20 grid grid-cols-4 gap-10 w-full px-30'>
                 {
-                    (funfactData ? funfactData : defualtData)?.map((item, index) => {
-                        console.log("item___T", item)
-                        return (
-                            <CounterBox key={index} countTo={item.projectCount} label={item.aboutProject} />
-                        )
-                    })}
+                    (funfactData && funfactData.length > 0 ? funfactData : defualtData)
+                        ?.map((item, index) => {
+                            console.log("item___T", item)
+                            return (
+                                <CounterBox key={index} countTo={item.projectCount} label={item.aboutProject} />
+                            )
+                        })}
             </div>
         </div>
     );

@@ -1,49 +1,49 @@
 {
     "ServiceDefultValue": [
         {
-            "iconeTop": "mdi:file",
+            "iconeTop": "MdDriveFileMove",
             "serviceHeading": "Banking & Marketing",
             "ServiceDescription": "Banking & Marketing There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "proicons:phone",
+            "iconeTop": "MdOutlineHealthAndSafety",
             "serviceHeading": "Finance & Insurance",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "material-symbols:broken-image-outline-sharp",
+            "iconeTop": "MdEmojiTransportation",
             "serviceHeading": "Transportation",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "lineicons:hand-shake",
+            "iconeTop": "MdOutlineSecurity",
             "serviceHeading": "Defence Security",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "maki:industry",
+            "iconeTop": "FaRegBuilding",
             "serviceHeading": "Resource Industry",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "healthicons:health-alt-24px",
+            "iconeTop": "MdHealthAndSafety",
             "serviceHeading": "Health Scienced",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "ri:headphone-line",
+            "iconeTop": "MdHealthAndSafety",
             "serviceHeading": "Customer Service",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""
         },
         {
-            "iconeTop": "bx:refresh",
+            "iconeTop": "MdOutlineRefresh",
             "serviceHeading": "Other Servicesd",
             "ServiceDescription": "Finance & Insurance There are many variations of passages of Lorem Ipsum available",
             "iconeBottom": ""

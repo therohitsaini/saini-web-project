@@ -84,12 +84,12 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
             field: 'subTitle',
             headerName: 'Sub Title',
             type: 'number',
-            width: 270,
+            width: 370,
         },
         {
             field: 'title',
             headerName: 'Title',
-            width: 270,
+            width: 370,
         }, {
             field: 'action',
             headerName: 'Action',

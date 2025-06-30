@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import FadeInWrapper from '../../StyledComponents/FadeInWrapper'; 
+import FadeInWrapper from '../../StyledComponents/FadeInWrapper';
 
 const portfolioData = [
     {
@@ -65,7 +65,7 @@ export default function PortfolioSection() {
     return (
         <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
-                {/* Section Title */}
+
                 <div className="text-center mb-10">
                     <h2 className="text-4xl font-bold">
                         Our <span className="text-[#df442d]">Portfolio</span>
@@ -75,7 +75,6 @@ export default function PortfolioSection() {
                     </p>
                 </div>
 
-                {/* Filter Tabs */}
                 <div className="flex justify-center gap-4 mb-8 flex-wrap">
                     {categories.map((cat) => (
                         <Button
@@ -92,6 +91,7 @@ export default function PortfolioSection() {
                                 borderTopLeftRadius: '6px',
                                 borderTopRightRadius: '6px',
                                 fontSize: '15px',
+                                fontVariant:"all-small-caps"
                             }}
                         >
                             {cat}
@@ -99,7 +99,7 @@ export default function PortfolioSection() {
                     ))}
                 </div>
 
-                {/* Portfolio Items Grid */}
+ 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-20">
                     {filteredItems.map((item) => (
                         <FadeInWrapper key={item.id + activeFilter}>

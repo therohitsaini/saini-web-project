@@ -94,6 +94,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                                     item_Icone: newValue ? newValue.label : '',
                                 }));
                             }}
+                            
                             inputValue={inputValue}
                             onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                             getOptionLabel={(option) => option.label}
@@ -104,6 +105,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                                     {option.label}
                                 </Box>
                             )}
+
                             renderInput={(params) => (
                                 <TextField
                                     {...params}

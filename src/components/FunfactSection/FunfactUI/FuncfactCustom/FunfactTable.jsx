@@ -1,10 +1,13 @@
-import { Button, Divider, Paper, TextField, Typography } from '@mui/material'
+import { Button, Divider, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useDispatch, useSelector } from 'react-redux';
 import { getServiceData } from '../../../../Store/ServiceSectionRedux/ApisSeriveCollaction';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function FunfactTable() {
 
@@ -12,6 +15,8 @@ function FunfactTable() {
     const [funfactForm, setFunfactForm] = useState(
         { projectCount: "", aboutProject: "" }
     )
+    const [funfactData, setFunfactData] = useState([])
+    const [funfactRefresh, setFunfactRefesh] = useState()
 
     // const dispatch = useDispatch()
 
@@ -46,6 +51,8 @@ function FunfactTable() {
 
             if (fetchData.ok) {
                 alert("Succesfully")
+                setFunfactForm({ projectCount: "", aboutProject: "" })
+                setFunfactRefesh(prev => !prev);
             }
         } catch (error) {
             console.log("Internal Error", error)
@@ -53,10 +60,90 @@ function FunfactTable() {
 
     }
 
+    const getFunfactDataBy_ = async () => {
+        const id = localStorage.getItem("user-ID")
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-funfact/funfact-get/${id}`
+            const fetchData = await fetch(url, {
+                method: "GET"
+            })
+            const responseJson = await fetchData.json()
+            if (fetchData.ok) {
+                setFunfactData(responseJson.data)
+            }
+        } catch (error) {
+
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getFunfactDataBy_()
+    }, [funfactRefresh])
+
+    const handleActionClickDelete = async (data = {}) => {
+        const pageId = localStorage.getItem("user-ID")
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmDelete) return;
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-funfact/funfact-delete/`;
+            const fetchData = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: data.id, pageId: pageId })
+            });
+            const response = await fetchData.json();
+            if (fetchData.ok) {
+
+                setFunfactRefesh(prev => !prev);
+            }
+
+        } catch (error) {
+            console.error(error);
+
+        }
+    }
+
+    const handleActionClick = async (data = {}) => {
+        console.log(data)
+        setFunfactForm((pre) => ({
+            ...pre,
+            userDocId: data.id,
+            projectCount: data.funfact,
+            aboutProject: data.paragraph
+        }));
+        setFunfactMode("Edit");
+    };
+
+    const funFactHandlerUpdate = async () => {
+        const userId = localStorage.getItem("user-ID")
+        const userDocID = funfactForm.userDocId
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-funfact/update/funfact/${userId}/${userDocID}`;
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(funfactForm)
+
+            });
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Successfully updated!");
+                console.log("Updated Data:", result);
+            } else {
+                console.error("Update failed:", result);
+                alert("Update failed. Check console for details.");
+            }
+        } catch (error) {
+
+        }
+    }
+
     const columns = [
-        { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'funfact', headerName: 'Funfact Count', width: 230 },
-        { field: 'paragraph', headerName: 'Paragraph', width: 220 },
+        // { field: 'id', headerName: 'ID', width: 90 },
+        { field: 'funfact', headerName: 'Funfact Count', width: 330 },
+        { field: 'paragraph', headerName: 'Paragraph', width: 320 },
 
         {
             field: 'action',
@@ -81,13 +168,13 @@ function FunfactTable() {
             filterable: false,
         },
     ];
-    // const rows = funfactData?.map((item_) => ({
-    //     id: item_._id,
-    //     funfact: item_.projectCount,
-    //     paragraph: item_.aboutProject,
-
-
-    // }))
+    const rows = Array.isArray(funfactData)
+        ? funfactData.map((item_) => ({
+            id: item_._id,
+            funfact: item_.projectCount,
+            paragraph: item_.aboutProject,
+        }))
+        : [];
 
     const paginationModel = { page: 0, pageSize: 5 };
     return (
@@ -108,7 +195,7 @@ function FunfactTable() {
                                     variant='outlined'
                                 >
                                     <KeyboardBackspaceIcon />
-                                    clikc me
+                                    Back
                                 </Button>
                                 <form className='form-main flex flex-col gap-4 w-[500px] border border-slate-600 rounded-md p-5'>
                                     <Typography sx={{
@@ -134,16 +221,35 @@ function FunfactTable() {
                                         onChange={funfactonChangeHandler}
                                     >
                                     </TextField>
-                                    <Button
-                                        variant='contained'
-                                        onClick={funFactHandler}
-                                        sx={{
-                                            textTransform: "none",
-                                            fontVariant: "all-small-caps"
-                                        }}
-                                    >
-                                        Save Changes
-                                    </Button>
+                                    {
+                                        funfactMode === "Edit" ?
+                                            (
+                                                < Button
+                                                    variant='contained'
+                                                    onClick={funFactHandlerUpdate}
+                                                    sx={{
+                                                        textTransform: "none",
+                                                        fontVariant: "all-small-caps"
+                                                    }}
+                                                >
+                                                    Update
+                                                </Button>
+                                            )
+                                            :
+
+                                            (
+                                                < Button
+                                                    variant='contained'
+                                                    onClick={funFactHandler}
+                                                    sx={{
+                                                        textTransform: "none",
+                                                        fontVariant: "all-small-caps"
+                                                    }}
+                                                >
+                                                    Submit
+                                                </Button>
+                                            )
+                                    }
                                 </form>
                             </div>
                         )
@@ -167,7 +273,7 @@ function FunfactTable() {
                                 <div className='flex  '>
                                     <Paper sx={{ height: 400, display: "flex", justifyContent: "center", }}>
                                         <DataGrid
-                                            // rows={rows}
+                                            rows={rows}
                                             columns={columns}
                                             initialState={{ pagination: { paginationModel } }}
                                             pageSizeOptions={[5, 10]}
@@ -189,7 +295,7 @@ function FunfactTable() {
 
                 }
             </div>
-        </Fragment>
+        </Fragment >
     )
 }
 
