@@ -18,7 +18,7 @@ import Icone from '../IconeComp/Icone';
 import { footerIcone } from '../FooterComp/Footer';
 import { HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { allFaMdIcons_ } from './HeaderTopLeft';
+import { allFaMdIconsMap } from './HeaderTopLeft';
 
 const headerTopBarDefualt = [
     {
@@ -27,9 +27,9 @@ const headerTopBarDefualt = [
             {
                 item_Title: "Gmail Address",
                 item_ContactId: "email@gmail.com",
-                item_Icone: "ic:outline-email",
+                item_Icone: "MdEmail",
                 item_IconeUrl: "",
-
+                item_ShowOnWebsite: true
 
             }
         ],
@@ -40,21 +40,29 @@ const headerTopBarDefualt = [
         item: [
             {
                 item_Title: "",
-                item_Icone: "ri:facebook-fill",
+                item_Icone: "FaFacebookF",
                 item_IconeUrl: ""
 
             },
             {
                 item_Title: "Customer Support",
-                item_Icone: "iconoir:instagram",
+                item_Icone: "FaInstagram",
                 item_IconeUrl: "",
 
-            }, {
+            },
+            {
                 item_Title: "Customer Support",
-                item_Icone: "mingcute:twitter-line",
+                item_Icone: "FaTwitter",
+                item_IconeUrl: "",
+
+            },
+            {
+                item_Title: "Customer Support",
+                item_Icone: "FaLinkedinIn",
                 item_IconeUrl: "",
 
             }
+
         ],
 
     },
@@ -64,12 +72,101 @@ const headerTopBarDefualt = [
             {
                 item_Title: "Customer Support",
                 item_ContactId: "9929306874",
-                item_Icone: "tdesign:call-1",
+                item_Icone: "MdCall",
                 item_IconeUrl: "",
 
             }
         ],
 
+
+
+    },
+    {
+        section: "NavManuItem",
+        item: [
+            {
+                item_Title: "Home",
+                item_IconeUrl: "/home",
+
+            },
+            {
+                item_Title: "About Us",
+                item_IconeUrl: "/home",
+
+            }, {
+                item_Title: "Page",
+                item_IconeUrl: "/home",
+
+            }, {
+                item_Title: "Service",
+                item_IconeUrl: "/home",
+
+            }, {
+                item_Title: "Blog",
+                item_IconeUrl: "/home",
+
+            }
+        ]
+    },
+    {
+        section: "HeaderSerchIcone",
+        item: [
+            {
+                // item_Title: "Customer Support",
+                // item_ContactId: "9929306874",
+                item_Icone: "MdOutlineSearch",
+                item_IconeUrl: "",
+
+            }
+        ],
+    },
+    {
+        section: "HeaderCartIcone",
+        item: [
+            {
+                // item_Title: "Customer Support",
+                // item_ContactId: "9929306874",
+                item_Icone: "MdOutlineShoppingCart",
+                item_IconeUrl: "",
+
+            }
+        ],
+    },
+    {
+        section: "navButton",
+        item: [
+            {
+                item_Title: "Get Started",
+                // item_ContactId: "9929306874",
+                // item_Icone: "MdOutlineShoppingCart",
+                // item_IconeUrl: "",
+
+            }
+        ],
+    },
+    {
+        section: "HeaderButtomHirring",
+        item: [
+            {
+                item_Title: "Get Hirring",
+                // item_ContactId: "9929306874",
+                item_Icone: "FaSpeakerDeck",
+                item_IconeUrl: "lorem ipsum is dummy text",
+
+            }
+        ],
+    },
+    {
+        section: "HeaderButtomBar",
+        item: [
+            {
+                item_Title: "Opening Time",
+                item_ContactId: "10:00",
+                item_Icone: "MdOutlineWatchLater",
+                item_IconeUrl: "6:00",
+
+            }
+        ],
     },
 ]
 
@@ -78,10 +175,16 @@ function Navbar({ headerData }) {
     const [searchHover, setSearchHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
     const [searchBarIsTrue, setSearchBarIsTrue] = useState(false)
+    const emailSection = headerData.headerTopBar?.find(sec => sec.section === "HeaderTopLeftBar") || headerTopBarDefualt.find(sec => sec.section === "HeaderTopLeftBar")
+    const iconeCenterSection = headerData.headerTopBar?.find(sec => sec.section === "HeaderTopBarCenterIcon") || headerTopBarDefualt.find(sec => sec.section === "HeaderTopBarCenterIcon")
+    const supportSection = headerData.headerTopBar?.find(sec => sec.section === "HeaderTopRightBar") || headerTopBarDefualt.find(sec => sec.section === "HeaderTopRightBar")
+    const menuSection = headerData.headerTopBar?.find(sec => sec.section === "NavManuItem") || headerTopBarDefualt.find(sec => sec.section === "NavManuItem")
+    const sectionData = headerData.headerTopBar?.find(sec => sec.section === "HeaderCartIcone") || headerTopBarDefualt.find(sec => sec.section === "HeaderCartIcone")
+    const sectionDataSearch = headerData.headerTopBar?.find(sec => sec.section === "HeaderSerchIcone") || headerTopBarDefualt.find(sec => sec.section === "HeaderSerchIcone");
+    const navButton = headerData.headerTopBar?.find(sec => sec.section === "navButton") || headerTopBarDefualt.find(sec => sec.section === "navButton");
+    const bottomHeaderLeft = headerData.headerTopBar?.find(sec => sec.section === "HeaderButtomHirring") || headerTopBarDefualt.find(sec => sec.section === "HeaderButtomHirring");
+    const bottomHeaderRight = headerData.headerTopBar?.find(sec => sec.section === "HeaderButtomBar") || headerTopBarDefualt.find(sec => sec.section === "HeaderButtomBar");
 
-
-    const sectionData = headerData.headerTopBar?.find(sec => sec.section === "HeaderCartIcone");
-    const sectionDataSearch = headerData.headerTopBar?.find(sec => sec.section === "HeaderSerchIcone");
 
 
     // console.log("headerData", headerData)
@@ -95,37 +198,33 @@ function Navbar({ headerData }) {
 
                     <div className=" w-full">
                         {
-                            (headerData.headerTopBar ? headerData.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopLeftBar")
-                                ?.item.map((item, index) => {
-                                    // const isTrue = item?.item_ShowOnWebsite
-                                    console.log("headerTopBarDefualt__________T", headerTopBarDefualt)
-                                    return (
-                                        // isTrue && (
+
+                            emailSection?.item.map((item, index) => {
+                                const isTrue = item?.item_ShowOnWebsite
+                                return (
+                                    isTrue && (
                                         <HeaderTopBarComp key={index} headerData={item} />
-                                        // )
                                     )
-                                })
+                                )
+                            })
                         }
 
                     </div>
 
                     <div className="w-full flex justify-center items-center gap-4">
                         {
-                            (headerData.headerTopBar ? headerData.headerTopBar : headerTopBarDefualt)
-                                ?.find(sec => sec.section === "HeaderTopBarCenterIcon")
-                                ?.item.map((item, index) => (
-                                    <HeaderTopBarCenterIcone item={item} />
-                                ))}
+
+                            iconeCenterSection?.item.map((item, index) => (
+                                <HeaderTopBarCenterIcone item={item} />
+                            ))}
                     </div>
 
 
                     <div className="w-full pl-55">
                         {
-                            (headerData.headerTopBar ? headerData.headerTopBar : headerTopBarDefualt)?.find(sec => sec.section === "HeaderTopRightBar")
-                                ?.item.map((item, index) => (
-                                    <HeaderTopBarCompRightContent key={index} item_={item} />
-
-                                ))
+                            supportSection?.item.map((item, index) => (
+                                <HeaderTopBarCompRightContent key={index} item_={item} />
+                            ))
                         }
                     </div>
 
@@ -138,7 +237,7 @@ function Navbar({ headerData }) {
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             {
-                                (headerData.headerTopBar)?.find((sec) => sec.section === "NavManuItem")?.item.map((item_, index) => {
+                                menuSection?.item.map((item_, index) => {
                                     return (
                                         <ul key={index} className='text-white flex gap-5 font-semibold text-[17px]'>
                                             <li><Link to={"/home"} className='hover:text-orange-700 duration-700' >{item_ ? item_.item_Title : "HOME"}</Link> </li>
@@ -147,10 +246,10 @@ function Navbar({ headerData }) {
                                 })
                             }
 
-                            {
-                                sectionDataSearch?.item?.map((item_, index) => {
+                            {/* {
+                                (sectionDataSearch ? sectionDataSearch : headerTopBarDefualt)?.item?.map((item_, index) => {
                                     const iconName = item_?.item_Icone;
-                                    const IconComponent = allFaMdIcons_[iconName];
+                                    const IconComponent = allFaMdIconsMap[iconName];
 
                                     return (
                                         <div key={index} className={`icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
@@ -160,24 +259,42 @@ function Navbar({ headerData }) {
                                                 onMouseLeave={() => setSearchHover(false)}
                                                 className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${searchHover ? "bg-red-500" : "bg-white"}`}
                                             >
-                                                {IconComponent ? (
-                                                    <IconComponent
-                                                        color={searchHover ? "white" : "red"} size={18}
-                                                    />
-                                                ) : (
-                                                    <span></span>
-                                                )}
+                                                {
+                                                    IconComponent && (
+                                                        <IconComponent
+                                                            color={searchHover ? "white" : "red"} size={18}
+                                                        />
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     );
-                                })}
+                                })} */}
+                            {
+                                sectionDataSearch?.item?.map((item_, index) => {
+                                    const iconName = item_?.item_Icone;
+                                    const IconComponent = allFaMdIconsMap[iconName];
 
+                                    return (
+                                        <div key={index} className={`icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
+                                            <div
+                                                onClick={() => setSearchBarIsTrue(!searchBarIsTrue)}
+                                                onMouseOver={() => setSearchHover(true)}
+                                                onMouseLeave={() => setSearchHover(false)}
+                                                className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${searchHover ? "bg-red-500" : "bg-white"}`}
+                                            >
+                                                {IconComponent && <IconComponent color={searchHover ? "white" : "red"} size={18} />}
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
 
 
                             {
                                 sectionData?.item?.map((item_, index) => {
                                     const iconName = item_?.item_Icone;
-                                    const IconComponent = allFaMdIcons_[iconName];
+                                    const IconComponent = allFaMdIconsMap[iconName];
 
 
                                     return (
@@ -188,20 +305,20 @@ function Navbar({ headerData }) {
                                                 onMouseLeave={() => setCartHover(false)}
                                                 className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${cartHover ? "bg-red-500" : "bg-white"}`}
                                             >
-                                                {IconComponent ? (
-                                                    <IconComponent
-                                                        color={cartHover ? "white" : "red"} size={18}
-                                                    />
-                                                ) : (
-                                                    <span>Get Start</span>
-                                                )}
+                                                {
+                                                    IconComponent && (
+                                                        <IconComponent
+                                                            color={cartHover ? "white" : "red"} size={18}
+                                                        />
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     );
                                 })}
 
                             {
-                                (headerData.headerTopBar)?.find((sec) => sec.section === "navButton")?.item.map((item_, _) => {
+                                navButton?.item.map((item_, _) => {
                                     return (
                                         <div className='nav-quate-btn  h-13 w-33 rounded-l-3xl rounded-r-xl bg-orange-500/20 p-1.5 pl-0 pr-2 group hover:bg-white/20'>
                                             <button class="relative inline-block h-full w-full font-semibold text-white bg-[#de442c] overflow-hidden group rounded-l-3xl rounded-r-xl">
@@ -221,9 +338,9 @@ function Navbar({ headerData }) {
                 <div className='time-section grid grid-cols-2 bg-[#de442c] p-3'>
 
                     {
-                        (headerData.headerTopBar)?.find((sec) => sec.section === "HeaderButtomHirring")?.item.map((item_, index_) => {
+                        bottomHeaderLeft?.item.map((item_, index_) => {
                             const iconName = item_?.item_Icone;
-                            const IconComponent = allFaMdIcons_[iconName];
+                            const IconComponent = allFaMdIconsMap[iconName];
 
                             console.log("item_.item_Paragraph", item_)
                             return (
@@ -243,9 +360,9 @@ function Navbar({ headerData }) {
 
                     }
                     {
-                        (headerData.headerTopBar)?.find((sec) => sec.section === "HeaderButtomBar")?.item.map((item_, index_) => {
+                        bottomHeaderRight?.item.map((item_, index_) => {
                             const iconName = item_?.item_Icone;
-                            const IconComponent = allFaMdIcons_[iconName];
+                            const IconComponent = allFaMdIconsMap[iconName];
                             console.log("item_", IconComponent)
                             return (
                                 < div key={index_} className='time flex gap-1 text-white justify-end items-center'>

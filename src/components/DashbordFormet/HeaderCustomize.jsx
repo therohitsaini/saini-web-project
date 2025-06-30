@@ -207,7 +207,7 @@ const HeaderCustomize = () => {
                         />
                     </div>
 
-                    {/* Icon Section */}
+             
                     <div className="border border-slate-500/20 bg-[#1f1e1f] rounded-md p-2">
                         <Typography component="span">Top Bar Icone Section</Typography>
                         <Divider />

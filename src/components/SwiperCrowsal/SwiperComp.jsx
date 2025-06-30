@@ -8,7 +8,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import styled, { keyframes } from 'styled-components';
 import SwiperJsonData from '../JsonData/Swiper.json';
-import { allFaMdIcons_ } from '../NavbarComponent/HeaderTopLeft';
+import {  allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 const fadeInImage = keyframes`
@@ -82,7 +82,7 @@ function SwipeComp({ info }) {
     };
 
     const iconName = info?.heroImgUrl;
-    const IconComponent = allFaMdIcons_[iconName];
+    const IconComponent = allFaMdIconsMap[iconName];
     return (
         <div className='swiper-main h-[800px]'>
             <Swiper
@@ -106,7 +106,7 @@ function SwipeComp({ info }) {
                         const firstPart = titleWords.join(' ');
                         // console.log("item__", item_.)
                         const iconName = item_?.heroPlay_Button;
-                        const IconComponent = allFaMdIcons_[iconName];
+                        const IconComponent = allFaMdIconsMap[iconName];
 
                         const imgSrc = item_?.heroImgUrl?.startsWith('http')
                             ? item_.heroImgUrl

@@ -12,14 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const InFoTable = ({ setInFoIsTrue }) => {
+const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
     const [inFoData, setInFoData] = useState([])
 
     const dispatch = useDispatch()
 
-    const getInfoData = async () => {
+    const getInfoData = async (id) => {
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/685ce1733b28b00f29622728`
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/${id}`
             const fatchData = await fetch(url, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" }
@@ -37,34 +37,68 @@ const InFoTable = ({ setInFoIsTrue }) => {
 
 
     useEffect(() => {
-        getInfoData()
+        const id = localStorage.getItem("user-ID")
+        getInfoData(id)
     }, [])
 
 
- 
+    const inFoDeleteHandler = async (data = {}) => {
+        const pageId = localStorage.getItem("user-ID")
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmDelete) return;
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/delete-info/`;
+            const fetchData = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: data.id, pageId: pageId })
+            });
+            const response = await fetchData.json();
+            if (fetchData.ok) {
+
+                setRefresh(prev => !prev);
+            }
+
+        } catch (error) {
+            console.error(error);
+
+        }
+    }
+
+    const updateInfoHandler = (data = {}) => {
+        setInFoService((pre) => ({
+            ...pre,
+            userDocId: data.id,
+            inFoHeading: data.title,
+            inFoDescription: data.subTitle
+        }))
+        setInFoIsTrue("Edit")
+
+    }
+
     const columns = [
         //  { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
-        { field: 'playButton', headerName: 'Play Button', width: 220 },
+        // { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
+        // { field: 'playButton', headerName: 'Play Button', width: 220 },
         {
             field: 'subTitle',
             headerName: 'Sub Title',
             type: 'number',
-            width: 230,
+            width: 270,
         },
         {
             field: 'title',
             headerName: 'Title',
-            width: 220,
+            width: 270,
         }, {
             field: 'action',
             headerName: 'Action',
-            width: 220,
+            width: 270,
             renderCell: (params) => (
                 <div className='flex gap-1'>
                     <Tooltip title="Update">
                         <IconButton sx={{}}
-                        // onClick={() => handleActionClick(params.row)}
+                            onClick={() => updateInfoHandler(params.row)}
                         >
 
                             <Icon icon={"clarity:update-line"} />
@@ -73,7 +107,7 @@ const InFoTable = ({ setInFoIsTrue }) => {
                     <Tooltip title="Delete">
                         <IconButton
 
-                        //  onClick={() => handleActionClickDelete(params.row)}
+                            onClick={() => inFoDeleteHandler(params.row)}
                         >
                             <DeleteIcon color="error" />
                         </IconButton>
@@ -86,7 +120,7 @@ const InFoTable = ({ setInFoIsTrue }) => {
     ]
     const rows = inFoData?.map((item_) => ({
         id: item_._id,
-        bgimg: item_.inFoHeading,
+        title: item_.inFoHeading,
         // playButton: item_.inFoDescription,
         subTitle: item_.inFoDescription,
 
@@ -94,11 +128,11 @@ const InFoTable = ({ setInFoIsTrue }) => {
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>
-            <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
+            <div className='hero-tabel-main w-full h-[78vh] flex flex-col justify-center gap-5'>
 
                 <div>
                     <Button
-                        onClick={() => setInFoIsTrue(false)}
+                        onClick={() => setInFoIsTrue("Save")}
                         sx={{
                             px: 10,
                             textTransform: "none",
@@ -107,6 +141,7 @@ const InFoTable = ({ setInFoIsTrue }) => {
                         +Add More
                     </Button>
                 </div>
+
 
                 <Paper sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -126,6 +161,7 @@ const InFoTable = ({ setInFoIsTrue }) => {
                     />
 
                 </Paper>
+
             </div>
         </Fragment>
     )

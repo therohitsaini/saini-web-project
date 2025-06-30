@@ -1,11 +1,14 @@
 import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@mui/material'
 import React from 'react'
 import { Fragment } from 'react'
+import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
+import { useState } from 'react'
+import { useMemo } from 'react'
 
-function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService, inFoService, infoHandler }) {
+function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUpdateHandler }) {
 
-    console.log("inFoService", inFoService)
-  
+
+
     const inFoOnchange = (event) => {
         const { name, value } = event.target
         setInFoService((pre) => ({
@@ -13,9 +16,23 @@ function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService,
         }))
 
     }
+
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIconsList.find((i) => i.label === inFoService?.inFoIcone) || null
+    );
+    const [inputValue, setInputValue] = useState('');
+
+    const filteredIcons = useMemo(() => {
+        const term = inputValue.trim().toLowerCase();
+        if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
+        return allFaMdIconsList
+            .filter((icon) => icon.label.toLowerCase().includes(term))
+            .slice(0, 100);
+    }, [inputValue]);
+
     return (
         <Fragment>
-            <div className='service main  h-[590px] flex items-center justify-center'>
+            <div className='service main  h-[500px] flex items-center justify-center'>
                 <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f]  '>
                     <h1>Customize Service</h1>
                     <Divider />
@@ -35,14 +52,19 @@ function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService,
                     ></TextField>
 
                     <Autocomplete
-                        options={allFaMdIcons}
+                        options={filteredIcons}
                         value={selectedIcon}
                         name="inFoIcone"
                         onChange={(e, newValue) => {
-                            if (newValue) setSelectedIcon(newValue);
+                            setSelectedIcon(newValue);
+                            setInFoService((pre) => ({
+                                ...pre,
+                                inFoIcone: newValue ? newValue.label : ''
+                            }))
                         }}
                         size='small'
-
+                        inputValue={inputValue}
+                        onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
@@ -69,10 +91,25 @@ function InFoForm({ setSelectedIcon, selectedIcon, allFaMdIcons, setInFoService,
                         )}
                     />
 
-                    <Button
-                        onClick={() => infoHandler("ServiceInFo")}
-                        variant='outlined'
-                    >Save Changes</Button>
+                    {
+                        inFoIsTrue === "Edit" ?
+                            (
+                                <Button
+                                    onClick={() => infoUpdateHandler()}
+                                    variant='outlined'
+                                >
+                                    Update
+                                </Button>
+                            )
+
+                            : (
+                                <Button
+                                    onClick={() => infoHandler("ServiceInFo")}
+                                    variant='outlined'
+                                >Save Changes
+                                </Button>
+                            )
+                    }
 
                 </form>
 

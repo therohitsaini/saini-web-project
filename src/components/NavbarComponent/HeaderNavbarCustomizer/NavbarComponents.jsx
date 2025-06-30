@@ -91,7 +91,7 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
     return (
         <Fragment>
-            <form className="flex justify-center flex-col items-center">
+            <form className="flex justify-center flex-col items-center min-h-[530px]">
                 <div className="flex flex-col gap-4 w-full max-w-2xl bg-[#1f1e1f] shadow-black shadow-xl p-5 rounded-md">
                     <div className="flex justify-between items-center">
                         <h1 className="text-lg font-semibold text-white">Site Menu Items</h1>
@@ -159,39 +159,39 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
 // <---------------- ---------------------------------Navbar Search section ------------------  ------------------------->  //
 
-export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, headerButtom, setHeaderButtomLeft, submitHandler }) => {
+export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, headerButtomLeft, setHeaderButtomLeft, submitHandler, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) => {
 
     useEffect(() => {
-        if (headerButtom?.item_Icone && !headerButtom.Icon) {
-            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
+        if (headerButtomLeft?.item_Icone && !headerButtomLeft.Icon) {
+            const foundIcon = allFaMdIcons.find(i => i.label === headerButtomLeft.item_Icone);
             if (foundIcon) {
                 setHeaderButtomLeft(foundIcon);
             }
         }
-    }, [headerButtom?.item_Icone, allFaMdIcons]);
-    // console.log("headerButtom_____", headerButtom)
+    }, [headerButtomLeft?.item_Icone, allFaMdIcons]);
+    // console.log("headerButtom_____", headerButtomLeft)
 
 
     return (
         <Fragment>
-            <div className='nav-serach-section w-full h-[400px] flex justify-center items-center'>
-                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-96 rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
+            <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
+                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
                     <h1>Navbar Search Icone</h1>
                     <Divider />
 
-
                     <Autocomplete
-                        options={allFaMdIcons}
-                        value={selectedIcon || ""}
-
+                        options={filteredIcons}
+                        value={selectedIcon}
                         onChange={(e, newValue) => {
-                            if (newValue) setSelectedIcon(newValue);
+                            setSelectedIcon(newValue);
                             setHeaderButtomLeft(prev => ({
                                 ...prev,
                                 item_Icone: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
+                        inputValue={inputValue}
+                        onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
 
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
@@ -234,29 +234,43 @@ export const NavBarSearchSection = ({ selectedIcon, setSelectedIcon, allFaMdIcon
 
 // <-------------------------------------------------Navbar Cart section ------------------  ------------------------->  //
 
-export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submitHandler, cartIcone, setCartIcone }) => {
+export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submitHandler, cartIcone, setCartIcone, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) => {
 
-    console.log("cartIcone", cartIcone)
+    useEffect(() => {
+        if (cartIcone?.item_CartIcone && allFaMdIconsList?.length) {
+            const foundIcon = allFaMdIconsList.find(
+                (i) => i.label === cartIcone.item_CartIcone
+            );
+            if (foundIcon) {
+                setSelectedIcon(foundIcon); // sets the object
+                setInputValue(foundIcon.label); // sets the visible label
+            } else {
+                console.warn("Icon label not found in list:", cartIcone.item_CartIcone);
+            }
+        }
+    }, [cartIcone?.item_CartIcone, allFaMdIconsList]);
+
+
 
     return (
         <Fragment>
-            <div className='nav-serach-section w-full h-[400px] flex justify-center items-center'>
-                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-96 rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
+            <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
+                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
                     <h1>Navbar Cart Icone</h1>
                     <Divider />
                     <Autocomplete
-                        options={allFaMdIcons}
+                        options={filteredIcons}
                         value={selectedIcon}
-
                         onChange={(e, newValue) => {
-                            if (newValue) setSelectedIcon(newValue);
+                            setSelectedIcon(newValue);
                             setCartIcone(prev => ({
                                 ...prev,
                                 item_CartIcone: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
-
+                        inputValue={inputValue}
+                        onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
@@ -321,8 +335,8 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
 
     return (
         <Fragment>
-            <div className='w-[100%] justify-center items-center h-[400px] flex flex-col' >
-                <div className='flex flex-col w-97  p-5 gap-4 border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
+            <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
+                <div className='flex flex-col w-[500px]  p-5 gap-4 border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
                     <h1 className='w-96  font-bold '> Create Profile / Button  </h1>
 
                     <Divider
@@ -380,7 +394,7 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
 
 // <---------------- --------------------------------- Header Buttom Bar  ------------------  ------------------------->  //
 
-export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, setSelectedIcon, allFaMdIcons, submitHandler, }) => {
+export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, setSelectedIcon, allFaMdIconsList, submitHandler, filteredIcons, setInputValue, inputValue }) => {
 
     const buttomBarOnchange = (e) => {
         const { name, value } = e.target
@@ -388,11 +402,11 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
             ...prev, [name]: value
         }))
     }
-    
+
     useEffect(() => {
 
         if (headerButtom?.item_Icone) {
-            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
+            const foundIcon = allFaMdIconsList.find(i => i.label === headerButtom.item_Icone);
             if (foundIcon) {
                 setSelectedIcon(foundIcon);
             }
@@ -402,24 +416,25 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
 
     return (
         <Fragment>
-            <div className='w-[100%] justify-center items-center h-[400px] flex flex-col' >
-                <div className='flex flex-col w-[500px] gap-4 p-5   border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
+            <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
+                <div className='flex flex-col w-[550px] gap-4 p-5   border border-slate-400/20 rounded-md  ' >
                     <h1 className='w-96  font-bold '> Set Title/ Opening Hour : </h1>
                     <Divider />
 
                     <Autocomplete
-                        options={allFaMdIcons}
+                        options={filteredIcons}
                         value={selectedIcon}
 
                         onChange={(e, newValue) => {
-                            if (newValue) setSelectedIcon(newValue);
+                            setSelectedIcon(newValue);
                             setHeaderButtom(prev => ({
                                 ...prev,
                                 item_Icone: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
-
+                        inputValue={inputValue}
+                        onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
@@ -495,7 +510,7 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
 // <---------------- --------------------------------- Header Buttom left section  ------------------  ------------------------->  //
 
 
-export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, setHeaderButtomLeft, headerButtom, submitHandler }) => {
+export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsList, setHeaderButtomLeft, headerButtomLeft, submitHandler, filteredIcons, setInputValue, inputValue }) => {
 
     const buttomBarOnchange = (e) => {
         const { name, value } = e.target
@@ -503,40 +518,39 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
             ...prev, [name]: value
         }))
     }
-
+    console.log("Icone", headerButtomLeft)
 
     useEffect(() => {
-
-        if (headerButtom?.item_Icone) {
-            const foundIcon = allFaMdIcons.find(i => i.label === headerButtom.item_Icone);
+        if (headerButtomLeft?.item_Icone && allFaMdIconsList?.length) {
+            const foundIcon = allFaMdIconsList.find(i => i.label === headerButtomLeft.item_Icone);
             if (foundIcon) {
                 setSelectedIcon(foundIcon);
             }
         }
-    }, [headerButtom?.item_Icone]);
+    }, [headerButtomLeft?.item_Icone,]);
+
 
 
     return (
         <Fragment>
-            <div className='w-[100%] justify-center items-center h-[400px] flex flex-col' >
-                <div className='flex flex-col w-97 gap-4 p-5   border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
+            <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
+                <div className='flex flex-col w-[530px] gap-4 p-5   border border-slate-400/20 rounded-md  ' >
                     <h1 className='w-96  font-bold '>Header Bottom - Left Contact Info</h1>
                     <Divider />
 
                     <Autocomplete
-                        options={allFaMdIcons}
+                        options={filteredIcons}
                         value={selectedIcon}
-
-
                         onChange={(e, newValue) => {
-                            if (newValue) setSelectedIcon(newValue);
+                            setSelectedIcon(newValue);
                             setHeaderButtomLeft(prev => ({
                                 ...prev,
                                 item_Icone: newValue ? newValue.label : ""
                             }));
                         }}
                         size='small'
-
+                        inputValue={inputValue}
+                        onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
@@ -566,7 +580,7 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
                         label="Title"
                         size="small"
                         name='item_Title'
-                        value={headerButtom?.item_Title}
+                        value={headerButtomLeft?.item_Title}
                         onChange={buttomBarOnchange}
                         variant="outlined"
                     >
@@ -576,7 +590,7 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIcons, 
                         label="Dscriptions"
                         size="small"
                         name="item_Paragraph"
-                        value={headerButtom?.item_Paragraph}
+                        value={headerButtomLeft?.item_Paragraph}
                         onChange={buttomBarOnchange}
                         variant="outlined"
                     >

@@ -5,9 +5,13 @@ import { Fragment } from 'react'
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 import ServiceTable from './ServiceTable';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
+import { useMemo } from 'react';
+import { useEffect } from 'react';
 
 function ServiceCustom() {
-    const [serviceTableTrue, setServiceTableTrue] = useState(true)
+    const [serviceTableTrue, setServiceTableTrue] = useState("")
     const [serviceCustom, setServiceCustom] = useState(
         {
             iconeTop: "",
@@ -27,9 +31,24 @@ function ServiceCustom() {
         }))
     }
 
+    useEffect(() => {
+        if (serviceTableTrue === "NewForm") {
+            setServiceCustom(serviceCustom);
+            setSelectedIcon(null);
+            setInputValue("");
+        }
+        else if (serviceTableTrue === "") {
+            setServiceCustom({})
+        }
+    }, [serviceTableTrue])
+    useEffect(() => {
+
+    }, [serviceTableTrue]);
+
     const serviceHadnler = async () => {
+        const id = localStorage.getItem("user-ID")
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/service-card/683e90debc43f5b825e98d4a`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/service-card/${id}`;
             const fetchData = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -46,99 +65,223 @@ function ServiceCustom() {
         }
     }
 
-    const allFaMdIcons_ = [
+    console.log("serviceCustom", serviceCustom._id)
 
-        ...Object.entries(MdIcons),
-        ...Object.entries(FaIcons),
+    const serviceUpdateHandler = async () => {
+        const userId = localStorage.getItem("user-ID")
+        const userDocID = serviceCustom._id
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/update-service/card-by-id/${userId}/${userDocID}`;
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(serviceCustom)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert("Successfully updated!");
+                console.log("Updated Data:", result);
+            } else {
+                console.error("Update failed:", result);
+                alert("Update failed. Check console for details.");
+            }
+        } catch (error) {
 
-    ]
-
-    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
-        label: name,
-        Icon
-    }))
+        }
+    }
 
     const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === '')
-    )
+        allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeTop) || null
+    );
+    const [inputValue, setInputValue] = useState('');
+
+    const filteredIcons = useMemo(() => {
+        const term = inputValue.trim().toLowerCase();
+        if (!term) return allFaMdIconsList.slice(0, 50);
+        return allFaMdIconsList
+            .filter((icon) => icon.label.toLowerCase().includes(term))
+            .slice(0, 100);
+    }, [inputValue]);
+
+    useEffect(() => {
+        if (serviceCustom?.iconeTop) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeTop);
+            if (foundIcon) setSelectedIcon(foundIcon);
+        }
+    }, [serviceCustom?.iconeTop, serviceTableTrue]);
+
+
+    // const [selectedIconBottom, setSelectedIconBottom] = useState(
+    //     allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeBottom) || null
+    // );
+    // useEffect(() => {
+    //     if (serviceCustom?.iconeBottom) {
+    //         const foundIcon = allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeBottom);
+    //         if (foundIcon) setSelectedIconBottom(foundIcon);
+    //     }
+    // }, [serviceCustom?.iconeBottom, serviceTableTrue]);
+
+
+
+    //       useEffect(() => {
+    //     if (mode === "edit") {
+    //       const foundTop = allFaMdIconsList.find(i => i.label === form.iconeTop) || null;
+    //       const foundBottom = allFaMdIconsList.find(i => i.label === form.iconeBottom) || null;
+    //       setSelectedTop(foundTop);
+    //       setSelectedBottom(foundBottom);
+    //     }
+    //   }, [mode, form.iconeTop, form.iconeBottom]);
+
     return (
         <Fragment>
 
-            <div className='service main  h-[580px] flex items-center justify-center flex-col gap-10'>
+            <div className='service main  h-[580px] flex items-center justify-center flex-col gap-10 w-full'>
 
                 {
 
-                    serviceTableTrue
+                    serviceTableTrue === "submitForm" || serviceTableTrue === "Edit"
                         ?
-                        <form className='service-form flex flex-col w-[600px] gap-4  border border-slate-400/20 rounded-md p-5   '>
-                            <div className='w-[580px] mb-4'>
+                        <div className=' h-full flex flex-col gap-20 justify-center  w-[60%]'>
+                            <div className='w-full '>
                                 <Button
-                                    onClick={() => setServiceTableTrue(false)}
-                                    sx={{ fontVariant: "all-petite-caps" }}
+                                    onClick={() => setServiceTableTrue("")}
+                                    sx={{
+                                        fontVariant: "all-petite-caps",
+                                        px: 5
+                                    }}
                                     variant='outlined'
 
-                                >Explore Table Data</Button>
+
+                                >
+                                    <KeyboardBackspaceIcon sx={{ mr: 1 }} />  Back
+                                </Button>
                             </div>
-                            <h1>Customize Service</h1>
-                            <Divider />
-                            <TextField
-                                size='small'
-                                label="serviceHeading"
-                                name='serviceHeading'
-                                value={serviceCustom.serviceHeading}
-                                onChange={servieOnchange}
-                            ></TextField>
-                            <TextField
-                                size='small'
-                                label="ServiceDescription"
-                                name='ServiceDescription'
-                                value={serviceCustom.ServiceDescription}
-                                onChange={servieOnchange}
-                            ></TextField>
+                            <form className='service-form flex flex-col w-full  gap-4  border border-slate-400/20 rounded-md p-5   '>
 
-                            <Autocomplete
-                                options={allFaMdIcons}
-                                value={selectedIcon}
-                                name="inFoIcone"
-                                onChange={(e, newValue) => {
-                                    if (newValue) setSelectedIcon(newValue);
-                                }}
-                                size='small'
+                                <h1>Customize Service</h1>
+                                <Divider />
+                                <TextField
+                                    size='small'
+                                    label="Title"
+                                    name='serviceHeading'
+                                    value={serviceCustom.serviceHeading}
+                                    onChange={servieOnchange}
+                                ></TextField>
+                                <TextField
+                                    size='small'
+                                    label="SubTitle"
+                                    name='ServiceDescription'
+                                    value={serviceCustom.ServiceDescription}
+                                    onChange={servieOnchange}
+                                ></TextField>
 
-                                getOptionLabel={(option) => option.label}
-                                isOptionEqualToValue={(option, value) => option.label === value?.label}
-                                renderOption={(props, option) => (
-                                    <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <option.Icon />
-                                        {option.label}
-                                    </Box>
-                                )}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Search Iocne"
-                                        variant="outlined"
-                                        fullWidth
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            startAdornment: selectedIcon?.Icon && (
-                                                <InputAdornment position="start" sx={{ mr: 1 }}>
-                                                    <selectedIcon.Icon />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                )}
-                            />
+                                <Autocomplete
+                                    options={filteredIcons}
+                                    value={selectedIcon}
+                                    name="iconeTop"
+                                    onChange={(e, newValue) => {
+                                        if (newValue) setSelectedIcon(newValue);
+                                        setServiceCustom((pre) => ({
+                                            ...pre,
+                                            iconeTop: newValue ? newValue.label : ''
+                                        }))
+                                    }}
+                                    size='small'
+                                    inputValue={inputValue}
+                                    onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                                    getOptionLabel={(option) => option.label}
+                                    isOptionEqualToValue={(option, value) => option.label === value?.label}
+                                    renderOption={(props, option) => (
+                                        <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            <option.Icon />
+                                            {option.label}
+                                        </Box>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Search Iocne"
+                                            variant="outlined"
+                                            fullWidth
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                startAdornment: selectedIcon?.Icon && (
+                                                    <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                        <selectedIcon.Icon />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    )}
+                                />
 
-                            <Button
-                                onClick={serviceHadnler}
-                                variant='outlined'
-                            >Save Changes</Button>
 
-                        </form>
+                                {/* <Autocomplete
+                                    options={filteredIcons}
+                                    value={selectedIconBottom || null}
+                                    name="iconeBottom"
+                                    onChange={(e, newValue) => {
+                                        if (newValue) setSelectedIconBottom(newValue);
+                                        setServiceCustom((pre) => ({
+                                            ...pre,
+                                            iconeBottom: newValue ? newValue.label : ''
+                                        }))
+                                    }}
+                                    size='small'
+                                    inputValue={inputValue}
+                                    onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                                    getOptionLabel={(option) => option.label}
+                                    isOptionEqualToValue={(option, value) => option.label === value?.label}
+                                    renderOption={(props, option) => (
+                                        <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            <option.Icon />
+                                            {option.label}
+                                        </Box>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Search Iocne"
+                                            variant="outlined"
+                                            fullWidth
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                startAdornment: selectedIcon?.Icon && (
+                                                    <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                        <selectedIcon.Icon />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    )}
+                                /> */}
+
+                                {
+                                    serviceTableTrue === "Edit" ?
+                                        (
+                                            <Button
+                                                onClick={serviceUpdateHandler}
+                                                variant='outlined'
+                                            >
+                                                Update
+                                            </Button>
+                                        )
+                                        :
+                                        (
+                                            <Button
+                                                onClick={serviceHadnler}
+                                                variant='outlined'
+                                            >
+                                                Submit
+                                            </Button>
+                                        )
+                                }
+
+                            </form>
+                        </div>
+
                         :
-                        <ServiceTable setServiceTableTrue={setServiceTableTrue} />
+                        <ServiceTable setServiceTableTrue={setServiceTableTrue} setServiceCustom={setServiceCustom} />
                 }
 
 

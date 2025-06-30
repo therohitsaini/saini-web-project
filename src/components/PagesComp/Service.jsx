@@ -3,9 +3,14 @@ import { Icon } from "@iconify/react"
 import { Fragment } from 'react'
 import ServicedefaultData from "../JsonData/ServiceJson.json"
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 const Service = ({ serviceCard }) => {
+    console.log("servce___S", serviceCard)
+    const iconName = serviceCard?.iconeTop;
+    const IconComponent = allFaMdIconsMap[iconName];
+    console.log("icone", iconName)
 
     return (
         <Fragment>
@@ -16,7 +21,10 @@ const Service = ({ serviceCard }) => {
                 </div>
                 <div className='service-card-section grid grid-cols-4 my-10 gap-5 px-20' >
                     {
-                      (serviceCard?.length ? serviceCard :  ServicedefaultData?.ServiceDefultValue)?.map((item_, index_) => {
+                        (serviceCard?.length ? serviceCard : ServicedefaultData?.ServiceDefultValue)?.map((item_, index_) => {
+                            const iconName = item_?.iconeTop;
+                            const IconComponent = allFaMdIconsMap[iconName];
+                            
                             return (
                                 <div key={item_._id || index_} className="relative overflow-hidden group  ">
 
@@ -24,7 +32,12 @@ const Service = ({ serviceCard }) => {
                                         <div className='z-50 flex flex-col items-center gap-5 px-5'>
                                             <div className='icone-top-warraper  h-13 w-14 rounded-b-xl bg-red-200 px-0.5 pb-1 ' >
                                                 <div className='icone-top-warraper h-full w-full  rounded-b-xl bg-white flex justify-center items-center' >
-                                                    <Icon fontSize={25} color="#de442c" icon={item_.iconeTop} />
+
+                                                    {IconComponent ? (
+                                                        <IconComponent color= "red" size={23} />
+                                                    ) : (
+                                                        <span>?</span>
+                                                    )}
                                                 </div>
                                             </div>
                                             <h2 className=" text-back text-[18px] font-semibold z-50 text-center">

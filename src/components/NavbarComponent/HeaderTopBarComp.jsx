@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { allFaMdIcons_ } from './HeaderTopLeft';
+import {  allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 
@@ -12,7 +12,7 @@ export const HeaderTopBarComp = ({ headerData }) => {
     const [hoverEmailIsTure, setHoverEmailIsTure] = useState(false)
 
     const iconName = headerData?.item_Icone;
-    const IconComponent = allFaMdIcons_[iconName];
+    const IconComponent = allFaMdIconsMap[iconName];
 
     return (
         <Fragment >
@@ -44,7 +44,7 @@ export const HeaderTopBarCompRightContent = ({ item_ }) => {
     const [hoverEmailIsTure, setHoverEmailIsTure] = useState(false)
 
     const iconName = item_?.item_Icone;
-    const IconComponent = allFaMdIcons_[iconName];
+    const IconComponent = allFaMdIconsMap[iconName];
 
     return (
         <Fragment >
@@ -77,7 +77,7 @@ export const HeaderTopBarCompRightContent = ({ item_ }) => {
 export const HeaderTopBarCenterIcone = ({ item }) => {
     const [hoverEmailIsTure, setHoverEmailIsTure] = useState(false)
     const iconeName = item?.item_Icone
-    const IconComponent = allFaMdIcons_[iconeName];
+    const IconComponent = allFaMdIconsMap[iconeName];
 
 
     return (

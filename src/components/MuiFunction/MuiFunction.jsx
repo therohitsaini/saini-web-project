@@ -123,6 +123,9 @@ export const demoTheme = createTheme({     // theme com------>
 
 
 export const ToolbarActionsSearch = () => {   // search componets
+    const url = "http://localhost:5173/home" || "https://your-default-site.com";
+
+
     return (
         <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2 }} >
 
@@ -160,8 +163,10 @@ export const ToolbarActionsSearch = () => {   // search componets
             {/* <ThemeSwitcher /> */}
             <Stack>
                 <Button
-                    sx={{ textTransform: 'none', }}
-                    variant="outlined" href="/home">
+                    onClick={() => window.open(url, '_blank')}
+                    sx={{ textTransform: 'none' }}
+                    variant="outlined"
+                >
                     Visit Website
                 </Button>
             </Stack>

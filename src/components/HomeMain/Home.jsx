@@ -9,25 +9,27 @@ import Service from '../PagesComp/Service'
 import Funfact from '../FunfactSection/FunfactUI/Funfact'
 import { getServiceData } from '../../Store/ServiceSectionRedux/ApisSeriveCollaction'
 import PortfolioSection from '../PagesComp/Portfolio'
+import { FooterArrow } from '../IconeComp/Icone'
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
     const [headerData, setHeaderData] = useState([])
     const [heroSectionData, setHeroSectionData] = useState([])
+    const [funfactSectionData, setFunfactSectionData] = useState([])
 
-    console.log("heroSectionData", heroSectionData)
+    console.log("funfactSectionData__________TT", funfactSectionData)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getHeaderData())
-        dispatch(getServiceData())
+    // useEffect(() => {
+    //     dispatch(getHeaderData())
+    //     dispatch(getServiceData())
 
-    }, [dispatch])
+    // }, [dispatch])
 
 
     // const headerToBarData = useSelector((state) => state.getHeaderDataReducer_)
 
-    const heroSection = useSelector((state) => state.getHeaderDataReducer_);
+    // const heroSection = useSelector((state) => state.getHeaderDataReducer_);
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
     useEffect(() => {
@@ -68,23 +70,15 @@ function Home() {
     }
 
 
-    useEffect(() => {
-        const id = localStorage.getItem("user-ID")
-        getHeaderDataBy_(id)
-        getHeroDataBy_(id)
-    }, [])
-
-
-
-    const getServiceCardData = async () => {
+    const getServiceCardData = async (id) => {
         try {
             try {
-                const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/get-servcie-card/683e90debc43f5b825e98d4a`
+                const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/get-servcie-card/${id}`
                 const fetchData = await fetch(url, {
                     method: "GET"
                 })
                 const responseJson = await fetchData.json()
-                setServiceCard(responseJson?.dat)
+                setServiceCard(responseJson?.data)
             } catch (error) {
 
                 console.log(error)
@@ -95,8 +89,28 @@ function Home() {
         }
     }
 
+    const getFunfactDataBy_ = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-funfact/funfact-get/${id}`
+            const fetchData = await fetch(url, {
+                method: "GET"
+            })
+            const responseJson = await fetchData.json()
+            if (fetchData.ok) {
+                setFunfactSectionData(responseJson.data)
+            }
+        } catch (error) {
+
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        getServiceCardData()
+        const id = localStorage.getItem("user-ID")
+        getHeaderDataBy_(id)
+        getHeroDataBy_(id)
+        getServiceCardData(id)
+        getFunfactDataBy_(id)
     }, [])
 
     // console.log("heroSection___Rohit", heroSection)
@@ -110,8 +124,9 @@ function Home() {
                 <HeroSection info={heroSectionData} />
             </div>
             <Service serviceCard={serviceCard} />
-            <Funfact funfactData={funfactData} />
+            <Funfact funfactData={funfactSectionData} />
             <PortfolioSection />
+
         </Fragment>
     )
 }

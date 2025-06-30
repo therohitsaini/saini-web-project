@@ -119,7 +119,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import Navbar from '../NavbarComponent/Navbar'
 import SwipeComp from '../SwiperCrowsal/SwiperComp'
 import { Icon } from "@iconify/react"
-import { allFaMdIcons_ } from '../NavbarComponent/HeaderTopLeft'
+import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft'
 
 function HeroSection({ info }) {
     const [inFoData, setInFoData] = useState([])
@@ -128,7 +128,7 @@ function HeroSection({ info }) {
         {
             inFoHeading: "Trusted Services",
             inFoDescription: "We Have Trusted Customers",
-            inFoIcone: "MdGroups2"
+            inFoIcone: "MdGroup"
         },
         {
             inFoHeading: "24/7 Support",
@@ -142,9 +142,10 @@ function HeroSection({ info }) {
         }
     ];
 
-    const getInfoData = async () => {
+    const getInfoData = async (id) => {
+
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/685ce1733b28b00f29622728`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/${id}`;
             const fatchData = await fetch(url, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" }
@@ -166,10 +167,11 @@ function HeroSection({ info }) {
     };
 
     useEffect(() => {
-        getInfoData();
+        const id = localStorage.getItem("user-ID")
+        getInfoData(id);
     }, []);
 
-    console.log("inFoData", inFoData)
+   
 
     return (
         <Fragment>
@@ -180,7 +182,7 @@ function HeroSection({ info }) {
                         {
                             inFoData.map((item_, index_) => {
                                 const iconName = item_?.inFoIcone;
-                                const IconComponent = allFaMdIcons_[iconName];
+                                const IconComponent = allFaMdIconsMap[iconName];
                                 return (
                                     <div key={index_} className='info-1 shadow-black/30 shadow-xl bg-white h-30 relative'>
                                         <img className='object-cover h-full w-full' src='../src/assets/photorealistic-earth-planet_23-2151075927.avif' alt="background" />

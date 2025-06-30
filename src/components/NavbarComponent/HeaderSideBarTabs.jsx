@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import HeaderTopLeft from './HeaderTopLeft';
+import HeaderTopLeft, { allFaMdIconsMap } from './HeaderTopLeft';
 import HeaderTopRight from './HeaderTopRight';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import { CartSection, HeaderButtomBar, HeaderButtomLeft, NavbarListItem, NavBarS
 import NavbarLogo from './HeaderNavbarCustomizer/NavbarComponents';
 import * as MdIcons from 'react-icons/md';
 import * as FaIcons from 'react-icons/fa';
+import { useMemo } from 'react';
 
 
 export const tabsData = [
@@ -100,6 +101,7 @@ export default function HeaderSideBarTabs() {
     const [value, setValue] = useState(0);
     const [userIDMain, setUserIDMain] = useState()
     const dispatch = useDispatch();
+    console.log("userIDMain", userIDMain)
 
     const initialState = {
         item_ContactId: "",
@@ -149,6 +151,7 @@ export default function HeaderSideBarTabs() {
             item_Paragraph: ""
         }
     )
+    console.log("ID_ICOEN", headerButtomLeft)
 
     const [searchIcone, setSearchIcone] = useState(
         { item_SearchIcone: "" }
@@ -173,7 +176,8 @@ export default function HeaderSideBarTabs() {
 
 
     useEffect(() => {
-        dispatch(getHeaderData("685ce1733b28b00f29622728"));
+        const userID = localStorage.getItem("user-ID")
+        dispatch(getHeaderData("685efa2843641b31b1b13d1f"));
     }, [dispatch]);
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
@@ -285,10 +289,10 @@ export default function HeaderSideBarTabs() {
 
             setHeaderButtom((pre) => ({
                 ...pre,
-                item_Icone: headerBottomRight.item_Icone || "",
-                item_Title: headerBottomRight.item_Title || "",
-                openingTime: headerBottomRight.item_ContactId || "",
-                closeTimnig: headerBottomRight.item_IconeUrl || ""
+                item_Icone: headerBottomRight?.item_Icone || "",
+                item_Title: headerBottomRight?.item_Title || "",
+                openingTime: headerBottomRight?.item_ContactId || "",
+                closeTimnig: headerBottomRight?.item_IconeUrl || ""
 
             }))
 
@@ -407,11 +411,7 @@ export default function HeaderSideBarTabs() {
             };
         }
 
-        //HeaderButtomHirring {
-        //     item_Icone: "",
-        //     item_Title: "",
-        //     item_Paragraph: ""
-        // }
+
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/${userIDMain}`;
@@ -437,15 +437,31 @@ export default function HeaderSideBarTabs() {
         ...Object.entries(FaIcons),
 
     ]
-    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
-        label: name,
-        Icon
-    }))
+    // const allFaMdIconsList = allFaMdIcons_.map(([name, Icon]) => ({
+    //     label: name,
+    //     Icon
+    // }))
 
+    const allFaMdIconsList = Object.entries(allFaMdIconsMap).map(([name, Icon]) => ({
+        label: name,
+        Icon,
+    }));
+
+    // const [selectedIcon, setSelectedIcon] = useState(
+    //     allFaMdIconsList.find((i) => i.label === '')
+    // );
     const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === '')
+        allFaMdIconsList.find((i) => i.label === formData?.item_Icone) || null
     );
 
+    const [inputValue, setInputValue] = useState('');
+    const filteredIcons = useMemo(() => {
+        const term = inputValue.trim().toLowerCase();
+        if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
+        return allFaMdIconsList
+            .filter((icon) => icon.label.toLowerCase().includes(term))
+            .slice(0, 100); // limit to 100 max
+    }, [inputValue]);
 
     return (
         <div className=' w-full  '>
@@ -499,7 +515,12 @@ export default function HeaderSideBarTabs() {
                 </div>
 
                 <TabPanel sx={{ width: '100%' }} value={value} index={0}>
-                    <HeaderTopLeft formData={formData} setFormData={setFormData} submitHandler={submitHandler} />
+                    <HeaderTopLeft
+
+                        formData={formData}
+                        setFormData={setFormData}
+                        submitHandler={submitHandler} />
+
                 </TabPanel>
 
                 <TabPanel sx={{ width: '100%' }} value={value} index={1}>
@@ -510,7 +531,9 @@ export default function HeaderSideBarTabs() {
                         submitHandler={submitHandler}
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
+                        allFaMdIconsList={allFaMdIconsList}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
 
                     />
                 </TabPanel>
@@ -523,7 +546,10 @@ export default function HeaderSideBarTabs() {
                         submitHandler={submitHandler}
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
+                        allFaMdIconsList={allFaMdIconsList}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
 
                     />
                 </TabPanel>
@@ -541,10 +567,13 @@ export default function HeaderSideBarTabs() {
 
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
                         searchIcone={searchIcone}
                         setSearchIcone={setSearchIcone}
                         submitHandler={submitHandler}
+                        allFaMdIconsList={allFaMdIconsList}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
 
                     />
                 </TabPanel>
@@ -554,10 +583,13 @@ export default function HeaderSideBarTabs() {
 
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
+                        allFaMdIconsList={allFaMdIconsList}
                         submitHandler={submitHandler}
                         cartIcone={cartIcone}
                         setCartIcone={setCartIcone}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
                     />
                 </TabPanel>
 
@@ -574,10 +606,13 @@ export default function HeaderSideBarTabs() {
 
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
+                        allFaMdIconsList={allFaMdIconsList}
                         setHeaderButtomLeft={setHeaderButtomLeft}
                         headerButtomLeft={headerButtomLeft}
                         submitHandler={submitHandler}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
 
                     />
                 </TabPanel>
@@ -586,10 +621,15 @@ export default function HeaderSideBarTabs() {
                     <HeaderButtomBar
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
-                        allFaMdIcons={allFaMdIcons}
+                        allFaMdIconsList={allFaMdIconsList}
                         setHeaderButtom={setHeaderButtom}
                         headerButtom={headerButtom}
-                        submitHandler={submitHandler} />
+                        submitHandler={submitHandler}
+                        filteredIcons={filteredIcons}
+                        setInputValue={setInputValue}
+                        inputValue={inputValue}
+                    />
+
                 </TabPanel>
 
             </Box>

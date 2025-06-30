@@ -9,6 +9,7 @@ import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import UpdateIcon from '@mui/icons-material/Update';
 
 
 
@@ -23,7 +24,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
         const userID = localStorage.getItem("user-ID")
         setHeroID(userID)
     }, [])
-
+    console.log("HeroSection_", HeroSection_)
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
         dispatch(getHeaderData(userID));
@@ -31,7 +32,6 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
 
 
     const handleActionClickDelete = async (data = {}) => {
-
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
         try {
@@ -56,28 +56,64 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
     const heroUpdatehandle = (data = {}) => {
         setHeroFormData((pre) => ({
             ...pre,
-            _id: data.id,
-            heroImgUrl: data.heroImgUrl,
-            heroSlideSubTitle: data.heroSlideSubTitle
-        }))
-        setIsTableTrue(true)
-
-    }
+            userDocID: data.id,
+            heroImgUrl: data.bgimg,
+            heroSlideSubTitle: data.subTitle,
+            heroSlideTitle: data.title,
+            heroButton_One: data.heroButton_One,
+            heroButton_Two: ""
+        }));
+        alert(JSON.stringify(data))
+        setIsTableTrue("Edit");
+    };
 
     const columns = [
         //  { field: 'id', headerName: 'ID', width: 290 },
-        { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
-        { field: 'playButton', headerName: 'Play Button', width: 220 },
+        {
+            field: 'bgimg',
+            headerName: 'Slider Image',
+            width: 290,
+            renderCell: (params) => {
+                const imgPath = params.formattedValue;
+                const baseURL = import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '');
+                const fullURL = imgPath?.startsWith("http") ? imgPath : `${baseURL}${imgPath}`;
+
+
+                return (
+                    <img
+
+                        src={fullURL}
+                        alt="bg"
+                        style={{
+                            width: "100px",
+                            height: "60px",
+                            objectFit: "cover",
+                            borderRadius: "4px",
+                            // border: "1px solid #ddd",
+                            padding: "2px",
+                        }}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "https://via.placeholder.com/100x60?text=Image+Not+Found";
+                        }}
+                    />
+                );
+            }
+
+        },
+
+        // { field: 'playButton', headerName: 'Play Button', width: 220 },
         {
             field: 'subTitle',
             headerName: 'Sub Title',
             type: 'number',
-            width: 230,
+            width: 290,
         },
+
         {
             field: 'title',
             headerName: 'Title',
-            width: 220,
+            width: 320,
         },
         {
             field: 'action',
@@ -87,8 +123,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                 <div className='flex gap-1'>
                     <Tooltip title="Update">
                         <IconButton sx={{}} onClick={() => heroUpdatehandle(params.row)}>
-
-                            <Icon icon={"clarity:update-line"} />
+                            <UpdateIcon />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete">
@@ -122,7 +157,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
 
             <div>
                 <Button
-                    onClick={() => setIsTableTrue(true)}
+                    onClick={() => setIsTableTrue("AddNewData")}
                     sx={{
                         px: 10,
                         textTransform: "none",
@@ -146,7 +181,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                         '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
                             display: 'flex', justifyContent: "center"
                         },
-                        fontVariant: "all-small-caps"
+                        // fontVariant: "all-small-caps"
                     }}
                 />
 

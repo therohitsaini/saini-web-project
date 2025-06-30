@@ -1,70 +1,70 @@
-import { Autocomplete, Box, Button, Checkbox, Divider, InputAdornment, TextField, Typography } from '@mui/material'
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { Fragment } from 'react'
+
+import {
+    Autocomplete,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    InputAdornment,
+    TextField,
+    Typography,
+} from '@mui/material';
+import React, { useState, useEffect, useMemo, Fragment } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
-// import { useState } from 'react';
-// import { Autocomplete, , Box, Typography, InputAdornment } from '@mui/material';
 
 
-export const allFaMdIcons_ = {
+// for icone 
+export const allFaMdIconsMap = {
     ...MdIcons,
     ...FaIcons,
 };
 
-function HeaderTopLeft({ formData, setFormData, submitHandler, }) {
+
+export const allFaMdIconsList = Object.entries(allFaMdIconsMap).map(([name, Icon]) => ({
+    label: name,
+    Icon,
+}));
+
+// end
+function HeaderTopLeft({ formData, setFormData, submitHandler }) {
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIconsList.find((i) => i.label === formData?.item_Icone) || null
+    );
+    const [inputValue, setInputValue] = useState('');
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
-
-        setFormData((prevState) => ({
-            ...prevState,
+        setFormData((prev) => ({
+            ...prev,
             [name]: value,
         }));
     };
 
 
-
-    const allFaMdIcons_ = [
-        ...Object.entries(MdIcons),
-        ...Object.entries(FaIcons),
-        // ...MdIcons,
-        // ...FaIcons,
-
-    ]
-
-    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
-        label: name,
-        Icon
-    }))
-
-    const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === formData?.item_Icone) || null
-    )
+    const filteredIcons = useMemo(() => {
+        const term = inputValue.trim().toLowerCase();
+        if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
+        return allFaMdIconsList
+            .filter((icon) => icon.label.toLowerCase().includes(term))
+            .slice(0, 100); 
+    }, [inputValue]);
 
     useEffect(() => {
         if (formData?.item_Icone) {
-            const foundIcon = allFaMdIcons.find(i => i.label === formData?.item_Icone)
-            if (foundIcon) {
-                setSelectedIcon(foundIcon)
-            }
+            const foundIcon = allFaMdIconsList.find((i) => i.label === formData?.item_Icone);
+            if (foundIcon) setSelectedIcon(foundIcon);
         }
-    }, [formData?.item_Icone])
+    }, [formData?.item_Icone]);
 
-
-
-
-
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     return (
-        <Fragment >
-            <div className='header-left-form-main  h-[530px] flex items-center'>
-                <from className="form flex justify-center items-center  h-[420px]  w-full">
-                    <div className="border border-slate-400/20 rounded-md p-5  flex flex-col gap-4 w-[80%]">
+        <Fragment>
+            <div className="header-left-form-main h-[530px] flex items-center">
+                <form className="form flex justify-center items-center h-[420px] w-full">
+                    <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%]">
                         <Typography component="span">Top Bar Email Section</Typography>
                         <Divider />
+
                         <TextField
                             label="Title"
                             size="small"
@@ -73,48 +73,48 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, }) {
                             value={formData?.item_Title}
                             onChange={onChangeHandler}
                         />
+
                         <TextField
                             label="Contact"
                             size="small"
                             variant="outlined"
                             name="item_ContactId"
-                            value={formData.item_ContactId}
+                            value={formData?.item_ContactId}
                             onChange={onChangeHandler}
                         />
 
-
                         <Autocomplete
-                            options={allFaMdIcons}
+                            size="small"
+                            options={filteredIcons}
                             value={selectedIcon}
-                            // defaultValue={formData.item_Icone}
                             onChange={(e, newValue) => {
-                                if (newValue) setSelectedIcon(newValue);
+                                setSelectedIcon(newValue);
                                 setFormData((prev) => ({
                                     ...prev,
-                                    item_Icone: newValue ? newValue.label : "", // Save icon name like "FaPhone" or "MdEmail"
+                                    item_Icone: newValue ? newValue.label : '',
                                 }));
                             }}
-                            size='small'
-
+                            inputValue={inputValue}
+                            onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                             getOptionLabel={(option) => option.label}
                             isOptionEqualToValue={(option, value) => option.label === value?.label}
                             renderOption={(props, option) => (
                                 <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <option.Icon />
+                                    <option.Icon size={18} />
                                     {option.label}
                                 </Box>
                             )}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label="Search Iocne"
+                                    label="Search Icon"
                                     variant="outlined"
                                     fullWidth
                                     InputProps={{
                                         ...params.InputProps,
                                         startAdornment: selectedIcon?.Icon && (
                                             <InputAdornment position="start" sx={{ mr: 1 }}>
-                                                <selectedIcon.Icon />
+                                                <selectedIcon.Icon size={18} />
                                             </InputAdornment>
                                         ),
                                     }}
@@ -122,46 +122,44 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, }) {
                             )}
                         />
 
-
-
                         <TextField
                             label="URL"
                             size="small"
                             variant="outlined"
                             name="item_IconeUrl"
-                            value={formData.item_IconeUrl}
+                            value={formData?.item_IconeUrl}
                             onChange={onChangeHandler}
-
                         />
-                        <div className='flex items-center gap-2'>
+
+                        <div className="flex items-center gap-2">
                             <Checkbox
-                                defaultChecked
                                 checked={formData?.item_ShowOnWebsite || false}
-                                onChange={(e) => {
+                                onChange={(e) =>
                                     setFormData((prev) => ({
                                         ...prev,
                                         item_ShowOnWebsite: e.target.checked,
-                                    }));
-                                }}
+                                    }))
+                                }
                                 sx={{ m: 0, p: 0 }}
                                 size="small"
                             />
-                            <p className='text-[14px] text-slate-500'>If you want show in our website</p>
+                            <p className="text-[14px] text-slate-500">
+                                If you want to show this on the website
+                            </p>
                         </div>
 
-                        <Button sx={{
-                            textTransform: 'none',
-                        }} onClick={() => submitHandler("HeaderTopLeftBar")}
-                            variant='contained'
+                        <Button
+                            sx={{ textTransform: 'none' }}
+                            onClick={() => submitHandler('HeaderTopLeftBar')}
+                            variant="contained"
                         >
                             Save Changes
                         </Button>
-
                     </div>
-                </from>
+                </form>
             </div>
         </Fragment>
-    )
+    );
 }
 
-export default HeaderTopLeft
+export default HeaderTopLeft;

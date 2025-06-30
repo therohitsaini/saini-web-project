@@ -8,18 +8,18 @@ import { getServiceData } from '../../../../Store/ServiceSectionRedux/ApisSerive
 
 function FunfactTable() {
 
-    const [funfactIsTrue, setFunfactIsTrue] = useState(true)
+    const [funfactMode, setFunfactMode] = useState("Tabel")
     const [funfactForm, setFunfactForm] = useState(
         { projectCount: "", aboutProject: "" }
     )
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getServiceData())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getServiceData())
+    // }, [dispatch])
 
-    const funfactData_ = useSelector((state) => state.getSerivceSectionReducer_.funfactSection?.FunfactBox || [])
+    // const funfactData_ = useSelector((state) => state.getSerivceSectionReducer_.funfactSection?.FunfactBox || [])
 
     const funfactonChangeHandler = (event) => {
         const { name, value } = event.target
@@ -30,12 +30,12 @@ function FunfactTable() {
         }))
 
     }
-    console.log("funfactData__________Data", funfactData_)
+
 
     const funFactHandler = async () => {
-
+        const id = localStorage.getItem("user-ID")
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/funfact-section/683e90debc43f5b825e98d4a`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-funfact/funfact-section/${id}`;
             const fetchData = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -95,89 +95,98 @@ function FunfactTable() {
             <div className='hero-tabel-main w-full h-[85vh] flex flex-col justify-center items-center  gap-5'>
 
                 {
-                    funfactIsTrue ?
-                        <div>
-                            <div>
+                    funfactMode === "FunfactForm" || funfactMode === "Edit" ?
+                        (
+                            <div className='funfact-mian'>
                                 <Button
-                                    // onClick={() => setIsTableTrue(true)}
+                                    onClick={() => setFunfactMode("Tabel")}
                                     sx={{
-                                        px: 10,
-                                        my: 2,
-                                        textTransform: "none",
-                                        fontVariant: "all-small-caps"
-                                    }} variant="outlined">
-                                    +Add More
-                                </Button>
-                            </div>
-
-                            <div className='flex  '>
-                                <Paper sx={{ height: 400, display: "flex", justifyContent: "center", }}>
-                                    <DataGrid
-                                        // rows={rows}
-                                        columns={columns}
-                                        initialState={{ pagination: { paginationModel } }}
-                                        pageSizeOptions={[5, 10]}
-                                        checkboxSelection
-                                        sx={{
-                                            '& .MuiDataGrid-columnHeader': {
-                                                color: 'white',
-                                            },
-                                            '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
-                                                display: 'flex', justifyContent: "center"
-                                            },
-                                        }}
-                                    />
-
-                                </Paper>
-                            </div>
-                        </div>
-                        :
-                        <div >
-                            <Button
-                                sx={{
-                                    px: 4,
-                                    display: "flex",
-                                    gap: 1
-                                }}
-                                variant='outlined'
-                            >
-                                <KeyboardBackspaceIcon />
-                                clikc me
-                            </Button>
-                            <form className='form-main flex flex-col gap-4 w-[500px] border border-slate-600 rounded-md p-5'>
-                                <Typography sx={{
-                                    fontSize: 20,
-
-                                }}>Funfact Section Form</Typography>
-                                <Divider />
-                                <TextField
-                                    type='number'
-                                    name='projectCount'
-                                    value={funfactForm.projectCount}
-                                    size='small'
-                                    label="Totel Project"
-                                    onChange={funfactonChangeHandler}
-                                >
-                                </TextField>
-
-                                <TextField
-                                    name='aboutProject'
-                                    value={funfactForm.aboutProject}
-                                    size='small'
-                                    label="About Prorect"
-                                    onChange={funfactonChangeHandler}
-                                >
-                                </TextField>
-                                <Button
-                                    variant='contained'
-                                    onClick={funFactHandler}
-                                    sx={{
-                                        textTransform: "none",
-                                        fontVariant: "all-small-caps"
+                                        px: 4,
+                                        display: "flex",
+                                        gap: 1
                                     }}
-                                >Save Changes</Button>
-                            </form>
-                        </div>
+                                    variant='outlined'
+                                >
+                                    <KeyboardBackspaceIcon />
+                                    clikc me
+                                </Button>
+                                <form className='form-main flex flex-col gap-4 w-[500px] border border-slate-600 rounded-md p-5'>
+                                    <Typography sx={{
+                                        fontSize: 20,
+
+                                    }}>Funfact Section Form</Typography>
+                                    <Divider />
+                                    <TextField
+                                        type='number'
+                                        name='projectCount'
+                                        value={funfactForm.projectCount}
+                                        size='small'
+                                        label="Totel Project"
+                                        onChange={funfactonChangeHandler}
+                                    >
+                                    </TextField>
+
+                                    <TextField
+                                        name='aboutProject'
+                                        value={funfactForm.aboutProject}
+                                        size='small'
+                                        label="About Prorect"
+                                        onChange={funfactonChangeHandler}
+                                    >
+                                    </TextField>
+                                    <Button
+                                        variant='contained'
+                                        onClick={funFactHandler}
+                                        sx={{
+                                            textTransform: "none",
+                                            fontVariant: "all-small-caps"
+                                        }}
+                                    >
+                                        Save Changes
+                                    </Button>
+                                </form>
+                            </div>
+                        )
+
+                        :
+                        (
+                            <div>
+                                <div>
+                                    <Button
+                                        onClick={() => setFunfactMode("FunfactForm")}
+                                        sx={{
+                                            px: 10,
+                                            my: 2,
+                                            textTransform: "none",
+                                            fontVariant: "all-small-caps"
+                                        }} variant="outlined">
+                                        +Add More
+                                    </Button>
+                                </div>
+
+                                <div className='flex  '>
+                                    <Paper sx={{ height: 400, display: "flex", justifyContent: "center", }}>
+                                        <DataGrid
+                                            // rows={rows}
+                                            columns={columns}
+                                            initialState={{ pagination: { paginationModel } }}
+                                            pageSizeOptions={[5, 10]}
+                                            checkboxSelection
+                                            sx={{
+                                                '& .MuiDataGrid-columnHeader': {
+                                                    color: 'white',
+                                                },
+                                                '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
+                                                    display: 'flex', justifyContent: "center"
+                                                },
+                                            }}
+                                        />
+
+                                    </Paper>
+                                </div>
+                            </div>
+                        )
+
                 }
             </div>
         </Fragment>

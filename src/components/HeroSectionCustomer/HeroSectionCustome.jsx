@@ -14,13 +14,15 @@ import { Autocomplete, Button, IconButton, InputAdornment, styled, TextField, To
 import HeroTable from './HeroSectionCustomePages/HeroTable';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
+import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
+import { useMemo } from 'react';
 
 export default function HeroSectionCustome() {
-    const [value, setValue] = useState(0);
-    const dispatch = useDispatch();
+
     const [isTureTable, setIsTableTrue] = useState(false)
     const [userId, setUserId] = useState()
     const [heroDataByID, setHeroDataByID] = useState([])
+
 
     const initialState = {
         heroImgUrl: "",
@@ -34,7 +36,6 @@ export default function HeroSectionCustome() {
     const [heroFormData, setHeroFormData] = useState(initialState);
     const data = useSelector((state) => state?.getHeaderDataReducer_);
 
-    console.log("heroFormData", heroFormData)
 
     const allFaMdIcons_ = [
         ...Object.entries(MdIcons),
@@ -44,14 +45,14 @@ export default function HeroSectionCustome() {
 
     ]
 
-    const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
-        label: name,
-        Icon
-    }))
+    // const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
+    //     label: name,
+    //     Icon
+    // }))
 
-    const [selectedIcon, setSelectedIcon] = useState(
-        allFaMdIcons.find((i) => i.label === heroFormData?.heroPlay_Button) || null
-    )
+    // const [selectedIcon, setSelectedIcon] = useState(
+    //     allFaMdIcons.find((i) => i.label === heroFormData?.heroPlay_Button) || null
+    // )
 
     useEffect(() => {
 
@@ -82,11 +83,11 @@ export default function HeroSectionCustome() {
     };
 
     const submitHandler = async () => {
+
         const formData = new FormData();
         if (heroFormData.heroImgUrl) {
             formData.append("heroImg", heroFormData.heroImgUrl);
         }
-
 
         formData.append("heroPlay_Button", heroFormData.heroPlay_Button);
         formData.append("heroSlideSubTitle", heroFormData.heroSlideSubTitle);
@@ -106,6 +107,7 @@ export default function HeroSectionCustome() {
             if (response.ok) {
                 alert("Sussfully ")
                 console.log("Updated Data:", result);
+                setHeroFormData(initialState)
             } else {
                 console.error("Error response:", result);
                 alert("Failed to update hero section.");
@@ -115,6 +117,56 @@ export default function HeroSectionCustome() {
             alert("Something went wrong. Please try again.");
         }
     };
+
+
+    const updateHandlerSubmit = async () => {
+        const userId = localStorage.getItem("user-ID");
+        const userDocID = heroFormData.userDocID;
+
+        if (!userId || !userDocID) {
+            alert("Missing user ID or document ID.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        if (heroFormData.heroImgUrl instanceof File) {
+            formData.append("image", heroFormData.heroImgUrl);
+        }
+
+        formData.append("heroPlay_Button", heroFormData.heroPlay_Button || "");
+        formData.append("heroSlideSubTitle", heroFormData.heroSlideSubTitle || "");
+        formData.append("heroSlideTitle", heroFormData.heroSlideTitle || "");
+        formData.append("heroButton_One", heroFormData.heroButton_One || "");
+        formData.append("heroButton_Two", heroFormData.heroButton_Two || "");
+
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/slider-update/${userId}/${userDocID}`;
+            const response = await fetch(url, {
+                method: "PUT",
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Successfully updated!");
+                console.log("Updated Data:", result);
+                setHeroFormData(initialState)
+
+            } else {
+                console.error("Update failed:", result);
+                alert("Update failed. Check console for details.");
+            }
+
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("Something went wrong. Please try again.");
+        }
+    };
+
+
+
 
     const getHeroDataByID = async (userId) => {
         try {
@@ -144,15 +196,24 @@ export default function HeroSectionCustome() {
     }, [])
 
 
+    const [selectedIcon, setSelectedIcon] = useState(
+        allFaMdIconsList.find((i) => i.label === heroFormData?.item_Icone) || null
+    );
+    const [inputValue, setInputValue] = useState('');
 
-
-
+    const filteredIcons = useMemo(() => {
+        const term = inputValue.trim().toLowerCase();
+        if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
+        return allFaMdIconsList
+            .filter((icon) => icon.label.toLowerCase().includes(term))
+            .slice(0, 100);
+    }, [inputValue]);
 
     return (
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
             {
-                isTureTable ?
-                    <form className='flex justify-center flex-col items-center w-full  min-h-[560px]  px-30 gap-3'>
+                isTureTable === "AddNewData" || isTureTable === "Edit" ?
+                    < form className='flex justify-center flex-col items-center w-full  min-h-[560px]  px-30 gap-3'>
                         <div className='w-full'>
                             <Button
                                 onClick={() => setIsTableTrue(false)}
@@ -191,29 +252,21 @@ export default function HeroSectionCustome() {
                                             />
                                         </Button>
 
-                                        {/* <TextField
-                                            size='small'
-                                            fullWidth
-                                            name='heroPlay_Button'
-                                            value={heroFormData.heroPlay_Button}
-                                            onChange={handleChange}
-                                            label="heroPlay_Button"
-                                           
-                                        /> */}
 
                                         <Autocomplete
-                                            options={allFaMdIcons}
+                                            options={filteredIcons}
                                             value={selectedIcon}
 
                                             onChange={(e, newValue) => {
-                                                if (newValue) setSelectedIcon(newValue);
+                                                setSelectedIcon(newValue);
                                                 setHeroFormData((prev) => ({
                                                     ...prev,
                                                     heroPlay_Button: newValue ? newValue.label : "",
                                                 }));
                                             }}
                                             size='small'
-
+                                            inputValue={inputValue}
+                                            onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                                             getOptionLabel={(option) => option.label}
                                             isOptionEqualToValue={(option, value) => option.label === value?.label}
                                             renderOption={(props, option) => (
@@ -291,15 +344,28 @@ export default function HeroSectionCustome() {
 
                             <div className='button-wrraper flex justify-end'>
 
-                                <Button variant="contained"
-                                    sx={{
-                                        textTransform: "none",
-                                        px: 10
-                                    }}
-                                    onClick={submitHandler}
-                                >
-                                    Save Changes
-                                </Button>
+                                {
+                                    isTureTable === "Edit" ? (<Button variant="contained"
+                                        sx={{
+                                            textTransform: "none",
+                                            px: 10
+                                        }}
+                                        onClick={updateHandlerSubmit}
+                                    >
+                                        Update
+                                    </Button>
+                                    ) :
+                                        (<Button variant="contained"
+                                            sx={{
+                                                textTransform: "none",
+                                                px: 10
+                                            }}
+                                            onClick={submitHandler}
+                                        >
+                                            Save Changes
+                                        </Button>
+                                        )
+                                }
                             </div>
                         </div>
                     </form>
