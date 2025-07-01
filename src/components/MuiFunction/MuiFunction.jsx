@@ -70,6 +70,8 @@ export const NAVIGATION = (isAdmin) => {
         { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
         { segment: 'service', title: 'Service Section', icon: <AutorenewIcon /> },
         { segment: 'funfact', title: 'Funfact Section', icon: <CurrencyFrancIcon /> },
+        { segment: 'portfolio', title: 'Portfolio Section', icon: <CurrencyFrancIcon /> },
+
 
 
     ]

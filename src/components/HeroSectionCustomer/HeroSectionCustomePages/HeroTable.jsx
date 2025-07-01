@@ -92,10 +92,10 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                             // border: "1px solid #ddd",
                             padding: "2px",
                         }}
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "https://via.placeholder.com/100x60?text=Image+Not+Found";
-                        }}
+                        // onError={(e) => {
+                        //     e.target.onerror = null;
+                        //     e.target.src = "https://via.placeholder.com/100x60?text=Image+Not+Found";
+                        // }}
                     />
                 );
             }

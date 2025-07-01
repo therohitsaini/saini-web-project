@@ -19,6 +19,7 @@ import HeroSectionCustome from '../HeroSectionCustomer/HeroSectionCustome';
 import InFo from '../HeroInfoSection/InFo';
 import ServiceCustom from '../ServiceCustomize/ServiceCustom';
 import FunfactTable from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import PortfolioMain from '../PortFolioCustom/PortfolioMain';
 
 
 
@@ -173,10 +174,12 @@ const MuiAppBar = (props) => {
                 return <ServiceCustom />;
             case '/funfact':
                 return <FunfactTable />;
+            case '/portfolio':
+                return <PortfolioMain />;
 
             default:
                 return <NotFoundPage />;
-
+            // 
         }
     }
 

@@ -82,6 +82,8 @@ export default function HeroSectionCustome() {
         }
     };
 
+
+    // pof use post purpse
     const submitHandler = async () => {
 
         const formData = new FormData();
