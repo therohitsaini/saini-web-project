@@ -206,10 +206,21 @@ const MuiAppBar = (props) => {
 
 
                     "& .MuiContainer-root  ": {
-                        paddingX: 1
+                        paddingX: 1,
+
                     },
+                    // "& .MuiPaper-root ": {
+                    //     background: "linear-gradient(to top right, #131823, #1c4c5f)",
+                    //     // background: "linear-gradient(to top right, #131823, #1c4c5f)",
+                    // },
+                    // "& .MuiContainer-root": {
+                    //     background: "linear-gradient(to top right, #131823, #1c4c5f)",
+
+                    // },
+                   
                     "& .MuiTypography-root ": {
-                        color: "#AFDDFF"
+                        color: "#AFDDFF",
+
                     },
                     "& .MuiBox-root:hover": {
                         color: "#ededef"

@@ -4,6 +4,8 @@ import { data } from 'react-router-dom';
 import { Gauge } from '@mui/x-charts/Gauge';
 import { blue } from '@mui/material/colors';
 import PrintChart from './PrintChart';
+import ColorScale from './ColorScale';
+import StatCards from './StatCards';
 
 
 function DashbordHomePage() {
@@ -56,7 +58,8 @@ function DashbordHomePage() {
                         </div>
                     </div>
                 </div>
-                {/* <PrintChart /> */}
+                <StatCards />
+                <ColorScale />
             </div>
         </Fragment>
     )

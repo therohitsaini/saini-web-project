@@ -129,7 +129,7 @@ export const ToolbarActionsSearch = () => {   // search componets
 
 
     return (
-        <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2 }} >
+        <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2,  }} >
 
             <Tooltip title="Search" enterDelay={1000}>
                 <div>

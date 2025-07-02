@@ -1,0 +1,37 @@
+{
+    "pricingPlans": [
+        {
+            "title": "Personal Pack",
+            "price": "$25.00",
+            "duration": "/Month",
+            "features": [
+                "1 Website",
+                "Basic Support",
+                "10GB Storage"
+            ],
+            "color": "#df442d"
+        },
+        {
+            "title": "Business Pack",
+            "price": "$49.00",
+            "duration": "/Month",
+            "features": [
+                "5 Websites",
+                "Priority Support",
+                "50GB Storage"
+            ],
+            "color": "#1e88e5"
+        },
+        {
+            "title": "Enterprise Pack",
+            "price": "$99.00",
+            "duration": "/Month",
+            "features": [
+                "Unlimited Sites",
+                "24/7 Support",
+                "200GB Storage"
+            ],
+            "color": "#43a047"
+        }
+    ]
+}

@@ -39,21 +39,37 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
     };
 
     const portUpdatehandle = async (data = {}) => {
+        // setPortFormData((pre) => ({
+        //     ...pre,
+        //     userDocID: data.id,
+        //     userImage: data.profile,
+        //     title: data.title,
+        //     subTitle: data.subTitle,
+        //     // categories: data.categories
+        //     categories: Array.isArray(data.categories)
+        //         ? data.categories
+        //         : typeof data.categories === "string"
+        //             ? JSON.parse(data.categories)
+        //             : [],
+
+        // }))
+        const categories = Array.isArray(data.categories)
+            ? data.categories
+            : typeof data.categories === "string"
+                ? JSON.parse(data.categories)
+                : [];
+
         setPortFormData((pre) => ({
             ...pre,
             userDocID: data.id,
             userImage: data.profile,
             title: data.title,
             subTitle: data.subTitle,
-            categories: data.categories
-
-        }))
+            categories: categories,
+        }));
         setPortMode("UpdateForm")
 
     }
-
-
-
 
 
     const columns = [
@@ -65,7 +81,6 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
                 const imgPath = params.formattedValue;
                 const baseURL = import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '');
                 const fullURL = imgPath?.startsWith("http") ? imgPath : `${baseURL}${imgPath}`;
-
 
                 return (
                     <img
@@ -114,6 +129,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
                             <UpdateIcon />
                         </IconButton>
                     </Tooltip>
+                    
                     <Tooltip title="Delete">
                         <IconButton onClick={() => handleActionClickDeletePort(params.row)}>
                             <DeleteIcon color="error" />

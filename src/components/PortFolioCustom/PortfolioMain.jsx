@@ -7,8 +7,7 @@ import { useEffect } from 'react'
 import PortfolioTable from './Pages/PortfolioTable'
 
 function PortfolioMain() {
-  const [portFolioData, setPortFolioData] = useState([])
-  const [portFormData, setPortFormData] = useState({
+  const inistialtate = {
     title: '',
     subTitle: '',
     Icone: '',
@@ -16,7 +15,9 @@ function PortfolioMain() {
     item_IconeUrl: '',
     userImage: "",
     item_ShowOnWebsite: false,
-  });
+  }
+  const [portFolioData, setPortFolioData] = useState([])
+  const [portFormData, setPortFormData] = useState(inistialtate);
 
   const [userID, setUserID] = useState("")
   const [portMode, setPortMode] = useState("Table")
@@ -30,7 +31,7 @@ function PortfolioMain() {
   }, [])
 
 
-
+  console.log("portFormData____CU", portFormData)
   const submitPortHandler = async () => {
     const formData = new FormData();
     if (portFormData.userImage) {
@@ -43,10 +44,10 @@ function PortfolioMain() {
     formData.append("item_IconeUrl", portFormData.item_IconeUrl);
     formData.append("item_ShowOnWebsite", portFormData.item_ShowOnWebsite);
     formData.append("categories", JSON.stringify(portFormData.categories));
-    setSubmitted(true)
-    if (!portFormData.title.trim()) {
-      return; // prevent form submit
-    }
+    // setSubmitted(true)
+    // if (!portFormData.title.trim()) {
+    //   return; // prevent form submit
+    // }
 
     try {
       const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/portfolio/api/${userID}`;
@@ -59,6 +60,7 @@ function PortfolioMain() {
 
       if (response.ok) {
         alert("Successfully submitted.");
+        setPortFormData(inistialtate)
         setPortRefresh((ref) => !ref)
       } else {
         console.error("Error response:", result);
@@ -70,7 +72,6 @@ function PortfolioMain() {
     }
   };
 
-  console.log("portFolioData", portFolioData)
 
   const getPortDataByID = async () => {
     const id = localStorage.getItem("user-ID")
@@ -87,7 +88,7 @@ function PortfolioMain() {
         setPortFolioData(JsonData.data)
       }
       else {
-        throw new Error("Failed to fetch data");
+        console.log("Failed to fetch data");
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -109,6 +110,7 @@ function PortfolioMain() {
     }
 
     const formData = new FormData();
+
     if (portFormData.userImage instanceof File) {
       formData.append("userImage", portFormData.userImage);
     }
@@ -121,7 +123,11 @@ function PortfolioMain() {
     formData.append("categories", JSON.stringify(portFormData.categories) || "");
     setSubmitted(true)
     if (!portFormData.title.trim()) {
-      return; // prevent form submit
+      return;
+    }
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
     }
 
     try {
@@ -149,30 +155,32 @@ function PortfolioMain() {
 
   return (
     <Fragment>
-      {portMode === "PortForm" || portMode === "UpdateForm" ? (
-        <PortfolioForm
-          // setPortFolioData={setPortFolioData}
-          // portFolioData={portFolioData}
-          setPortFormData={setPortFormData}
-          portFormData={portFormData}
-          submitPortHandler={submitPortHandler}
-          setPortMode={setPortMode}
-          portMode={portMode}
-          submitted={submitted}
-          updatePortHandler={updatePortHandler}
-
-        />
-      ) :
-
-        (
-          <PortfolioTable
-            setPortMode={setPortMode}
-            portFolioData={portFolioData}
-            setPortRefresh={setPortRefresh}
+      {
+        portMode === "PortForm" || portMode === "UpdateForm" ? (
+          <PortfolioForm
+            // setPortFolioData={setPortFolioData}
+            // portFolioData={portFolioData}
             setPortFormData={setPortFormData}
+            portFormData={portFormData}
+            submitPortHandler={submitPortHandler}
+            setPortMode={setPortMode}
+            portMode={portMode}
+            submitted={submitted}
+            updatePortHandler={updatePortHandler}
 
           />
+
         )
+          :
+          (
+            <PortfolioTable
+              setPortMode={setPortMode}
+              portFolioData={portFolioData}
+              setPortRefresh={setPortRefresh}
+              setPortFormData={setPortFormData}
+
+            />
+          )
       }
     </Fragment>
   )

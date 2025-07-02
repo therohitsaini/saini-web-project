@@ -10,14 +10,16 @@ import Funfact from '../FunfactSection/FunfactUI/Funfact'
 import { getServiceData } from '../../Store/ServiceSectionRedux/ApisSeriveCollaction'
 import PortfolioSection from '../PagesComp/Portfolio'
 import { FooterArrow } from '../IconeComp/Icone'
+import PrincingSection from '../PrincingSection/pages/PrincingSection'
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
     const [headerData, setHeaderData] = useState([])
     const [heroSectionData, setHeroSectionData] = useState([])
     const [funfactSectionData, setFunfactSectionData] = useState([])
+    const [portFolioData, setPortFolioData] = useState([])
 
-    console.log("funfactSectionData__________TT", funfactSectionData)
+    console.log("funfactSectionData__________TT", portFolioData)
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -105,12 +107,39 @@ function Home() {
         }
     }
 
+    const getPortDataByID = async () => {
+        const id = localStorage.getItem("user-ID")
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/get-portfolio/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const JsonData = await response.json();
+
+            if (response.ok) {
+                setPortFolioData(JsonData.data)
+            }
+            else {
+                console.log("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
+    // useEffect(() => {
+
+    // }, [portRefresh])
+
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getHeaderDataBy_(id)
         getHeroDataBy_(id)
         getServiceCardData(id)
         getFunfactDataBy_(id)
+        getPortDataByID()
     }, [])
 
     // console.log("heroSection___Rohit", heroSection)
@@ -125,7 +154,11 @@ function Home() {
             </div>
             <Service serviceCard={serviceCard} />
             <Funfact funfactData={funfactSectionData} />
-            <PortfolioSection />
+            <PortfolioSection
+                portFolioData={portFolioData}
+            />
+
+            <PrincingSection />
 
         </Fragment>
     )
