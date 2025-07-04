@@ -65,7 +65,7 @@ function ServiceCustom() {
         }
     }
 
-    console.log("serviceCustom", serviceCustom._id)
+
 
     const serviceUpdateHandler = async () => {
         const userId = localStorage.getItem("user-ID")
@@ -86,7 +86,7 @@ function ServiceCustom() {
                 alert("Update failed. Check console for details.");
             }
         } catch (error) {
-
+            console.log(error)
         }
     }
 
@@ -135,14 +135,14 @@ function ServiceCustom() {
     return (
         <Fragment>
 
-            <div className='service main  h-[580px] flex items-center justify-center flex-col gap-10 w-full'>
+            <div className='service main  h-[580px] flex items-center justify-center flex-col gap-10 w-full '>
 
                 {
 
                     serviceTableTrue === "submitForm" || serviceTableTrue === "Edit"
                         ?
-                        <div className=' h-full flex flex-col gap-20 justify-center  w-[60%]'>
-                            <div className='w-full '>
+                        <div className=' h-full flex flex-col gap-20 justify-center items-center w-[100%]'>
+                            <div className='w-[80%] '>
                                 <Button
                                     onClick={() => setServiceTableTrue("")}
                                     sx={{
@@ -156,7 +156,7 @@ function ServiceCustom() {
                                     <KeyboardBackspaceIcon sx={{ mr: 1 }} />  Back
                                 </Button>
                             </div>
-                            <form className='service-form flex flex-col w-full  gap-4  border border-slate-400/20 rounded-md p-5   '>
+                            <form className='service-form flex flex-col w-[60%]  gap-4  border border-slate-400/20 rounded-md p-5   '>
 
                                 <h1>Customize Service</h1>
                                 <Divider />

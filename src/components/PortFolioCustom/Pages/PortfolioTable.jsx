@@ -123,18 +123,54 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
             headerName: 'Action',
             width: 220,
             renderCell: (params) => (
-                <div className='flex gap-1'>
-                    <Tooltip title="Update">
-                        <IconButton sx={{}} onClick={() => portUpdatehandle(params.row)}>
-                            <UpdateIcon />
+                <div className='flex gap-1 items-center'>
+                    {/* <Tooltip title="Update"> */}
+                        <IconButton
+                            sx={{
+                                background: "green",
+                                color: '#fff',
+                                // fontWeight: 'bold',
+                                height: "27px",
+                                width: "40px",
+                                textTransform: 'none',
+                                paddingX: 5,
+                                // paddingY: 1,
+                                fontSize: 10,
+                                borderRadius: 2,
+                                boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                                '&:hover': {
+                                    background: 'linear-gradient(45deg, #0be574 30%, #10d856 90%)',
+                                },
+                            }}
+                            onClick={() => portUpdatehandle(params.row)}>
+                            {/* <UpdateIcon /> */}
+                            Edit
                         </IconButton>
-                    </Tooltip>
-                    
-                    <Tooltip title="Delete">
-                        <IconButton onClick={() => handleActionClickDeletePort(params.row)}>
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </Tooltip>
+                    {/* </Tooltip> */}
+
+                    {/* <Tooltip title="Delete"> */}
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            // fontWeight: 'bold',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            // paddingY: 1,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #f22b3f 30%,#f22b3f 90%)',
+                            },
+                        }}
+                        onClick={() => handleActionClickDeletePort(params.row)}>
+                        {/* <DeleteIcon color="error" /> */}
+                        Delete
+                    </IconButton>
+                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,

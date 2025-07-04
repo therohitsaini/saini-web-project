@@ -30,8 +30,6 @@ function PortfolioMain() {
     setUserID(id)
   }, [])
 
-
-  console.log("portFormData____CU", portFormData)
   const submitPortHandler = async () => {
     const formData = new FormData();
     if (portFormData.userImage) {

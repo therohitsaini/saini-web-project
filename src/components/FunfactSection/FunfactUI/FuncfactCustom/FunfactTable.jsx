@@ -1,12 +1,9 @@
-import { Button, Divider, IconButton, Paper, TextField, Tooltip, Typography } from '@mui/material'
+import { Button, Divider, IconButton, Paper, TextField, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { useDispatch, useSelector } from 'react-redux';
-import { getServiceData } from '../../../../Store/ServiceSectionRedux/ApisSeriveCollaction';
-import { Icon } from '@iconify/react/dist/iconify.js';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 function FunfactTable() {
@@ -18,14 +15,6 @@ function FunfactTable() {
     const [funfactData, setFunfactData] = useState([])
     const [funfactRefresh, setFunfactRefesh] = useState()
 
-    // const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     dispatch(getServiceData())
-    // }, [dispatch])
-
-    // const funfactData_ = useSelector((state) => state.getSerivceSectionReducer_.funfactSection?.FunfactBox || [])
-
     const funfactonChangeHandler = (event) => {
         const { name, value } = event.target
 
@@ -35,7 +24,6 @@ function FunfactTable() {
         }))
 
     }
-
 
     const funFactHandler = async () => {
         const id = localStorage.getItem("user-ID")
@@ -141,27 +129,49 @@ function FunfactTable() {
     }
 
     const columns = [
-        // { field: 'id', headerName: 'ID', width: 90 },
         { field: 'funfact', headerName: 'Funfact Count', width: 330 },
-        { field: 'paragraph', headerName: 'Paragraph', width: 320 },
+        { field: 'paragraph', headerName: 'Paragraph', width: 430 },
 
         {
             field: 'action',
             headerName: 'Action',
-            width: 220,
+            width: 320,
             renderCell: (params) => (
-                <div className='flex gap-1'>
-                    <Tooltip title="Update">
-                        <IconButton sx={{}} onClick={() => handleActionClick(params.row)}>
-
-                            <Icon icon={"clarity:update-line"} />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton onClick={() => handleActionClickDelete(params.row)}>
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </Tooltip>
+                <div className='flex gap-1 items-center'>
+                    <IconButton sx={{
+                        background: "green",
+                        color: '#fff',
+                        height: "27px",
+                        width: "40px",
+                        textTransform: 'none',
+                        paddingX: 5,
+                        fontSize: 10,
+                        borderRadius: 2,
+                        boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                        '&:hover': {
+                            background: 'linear-gradient(45deg, #14d240 30%, #14dc78 90%)',
+                        },
+                    }} onClick={() => handleActionClick(params.row)}>
+                        Edit
+                    </IconButton>
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #cf0d0d 30%, #e61010 90%)',
+                            },
+                        }}
+                        onClick={() => handleActionClickDelete(params.row)}>
+                        Delete
+                    </IconButton>
                 </div>
             ),
             sortable: false,
@@ -179,25 +189,27 @@ function FunfactTable() {
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>
-            <div className='hero-tabel-main w-full h-[85vh] flex flex-col justify-center items-center  gap-5'>
 
+            <div className='hero-tabel-main w-full h-[85vh] flex flex-col justify-center items-center  gap-5'>
                 {
                     funfactMode === "FunfactForm" || funfactMode === "Edit" ?
                         (
-                            <div className='funfact-mian'>
-                                <Button
-                                    onClick={() => setFunfactMode("Tabel")}
-                                    sx={{
-                                        px: 4,
-                                        display: "flex",
-                                        gap: 1
-                                    }}
-                                    variant='outlined'
-                                >
-                                    <KeyboardBackspaceIcon />
-                                    Back
-                                </Button>
-                                <form className='form-main flex flex-col gap-4 w-[500px] border border-slate-600 rounded-md p-5'>
+                            <div className='funfact-mian  w-full flex flex-col items-center gap-30'>
+                                <div className='w-[80%] flex justify-items-start'>
+                                    <Button
+                                        onClick={() => setFunfactMode("Tabel")}
+                                        sx={{
+                                            px: 4,
+                                            display: "flex",
+                                            gap: 1
+                                        }}
+                                        variant='outlined'
+                                    >
+                                        <KeyboardBackspaceIcon />
+                                        Back
+                                    </Button>
+                                </div>
+                                <form className='form-main flex flex-col gap-4 w-[50%] py-10 border border-slate-600/30 rounded-md p-5'>
                                     <Typography sx={{
                                         fontSize: 20,
 
@@ -253,7 +265,6 @@ function FunfactTable() {
                                 </form>
                             </div>
                         )
-
                         :
                         (
                             <div>

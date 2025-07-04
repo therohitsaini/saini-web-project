@@ -43,7 +43,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                 body: JSON.stringify({ data: data.id, pageId: heroID })
             });
             const response = await fetchData.json();
-            
+
             if (fetchData.ok) {
                 setRefresh(prev => !prev);
             }
@@ -63,7 +63,7 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
             heroButton_One: data.heroButton_One,
             heroButton_Two: ""
         }));
-        alert(JSON.stringify(data))
+
         setIsTableTrue("Edit");
     };
 
@@ -92,10 +92,10 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                             // border: "1px solid #ddd",
                             padding: "2px",
                         }}
-                        // onError={(e) => {
-                        //     e.target.onerror = null;
-                        //     e.target.src = "https://via.placeholder.com/100x60?text=Image+Not+Found";
-                        // }}
+                    // onError={(e) => {
+                    //     e.target.onerror = null;
+                    //     e.target.src = "https://via.placeholder.com/100x60?text=Image+Not+Found";
+                    // }}
                     />
                 );
             }
@@ -120,17 +120,52 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
             headerName: 'Action',
             width: 220,
             renderCell: (params) => (
-                <div className='flex gap-1'>
-                    <Tooltip title="Update">
-                        <IconButton sx={{}} onClick={() => heroUpdatehandle(params.row)}>
-                            <UpdateIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton onClick={() => handleActionClickDelete(params.row)}>
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </Tooltip>
+                <div className='flex gap-1 items-center'>
+                    {/* <Tooltip title="Update"> */}
+                    <IconButton
+                        sx={{
+                            background: 'linear-gradient(45deg, #43a047 30%, #29ce31 90%)', // Green gradient
+                            color: '#fff',
+                            height: '27px',
+                            width: '70px', // Increased from 40px for better label fit (adjust as needed)
+                            textTransform: 'none',
+                            paddingX: 2,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            transition: 'background 0.3s ease',
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #2e7d32 30%, #388e3c 90%)', // Darker green gradient
+                            },
+                        }}
+                        onClick={() => heroUpdatehandle(params.row)}>
+                        {/* <UpdateIcon /> */}
+                        Edit
+                    </IconButton>
+                    {/* </Tooltip> */}
+                    {/* <Tooltip title="Delete"> */}
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            // fontWeight: 'bold',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            // paddingY: 1,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #f40404 30%, #fb0404 90%)',
+                            },
+                        }}
+                        onClick={() => handleActionClickDelete(params.row)}>
+                        {/* <DeleteIcon color="error" /> */}
+                        Delete
+                    </IconButton>
+                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,

@@ -20,6 +20,8 @@ import InFo from '../HeroInfoSection/InFo';
 import ServiceCustom from '../ServiceCustomize/ServiceCustom';
 import FunfactTable from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 import PortfolioMain from '../PortFolioCustom/PortfolioMain';
+import PrincingCustom from '../PrincingSection/PrincingCustom';
+import TestimonialCustome from '../Testimonial/TestimonialCustome';
 
 
 
@@ -176,7 +178,10 @@ const MuiAppBar = (props) => {
                 return <FunfactTable />;
             case '/portfolio':
                 return <PortfolioMain />;
-
+            case '/princing':
+                return <PrincingCustom />;
+            case '/testimonial':
+                return <TestimonialCustome />;
             default:
                 return <NotFoundPage />;
             // 
@@ -185,7 +190,7 @@ const MuiAppBar = (props) => {
 
     return (
 
-
+        // 
         <AppProvider
             navigation={NAVIGATION(isAdmin)}
             // session={session}
@@ -210,14 +215,14 @@ const MuiAppBar = (props) => {
 
                     },
                     // "& .MuiPaper-root ": {
-                    //     background: "linear-gradient(to top right, #131823, #1c4c5f)",
-                    //     // background: "linear-gradient(to top right, #131823, #1c4c5f)",
+                    //     background: "linear-gradient(to top right, #1e606167, #06a6e633)",
+                    //     // background: "linear-gradient(to top right, #131823, #051116a4)",
                     // },
                     // "& .MuiContainer-root": {
                     //     background: "linear-gradient(to top right, #131823, #1c4c5f)",
 
                     // },
-                   
+
                     "& .MuiTypography-root ": {
                         color: "#AFDDFF",
 

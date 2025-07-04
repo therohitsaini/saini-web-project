@@ -26,6 +26,8 @@ import FunfactTable from './components/FunfactSection/FunfactUI/FuncfactCustom/F
 import PortfolioSection from './components/PagesComp/Portfolio';
 import PrincingSection from './components/PrincingSection/pages/PrincingSection';
 import PortfolioMain from './components/PortFolioCustom/PortfolioMain';
+import PrincingCustom from './components/PrincingSection/PrincingCustom';
+import TestimonialSection from './components/Testimonial/Pages/TestimonialSection';
 
 
 
@@ -65,6 +67,14 @@ function App() {
           <Route path='/portfollio-section' element={< PortfolioSection />} />
           <Route path='/portfolio-custom' element={< PortfolioMain />} />
           <Route path='/princing-section' element={< PrincingSection />} />
+          <Route path='/princingcustom' element={< PrincingCustom />} />
+          <Route path='/testimonialSection' element={< TestimonialSection />} />
+
+          
+
+
+
+          {/* PrincingCustom */}
 
 
 

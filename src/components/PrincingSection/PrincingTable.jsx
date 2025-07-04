@@ -1,53 +1,19 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Button, IconButton, Paper, Tooltip } from '@mui/material';
+import { Button, IconButton, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useState } from 'react';
 import { Fragment } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect } from 'react';
-import { getInfoData } from '../../../Store/infoApiesStore/infoApiRedux';
-import { useDispatch, useSelector } from 'react-redux';
+
+function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setPrincingData }) {
 
 
+    const princingDeleteHandler = async (data = {}) => {
 
-
-const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
-    const [inFoData, setInFoData] = useState([])
-
-    const dispatch = useDispatch()
-
-    const getInfoData = async (id) => {
-        try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/get/info/${id}`
-            const fatchData = await fetch(url, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            })
-            const jsonResponse = await fatchData.json()
-            if (fatchData.ok) {
-                setInFoData(jsonResponse.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    // const inFoRedux = useSelector((state) => state.getInFoDataReducer_)
-
-
-    useEffect(() => {
-        const id = localStorage.getItem("user-ID")
-        getInfoData(id)
-    }, [])
-
-
-    const inFoDeleteHandler = async (data = {}) => {
         const pageId = localStorage.getItem("user-ID")
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api/info/delete-info/`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-princing/api-delete/`;
             const fetchData = await fetch(url, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -65,102 +31,116 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
         }
     }
 
-    const updateInfoHandler = (data = {}) => {
-        setInFoService((pre) => ({
-            ...pre,
-            userDocId: data.id,
-            inFoHeading: data.title,
-            inFoDescription: data.subTitle
-        }))
-        setInFoIsTrue("Edit")
+    const getUpdatePrincingHandler = async (data = {}) => {
+        const userId = localStorage.getItem("user-ID")
+        const docsId = data.id
+
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-princing/api-get-id/${userId}/${docsId}`
+            const fatchData = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            const jsonResponse = await fatchData.json()
+            const { heading, listItem, button, price, _id } = jsonResponse.data
+            if (fatchData.ok) {
+                setPrincingData((pre) => ({
+                    ...pre,
+                    _id,
+                    heading,
+                    listItem,
+                    button,
+                    price
+
+                }))
+                setPrincingMode("UpdateForm")
+            }
+        } catch (error) {
+            console.log(error)
+        }
 
     }
 
     const columns = [
-        //  { field: 'id', headerName: 'ID', width: 90 },
-        // { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
-        // { field: 'playButton', headerName: 'Play Button', width: 220 },
-        {
-            field: 'subTitle',
-            headerName: 'Sub Title',
-            type: 'number',
-            width: 370,
-        },
+
         {
             field: 'title',
             headerName: 'Title',
             width: 370,
+        },
+        {
+            field: 'listItem',
+            headerName: 'List Item',
+            width: 400,
+            renderCell: (params) => (
+                <ul style={{ paddingLeft: '20px', margin: 0 }}>
+                    {params.row.listItem?.map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
+                </ul>
+            )
         }, {
             field: 'action',
             headerName: 'Action',
             width: 270,
             renderCell: (params) => (
                 <div className='flex gap-1 items-center'>
-                    {/* <Tooltip title="Update"> */}
                     <IconButton
                         sx={{
                             background: "green",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
 
-                            // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
                             '&:hover': {
                                 background: 'linear-gradient(45deg, #0ddc3a 30%, #34e977 90%)',
                             },
                         }}
-                        onClick={() => updateInfoHandler(params.row)}
+                        onClick={() => getUpdatePrincingHandler(params.row)}
                     >
                         Edit
-                        {/* <Icon icon={"clarity:update-line"} /> */}
                     </IconButton>
-                    {/* </Tooltip> */}
-                    {/* <Tooltip title="Delete"> */}
                     <IconButton
+
                         sx={{
                             background: "red",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
 
-                            // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
                             '&:hover': {
                                 background: 'linear-gradient(45deg, #de0f0f 30%, #f00e11 90%)',
                             },
                         }}
-                        onClick={() => inFoDeleteHandler(params.row)}
+                        onClick={() => princingDeleteHandler(params.row)}
                     >
                         Delete
-                        {/* <DeleteIcon color="error" /> */}
+
                     </IconButton>
-                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,
             filterable: false,
         },
     ]
-    const rows = inFoData?.map((item_) => ({
-        id: item_._id,
-        title: item_.inFoHeading,
-        // playButton: item_.inFoDescription,
-        subTitle: item_.inFoDescription,
 
+    const rows = princingGetApiesData && princingGetApiesData.map((item_) => ({
+        id: item_._id,
+        title: item_.heading,
+        listItem: item_.listItem
     }))
+
+
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>
@@ -168,7 +148,7 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
 
                 <div>
                     <Button
-                        onClick={() => setInFoIsTrue("Save")}
+                        onClick={() => setPrincingMode("SubmitForm")}
                         sx={{
                             px: 10,
                             textTransform: "none",
@@ -177,7 +157,6 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
                         +Add More
                     </Button>
                 </div>
-
 
                 <Paper sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -195,7 +174,6 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
                             },
                         }}
                     />
-
                 </Paper>
 
             </div>
@@ -203,4 +181,4 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
     )
 }
 
-export default InFoTable
+export default PrincingTable

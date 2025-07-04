@@ -99,13 +99,15 @@ function ServiceTable({ setServiceTableTrue, setServiceCustom }) {
     }
 
     const columns = [
-        //  { field: 'id', headerName: 'ID', width: 90 },
-        // { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
-        { field: 'title', headerName: 'Title', width: 320 },
+
+        {
+            field: 'title',
+            headerName: 'Title',
+            width: 320
+        },
         {
             field: 'subTitle',
             headerName: 'Sub Title',
-            // type: 'number',
             width: 510
         },
         {
@@ -113,21 +115,45 @@ function ServiceTable({ setServiceTableTrue, setServiceCustom }) {
             headerName: 'Action',
             width: 270,
             renderCell: (params) => (
-                <div className='flex gap-1'>
-                    <Tooltip title="Update">
-                        <IconButton sx={{}}
-                            onClick={() => updateServiceHandler(params.row)}
-                        >
-                            <Icon icon={"clarity:update-line"} />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton
-                            onClick={() => serviceSectionDeleteHandler(params.row)}
-                        >
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </Tooltip>
+                <div className='flex gap-1 items-center'>
+                    <IconButton
+                        sx={{
+                            background: "green",
+                            color: '#fff',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #089f4a 30%, #0fc874 90%)',
+                            },
+                        }}
+                        onClick={() => updateServiceHandler(params.row)}
+                    >
+                        Edit
+                    </IconButton>
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #e81010 30%, #eb1216 90%)',
+                            },
+                        }}
+                        onClick={() => serviceSectionDeleteHandler(params.row)}
+                    >
+                        Delete
+                    </IconButton>
                 </div>
             ),
             sortable: false,
@@ -143,11 +169,7 @@ function ServiceTable({ setServiceTableTrue, setServiceCustom }) {
 
 
     }))
-
-
     const paginationModel = { page: 0, pageSize: 5 };
-
-
 
     return (
         <Fragment>

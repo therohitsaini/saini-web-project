@@ -19,7 +19,7 @@ const Service = ({ serviceCard }) => {
                     <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Service </span></div> </h1>
                     <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
                 </div>
-                <div className='service-card-section grid grid-cols-4 my-10 gap-5 px-20' >
+                <div className='service-card-section grid grid-cols-4 my-10 gap-5 px-20 ' >
                     {
                         (serviceCard?.length ? serviceCard : ServicedefaultData?.ServiceDefultValue)?.map((item_, index_) => {
                             const iconName = item_?.iconeTop;
@@ -40,10 +40,10 @@ const Service = ({ serviceCard }) => {
                                                     )}
                                                 </div>
                                             </div>
-                                            <h2 className=" text-back text-[18px] font-semibold z-50 text-center">
+                                            <h2 className=" text-back text-[18px] font-semibold z-50 text-center mt-5">
                                                 {item_.serviceHeading}
                                             </h2>
-                                            <h2 className=" text-back text-md z-50 text-center">
+                                            <h2 className=" text-back text-md z-50 text-center mb-5 ">
                                                 {item_.ServiceDescription}
                                             </h2>
                                             <div className={`icon-main h-12 w-12 rounded-b-3xl z-50  flex justify-center items-end rounded-t-xl duration-700 bg-orange-600/40 group-hover:bg-white/20  mb-10`}>

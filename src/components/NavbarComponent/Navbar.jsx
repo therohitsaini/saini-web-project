@@ -246,30 +246,7 @@ function Navbar({ headerData }) {
                                 })
                             }
 
-                            {/* {
-                                (sectionDataSearch ? sectionDataSearch : headerTopBarDefualt)?.item?.map((item_, index) => {
-                                    const iconName = item_?.item_Icone;
-                                    const IconComponent = allFaMdIconsMap[iconName];
-
-                                    return (
-                                        <div key={index} className={`icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${searchHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                                            <div
-                                                // onClick={() => setSearchBarIsTrue(!searchBarIsTrue)}
-                                                onMouseOver={() => setSearchHover(true)}
-                                                onMouseLeave={() => setSearchHover(false)}
-                                                className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl ${searchHover ? "bg-red-500" : "bg-white"}`}
-                                            >
-                                                {
-                                                    IconComponent && (
-                                                        <IconComponent
-                                                            color={searchHover ? "white" : "red"} size={18}
-                                                        />
-                                                    )
-                                                }
-                                            </div>
-                                        </div>
-                                    );
-                                })} */}
+                 
                             {
                                 sectionDataSearch?.item?.map((item_, index) => {
                                     const iconName = item_?.item_Icone;

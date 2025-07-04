@@ -28,6 +28,7 @@ function DashbordHomePage() {
     return (
         <Fragment>
             <div className='flex flex-col gap-10'>
+                <StatCards />
                 <div className='grid grid-cols-2 gap-2'>
                     <UserChart />
                     <div className=' bg-cyan-200/20 rounded-md flex '>
@@ -58,7 +59,7 @@ function DashbordHomePage() {
                         </div>
                     </div>
                 </div>
-                <StatCards />
+
                 <ColorScale />
             </div>
         </Fragment>

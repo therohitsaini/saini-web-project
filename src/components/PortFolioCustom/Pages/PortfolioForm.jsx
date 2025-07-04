@@ -17,8 +17,6 @@ import { useEffect } from 'react';
 const userCategories = ['design', 'development', 'marketing', 'support']
 
 
-
-
 function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPortMode, submitted, portMode, updatePortHandler }) {
     const [selectedIcone, setSelectedIcone] = useState(
         allFaMdIconsList.find((i) => i.label === portFormData?.item_Icone) || null
@@ -42,23 +40,6 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
             [name]: value,
         }));
     };
-    // useEffect(() => {
-    //     if (!portFormData.userImage) return;
-
-    //     // Case: If it's a File object (new upload)
-    //     // if (portFormData.userImage instanceof File) {
-    //     //     const objectUrl = URL.createObjectURL(portFormData.userImage);
-    //     //     setImagePreview(objectUrl);
-    //     //     return () => URL.revokeObjectURL(objectUrl); // cleanup
-    //     // }
-
-    //     // Case: If it's a backend image path string
-    //     if (typeof portFormData.userImage === 'string') {
-    //         const baseURL = import.meta.env.VITE_BACK_END_URL || "http://localhost:5000"; // adjust as needed
-    //         setImagePreview(`${baseURL}${portFormData.userImage}`);
-    //     }
-    // }, [portFormData.userImage]);
-
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -85,7 +66,8 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center"
-                }}>
+                }}
+                >
                     <Button
                         onClick={() => setPortMode("Table")}
                         variant='outlined'

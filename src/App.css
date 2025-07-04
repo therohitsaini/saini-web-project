@@ -59,3 +59,14 @@
 .animate-rotate-slow {
   animation: rotate-slow 15s linear infinite;
 }
+
+.swiper-pagination-bullet {
+  background-color: #df442d; /* your custom color */
+  opacity: 0.5;
+}
+
+/* Change active bullet color */
+.swiper-pagination-bullet-active {
+  background-color: #df442d; /* highlighted active */
+  opacity: 1;
+}

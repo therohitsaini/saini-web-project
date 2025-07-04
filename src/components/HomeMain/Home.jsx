@@ -11,6 +11,7 @@ import { getServiceData } from '../../Store/ServiceSectionRedux/ApisSeriveCollac
 import PortfolioSection from '../PagesComp/Portfolio'
 import { FooterArrow } from '../IconeComp/Icone'
 import PrincingSection from '../PrincingSection/pages/PrincingSection'
+import TestimonialSection from '../Testimonial/Pages/TestimonialSection'
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
@@ -18,20 +19,11 @@ function Home() {
     const [heroSectionData, setHeroSectionData] = useState([])
     const [funfactSectionData, setFunfactSectionData] = useState([])
     const [portFolioData, setPortFolioData] = useState([])
+    const [princingGetApiesData, setPrincingGetApiesData] = useState([])
 
-    console.log("funfactSectionData__________TT", portFolioData)
+    console.log("funfactSectionData__________TT", princingGetApiesData)
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch(getHeaderData())
-    //     dispatch(getServiceData())
-
-    // }, [dispatch])
-
-
-    // const headerToBarData = useSelector((state) => state.getHeaderDataReducer_)
-
-    // const heroSection = useSelector((state) => state.getHeaderDataReducer_);
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
     useEffect(() => {
@@ -66,7 +58,6 @@ function Home() {
                 setHeroSectionData(responseJson.data)
             }
         } catch (error) {
-
             console.log(error)
         }
     }
@@ -129,9 +120,24 @@ function Home() {
             return null;
         }
     };
-    // useEffect(() => {
 
-    // }, [portRefresh])
+
+
+    const getPrincingData = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-princing/api-get/princing/${id}`
+            const fatchData = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            const jsonResponse = await fatchData.json()
+            if (fatchData.ok) {
+                setPrincingGetApiesData(jsonResponse.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
@@ -140,9 +146,10 @@ function Home() {
         getServiceCardData(id)
         getFunfactDataBy_(id)
         getPortDataByID()
+        getPrincingData(id)
     }, [])
 
-    // console.log("heroSection___Rohit", heroSection)
+
 
     return (
         <Fragment>
@@ -157,8 +164,10 @@ function Home() {
             <PortfolioSection
                 portFolioData={portFolioData}
             />
-
-            <PrincingSection />
+            <PrincingSection
+                princingGetApiesData={princingGetApiesData}
+            />
+            <TestimonialSection />
 
         </Fragment>
     )

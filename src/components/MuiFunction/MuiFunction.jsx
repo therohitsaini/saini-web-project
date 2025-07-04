@@ -1,15 +1,9 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LayersIcon from '@mui/icons-material/Layers';
 import Person4Icon from '@mui/icons-material/Person4';
 import { Avatar, Button, createTheme, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { red } from '@mui/material/colors';
 import { useMemo, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ProfileSection from '../DashbordFormet/ProfileSecton';
-import Settings from '@mui/icons-material/Settings';
 import PersonOutlineSharpIcon from '@mui/icons-material/PersonOutlineSharp';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -23,6 +17,9 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CurrencyFrancIcon from '@mui/icons-material/CurrencyFranc';
+import SellIcon from '@mui/icons-material/Sell';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import TestimonialCustome from '../Testimonial/TestimonialCustome';
 
 // import { ThemeSwitcher } from '@toolpad/core/DashboardLayout';
 
@@ -70,8 +67,9 @@ export const NAVIGATION = (isAdmin) => {
         { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
         { segment: 'service', title: 'Service Section', icon: <AutorenewIcon /> },
         { segment: 'funfact', title: 'Funfact Section', icon: <CurrencyFrancIcon /> },
-        { segment: 'portfolio', title: 'Portfolio Section', icon: <CurrencyFrancIcon /> },
-
+        { segment: 'portfolio', title: 'Portfolio Section', icon: <BusinessCenterIcon /> },
+        { segment: 'princing', title: 'Princing Section', icon: <SellIcon /> },
+        { segment: 'testimonial', title: 'Testimonial Section', icon: < SellIcon /> },
 
 
     ]
@@ -129,7 +127,7 @@ export const ToolbarActionsSearch = () => {   // search componets
 
 
     return (
-        <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2,  }} >
+        <Stack direction="row" sx={{ display: 'flex', alignItems: "center", gap: 2, }} >
 
             <Tooltip title="Search" enterDelay={1000}>
                 <div>
