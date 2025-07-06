@@ -71,7 +71,6 @@ export default function PortfolioSection({ portFolioData }) {
     const filteredItems = baseData.filter(item =>
         activeFilter === 'all' || item.categories.includes(activeFilter)
     );
-    console.log("filteredItems", filteredItems)
 
     return (
         <section className="py-16 bg-white">
@@ -123,7 +122,6 @@ export default function PortfolioSection({ portFolioData }) {
                         const iconeName = item_?.Icone;
                         const IconeComponent = allFaMdIconsList[iconeName];
 
-                        console.log("iconeName", IconeComponent)
                         return (
                             <FadeInWrapper key={item_.id}>
                                 <div
@@ -145,14 +143,14 @@ export default function PortfolioSection({ portFolioData }) {
 
                                         <div className="absolute top-1/2 left-[-140px] transform -translate-y-1/2 transition-all duration-500 group-hover:left-1/2 group-hover:transform group-hover:-translate-x-1/2">
                                             {/* {IconeComponent && */}
-                                                <div className="icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 bg-orange-100/20">
-                                                    <button className="icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl shadow-black/20 shadow-sm bg-[#de442c]">
-                                                        <KeyboardDoubleArrowRightIcon sx={{ color: "white" }} />
+                                            <div className="icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 bg-orange-100/20">
+                                                <button className="icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl shadow-black/20 shadow-sm bg-[#de442c]">
+                                                    <KeyboardDoubleArrowRightIcon sx={{ color: "white" }} />
 
-                                                        {/* <IconeComponent color="white" size={24} /> */}
+                                                    {/* <IconeComponent color="white" size={24} /> */}
 
-                                                    </button>
-                                                </div>
+                                                </button>
+                                            </div>
                                             {/* } */}
                                         </div>
                                     </div>

@@ -9,6 +9,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
+import { useSnackbar } from '../Snakbar/Snakbar';
 
 function ServiceCustom() {
     const [serviceTableTrue, setServiceTableTrue] = useState("")
@@ -45,7 +46,24 @@ function ServiceCustom() {
 
     }, [serviceTableTrue]);
 
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar, showError } = snackbar;
+
     const serviceHadnler = async () => {
+        const { iconeTop, iconeBottom, serviceHeading, ServiceDescription } = serviceCustom
+
+        if (!serviceHeading) {
+            showError("Title is Required ! ")
+            return
+        }
+        if (!ServiceDescription) {
+            showError("Descriptions is Required ! ")
+            return
+        }
+
         const id = localStorage.getItem("user-ID")
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/service-card/${id}`;
@@ -58,7 +76,7 @@ function ServiceCustom() {
             const responseJson = await fetchData.json();
 
             if (fetchData.ok) {
-                alert("Succesfully")
+                showSnackbar(responseJson.message)
             }
         } catch (error) {
             console.log("Internal Error", error)
@@ -68,6 +86,18 @@ function ServiceCustom() {
 
 
     const serviceUpdateHandler = async () => {
+
+        const { iconeTop, iconeBottom, serviceHeading, ServiceDescription } = serviceCustom
+
+        if (!serviceHeading) {
+            showError("Title is Required ! ")
+            return
+        }
+        if (!ServiceDescription) {
+            showError("Descriptions is Required ! ")
+            return
+        }
+
         const userId = localStorage.getItem("user-ID")
         const userDocID = serviceCustom._id
         try {
@@ -169,7 +199,7 @@ function ServiceCustom() {
                                 ></TextField>
                                 <TextField
                                     size='small'
-                                    label="SubTitle"
+                                    label="Description"
                                     name='ServiceDescription'
                                     value={serviceCustom.ServiceDescription}
                                     onChange={servieOnchange}
@@ -216,45 +246,7 @@ function ServiceCustom() {
                                 />
 
 
-                                {/* <Autocomplete
-                                    options={filteredIcons}
-                                    value={selectedIconBottom || null}
-                                    name="iconeBottom"
-                                    onChange={(e, newValue) => {
-                                        if (newValue) setSelectedIconBottom(newValue);
-                                        setServiceCustom((pre) => ({
-                                            ...pre,
-                                            iconeBottom: newValue ? newValue.label : ''
-                                        }))
-                                    }}
-                                    size='small'
-                                    inputValue={inputValue}
-                                    onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-                                    getOptionLabel={(option) => option.label}
-                                    isOptionEqualToValue={(option, value) => option.label === value?.label}
-                                    renderOption={(props, option) => (
-                                        <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <option.Icon />
-                                            {option.label}
-                                        </Box>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Search Iocne"
-                                            variant="outlined"
-                                            fullWidth
-                                            InputProps={{
-                                                ...params.InputProps,
-                                                startAdornment: selectedIcon?.Icon && (
-                                                    <InputAdornment position="start" sx={{ mr: 1 }}>
-                                                        <selectedIcon.Icon />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    )}
-                                /> */}
+
 
                                 {
                                     serviceTableTrue === "Edit" ?
@@ -281,7 +273,11 @@ function ServiceCustom() {
                         </div>
 
                         :
-                        <ServiceTable setServiceTableTrue={setServiceTableTrue} setServiceCustom={setServiceCustom} />
+                        <ServiceTable
+                            setServiceTableTrue={setServiceTableTrue}
+                            setServiceCustom={setServiceCustom}
+                            showSnackbar={showSnackbar}
+                        />
                 }
 
 

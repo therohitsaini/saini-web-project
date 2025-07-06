@@ -21,7 +21,7 @@ function Funfact({ funfactData }) {
                 {
                     (funfactData && funfactData.length > 0 ? funfactData : defualtData)
                         ?.map((item, index) => {
-                            console.log("item___T", item)
+                       
                             return (
                                 <CounterBox key={index} countTo={item.projectCount} label={item.aboutProject} />
                             )

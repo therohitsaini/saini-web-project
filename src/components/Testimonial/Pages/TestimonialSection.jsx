@@ -10,27 +10,35 @@ import "swiper/css/pagination";
 // Sample data
 const testimonials = [
     {
-        name: "Mike Williams",
-        role: "Marketing Manager",
-        content:
-            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout",
+        heading: "Our Awesome Clients Review For Inspiration",
+        userProfile: "",
+        userName: "Mike Williams",
+        occupationRole: "Marketing Manager",
+        paragraph:
+            "It is a long established fact that a reader will be distracted by the readable paragraph of a page when looking at its layout",
     },
     {
-        name: "Sarah Johnson",
-        role: "Product Designer",
-        content:
+        heading: "Our Awesome Clients Review For Inspiration",
+        userProfile: "",
+        userName: "Sarah Johnson",
+        occupationRole: "Product Designer",
+        paragraph:
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
     {
-        name: "Alex Smith",
-        role: "CEO, Startup Inc.",
-        content:
+        heading: "Our Awesome Clients Review For Inspiration",
+        userProfile: "",
+        userName: "Alex Smith",
+        occupationRole: "CEO, Startup Inc.",
+        paragraph:
             "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.",
     },
     {
-        name: "Alex Smith",
-        role: "CEO, Startup Inc.",
-        content:
+        heading: "Our Awesome Clients Review For Inspiration",
+        userProfile: "",
+        userName: "Alex Smith",
+        occupationRole: "CEO, Startup Inc.",
+        paragraph:
             "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.",
     },
 ];
@@ -50,7 +58,7 @@ const AnimatedSlide = styled.div`
   animation: ${fadeUp} 0.8s ease-out;
 `;
 
-export default function TestimonialSection() {
+export default function TestimonialSection({ testimonialApiesDataUI }) {
     return (
         <Fragment>
             <div className="w-full bg-gray-100 py-12 relative overflow-hidden">
@@ -87,50 +95,107 @@ export default function TestimonialSection() {
                             1024: { slidesPerView: 1 },
                         }}
                     >
-                        {testimonials.map((item, idx) => (
-                            <SwiperSlide key={idx}>
-                                <AnimatedSlide className="flex flex-col md:flex-row shadow-lg rounded-xl overflow-hidden h-[500px]  backdrop-blur mt-5">
+                        {/* {
+                            (testimonialApiesDataUI ? testimonialApiesDataUI : testimonials)?.map((item, idx) => (
 
-                                    <div className="w-full md:w-1/2 flex items-center justify-center p-6">
-                                        <div className="border border-red-500 border-dotted rounded-full p-9">
-                                            <div className="h-96 w-96 rounded-full p-7 bg-[#f2b4aa] overflow-hidden">
-                                                <img
-                                                    className="h-full w-full rounded-full object-cover"
-                                                    src="../src/assets/image-1.jpg"
-                                                    alt="Client"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+                                <SwiperSlide key={idx}>
 
-
-                                    <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
-                                        <h2 className="text-3xl font-bold mb-6">
-                                            Our Awesome Clients Review{" "}
-                                            <span className="text-[#df442d]">For Inspiration</span>
-                                        </h2>
-                                        <div className="bg-white w-full max-w-[500px] py-5 px-6 rounded-md shadow-md">
-                                            <p className="text-gray-700 italic mb-4">
-                                                "{item.content}"
-                                            </p>
-                                            <div className="flex items-center gap-4">
-                                                <img
-                                                    src="../src/assets/image-1.jpg"
-                                                    className="w-16 h-16 object-cover rounded-full border-2 border-orange-500"
-                                                    alt="User"
-                                                />
-                                                <div>
-                                                    <h6 className="font-semibold text-lg">{item.name}</h6>
-                                                    <span className="text-sm text-gray-500">
-                                                        {item.role}
-                                                    </span>
+                                    <AnimatedSlide className="flex flex-col md:flex-row shadow-lg rounded-xl overflow-hidden h-[500px]  backdrop-blur mt-5">
+                                        <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+                                            <div className="border border-red-500 border-dotted rounded-full p-9">
+                                                <div className="h-96 w-96 rounded-full p-7 bg-[#f2b4aa] overflow-hidden">
+                                                    <img
+                                                        className="h-full w-full rounded-full object-cover"
+                                                        src="../src/assets/image-1.jpg"
+                                                        alt="Client"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </AnimatedSlide>
-                            </SwiperSlide>
-                        ))}
+
+                                        <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
+                                            <h2 className="text-3xl font-bold mb-6">
+                                                Our Awesome Clients Review{" "}
+                                                <span className="text-[#df442d]">For Inspiration</span>
+                                            </h2>
+                                            <div className="bg-white w-full max-w-[500px] py-5 px-6 rounded-md shadow-md">
+                                                <p className="text-gray-700 italic mb-4">
+                                                    "{item.paragraph}"
+                                                </p>
+                                                <div className="flex items-center gap-4">
+                                                    <img
+                                                        src="../src/assets/image-1.jpg"
+                                                        className="w-16 h-16 object-cover rounded-full border-2 border-orange-500"
+                                                        alt="User"
+                                                    />
+                                                    <div>
+                                                        <h6 className="font-semibold text-lg">{item.userName}</h6>
+                                                        <span className="text-sm text-gray-500">
+                                                            {item.occupationRole}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </AnimatedSlide>
+                                </SwiperSlide>
+
+                            ))
+                        } */}
+                        {
+                            (testimonialApiesDataUI ? testimonialApiesDataUI : testimonials)?.map((item, idx) => {
+                                const heading = item?.heading?.trim() || '';
+                                const words = heading.split(' ');
+                                const lastTwoWords = words.slice(-2).join(' ');
+                                const firstPart = words.slice(0, -2).join(' ');
+
+                                const imgSrc = item?.userProfile?.startsWith('http')
+                                    ? item.userProfile
+                                    : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${item.userProfile?.replace(/^\/?/, '')}`;
+
+                                return (
+                                    <SwiperSlide key={idx}>
+                                        <AnimatedSlide className="flex flex-col md:flex-row shadow-lg rounded-xl overflow-hidden h-[500px]  backdrop-blur mt-5">
+                                            <div className="w-full md:w-1/2 flex items-center justify-center p-6">
+                                                <div className="border border-red-500 border-dotted rounded-full p-9">
+                                                    <div className="h-96 w-96 rounded-full p-7 bg-[#f2b4aa] overflow-hidden">
+                                                        <img
+                                                            className="h-full w-full rounded-full object-cover"
+                                                            src={imgSrc}
+                                                            alt="Client"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
+                                                <h2 className="text-3xl font-bold mb-6">
+                                                    {firstPart}{" "}
+                                                    <span className="text-[#df442d]">{lastTwoWords}</span>
+                                                </h2>
+                                                <div className="bg-white w-full max-w-[500px] py-5 px-6 rounded-md shadow-md">
+                                                    <p className="text-gray-700 italic mb-4">"{item.paragraph}"</p>
+                                                    <div className="flex items-center gap-4">
+                                                        <img
+                                                            src={imgSrc}
+                                                            className="w-16 h-16 object-cover rounded-full border-2 border-orange-500"
+                                                            alt="User"
+                                                        />
+                                                        <div>
+                                                            <h6 className="font-semibold text-lg">{item.userName}</h6>
+                                                            <span className="text-sm text-gray-500">
+                                                                {item.occupationRole}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </AnimatedSlide>
+                                    </SwiperSlide>
+                                );
+                            })
+                        }
+
                     </Swiper>
                 </div>
             </div>

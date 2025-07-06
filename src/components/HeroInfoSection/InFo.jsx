@@ -12,6 +12,7 @@ import { getHeaderData } from '../../Store/ApisStore/ApisCollection';
 import InFoTable from './InfoPages/InFoTable';
 import InFoForm from './InfoPages/InFoForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useSnackbar } from '../Snakbar/Snakbar';
 
 export default function InFo() {
 
@@ -22,10 +23,17 @@ export default function InFo() {
         inFoDescription: "",
         inFoIcone: ""
     });
+    const [refresh, setRefresh] = useState(false)
 
     const inFoDataRedux = useSelector(
         (state) => state.getHeaderDataReducer_.headerData
     );
+
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar, showError } = snackbar;
 
     useEffect(() => {
         dispatch(getHeaderData());
@@ -33,8 +41,25 @@ export default function InFo() {
 
     const [selectedIcon, setSelectedIcon] = useState(null);
 
+
+    // post data by put 
     const infoHandler = async () => {
         const id = localStorage.getItem("user-ID");
+
+        const { inFoHeading, inFoDescription, inFoIcone } = inFoService
+        if (!inFoHeading) {
+            showError("Title  is Required !")
+            return;
+        }
+        if (!inFoDescription) {
+            showError("Description is Required !")
+            return;
+        }
+        if (!inFoIcone) {
+            showError(" Icone is Required !")
+            return;
+        }
+
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}api/info/update-info/${id}`;
             const fetchData = await fetch(url, {
@@ -43,8 +68,11 @@ export default function InFo() {
                 body: JSON.stringify(inFoService)
             });
 
+            const response = await fetchData.json()
+
             if (fetchData.ok) {
-                alert("Successfully Updated");
+
+                showSnackbar(response.message)
                 setInFoService({
                     inFoHeading: "",
                     inFoDescription: "",
@@ -53,11 +81,28 @@ export default function InFo() {
                 setSelectedIcon(null);
             }
         } catch (error) {
+            showError("Try After Some time !")
             console.error("Internal Error", error);
         }
     };
-
+    // main update
     const infoUpdateHandler = async () => {
+
+        const { inFoHeading, inFoDescription, inFoIcone } = inFoService
+        if (!inFoHeading) {
+            showError("Title  is Required !")
+            return;
+        }
+        if (!inFoDescription) {
+            showError("Description is Required !")
+            return;
+        }
+        if (!inFoIcone) {
+            showError(" Icone is Required !")
+            return;
+        }
+
+
         const userId = localStorage.getItem("user-ID")
         const userDocID = inFoService.userDocId
         try {
@@ -71,8 +116,8 @@ export default function InFo() {
             const result = await response.json();
 
             if (response.ok) {
-                alert("Successfully updated!");
-                console.log("Updated Data:", result);
+                showSnackbar(result.message)
+
             } else {
                 console.error("Update failed:", result);
                 alert("Update failed. Check console for details.");
@@ -131,6 +176,8 @@ export default function InFo() {
                         setInFoIsTrue={setInFoIsTrue}
                         setInFoService={setInFoService}
                         inFoDataRedux={inFoDataRedux}
+                        refresh={refresh}
+                        setRefresh={setRefresh}
                     />
                 </div>
             )

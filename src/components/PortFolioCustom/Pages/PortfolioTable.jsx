@@ -8,13 +8,8 @@ import { useState } from 'react';
 
 
 
-function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFormData }) {
-    const [portfolioTableData, setPortFolioTableData] = useState([])
-
-
-    // console.log("portFolioData___________", portFolioData)
-
-
+function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFormData, showSnackbar }) {
+   
     const handleActionClickDeletePort = async (data = {}) => {
         const userId = localStorage.getItem("user-ID")
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
@@ -30,6 +25,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
             const response = await fetchData.json();
 
             if (fetchData.ok) {
+                showSnackbar(response.message)
                 setPortRefresh(prev => !prev);
             }
 
@@ -125,27 +121,27 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
             renderCell: (params) => (
                 <div className='flex gap-1 items-center'>
                     {/* <Tooltip title="Update"> */}
-                        <IconButton
-                            sx={{
-                                background: "green",
-                                color: '#fff',
-                                // fontWeight: 'bold',
-                                height: "27px",
-                                width: "40px",
-                                textTransform: 'none',
-                                paddingX: 5,
-                                // paddingY: 1,
-                                fontSize: 10,
-                                borderRadius: 2,
-                                boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
-                                '&:hover': {
-                                    background: 'linear-gradient(45deg, #0be574 30%, #10d856 90%)',
-                                },
-                            }}
-                            onClick={() => portUpdatehandle(params.row)}>
-                            {/* <UpdateIcon /> */}
-                            Edit
-                        </IconButton>
+                    <IconButton
+                        sx={{
+                            background: "green",
+                            color: '#fff',
+                            // fontWeight: 'bold',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            // paddingY: 1,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #0be574 30%, #10d856 90%)',
+                            },
+                        }}
+                        onClick={() => portUpdatehandle(params.row)}>
+                        {/* <UpdateIcon /> */}
+                        Edit
+                    </IconButton>
                     {/* </Tooltip> */}
 
                     {/* <Tooltip title="Delete"> */}
@@ -180,6 +176,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
 
 
     const rows = portFolioData && portFolioData?.map((item_) => ({
+
         id: item_?._id,
         profile: item_?.userImage,
         title: item_?.title,
@@ -187,7 +184,9 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
         categories: item_.categories
 
     }))
-    const paginationModel = { page: 0, pageSize: 5 };
+
+    const paginationModel = { page: 0, pageSize: 10 };
+    
     return (
         <Fragment>
             <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>

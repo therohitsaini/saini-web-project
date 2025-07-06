@@ -26,11 +26,13 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
 
 
     const filteredIcons = useMemo(() => {
+
         const term = inputValue.trim().toLowerCase();
         if (!term) return allFaMdIconsList.slice(0, 50); // default
         return allFaMdIconsList
             .filter((icon) => icon.label.toLowerCase().includes(term))
             .slice(0, 100);
+            
     }, [inputValue]);
 
     const onChangeHandler = (e) => {

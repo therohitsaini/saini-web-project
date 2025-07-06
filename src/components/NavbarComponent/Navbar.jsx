@@ -319,7 +319,6 @@ function Navbar({ headerData }) {
                             const iconName = item_?.item_Icone;
                             const IconComponent = allFaMdIconsMap[iconName];
 
-                            console.log("item_.item_Paragraph", item_)
                             return (
                                 < div key={index_} className='hiring-section flex gap-2 text-white items-center'>
                                     {IconComponent ? (
@@ -340,7 +339,7 @@ function Navbar({ headerData }) {
                         bottomHeaderRight?.item.map((item_, index_) => {
                             const iconName = item_?.item_Icone;
                             const IconComponent = allFaMdIconsMap[iconName];
-                            console.log("item_", IconComponent)
+                          
                             return (
                                 < div key={index_} className='time flex gap-1 text-white justify-end items-center'>
                                     {IconComponent ? (

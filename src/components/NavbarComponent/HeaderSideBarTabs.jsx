@@ -16,6 +16,7 @@ import NavbarLogo from './HeaderNavbarCustomizer/NavbarComponents';
 import * as MdIcons from 'react-icons/md';
 import * as FaIcons from 'react-icons/fa';
 import { useMemo } from 'react';
+import { useSnackbar } from '../Snakbar/Snakbar';
 
 
 export const tabsData = [
@@ -161,7 +162,7 @@ export default function HeaderSideBarTabs() {
     const [cartIcone, setCartIcone] = useState(
         { item_CartIcone: "" }
     )
-    console.log("RDFE", cartIcone)
+
     const [headerButton, setHeaderButton] = useState({
         buttonText: ""
     })
@@ -183,6 +184,12 @@ export default function HeaderSideBarTabs() {
     }, [dispatch]);
 
     const headerToBarData = useSelector((state) => state.getHeaderDataReducer_);
+
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar } = snackbar;
 
 
     useEffect(() => {
@@ -416,8 +423,6 @@ export default function HeaderSideBarTabs() {
             };
         }
 
-
-
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/${userIDMain}`;
             const fetchData = await fetch(url, {
@@ -427,9 +432,9 @@ export default function HeaderSideBarTabs() {
             });
 
             const responseJson = await fetchData.json();
-
+            console.log("responseJson", responseJson)
             if (fetchData.ok) {
-                alert("Succesfully")
+                showSnackbar(responseJson.message)
             }
 
         } catch (error) {

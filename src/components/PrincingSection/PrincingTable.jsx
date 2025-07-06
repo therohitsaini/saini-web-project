@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react';
 import { Fragment } from 'react'
 
-function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setPrincingData }) {
+function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setPrincingData, showSnackbar }) {
 
 
     const princingDeleteHandler = async (data = {}) => {
@@ -20,8 +20,9 @@ function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setP
                 body: JSON.stringify({ data: data.id, pageId: pageId })
             });
             const response = await fetchData.json();
+            
             if (fetchData.ok) {
-
+                showSnackbar(response.message)
                 setRefresh(prev => !prev);
             }
 

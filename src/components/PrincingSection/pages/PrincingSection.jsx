@@ -67,7 +67,7 @@ function PrincingSection({ princingGetApiesData }) {
                         <div className='grid grid-cols-3 px-12 gap-10  '>
                             {
                                 plansToRender?.map((item_, index_) => {
-                                    console.log("item_", item_)
+                                   
                                     return (
                                         < div key={index_} className={`main-princing  ${index_ === 1 ? "bg-black" : "bg-[#f7f5f5] "} relative px-5 `} >
                                             <div className={`${index_ === 1 ? "bg-white/30 " : "bg-amber-100/40"}  rounded-b-[50%]`}>

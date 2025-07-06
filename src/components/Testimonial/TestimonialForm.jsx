@@ -8,7 +8,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 
-function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimonialForm, submitted, postTestimonialForm }) {
+function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimonialForm, submitted, postTestimonialForm, setTestimonialMode,updateTestimonialForm }) {
     const [imagePreview, setImagePreview] = useState(null)
 
     const handleFileChange = (e) => {
@@ -45,7 +45,7 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                     alignItems: "center"
                 }}>
                     <Button
-                        onClick={() => setPortMode("Table")}
+                        onClick={() => setTestimonialMode("Table")}
                         variant='outlined'
                         sx={{
                             px: 5,
@@ -86,7 +86,7 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 variant="outlined"
                                 startIcon={<CloudUploadIcon />}
                                 size='small'
-                            // color={submitted && !file ? 'error' : 'primary'}
+                         
                             >
                                 Upload Image
                                 <input
@@ -109,10 +109,10 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 name="heading"
                                 value={testimonialForm.heading}
                                 onChange={onChangeHandler}
-                                error={submitted && !testimonialForm.heading.trim()}
-                                helperText={
-                                    submitted && !testimonialForm.heading.trim() ? 'Title is required' : ''
-                                }
+                                // error={submitted && !testimonialForm.heading.trim()}
+                                // helperText={
+                                //     submitted && !testimonialForm.heading.trim() ? 'Title is required' : ''
+                                // }
                             />
                         </div>
 
@@ -150,7 +150,7 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                         <div className='AutoComplete-input flex gap-2'>
 
                             <TextField
-                                label="Contend"
+                                label="Content"
                                 size="small"
                                 variant="outlined"
                                 name="paragraph"
@@ -164,26 +164,6 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
 
                         </div>
 
-
-
-                        {/* <div className="flex items-center gap-2">
-                            <Checkbox
-                                defaultChecked
-                                checked={portFormData.item_ShowOnWebsite || false}
-                                onChange={(e) =>
-                                    setPortFormData((prev) => ({
-                                        ...prev,
-                                        item_ShowOnWebsite: e.target.checked,
-                                    }))
-                                }
-                                sx={{ m: 0, p: 0 }}
-                                size="small"
-                            />
-                            <p className="text-[14px] text-slate-500">
-                                If you want to show this on the website
-                            </p>
-                        </div> */}
-
                         <div className='button-wrraper flex justify-end'>
                             {
                                 testimonialMode === "UpdateForm"
@@ -191,7 +171,7 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                     (
                                         <Button
                                             variant="contained"
-                                            // onClick={updatePrincing}
+                                            onClick={updateTestimonialForm}
                                             disabled={loading}
                                             sx={{
                                                 textTransform: 'none',

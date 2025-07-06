@@ -16,6 +16,8 @@ import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
 import { useMemo } from 'react';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useSnackbar } from '../Snakbar/Snakbar';
 
 export default function HeroSectionCustome() {
 
@@ -34,6 +36,7 @@ export default function HeroSectionCustome() {
 
     }
     const [heroFormData, setHeroFormData] = useState(initialState);
+    const [imagePreview, setImagePreview] = useState(null);
     const data = useSelector((state) => state?.getHeaderDataReducer_);
 
 
@@ -42,17 +45,13 @@ export default function HeroSectionCustome() {
         ...Object.entries(FaIcons),
         // ...MdIcons,
         // ...FaIcons,
-
     ]
 
-    // const allFaMdIcons = allFaMdIcons_.map(([name, Icon]) => ({
-    //     label: name,
-    //     Icon
-    // }))
-
-    // const [selectedIcon, setSelectedIcon] = useState(
-    //     allFaMdIcons.find((i) => i.label === heroFormData?.heroPlay_Button) || null
-    // )
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar, showError } = snackbar;
 
     useEffect(() => {
 
@@ -74,6 +73,7 @@ export default function HeroSectionCustome() {
     };
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        setImagePreview(URL.createObjectURL(file))
         if (file) {
             setHeroFormData((prev) => ({
                 ...prev,
@@ -85,6 +85,20 @@ export default function HeroSectionCustome() {
 
     // pof use post purpse
     const submitHandler = async () => {
+
+        const { heroImgUrl, heroSlideSubTitle, heroSlideTitle } = heroFormData
+        if (!heroImgUrl) {
+            showError("Slider Image is Required !")
+            return
+        }
+        if (!heroSlideSubTitle) {
+            showError("Title  is Required !")
+            return
+        }
+        if (!heroSlideTitle) {
+            showError("Headline Image is Required !")
+            return
+        }
 
         const formData = new FormData();
         if (heroFormData.heroImgUrl) {
@@ -107,9 +121,10 @@ export default function HeroSectionCustome() {
             const result = await response.json();
 
             if (response.ok) {
-                alert("Sussfully ")
-                console.log("Updated Data:", result);
+                showSnackbar(result.message)
                 setHeroFormData(initialState)
+                setSelectedIcon(null);
+                setInputValue("");
             } else {
                 console.error("Error response:", result);
                 alert("Failed to update hero section.");
@@ -152,9 +167,9 @@ export default function HeroSectionCustome() {
             const result = await response.json();
 
             if (response.ok) {
-                alert("Successfully updated!");
-                console.log("Updated Data:", result);
+                showSnackbar(result.message)
                 setHeroFormData(initialState)
+
 
             } else {
                 console.error("Update failed:", result);
@@ -215,162 +230,180 @@ export default function HeroSectionCustome() {
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
             {
                 isTureTable === "AddNewData" || isTureTable === "Edit" ?
-                    < form className='flex justify-center flex-col items-center w-full  min-h-[560px]  px-30 gap-3'>
-                        <div className='w-full'>
-                            <Button
-                                onClick={() => setIsTableTrue(false)}
-                                sx={{
 
-                                    px: 10,
-                                    textTransform: "none",
-                                    fontVariant: "all-small-caps"
-                                }} variant="outlined">
-                                Back
-                            </Button>
+                    <div className=' h-[95%] flex flex-col items-center justify-center'>
+                        <div className='flex justify-between  w-full mt-10 items-center pr-20'>
+                            <div className='w-full  '>
+                                <Button
+                                    onClick={() => setIsTableTrue(false)}
+                                    sx={{
 
+                                        px: 8,
+                                        textTransform: "none",
+                                        fontVariant: "all-small-caps"
+                                    }} variant="outlined">
+                                    <KeyboardBackspaceIcon sx={{ mr: 1 }} />     Back
+                                </Button>
+
+                            </div>
+                            <div className='img-wrraper h-30 rounded-full w-34 '>
+                                {imagePreview ? (
+                                    <img
+                                        src={imagePreview}
+                                        alt="Preview"
+                                        className="object-cover h-full w-full rounded-full"
+                                    />
+                                ) : (
+                                    <Typography variant="body2" sx={{ p: 1, fontSize: 12, textAlign: "center" }}>
+                                        Not Found!
+                                    </Typography>
+                                )}
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-4 border border-slate-800  p-5 rounded-md   w-full ">
-                            <h1 className='flex justify-start w-full'>Slider Image</h1>
-                            <div
-                                className="border border-slate-400/20 rounded-md p-5 w-[100%] relative flex justify-center"
-                            >
-                                <div className="flex flex-col justify-between gap-2 mb-3">
-                                    <div className='flex gap-3'>
+                        < form className='flex justify-center flex-col items-center w-full  min-h-[430px]   px-30 '>
+                            <div className="flex flex-col gap-4 border border-slate-800  p-5 rounded-md   w-full ">
+                                <h1 className='flex justify-start w-full'>Slider Image</h1>
+                                <div
+                                    className="border border-slate-400/20 rounded-md p-5 w-[100%] relative flex justify-center"
+                                >
+                                    <div className="flex flex-col justify-between gap-2 mb-3">
+                                        <div className='flex gap-3'>
 
-                                        <Button
-                                            sx={{
-                                                width: '400px'
-                                            }}
-                                            component="label"
-                                            variant="outlined"
-                                            startIcon={<CloudUploadIcon />}
-                                        >
-                                            Upload Image
-                                            <input
-                                                type="file"
-                                                hidden
-                                                accept="image/*"
-                                                onChange={handleFileChange}
-                                            />
-                                        </Button>
-
-
-                                        <Autocomplete
-                                            options={filteredIcons}
-                                            value={selectedIcon}
-
-                                            onChange={(e, newValue) => {
-                                                setSelectedIcon(newValue);
-                                                setHeroFormData((prev) => ({
-                                                    ...prev,
-                                                    heroPlay_Button: newValue ? newValue.label : "",
-                                                }));
-                                            }}
-                                            size='small'
-                                            inputValue={inputValue}
-                                            onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-                                            getOptionLabel={(option) => option.label}
-                                            isOptionEqualToValue={(option, value) => option.label === value?.label}
-                                            renderOption={(props, option) => (
-                                                <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                    <option.Icon />
-                                                    {option.label}
-                                                </Box>
-                                            )}
-                                            renderInput={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    label="Search Iocne"
-                                                    variant="outlined"
-                                                    sx={{
-                                                        width: '400px'
-                                                    }}
-                                                    InputProps={{
-                                                        ...params.InputProps,
-                                                        startAdornment: selectedIcon?.Icon && (
-                                                            <InputAdornment position="start" sx={{ mr: 1 }}>
-                                                                <selectedIcon.Icon />
-                                                            </InputAdornment>
-                                                        ),
-                                                    }}
+                                            <Button
+                                                sx={{
+                                                    width: '400px'
+                                                }}
+                                                component="label"
+                                                variant="outlined"
+                                                startIcon={<CloudUploadIcon />}
+                                            >
+                                                Upload Image
+                                                <input
+                                                    type="file"
+                                                    hidden
+                                                    accept="image/*"
+                                                    onChange={handleFileChange}
                                                 />
-                                            )}
-                                        />
+                                            </Button>
 
-                                    </div>
 
-                                    <div className='flex gap-3' >
+                                            <Autocomplete
+                                                options={filteredIcons}
+                                                value={selectedIcon}
 
-                                        <TextField
-                                            size='small'
-                                            label="Title"
-                                            name='heroSlideSubTitle'
-                                            value={heroFormData.heroSlideSubTitle}
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
+                                                onChange={(e, newValue) => {
+                                                    setSelectedIcon(newValue);
+                                                    setHeroFormData((prev) => ({
+                                                        ...prev,
+                                                        heroPlay_Button: newValue ? newValue.label : "",
+                                                    }));
+                                                }}
+                                                size='small'
+                                                inputValue={inputValue}
+                                                onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                                                getOptionLabel={(option) => option.label}
+                                                isOptionEqualToValue={(option, value) => option.label === value?.label}
+                                                renderOption={(props, option) => (
+                                                    <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                        <option.Icon />
+                                                        {option.label}
+                                                    </Box>
+                                                )}
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        label="Search Iocne"
+                                                        variant="outlined"
+                                                        sx={{
+                                                            width: '400px'
+                                                        }}
+                                                        InputProps={{
+                                                            ...params.InputProps,
+                                                            startAdornment: selectedIcon?.Icon && (
+                                                                <InputAdornment position="start" sx={{ mr: 1 }}>
+                                                                    <selectedIcon.Icon />
+                                                                </InputAdornment>
+                                                            ),
+                                                        }}
+                                                    />
+                                                )}
+                                            />
 
-                                        <TextField
-                                            size='small'
-                                            label="Heading"
-                                            name='heroSlideTitle'
-                                            value={heroFormData.heroSlideTitle}
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </div>
+                                        </div>
 
-                                    <div className='flex gap-3 ' >
+                                        <div className='flex gap-3' >
 
-                                        <TextField
-                                            size='small'
-                                            label="Button Text 1"
-                                            name='heroButton_One'
-                                            value={heroFormData.heroButton_One}
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
+                                            <TextField
+                                                size='small'
+                                                label="Title"
+                                                name='heroSlideSubTitle'
+                                                value={heroFormData.heroSlideSubTitle}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
 
-                                        <TextField
-                                            size='small'
-                                            label="Button Text 2"
-                                            name='heroButton_Two'
-                                            value={heroFormData.heroButton_Two}
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
+                                            <TextField
+                                                size='small'
+                                                label="Headline"
+                                                name='heroSlideTitle'
+                                                value={heroFormData.heroSlideTitle}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
+                                        </div>
+
+                                        <div className='flex gap-3 ' >
+
+                                            <TextField
+                                                size='small'
+                                                label="Button Text 1"
+                                                name='heroButton_One'
+                                                value={heroFormData.heroButton_One}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
+
+                                            <TextField
+                                                size='small'
+                                                label="Button Text 2"
+                                                name='heroButton_Two'
+                                                value={heroFormData.heroButton_Two}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
 
-                            <div className='button-wrraper flex justify-end'>
+                                <div className='button-wrraper flex justify-end'>
 
-                                {
-                                    isTureTable === "Edit" ? (<Button variant="contained"
-                                        sx={{
-                                            textTransform: "none",
-                                            px: 10
-                                        }}
-                                        onClick={updateHandlerSubmit}
-                                    >
-                                        Update
-                                    </Button>
-                                    ) :
-                                        (<Button variant="contained"
+                                    {
+                                        isTureTable === "Edit" ? (<Button variant="contained"
                                             sx={{
                                                 textTransform: "none",
                                                 px: 10
                                             }}
-                                            onClick={submitHandler}
+                                            onClick={updateHandlerSubmit}
                                         >
-                                            Save Changes
+                                            Update
                                         </Button>
-                                        )
-                                }
+                                        ) :
+                                            (<Button variant="contained"
+                                                sx={{
+                                                    textTransform: "none",
+                                                    px: 10
+                                                }}
+                                                onClick={submitHandler}
+                                            >
+                                                Save Changes
+                                            </Button>
+                                            )
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                     :
                     <HeroTable setIsTableTrue={setIsTableTrue} userId={userId} setHeroFormData={setHeroFormData} />
             }

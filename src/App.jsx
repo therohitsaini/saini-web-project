@@ -41,7 +41,6 @@ function App() {
     <Fragment>
       <BrowserRouter>
         <Routes>
-
           <Route path='/signup' element={<SignUp />} />
           <Route path='/' element={<SignIn />} />
           <Route path='/home' element={< Home />} />

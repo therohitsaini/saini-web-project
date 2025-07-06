@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import PrincingTable from './PrincingTable'
 import { Fragment } from 'react'
 import { useEffect } from 'react'
+import { useSnackbar } from '../Snakbar/Snakbar'
 
 function PrincingCustom() {
     const initialState = {
@@ -27,6 +28,14 @@ function PrincingCustom() {
         const id = localStorage.getItem("user-ID")
         setId(id)
     }, [])
+
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar } = snackbar;
+
+
     const postPrincingData = async () => {
         setLoading(true);
 
@@ -63,10 +72,9 @@ function PrincingCustom() {
             const responseJson = await fetchData.json();
 
             if (fetchData.ok) {
-                toast.success(responseJson.message)
-                alert("Succesfully")
+                showSnackbar(responseJson.message)
                 setPrincingData(initialState)
-
+                setRefresh((ref) => !ref)
             }
 
         } catch (error) {
@@ -113,8 +121,8 @@ function PrincingCustom() {
             });
             const result = await response.json();
             if (response.ok) {
-                alert("Successfully updated!");
-                console.log("Updated Data:", result);
+                showSnackbar(result.message)
+                setRefresh((ref) => !ref)
             } else {
                 console.error("Update failed:", result);
                 alert("Update failed. Check console for details.");
@@ -174,6 +182,7 @@ function PrincingCustom() {
                             setRefresh={setRefresh}
                             princingMode={princingMode}
                             setPrincingData={setPrincingData}
+                            showSnackbar={showSnackbar}
                         />
                     )
             }

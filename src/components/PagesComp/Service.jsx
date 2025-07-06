@@ -7,10 +7,9 @@ import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 const Service = ({ serviceCard }) => {
-    console.log("servce___S", serviceCard)
     const iconName = serviceCard?.iconeTop;
     const IconComponent = allFaMdIconsMap[iconName];
-    console.log("icone", iconName)
+   
 
     return (
         <Fragment>

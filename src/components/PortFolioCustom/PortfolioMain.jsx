@@ -5,6 +5,7 @@ import PortfolioForm from './Pages/PortfolioForm'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import PortfolioTable from './Pages/PortfolioTable'
+import { useSnackbar } from '../Snakbar/Snakbar'
 
 function PortfolioMain() {
   const inistialtate = {
@@ -29,6 +30,12 @@ function PortfolioMain() {
     const id = localStorage.getItem("user-ID")
     setUserID(id)
   }, [])
+
+  const snackbar = useSnackbar();
+  if (!snackbar) {
+    throw new Error("useSnackbar must be used within a SnackbarProvider");
+  }
+  const { showSnackbar } = snackbar;
 
   const submitPortHandler = async () => {
     const formData = new FormData();
@@ -57,7 +64,7 @@ function PortfolioMain() {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Successfully submitted.");
+        showSnackbar(result.message)
         setPortFormData(inistialtate)
         setPortRefresh((ref) => !ref)
       } else {
@@ -124,9 +131,6 @@ function PortfolioMain() {
       return;
     }
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
 
     try {
       const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/update-port-folio/${userId}/${userDocID}`;
@@ -138,7 +142,7 @@ function PortfolioMain() {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Successfully submitted.");
+        showSnackbar(result.message)
         setPortRefresh((ref) => !ref)
       } else {
         console.error("Error response:", result);
@@ -176,6 +180,7 @@ function PortfolioMain() {
               portFolioData={portFolioData}
               setPortRefresh={setPortRefresh}
               setPortFormData={setPortFormData}
+              showSnackbar={showSnackbar}
 
             />
           )

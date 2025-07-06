@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
+const InFoTable = ({ setInFoIsTrue, setInFoService, refresh, setRefresh }) => {
     const [inFoData, setInFoData] = useState([])
 
     const dispatch = useDispatch()
@@ -39,7 +39,7 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getInfoData(id)
-    }, [])
+    }, [refresh])
 
 
     const inFoDeleteHandler = async (data = {}) => {
@@ -77,9 +77,6 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
     }
 
     const columns = [
-        //  { field: 'id', headerName: 'ID', width: 90 },
-        // { field: 'bgimg', headerName: 'Backgorund Image', width: 230 },
-        // { field: 'playButton', headerName: 'Play Button', width: 220 },
         {
             field: 'subTitle',
             headerName: 'Sub Title',
@@ -96,22 +93,18 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
             width: 270,
             renderCell: (params) => (
                 <div className='flex gap-1 items-center'>
-                    {/* <Tooltip title="Update"> */}
                     <IconButton
                         sx={{
                             background: "green",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
 
-                            // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
                             '&:hover': {
                                 background: 'linear-gradient(45deg, #0ddc3a 30%, #34e977 90%)',
                             },
@@ -119,25 +112,21 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
                         onClick={() => updateInfoHandler(params.row)}
                     >
                         Edit
-                        {/* <Icon icon={"clarity:update-line"} /> */}
+
                     </IconButton>
-                    {/* </Tooltip> */}
-                    {/* <Tooltip title="Delete"> */}
+
                     <IconButton
                         sx={{
                             background: "red",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
 
-                            // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
                             '&:hover': {
                                 background: 'linear-gradient(45deg, #de0f0f 30%, #f00e11 90%)',
                             },
@@ -145,9 +134,7 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
                         onClick={() => inFoDeleteHandler(params.row)}
                     >
                         Delete
-                        {/* <DeleteIcon color="error" /> */}
                     </IconButton>
-                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,
@@ -157,7 +144,6 @@ const InFoTable = ({ setInFoIsTrue, setInFoService }) => {
     const rows = inFoData?.map((item_) => ({
         id: item_._id,
         title: item_.inFoHeading,
-        // playButton: item_.inFoDescription,
         subTitle: item_.inFoDescription,
 
     }))

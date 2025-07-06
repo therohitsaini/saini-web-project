@@ -61,12 +61,27 @@
 }
 
 .swiper-pagination-bullet {
-  background-color: #df442d; /* your custom color */
+  background-color: #df442d; 
   opacity: 0.5;
 }
 
-/* Change active bullet color */
 .swiper-pagination-bullet-active {
-  background-color: #df442d; /* highlighted active */
+  background-color: #df442d; 
   opacity: 1;
+}
+
+/* animation for delete row */
+.row-deleting {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }

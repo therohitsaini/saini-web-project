@@ -33,12 +33,12 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
     return (
         <Fragment>
             <div className='service main  h-[500px] flex items-center justify-center'>
-                <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5 bg-[#1f1e1f]  '>
+                <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5  '>
                     <h1>Customize Service</h1>
                     <Divider />
                     <TextField
                         size='small'
-                        label="Heading"
+                        label="Title"
                         name='inFoHeading'
                         value={inFoService.inFoHeading}
                         onChange={inFoOnchange}
@@ -76,7 +76,7 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Search Iocne"
+                                label=" Iocne"
                                 variant="outlined"
                                 fullWidth
                                 InputProps={{

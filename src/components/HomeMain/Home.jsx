@@ -20,15 +20,12 @@ function Home() {
     const [funfactSectionData, setFunfactSectionData] = useState([])
     const [portFolioData, setPortFolioData] = useState([])
     const [princingGetApiesData, setPrincingGetApiesData] = useState([])
+    const [testimonialApiesDataUI, setTestimonialApiesDataUI] = useState([])
 
-    console.log("funfactSectionData__________TT", princingGetApiesData)
     const dispatch = useDispatch()
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
-    useEffect(() => {
-
-    }, [])
 
 
     const getHeaderDataBy_ = async (id) => {
@@ -139,6 +136,29 @@ function Home() {
         }
     }
 
+    const getTestmonialDataByID = async (id) => {
+
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/testimonial/get-testimonial/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const JsonData = await response.json();
+
+            if (response.ok) {
+                setTestimonialApiesDataUI(JsonData.data)
+            }
+            else {
+                console.log("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
+
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getHeaderDataBy_(id)
@@ -147,9 +167,10 @@ function Home() {
         getFunfactDataBy_(id)
         getPortDataByID()
         getPrincingData(id)
+        getTestmonialDataByID(id)
     }, [])
 
-
+    console.log("testimonialApiesDataUI", testimonialApiesDataUI)
 
     return (
         <Fragment>
@@ -167,7 +188,9 @@ function Home() {
             <PrincingSection
                 princingGetApiesData={princingGetApiesData}
             />
-            <TestimonialSection />
+            <TestimonialSection
+                testimonialApiesDataUI={testimonialApiesDataUI}
+            />
 
         </Fragment>
     )

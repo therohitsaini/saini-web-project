@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
-function ServiceTable({ setServiceTableTrue, setServiceCustom }) {
+function ServiceTable({ setServiceTableTrue, setServiceCustom, showSnackbar }) {
 
     const [serviceSection, setServiceSection] = useState([])
     const [reFresh, setRefresh] = useState(false)
@@ -53,7 +53,7 @@ function ServiceTable({ setServiceTableTrue, setServiceCustom }) {
             });
             const response = await fetchData.json();
             if (fetchData.ok) {
-
+                showSnackbar(response.message)
                 setRefresh(prev => !prev);
             }
 
