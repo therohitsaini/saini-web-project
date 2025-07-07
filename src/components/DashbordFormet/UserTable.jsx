@@ -14,6 +14,7 @@ import { green } from '@mui/material/colors';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useSnackbar } from '../Snakbar/Snakbar';
 
 function UserTable() {
 
@@ -30,7 +31,12 @@ function UserTable() {
     const [isTure_, setIsTrue_] = useState(false)
     const [isUpdateOnComponent, setIsUpdateOnComponent] = useState(true)
 
-    // console.log("arrIds", arrIds)
+
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar, showError } = snackbar;
 
     const router = useDemoRouter("/dashboard");
 
@@ -94,8 +100,8 @@ function UserTable() {
 
             const result = await response.json();
 
-            if (!response.ok) {
-                throw new Error(result.message || 'Failed to delete users.');
+            if (response.ok) {
+                showSnackbar(result.message)
             }
 
             alert(`Deleted ${result.deletedCount} user(s) successfully.`);
@@ -133,7 +139,7 @@ function UserTable() {
         {
             field: 'status',
             headerName: 'Status',
-            width: 160,
+            width: 120,
             renderCell: (params) => {
                 const isActive = params.row.status === true;
                 // console.log("isActive", isActive)
@@ -165,19 +171,52 @@ function UserTable() {
         {
             field: 'action',
             headerName: 'Action',
-            width: 150,
+            width: 190,
             renderCell: (params) => (
-                <div className='flex gap-1'>
-                    <Tooltip title="Update">
-                        <IconButton onClick={() => handleActionClick(params.row)}>
-                            <EditSquareIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton onClick={() => handleActionClickDelete(params.row)}>
-                            <DeleteIcon color="error" />
-                        </IconButton>
-                    </Tooltip>
+                <div className='flex gap-1 items-center'>
+                    {/* <Tooltip title="Update"> */}
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            backgroundColor: " #089f4a ",
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #089f4a 30%, #0fc874 90%)',
+
+                            },
+                        }}
+                        onClick={() => handleActionClick(params.row)}>
+                        {/* <EditSquareIcon /> */}
+                        Edit
+                    </IconButton>
+                    {/* </Tooltip> */}
+                    {/* <Tooltip title="Delete"> */}
+                    <IconButton
+                        sx={{
+                            background: "red",
+                            color: '#fff',
+                            height: "27px",
+                            width: "40px",
+                            textTransform: 'none',
+                            paddingX: 5,
+                            fontSize: 10,
+                            borderRadius: 2,
+                            boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+                            '&:hover': {
+                                background: 'linear-gradient(45deg, #e81010 30%, #eb1216 90%)',
+                            },
+                        }}
+                        onClick={() => handleActionClickDelete(params.row)}>
+                        Delete
+                    </IconButton>
+                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,
@@ -187,7 +226,7 @@ function UserTable() {
 
 
     const hanlderActiveToggle = async (id) => {
-      
+
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin/change-satuts/${id}`
             const updateStatus = await fetch(url, {
@@ -230,7 +269,7 @@ function UserTable() {
         status: item.userStatus
     }));
 
-  
+
 
     return (
         <Fragment>
@@ -298,9 +337,9 @@ function UserTable() {
                         setRefreshFlag={setRefreshFlag}
                         setIsTrue={setIsTrue}
                         isTrue={isTrue}
-                        // setImagePicker={setImagePicker}
-                        // imagePicker={imagePicker}
-                        // userProfilePictureHandler={userProfilePictureHandler}
+                    // setImagePicker={setImagePicker}
+                    // imagePicker={imagePicker}
+                    // userProfilePictureHandler={userProfilePictureHandler}
 
                     />
                 </div>

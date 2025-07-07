@@ -461,16 +461,14 @@ export default function HeaderSideBarTabs() {
             } else {
                 formData.append("textLogo", text);
             }
-        } else {
-            formData.append("item", JSON.stringify(iconFields)); // For other sections like NavManuItem
-        }
+        } 
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/logo/logo/${id}`;
 
             const res = await fetch(url, {
                 method: "POST",
-                body: formData // ✅ no content-type header here
+                body: formData 
             });
 
             const result = await res.json();

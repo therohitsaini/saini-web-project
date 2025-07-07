@@ -202,25 +202,34 @@ export default function HeroTable({ setIsTableTrue, userId, setHeroFormData }) {
                 </Button>
             </div>
 
-            <Paper sx={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{ pagination: { paginationModel } }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                    sx={{
-                        '& .MuiDataGrid-columnHeader': {
-                            color: 'white',
-                        },
-                        '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
-                            display: 'flex', justifyContent: "center"
-                        },
-                        // fontVariant: "all-small-caps"
-                    }}
-                />
+            {
+                HeroSection_ && HeroSection_.length > 0 ?
+                    (<Paper sx={{ height: 400, width: '100%' }}>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            initialState={{ pagination: { paginationModel } }}
+                            pageSizeOptions={[5, 10]}
+                            checkboxSelection
+                            sx={{
+                                '& .MuiDataGrid-columnHeader': {
+                                    color: 'white',
+                                },
+                                '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
+                                    display: 'flex', justifyContent: "center"
+                                },
+                                // fontVariant: "all-small-caps"
+                            }}
+                        />
 
-            </Paper>
+                    </Paper>)
+                    :
+                    (
+                        <div className=' h-[400px] flex justify-center items-center'>
+                            <h1>No Record Found</h1>
+                        </div>
+                    )
+            }
         </div>
     );
 }

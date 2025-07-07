@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 const testimonials = [
     {
         heading: "Our Awesome Clients Review For Inspiration",
-        userProfile: "",
+        userProfile: "https://plus.unsplash.com/premium_photo-1661688791119-418b28a3ca60?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8b2ZmaWNlJTIwd29ya2VyfGVufDB8fDB8fHww",
         userName: "Mike Williams",
         occupationRole: "Marketing Manager",
         paragraph:
@@ -19,7 +19,7 @@ const testimonials = [
     },
     {
         heading: "Our Awesome Clients Review For Inspiration",
-        userProfile: "",
+        userProfile: "https://media.istockphoto.com/id/2194848329/photo/mid-adult-businessman-with-beard-and-glasses-wearing-blue-shirt-listening-and-concentrating.webp?a=1&b=1&s=612x612&w=0&k=20&c=JCwp0PO_9P9zkL-N85zUw1fRyThnsoxePTyq-uGHgHM=",
         userName: "Sarah Johnson",
         occupationRole: "Product Designer",
         paragraph:
@@ -27,7 +27,7 @@ const testimonials = [
     },
     {
         heading: "Our Awesome Clients Review For Inspiration",
-        userProfile: "",
+        userProfile: "https://media.istockphoto.com/id/2165154407/photo/two-professional-women-collaborating-on-a-project-in-office.webp?a=1&b=1&s=612x612&w=0&k=20&c=JFiiqnspsBaecS8U4Ot-uy_RkwPn3ZVswbf0EhbKl7k=",
         userName: "Alex Smith",
         occupationRole: "CEO, Startup Inc.",
         paragraph:
@@ -35,7 +35,7 @@ const testimonials = [
     },
     {
         heading: "Our Awesome Clients Review For Inspiration",
-        userProfile: "",
+        userProfile: "https://images.unsplash.com/photo-1621857093087-7daa85ab14a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG9mZmljZSUyMHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D",
         userName: "Alex Smith",
         occupationRole: "CEO, Startup Inc.",
         paragraph:
@@ -58,7 +58,12 @@ const AnimatedSlide = styled.div`
   animation: ${fadeUp} 0.8s ease-out;
 `;
 
+
+
 export default function TestimonialSection({ testimonialApiesDataUI }) {
+    const dataToUse = Array.isArray(testimonialApiesDataUI) && testimonialApiesDataUI.length > 0
+        ? testimonialApiesDataUI
+        : testimonials;
     return (
         <Fragment>
             <div className="w-full bg-gray-100 py-12 relative overflow-hidden">
@@ -143,7 +148,7 @@ export default function TestimonialSection({ testimonialApiesDataUI }) {
                             ))
                         } */}
                         {
-                            (testimonialApiesDataUI ? testimonialApiesDataUI : testimonials)?.map((item, idx) => {
+                            dataToUse?.map((item, idx) => {
                                 const heading = item?.heading?.trim() || '';
                                 const words = heading.split(' ');
                                 const lastTwoWords = words.slice(-2).join(' ');

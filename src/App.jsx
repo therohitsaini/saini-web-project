@@ -28,6 +28,7 @@ import PrincingSection from './components/PrincingSection/pages/PrincingSection'
 import PortfolioMain from './components/PortFolioCustom/PortfolioMain';
 import PrincingCustom from './components/PrincingSection/PrincingCustom';
 import TestimonialSection from './components/Testimonial/Pages/TestimonialSection';
+import FeatureSection from './components/Featuresection/pages/FeatureSection';
 
 
 
@@ -68,6 +69,8 @@ function App() {
           <Route path='/princing-section' element={< PrincingSection />} />
           <Route path='/princingcustom' element={< PrincingCustom />} />
           <Route path='/testimonialSection' element={< TestimonialSection />} />
+          <Route path='/featureSection' element={< FeatureSection />} />
+          
 
           
 

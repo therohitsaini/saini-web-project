@@ -51,6 +51,8 @@ export default function NavbarLogo({ setFile, setText, handleSubmitLogo }) {
                 <TextField
                     label="Site Logo"
                     size="small"
+                    name='logo'
+                    value={text.logo}
                     onChange={(e) => setText(e.target.value)}
                     variant="outlined"
                 >

@@ -108,7 +108,7 @@ const MuiAppBar = (props) => {
         if (user_ID && /^[a-f\d]{24}$/i.test(user_ID)) {
             fetchProfilePicture(user_ID);
         }
-    }, [user_ID,]);
+    }, [user_ID, profileRefress]);
 
 
     function DashboardPage() {
@@ -215,11 +215,14 @@ const MuiAppBar = (props) => {
 
                     },
                     // "& .MuiPaper-root ": {
-                    //     background: "linear-gradient(to top right, #1e606167, #06a6e633)",
+                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
                     //     // background: "linear-gradient(to top right, #131823, #051116a4)",
                     // },
-                    // "& .MuiContainer-root": {
-                    //     background: "linear-gradient(to top right, #131823, #1c4c5f)",
+                    // "& .MuiListSubheader-root ": {
+                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
+                    // },
+                    // "& .MuiBox-root" : {
+                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
 
                     // },
 

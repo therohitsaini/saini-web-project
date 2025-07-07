@@ -19,7 +19,7 @@ const portfolioData = [
         title: 'Winning Work',
         subTitle: 'Development Strategy',
         // userImage: 'https://www.freepik.com/free-photo/smiling-businessman-working-his-office-businessperson-professional-environment_22063511.htm#from_element=cross_selling__photo'
-        userImage: 'https://image.shutterstock.com/image-photo/group-colleagues-engaging-discussion-during-260nw-2461746317.jpg'
+        userImage: 'https://media.istockphoto.com/id/1822184423/photo/young-business-person-using-computer-in-bank-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=ZoTqt65zUD5zdFFRzRaydksPJkP328eWC68ZFWBL89o='
 
     },
     {
@@ -35,7 +35,7 @@ const portfolioData = [
         categories: ['marketing', 'development', 'support'],
         title: 'Winning Work',
         subTitle: 'Development Strategy',
-        userImage: 'http://127.0.0.1:5500/corpex-html/assets/images/portfolio/userImage-3.jpg'
+        userImage: 'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8b2ZmaWNlJTIwd29ya2VyfGVufDB8fDB8fHww'
 
     },
     {
@@ -43,7 +43,7 @@ const portfolioData = [
         categories: ['design', 'development'],
         title: 'Winning Work',
         subTitle: 'Development Strategy',
-        userImage: 'http://127.0.0.1:5500/corpex-html/assets/images/portfolio/userImage-4.jpg'
+        userImage: 'https://images.unsplash.com/photo-1552960394-c81add8de6b8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fG9mZmljZSUyMHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D'
 
     },
     {
@@ -51,7 +51,7 @@ const portfolioData = [
         categories: ['support', 'marketing'],
         title: 'Winning Work',
         subTitle: 'Development Strategy',
-        userImage: 'http://127.0.0.1:5500/corpex-html/assets/images/portfolio/userImage-6.jpg'
+        userImage: 'https://images.unsplash.com/photo-1580894908361-967195033215?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG9mZmljZSUyMHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D'
 
     },
 ];
