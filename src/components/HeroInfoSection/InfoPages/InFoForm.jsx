@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, Checkbox, Divider, InputAdornment, TextField } from '@mui/material'
 import React from 'react'
 import { Fragment } from 'react'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
@@ -90,6 +90,23 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
                             />
                         )}
                     />
+                    <div className="flex items-center gap-2  sticky top-0">
+                        <Checkbox
+                            defaultChecked
+                            // checked={formData?.item_ShowOnWebsite || false}
+                            // onChange={(e) =>
+                            //     setIconeCenter((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                        />
+                        <p className="text-[14px] text-slate-500 font-sans">
+                            If you want to show this on the website
+                        </p>
+                    </div>
 
                     {
                         inFoIsTrue === "Edit" ?

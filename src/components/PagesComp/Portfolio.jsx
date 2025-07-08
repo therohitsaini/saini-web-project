@@ -1,8 +1,30 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import FadeInWrapper from '../../StyledComponents/FadeInWrapper';
+// import FadeInWrapper from '../../StyledComponents/FadeInWrapper';
 import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
+
+// FadeInWrapper.jsx
+import styled, { keyframes } from "styled-components";
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const FadeInWrapper = styled.div`
+  opacity: 0;
+  animation: ${fadeInUp} 0.5s ease forwards;
+`;
+
+
+
 
 const portfolioData = [
     {
@@ -18,7 +40,6 @@ const portfolioData = [
         categories: ['development', 'support', 'marketing'],
         title: 'Winning Work',
         subTitle: 'Development Strategy',
-        // userImage: 'https://www.freepik.com/free-photo/smiling-businessman-working-his-office-businessperson-professional-environment_22063511.htm#from_element=cross_selling__photo'
         userImage: 'https://media.istockphoto.com/id/1822184423/photo/young-business-person-using-computer-in-bank-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=ZoTqt65zUD5zdFFRzRaydksPJkP328eWC68ZFWBL89o='
 
     },
@@ -61,9 +82,7 @@ const categories = ['all', 'design', 'development', 'marketing', 'support'];
 export default function PortfolioSection({ portFolioData }) {
     const [activeFilter, setActiveFilter] = useState('all');
 
-    // const filteredItems = portFolioData ? portFolioData : portfolioData.filter(item =>
-    //     activeFilter === 'all' || item.categories.includes(activeFilter)
-    // );
+
     const baseData = Array.isArray(portFolioData) && portFolioData.length > 0
         ? portFolioData
         : portfolioData;
@@ -76,14 +95,6 @@ export default function PortfolioSection({ portFolioData }) {
         <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
 
-                {/* <div className="text-center mb-10">
-                    <h2 className="text-4xl font-bold">
-                        Our <span className="text-[#df442d]">Portfolio</span>
-                    </h2>
-                    <p className="mt-2 text-gray-600">
-                        There are many variations of passages of Lorem Ipsum available
-                    </p>
-                </div> */}
                 <div className='title-secton-top flex flex-col items-center mb-10'>
                     <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Portfolio </span></div> </h1>
                     <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
@@ -128,7 +139,6 @@ export default function PortfolioSection({ portFolioData }) {
                                     className="relative bg-white shadow-lg rounded-lg overflow-hidden group transition-transform duration-300"
                                 >
                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-700 bg-[linear-gradient(to_bottom,_black,_#df442d)]"></div>
-
                                     <img
                                         src={imgSrc}
                                         alt={item_.title}
@@ -146,9 +156,6 @@ export default function PortfolioSection({ portFolioData }) {
                                             <div className="icon-main h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 bg-orange-100/20">
                                                 <button className="icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl shadow-black/20 shadow-sm bg-[#de442c]">
                                                     <KeyboardDoubleArrowRightIcon sx={{ color: "white" }} />
-
-                                                    {/* <IconeComponent color="white" size={24} /> */}
-
                                                 </button>
                                             </div>
                                             {/* } */}

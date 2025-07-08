@@ -4,6 +4,7 @@ import {
     Box,
     Button,
     Checkbox,
+    CircularProgress,
     Divider,
     InputAdornment,
     TextField,
@@ -27,7 +28,10 @@ export const allFaMdIconsList = Object.entries(allFaMdIconsMap).map(([name, Icon
 }));
 
 // end
-function HeaderTopLeft({ formData, setFormData, submitHandler }) {
+
+
+
+function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loading }) {
     const [selectedIcon, setSelectedIcon] = useState(
         allFaMdIconsList.find((i) => i.label === formData?.item_Icone) || null
     );
@@ -47,7 +51,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
         if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
         return allFaMdIconsList
             .filter((icon) => icon.label.toLowerCase().includes(term))
-            .slice(0, 100); 
+            .slice(0, 100);
     }, [inputValue]);
 
     useEffect(() => {
@@ -94,7 +98,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                                     item_Icone: newValue ? newValue.label : '',
                                 }));
                             }}
-                            
+
                             inputValue={inputValue}
                             onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                             getOptionLabel={(option) => option.label}
@@ -150,13 +154,19 @@ function HeaderTopLeft({ formData, setFormData, submitHandler }) {
                             </p>
                         </div>
 
-                        <Button
-                            sx={{ textTransform: 'none' }}
-                            onClick={() => submitHandler('HeaderTopLeftBar')}
-                            variant="contained"
-                        >
-                            Save Changes
-                        </Button>
+                        <div className='button flex justify-end '>
+                            <Button
+                                sx={{ textTransform: 'none', px: 4 }}
+                                onClick={() => submitHandler('HeaderTopLeftBar')}
+                                variant="contained"
+                            >
+                                {loading ? (
+                                    <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
+                                ) : (
+                                    'Save Changes'
+                                )}
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>

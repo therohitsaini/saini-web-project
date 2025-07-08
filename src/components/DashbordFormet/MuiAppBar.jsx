@@ -22,6 +22,8 @@ import FunfactTable from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTabl
 import PortfolioMain from '../PortFolioCustom/PortfolioMain';
 import PrincingCustom from '../PrincingSection/PrincingCustom';
 import TestimonialCustome from '../Testimonial/TestimonialCustome';
+import FeatureHeading from '../Featuresection/FeatureCustom/FeatureHeading';
+import FeatureListItem from '../Featuresection/FeatureCustom/FeatureListItem';
 
 
 
@@ -35,6 +37,7 @@ const MuiAppBar = (props) => {
     const [user_ID, setUserID] = useState(null)
     const [userProfilePic, setUserProflePic] = useState("")
     const [profileRefress, setProfileRefress] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -159,7 +162,7 @@ const MuiAppBar = (props) => {
             case '/user/allusers':
                 return <UserTable />;
             case '/account/profile':
-                return <AccountDashbord setData={setData} data={data} user_ID={user_ID} userProfilePic={userProfilePic} setProfileRefress={setProfileRefress} profileRefress={profileRefress} />;
+                return <AccountDashbord setData={setData} data={data} user_ID={user_ID} userProfilePic={userProfilePic} setProfileRefress={setProfileRefress} profileRefress={profileRefress} loading={loading} setLoading={setLoading} />;
             case '/account/resetPassword':
                 return <ResetPassword />;
 
@@ -182,6 +185,10 @@ const MuiAppBar = (props) => {
                 return <PrincingCustom />;
             case '/testimonial':
                 return <TestimonialCustome />;
+            case '/feature/feartureheading':
+                return <FeatureHeading />;
+            case '/feature/listItem':
+                return <FeatureListItem />;
             default:
                 return <NotFoundPage />;
             // 
@@ -221,10 +228,16 @@ const MuiAppBar = (props) => {
                     // "& .MuiListSubheader-root ": {
                     //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
                     // },
-                    // "& .MuiBox-root" : {
-                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
 
+                    // "& .MuiTypography-root": {
+                    //     // ml: 2,
+                    //     transition: "margin-left 0.3s ease",
+                    //     "&:hover": {
+                    //         ml: 2, // or any value you want on hover
+                    //     },
                     // },
+
+
 
                     "& .MuiTypography-root ": {
                         color: "#AFDDFF",

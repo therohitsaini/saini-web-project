@@ -92,7 +92,7 @@ function TestimonialCustome() {
         }
 
     }
-    
+
     // update docs
     const updateTestimonialForm = async () => {
         const { userProfile, heading, paragraph, userName, occupationRole } = testimonialForm;
@@ -205,6 +205,7 @@ function TestimonialCustome() {
                             testimonialApiesData={testimonialApiesData}
                             setTestimonialMode={setTestimonialMode}
                             setTestimonialForm={setTestimonialForm}
+                            setRefresh={setRefresh}
                         />
                     )
             }

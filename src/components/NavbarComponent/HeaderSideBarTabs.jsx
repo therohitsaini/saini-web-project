@@ -166,10 +166,14 @@ export default function HeaderSideBarTabs() {
     const [headerButton, setHeaderButton] = useState({
         buttonText: ""
     })
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const [file, setFile] = useState("");
+    const [text, setText] = useState("");
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
@@ -423,6 +427,8 @@ export default function HeaderSideBarTabs() {
             };
         }
 
+        setLoading(true)
+
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/header-top-bar/${userIDMain}`;
             const fetchData = await fetch(url, {
@@ -435,6 +441,7 @@ export default function HeaderSideBarTabs() {
             console.log("responseJson", responseJson)
             if (fetchData.ok) {
                 showSnackbar(responseJson.message)
+                setLoading(false)
             }
 
         } catch (error) {
@@ -446,8 +453,7 @@ export default function HeaderSideBarTabs() {
     // LOGO API 
 
 
-    const [file, setFile] = useState("");
-    const [text, setText] = useState("");
+
 
     const submitHandler_ = async (section) => {
         const id = localStorage.getItem("user-ID");
@@ -458,21 +464,22 @@ export default function HeaderSideBarTabs() {
         if (section === "Logo") {
             if (file) {
                 formData.append("imageLogo", file);
-            } else {
-                formData.append("textLogo", text);
             }
-        } 
+        }
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/logo/logo/${id}`;
 
-            const res = await fetch(url, {
+            const response = await fetch(url, {
                 method: "POST",
-                body: formData 
+                body: formData
             });
 
-            const result = await res.json();
-            console.log("Saved:", result);
+            const result = await response.json();
+            if (response.ok) {
+                showSnackbar(result.message)
+
+            }
         } catch (err) {
             console.error("Submit error:", err);
         }
@@ -578,7 +585,11 @@ export default function HeaderSideBarTabs() {
 
                         formData={formData}
                         setFormData={setFormData}
-                        submitHandler={submitHandler} />
+                        submitHandler={submitHandler}
+                        loading={loading}
+                        setLoading={setLoading}
+                    />
+
 
                 </TabPanel>
 
@@ -618,6 +629,7 @@ export default function HeaderSideBarTabs() {
                         setFile={setFile}
                         setText={setText}
                         handleSubmitLogo={submitHandler_}
+                        file={file}
                     />
                 </TabPanel>
 
@@ -627,7 +639,6 @@ export default function HeaderSideBarTabs() {
 
                 <TabPanel value={value} index={5}>
                     <NavBarSearchSection
-
                         setSelectedIcon={setSelectedIcon}
                         selectedIcon={selectedIcon}
                         searchIcone={searchIcone}

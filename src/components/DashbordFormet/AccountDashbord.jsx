@@ -1,4 +1,4 @@
-import { Alert, Autocomplete, Button, Divider, Snackbar, Switch, TextField, Typography } from '@mui/material'
+import { Alert, Autocomplete, Button, CircularProgress, Divider, Snackbar, Switch, TextField, Typography } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 
 
-const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRefress, profileRefress }) => {
+const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRefress, profileRefress, setLoading, loading }) => {
 
     const [snackBar, setSnackBar] = useState("")
     const [updateProfilePicture, setUploadProfilePicture] = useState("")
@@ -53,6 +53,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
     const updateUserProfleHandler = async (event) => {
         event.preventDefault()
         setIsDilogeTrue(false)
+        setLoading(true)
         const object = {
 
             fullname: fullname.current.value,
@@ -86,6 +87,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                 setSnackBar(response.massage)
                 showSnackbar(response.massage);
                 setProfileRefress(prev => !prev);
+                setLoading(false)
             }
         } catch (error) {
             console.log("somthing went wrong!", error)
@@ -209,7 +211,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
 
                             </div>
                             <div>
-                                <Switch {...label} defaultChecked  />
+                                <Switch {...label} defaultChecked />
                             </div>
                         </div>
                         <div className='profile-desable  w-full flex items-center justify-between'>
@@ -225,7 +227,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
 
                             </div>
                             <div>
-                                <Switch {...label}  defaultChecked  />
+                                <Switch {...label} defaultChecked />
                             </div>
                         </div>
                     </div>
@@ -327,7 +329,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                         </div>
                         <div className='flex justify-end'>
                             <Button
-                                //  onClick={(e) => updateUserProfleHandler(e)}
+                               
                                 onClick={() => setIsDilogeTrue(true)}
                                 variant="outlined"
                                 sx={{
@@ -336,6 +338,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     color: 'primary.main',
                                     borderColor: 'primary.main',
                                     zIndex: 1,
+                                    textTransform:"none",
                                     fontFamily: "revert-layer",
                                     transition: 'color 0.4s ease, border-color 0.4s ease',
                                     fontFamily: 'Roboto, sans-serif',
@@ -365,7 +368,12 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     },
                                 }}
                             >
-                                Save Changes
+                                {loading ? (
+                                    <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
+                                ) : (
+                                    ' Save Changes'
+                                )}
+
                             </Button>
                         </div>
                     </div>

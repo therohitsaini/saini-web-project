@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Divider, InputAdornment, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Checkbox, Divider, InputAdornment, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -17,27 +17,19 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
         })); 1
     };
 
-    // const [selectedIcon, setSelectedIcon] = useState(
-    //     allFaMdIconsList.find((i) => i.label === formDataRight?.item_Icone) || null
-    // );
-
-    // useEffect(() => {
-    //     if (formDataRight?.item_IconeRight && allFaMdIconsList?.length) {
-    //         const foundIcon = allFaMdIconsList.find(
-    //             (i) => i.label === formDataRight.item_IconeRight
-    //         );
-    //         if (foundIcon) {
-    //             setSelectedIcon(foundIcon);
-    //         }
-    //     }
-    // }, [formDataRight?.item_IconeRight, allFaMdIconsList]);
+    useEffect(() => {
+        if (formDataRight?.item_IconeRight) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === formDataRight?.item_IconeRight);
+            if (foundIcon) setSelectedIcon(foundIcon);
+        }
+    }, [formDataRight?.item_IconeRight]);
 
 
 
     return (
         <Fragment >
             <form className='form-header-top-right   flex justify-center items-center  h-[530px]'>
-                <div className="border border-slate-400/20 rounded-md p-5  bg-[#1f1e1f] flex flex-col gap-4 w-[80%] shadow-black shadow-xl">
+                <div className="border border-slate-400/20 rounded-md p-5  flex flex-col gap-4 w-[80%] ">
                     <Typography component="span">Top Bar Support Section</Typography>
                     <Divider />
                     <TextField
@@ -106,7 +98,32 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                         onChange={onChangeHandler}
                     />
 
-                    <Button onClick={() => submitHandler("HeaderTopRightBar")} variant='contained'>Update</Button>
+                    <div className="flex items-center gap-2  sticky top-0">
+                        <Checkbox
+                            defaultChecked
+                            // checked={formData?.item_ShowOnWebsite || false}
+                            // onChange={(e) =>
+                            //     setIconeCenter((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                        />
+                        <p className="text-[14px] text-slate-500 font-sans">
+                            If you want to show this on the website
+                        </p>
+                    </div>
+
+                    <div className='button flex justify-end'>
+                        <Button
+                            sx={{
+                                px: 7,
+                                textTransform: "none"
+                            }}
+                            onClick={() => submitHandler("HeaderTopRightBar")} variant='contained'>Save Changes</Button>
+                    </div>
                 </div>
             </form>
         </Fragment>

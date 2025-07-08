@@ -112,8 +112,7 @@ const headerTopBarDefualt = [
         section: "HeaderSerchIcone",
         item: [
             {
-                // item_Title: "Customer Support",
-                // item_ContactId: "9929306874",
+              
                 item_Icone: "MdOutlineSearch",
                 item_IconeUrl: "",
 
@@ -124,8 +123,6 @@ const headerTopBarDefualt = [
         section: "HeaderCartIcone",
         item: [
             {
-                // item_Title: "Customer Support",
-                // item_ContactId: "9929306874",
                 item_Icone: "MdOutlineShoppingCart",
                 item_IconeUrl: "",
 
@@ -137,9 +134,6 @@ const headerTopBarDefualt = [
         item: [
             {
                 item_Title: "Get Started",
-                // item_ContactId: "9929306874",
-                // item_Icone: "MdOutlineShoppingCart",
-                // item_IconeUrl: "",
 
             }
         ],
@@ -149,7 +143,6 @@ const headerTopBarDefualt = [
         item: [
             {
                 item_Title: "Get Hirring",
-                // item_ContactId: "9929306874",
                 item_Icone: "FaSpeakerDeck",
                 item_IconeUrl: "lorem ipsum is dummy text",
 
@@ -164,6 +157,17 @@ const headerTopBarDefualt = [
                 item_ContactId: "10:00",
                 item_Icone: "MdOutlineWatchLater",
                 item_IconeUrl: "6:00",
+
+            }
+        ],
+    },
+    {
+        section: "Logo",
+        item: [
+            {
+
+
+                item_IconeUrl: "http://127.0.0.1:5500/corpex-html/assets/images/logo-light.png",
 
             }
         ],
@@ -184,10 +188,11 @@ function Navbar({ headerData }) {
     const navButton = headerData.headerTopBar?.find(sec => sec.section === "navButton") || headerTopBarDefualt.find(sec => sec.section === "navButton");
     const bottomHeaderLeft = headerData.headerTopBar?.find(sec => sec.section === "HeaderButtomHirring") || headerTopBarDefualt.find(sec => sec.section === "HeaderButtomHirring");
     const bottomHeaderRight = headerData.headerTopBar?.find(sec => sec.section === "HeaderButtomBar") || headerTopBarDefualt.find(sec => sec.section === "HeaderButtomBar");
+    const HeaderLogo = headerData.headerTopBar?.find(sec => sec.section === "Logo") || headerTopBarDefualt.find(sec => sec.section === "Logo");
 
 
 
-    // console.log("headerData", headerData)
+    // console.log("headerData", HeaderLogo.item)
 
     return (
         <Fragment>
@@ -233,7 +238,24 @@ function Navbar({ headerData }) {
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
                         <div className='nav-logo h-10 w-50  '>
-                            <img className='h-full w-full object-contain ' src="../src/assets/logo-light (1).png" alt="not found" />
+                            {
+                                HeaderLogo?.item.map((logo, index) => {
+                                    console.log(logo.item_IconeUrl)
+                                    const imgSrc = logo?.item_IconeUrl?.startsWith('http')
+                                        ? logo.item_IconeUrl
+                                        : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${logo.item_IconeUrl?.replace(/^\/?/, '')}`;
+                                    return (
+                                        <img
+                                            key={index}
+                                            className="h-full w-full object-cover"
+                                            src={imgSrc || logo.item_IconeUrl}
+                                            alt="Logo"
+                                        />
+                                        // ../src/assets/logo-light (1).png
+
+                                    )
+                                })
+                            }
                         </div>
                         <div className='un-order-list flex items-center gap-5'>
                             {
@@ -246,7 +268,7 @@ function Navbar({ headerData }) {
                                 })
                             }
 
-                 
+
                             {
                                 sectionDataSearch?.item?.map((item_, index) => {
                                     const iconName = item_?.item_Icone;
@@ -339,7 +361,7 @@ function Navbar({ headerData }) {
                         bottomHeaderRight?.item.map((item_, index_) => {
                             const iconName = item_?.item_Icone;
                             const IconComponent = allFaMdIconsMap[iconName];
-                          
+
                             return (
                                 < div key={index_} className='time flex gap-1 text-white justify-end items-center'>
                                     {IconComponent ? (

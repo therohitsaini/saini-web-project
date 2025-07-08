@@ -189,6 +189,7 @@ import {
     Box,
     Autocomplete,
     InputAdornment,
+    Checkbox,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -209,14 +210,14 @@ function HeaderTopBarCenterIcon({
         item_Center_Icone_Path: '',
     };
 
-    // ✅ Ensure one default field on first mount
+
     useEffect(() => {
         if (!Array.isArray(iconeCenter) || iconeCenter.length === 0) {
             setIconeCenter([initialState]);
         }
     }, []);
 
-    // ✅ Ensure selected icons are resolved
+
     useEffect(() => {
         if (iconeCenter?.length && allFaMdIconsList?.length) {
             const updated = iconeCenter.map((item) => {
@@ -251,10 +252,10 @@ function HeaderTopBarCenterIcon({
     const iconFields = Array.isArray(iconeCenter) ? iconeCenter : [];
 
     return (
-        <form className="flex justify-center flex-col items-center min-h-[550px]">
+        <form className="flex justify-center flex-col items-center min-h-[650px] border border-slate-600/20 rounded-md">
             <div className="flex flex-col gap-4 px-5 w-full max-w-4xl">
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold">Header Top Bar Center Icon</h1>
+                    <h1 className="text-lg font-semibold sticky top-0">Header Top Bar Center Icon</h1>
                     <Button
                         onClick={() => submitHandler('HeaderTopBarCenterIcon')}
                         variant="outlined"
@@ -267,7 +268,7 @@ function HeaderTopBarCenterIcon({
                 {iconFields.map((field, index) => (
                     <div
                         key={index}
-                        className="border border-slate-400/20 rounded-md p-5 w-full relative bg-[#1f1e1f]"
+                        className="border border-slate-400/20 rounded-md p-5 w-full relative "
                     >
                         <div className="flex flex-col md:flex-row gap-3">
                             <TextField
@@ -343,7 +344,23 @@ function HeaderTopBarCenterIcon({
                         </div>
                     </div>
                 ))}
-
+                <div className="flex items-center gap-2  sticky top-0">
+                    <Checkbox
+                    defaultChecked
+                        // checked={formData?.item_ShowOnWebsite || false}
+                        // onChange={(e) =>
+                        //     setIconeCenter((prev) => ({
+                        //         ...prev,
+                        //         item_ShowOnWebsite: e.target.checked,
+                        //     }))
+                        // }
+                        sx={{ m: 0, p: 0 }}
+                        size="small"
+                    />
+                    <p className="text-[14px] text-slate-500 font-sans">
+                        If you want to show this on the website
+                    </p>
+                </div>
                 <div className="flex justify-end">
                     <Button onClick={addNewField} variant="contained" className="w-fit">
                         + Add More

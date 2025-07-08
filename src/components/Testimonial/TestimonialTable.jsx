@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import React from 'react'
 import { Fragment } from 'react'
 
-function TestimonialTable({ testimonialApiesData, setTestimonialMode, setTestimonialForm }) {
+function TestimonialTable({ testimonialApiesData, setTestimonialMode, setTestimonialForm, setRefresh }) {
 
     const testmonialUpdateHandle = async (data = {}) => {
         const id = localStorage.getItem("user-ID")
@@ -39,8 +39,30 @@ function TestimonialTable({ testimonialApiesData, setTestimonialMode, setTestimo
             console.error("Network error:", error);
             return null;
         }
+    }
 
+    const deleteTestimonialHandler = async (data = {}) => {
+        const pageId = localStorage.getItem("user-ID")
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmDelete) return;
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api/testimonial/api-delete/`;
+            const fetchData = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: data.id, pageId: pageId })
+            });
+            const response = await fetchData.json();
 
+            if (fetchData.ok) {
+                showSnackbar(response.message)
+                setRefresh(prev => !prev);
+            }
+
+        } catch (error) {
+            console.error(error);
+
+        }
     }
 
     const columns = [
@@ -121,7 +143,7 @@ function TestimonialTable({ testimonialApiesData, setTestimonialMode, setTestimo
                                 background: 'linear-gradient(45deg, #f22b3f 30%,#f22b3f 90%)',
                             },
                         }}
-                        onClick={() => handleActionClickDeletePort(params.row)}>
+                        onClick={() => deleteTestimonialHandler(params.row)}>
                         Delete
                     </IconButton>
                 </div>

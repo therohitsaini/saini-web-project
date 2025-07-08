@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Divider, InputAdornment, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Checkbox, Divider, InputAdornment, TextField } from '@mui/material';
 import React from 'react'
 import { useState } from 'react'
 import { Fragment } from 'react'
@@ -109,7 +109,7 @@ function ServiceCustom() {
             });
             const result = await response.json();
             if (response.ok) {
-                alert("Successfully updated!");
+                showSnackbar(result.message)
                 console.log("Updated Data:", result);
             } else {
                 console.error("Update failed:", result);
@@ -141,26 +141,7 @@ function ServiceCustom() {
     }, [serviceCustom?.iconeTop, serviceTableTrue]);
 
 
-    // const [selectedIconBottom, setSelectedIconBottom] = useState(
-    //     allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeBottom) || null
-    // );
-    // useEffect(() => {
-    //     if (serviceCustom?.iconeBottom) {
-    //         const foundIcon = allFaMdIconsList.find((i) => i.label === serviceCustom?.iconeBottom);
-    //         if (foundIcon) setSelectedIconBottom(foundIcon);
-    //     }
-    // }, [serviceCustom?.iconeBottom, serviceTableTrue]);
 
-
-
-    //       useEffect(() => {
-    //     if (mode === "edit") {
-    //       const foundTop = allFaMdIconsList.find(i => i.label === form.iconeTop) || null;
-    //       const foundBottom = allFaMdIconsList.find(i => i.label === form.iconeBottom) || null;
-    //       setSelectedTop(foundTop);
-    //       setSelectedBottom(foundBottom);
-    //     }
-    //   }, [mode, form.iconeTop, form.iconeBottom]);
 
     return (
         <Fragment>
@@ -245,30 +226,54 @@ function ServiceCustom() {
                                     )}
                                 />
 
+                                <div className="flex items-center gap-2  sticky top-0">
+                                    <Checkbox
+                                        defaultChecked
+                                        // checked={formData?.item_ShowOnWebsite || false}
+                                        // onChange={(e) =>
+                                        //     setIconeCenter((prev) => ({
+                                        //         ...prev,
+                                        //         item_ShowOnWebsite: e.target.checked,
+                                        //     }))
+                                        // }
+                                        sx={{ m: 0, p: 0 }}
+                                        size="small"
+                                    />
+                                    <p className="text-[14px] text-slate-500 font-sans">
+                                        If you want to show this on the website
+                                    </p>
+                                </div>
 
-
-
-                                {
-                                    serviceTableTrue === "Edit" ?
-                                        (
-                                            <Button
-                                                onClick={serviceUpdateHandler}
-                                                variant='outlined'
-                                            >
-                                                Update
-                                            </Button>
-                                        )
-                                        :
-                                        (
-                                            <Button
-                                                onClick={serviceHadnler}
-                                                variant='outlined'
-                                            >
-                                                Submit
-                                            </Button>
-                                        )
-                                }
-
+                                <div className='flex justify-end '>
+                                    {
+                                        serviceTableTrue === "Edit" ?
+                                            (
+                                                <Button
+                                                    sx={{
+                                                        px: 5,
+                                                        textTransform: "none"
+                                                    }}
+                                                    onClick={serviceUpdateHandler}
+                                                    variant='contained'
+                                                >
+                                                    Update
+                                                </Button>
+                                            )
+                                            :
+                                            (
+                                                <Button
+                                                    sx={{
+                                                        px: 5,
+                                                        textTransform: "none"
+                                                    }}
+                                                    onClick={serviceHadnler}
+                                                    variant='contained'
+                                                >
+                                                    Submit
+                                                </Button>
+                                            )
+                                    }
+                                </div>
                             </form>
                         </div>
 

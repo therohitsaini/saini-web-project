@@ -21,9 +21,9 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function NavbarLogo({ setFile, setText, handleSubmitLogo }) {
+export default function NavbarLogo({ setFile, setText, handleSubmitLogo, file }) {
 
-    console.log("setText", setText)
+    console.log("setText", file)
     return (
         <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
             <div className='flex flex-col w-[500px] gap-4  p-5  border border-slate-400/20 rounded-md  ' >
@@ -52,8 +52,8 @@ export default function NavbarLogo({ setFile, setText, handleSubmitLogo }) {
                     label="Site Logo"
                     size="small"
                     name='logo'
-                    value={text.logo}
-                    onChange={(e) => setText(e.target.value)}
+                    // value={text.logo}
+                    // onChange={(e) => setText(e.target.value)}
                     variant="outlined"
                 >
 

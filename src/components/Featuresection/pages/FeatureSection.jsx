@@ -69,26 +69,12 @@ export default function FeatureSection() {
                     {/* Left Features */}
                     <ul className="space-y-8">
                         {leftFeatures.map((feature, index) => (
-                            // <li
-                            //     key={index}
-                            //     className="flex items-center justify-between bg-gray-100 p-6 rounded-lg shadow hover:shadow-lg transition"
-                            // >
-                            //     <div className="flex items-center gap-4">
-                            //         <i className={`fa ${feature.icon} text-blue-600 text-xl`}></i>
-                            //         <h5 className="font-semibold">{feature.title}</h5>
-                            //     </div>
-                            //     <a href="#" className="text-blue-600 hover:text-blue-800">
-                            //         <i className="fa fa-angles-right"></i>
-                            //     </a>
-                            // </li>
+
                             <div key={index} className='info-1 shadow-black/10 shadow-xl bg-white h-20 relative'>
                                 <img className='object-cover h-full w-full' src='../src/assets/photorealistic-earth-planet_23-2151075927.avif' alt="background" />
                                 <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-10 group'>
-                                    {/* <div className='service-info flex flex-col justify-center gap-1 w-[60%]'>
-                                        <h1 className='info-text text-2xl font-semibold text-[#de442c]'>{feature.title}</h1>
-                                        <h1 className='info-text text-sm font-stretch-10% text-slate-600 group-hover:text-white duration-700'>{item_.inFoDescription}</h1>
-                                    </div> */}
-                                  
+
+
                                 </div>
                             </div>
                         ))}

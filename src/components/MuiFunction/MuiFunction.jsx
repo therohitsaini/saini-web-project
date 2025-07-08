@@ -19,8 +19,9 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CurrencyFrancIcon from '@mui/icons-material/CurrencyFranc';
 import SellIcon from '@mui/icons-material/Sell';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-
-
+import { MdFeaturedPlayList } from "react-icons/md";
+import ListIcon from '@mui/icons-material/List';
+import { MdManageAccounts } from "react-icons/md";
 
 
 export const NAVIGATION = (isAdmin) => {
@@ -29,19 +30,19 @@ export const NAVIGATION = (isAdmin) => {
 
         { kind: 'header', title: 'Main items' },
         { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
-        { segment: 'permissions', title: 'Permissions', icon: <WorkspacesOutlineIcon /> },
+        // { segment: 'permissions', title: 'Permissions', icon: <WorkspacesOutlineIcon /> },
 
-        {
-            segment: 'user',
-            title: 'User',
-            icon: <Groups3Icon />,
-            children: [
-                // ...(isAdmin === 'Super_admin' ? [
-                { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
-                { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
-                // ] : []),
-            ],
-        },
+        // {
+        //     segment: 'user',
+        //     title: 'User',
+        //     icon: <Groups3Icon />,
+        //     children: [
+        //         // ...(isAdmin === 'Super_admin' ? [
+        //         { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
+        //         { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
+        //         // ] : []),
+        //     ],
+        // },
         // { segment: 'admin', title: 'Admin', icon: <Person4Icon /> },
 
 
@@ -52,7 +53,7 @@ export const NAVIGATION = (isAdmin) => {
         {
             segment: 'account',
             title: 'Account',
-            icon: <AccountCircleIcon />,
+            icon: <MdManageAccounts size={25} color='gray' />,
             children: [
                 { segment: 'profile', title: 'Profile', icon: < PersonOutlineSharpIcon /> },
                 { segment: 'resetPassword', title: 'Reset Password', icon: <LockResetIcon fontSize="small" /> },
@@ -60,14 +61,23 @@ export const NAVIGATION = (isAdmin) => {
         },
         { kind: 'divider' },
         { kind: 'header', title: 'Web Site Settings' },
-        { segment: 'header', title: 'Header Section', icon: <FeedIcon /> },
-        { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon /> },
+        { segment: 'header', title: 'Header Section', icon: <FeedIcon color='gray' /> },
+        { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon color='gray' /> },
         { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
-        { segment: 'service', title: 'Service Section', icon: <AutorenewIcon /> },
+        { segment: 'service', title: 'Service Section', icon: <AutorenewIcon color='red' /> },
         { segment: 'funfact', title: 'Funfact Section', icon: <CurrencyFrancIcon /> },
         { segment: 'portfolio', title: 'Portfolio Section', icon: <BusinessCenterIcon /> },
         { segment: 'princing', title: 'Princing Section', icon: <SellIcon /> },
         { segment: 'testimonial', title: 'Testimonial Section', icon: < SellIcon /> },
+        {
+            segment: 'feature',
+            title: 'Feature Section',
+            icon: <MdFeaturedPlayList color='gray' />,
+            children: [
+                { segment: 'feartureheading', title: 'Section Heading', icon: < PersonOutlineSharpIcon /> },
+                { segment: 'listItem', title: 'List Itemes', icon: <ListIcon fontSize="small" /> },
+            ],
+        },
 
 
     ]

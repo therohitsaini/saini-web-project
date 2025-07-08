@@ -12,6 +12,30 @@ import PortfolioSection from '../PagesComp/Portfolio'
 import { FooterArrow } from '../IconeComp/Icone'
 import PrincingSection from '../PrincingSection/pages/PrincingSection'
 import TestimonialSection from '../Testimonial/Pages/TestimonialSection'
+import styled, { keyframes } from "styled-components";
+import { useRef } from 'react'
+
+
+
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+export const SectionWrapper = styled.div`
+  opacity: ${({ inView }) => (inView ? 1 : 0)};
+  transform: ${({ inView }) => (inView ? "translateY(0)" : "translateY(60px)")};
+  animation: ${({ inView }) => (inView ? fadeInUp : "none")} 0.6s ease forwards;
+  transition: opacity 0.5s, transform 0.5s;
+`;
+
 
 function Home() {
     const [serviceCard, setServiceCard] = useState([])
@@ -26,6 +50,29 @@ function Home() {
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
 
+    const sectionRef = useRef();
+    const [inView, setInView] = useState(false);
+    const lastScrollY = useRef(0);
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                const currentY = window.scrollY;
+                const isScrollingDown = currentY > lastScrollY.current;
+
+                if (entry.isIntersecting && isScrollingDown) {
+                    setInView(true);
+                }
+
+                lastScrollY.current = currentY;
+            },
+            { threshold: 0.2 }
+        );
+
+        const element = sectionRef.current;
+        if (element) observer.observe(element);
+
+        return () => observer.disconnect();
+    }, []);
 
 
     const getHeaderDataBy_ = async (id) => {
@@ -170,8 +217,10 @@ function Home() {
         getTestmonialDataByID(id)
     }, [])
 
-    console.log("testimonialApiesDataUI", testimonialApiesDataUI)
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    
     return (
         <Fragment>
             <div className='nav-hero-conrainer relative' >
