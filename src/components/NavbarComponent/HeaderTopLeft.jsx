@@ -76,6 +76,20 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_Title"
                             value={formData?.item_Title}
                             onChange={onChangeHandler}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    fontSize: '12px',
+                                    '& input': {
+                                        fontSize: '14px',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                },
+                            }}
                         />
 
                         <TextField
@@ -85,6 +99,20 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_ContactId"
                             value={formData?.item_ContactId}
                             onChange={onChangeHandler}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    fontSize: '12px',
+                                    '& input': {
+                                        fontSize: '14px',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                },
+                            }}
                         />
 
                         <Autocomplete
@@ -124,6 +152,20 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                             </InputAdornment>
                                         ),
                                     }}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                    }}
                                 />
                             )}
                         />
@@ -135,6 +177,20 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_IconeUrl"
                             value={formData?.item_IconeUrl}
                             onChange={onChangeHandler}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    fontSize: '12px',
+                                    '& input': {
+                                        fontSize: '14px',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: 'blue',
+                                    },
+                                },
+                            }}
                         />
 
                         <div className="flex items-center gap-2">

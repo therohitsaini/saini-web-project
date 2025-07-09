@@ -1,65 +1,52 @@
-import { Button, IconButton, Paper, Tooltip } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import { Button, IconButton, Paper } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { Fragment } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete';
-import UpdateIcon from '@mui/icons-material/Update';
-import { useState } from 'react';
+
+function CustomTable({ setFeatureMode, featureListItem, showSnackbar, setFeatureListForm }) {
 
 
-
-function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFormData, showSnackbar }) {
-   
-    const handleActionClickDeletePort = async (data = {}) => {
-        const userId = localStorage.getItem("user-ID")
+    const deleteFeatureListItemHandler = async (data = {}) => {
+        const pageId = localStorage.getItem("user-ID")
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
         try {
-
-            const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/delete-portfolio/`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-delete/feature/`;
             const fetchData = await fetch(url, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data: data.id, pageId: userId })
+                body: JSON.stringify({ data: data.id, pageId: pageId })
             });
             const response = await fetchData.json();
 
             if (fetchData.ok) {
                 showSnackbar(response.message)
-                setPortRefresh(prev => !prev);
+                setRefresh(prev => !prev);
             }
 
         } catch (error) {
             console.error(error);
+
         }
-    };
-
-    const portUpdatehandle = async (data = {}) => {
-      
-        const categories = Array.isArray(data.categories)
-            ? data.categories
-            : typeof data.categories === "string"
-                ? JSON.parse(data.categories)
-                : [];
-
-        setPortFormData((pre) => ({
-            ...pre,
-            userDocID: data.id,
-            userImage: data.profile,
-            title: data.title,
-            subTitle: data.subTitle,
-            categories: categories,
-        }));
-        setPortMode("UpdateForm")
-
     }
 
 
+    const updateFeatureListItemHandler = async (data = {}) => {
+        setFeatureListForm((pre) => ({
+            ...pre,
+            userDocID: data.id,
+            listTitle: data.title,
+            backGroundImage: data.bgImage
+        }))
+        setFeatureMode("UpdateForm")
+
+    }
     const columns = [
+
         {
-            field: 'profile',
-            headerName: 'Profile',
-            width: 190,
+            field: 'bgImage',
+            headerName: 'Background Image',
+            width: 370,
             renderCell: (params) => {
                 const imgPath = params.formattedValue;
                 const baseURL = import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '');
@@ -85,75 +72,60 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
                     />
                 );
             }
-        },
-        {
+        }, {
             field: 'title',
             headerName: 'Title',
-            width: 290,
+            width: 370,
         },
-        {
-            field: 'subTitle',
-            headerName: 'Sub Title',
-            width: 290,
-        },
-        {
-            field: 'categories',
-            headerName: 'Categories',
-            width: 290,
-        },
+
         {
             field: 'action',
             headerName: 'Action',
-            width: 220,
+            width: 370,
             renderCell: (params) => (
                 <div className='flex gap-1 items-center'>
-                    {/* <Tooltip title="Update"> */}
                     <IconButton
                         sx={{
                             background: "green",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+
                             '&:hover': {
-                                background: 'linear-gradient(45deg, #0be574 30%, #10d856 90%)',
+                                background: 'linear-gradient(45deg, #0ddc3a 30%, #34e977 90%)',
                             },
                         }}
-                        onClick={() => portUpdatehandle(params.row)}>
-                        {/* <UpdateIcon /> */}
+                        onClick={() => updateFeatureListItemHandler(params.row)}
+                    >
                         Edit
-                    </IconButton>
-                    {/* </Tooltip> */}
 
-                    {/* <Tooltip title="Delete"> */}
+                    </IconButton>
+
                     <IconButton
                         sx={{
                             background: "red",
                             color: '#fff',
-                            // fontWeight: 'bold',
                             height: "27px",
                             width: "40px",
                             textTransform: 'none',
                             paddingX: 5,
-                            // paddingY: 1,
                             fontSize: 10,
                             borderRadius: 2,
                             boxShadow: '0 3px 5px 2px rgba(7, 7, 7, 0.3)',
+
                             '&:hover': {
-                                background: 'linear-gradient(45deg, #f22b3f 30%,#f22b3f 90%)',
+                                background: 'linear-gradient(45deg, #de0f0f 30%, #f00e11 90%)',
                             },
                         }}
-                        onClick={() => handleActionClickDeletePort(params.row)}>
-                        {/* <DeleteIcon color="error" /> */}
+                        onClick={() => deleteFeatureListItemHandler(params.row)}
+                    >
                         Delete
                     </IconButton>
-                    {/* </Tooltip> */}
                 </div>
             ),
             sortable: false,
@@ -161,26 +133,23 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
         },
     ]
 
+    const rows = featureListItem?.map((item_) => ({
+        id: item_._id,
+        bgImage: item_.backGroundImage,
+        title: item_.listTitle,
 
-    const rows = portFolioData && portFolioData?.map((item_) => ({
-
-        id: item_?._id,
-        profile: item_?.userImage,
-        title: item_?.title,
-        subTitle: item_?.subTitle,
-        categories: item_.categories
 
     }))
 
-    const paginationModel = { page: 0, pageSize: 10 };
-    
+    const paginationModel = { page: 0, pageSize: 30 };
+
     return (
         <Fragment>
-            <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
+            <div className='hero-tabel-main w-full h-[78vh] flex flex-col justify-center gap-5'>
 
                 <div>
                     <Button
-                        onClick={() => setPortMode("PortForm")}
+                        onClick={() => setFeatureMode("SubmitForm")}
                         sx={{
                             px: 10,
                             textTransform: "none",
@@ -189,6 +158,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
                         +Add More
                     </Button>
                 </div>
+
 
                 <Paper sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -204,14 +174,14 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
                             '& .MuiDataGrid-columnHeaderTitleContainer, .MuiDataGrid-cell': {
                                 display: 'flex', justifyContent: "center"
                             },
-                            // fontVariant: "all-small-caps"
                         }}
                     />
 
                 </Paper>
+
             </div>
         </Fragment>
     )
 }
 
-export default PortfolioTable
+export default CustomTable

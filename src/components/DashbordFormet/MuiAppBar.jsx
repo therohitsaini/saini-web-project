@@ -24,6 +24,8 @@ import PrincingCustom from '../PrincingSection/PrincingCustom';
 import TestimonialCustome from '../Testimonial/TestimonialCustome';
 import FeatureHeading from '../Featuresection/FeatureCustom/FeatureHeading';
 import FeatureListItem from '../Featuresection/FeatureCustom/FeatureListItem';
+import { useSnackbar } from '../Snakbar/Snakbar';
+import TeamMain from '../TeamComponent/TeamCustom/TeamMain';
 
 
 
@@ -43,7 +45,11 @@ const MuiAppBar = (props) => {
 
     console.log("data", user_ID)
 
-
+    const snackbar = useSnackbar();
+    if (!snackbar) {
+        throw new Error("useSnackbar must be used within a SnackbarProvider");
+    }
+    const { showSnackbar, showError } = snackbar;
 
     // const dispatch = useSelector()
     const { window } = props;
@@ -186,9 +192,13 @@ const MuiAppBar = (props) => {
             case '/testimonial':
                 return <TestimonialCustome />;
             case '/feature/feartureheading':
-                return <FeatureHeading />;
+                return <FeatureHeading showSnackbar={showSnackbar} />;
             case '/feature/listItem':
-                return <FeatureListItem />;
+                return <FeatureListItem showSnackbar={showSnackbar} />;
+            case '/tramsection/team':
+                return <TeamMain />;
+            case '/tramsection/teamCard':
+                return <TeamMain />;
             default:
                 return <NotFoundPage />;
             // 
@@ -238,11 +248,15 @@ const MuiAppBar = (props) => {
                     // },
 
 
+                    "& .MuiListItemText-root": {
+                        "& .MuiTypography-root ": {
+                            color: "#AFDDFF",
+                            fontSize: "13px",
+                            // fontVariant: "all-small-caps"
 
-                    "& .MuiTypography-root ": {
-                        color: "#AFDDFF",
-
+                        },
                     },
+
                     "& .MuiBox-root:hover": {
                         color: "#ededef"
                     },
@@ -275,7 +289,7 @@ const MuiAppBar = (props) => {
 
             </DashboardLayout>
 
-        </AppProvider>
+        </AppProvider >
 
     );
 }

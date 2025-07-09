@@ -1,18 +1,24 @@
 import { Button, Checkbox, Divider, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 
-function FeatureHeading() {
+function FeatureHeading({ showSnackbar }) {
     const inisiatailState = {
         sectionTitle: "",
         setionDescriptions: "",
         setionImage: ""
     }
     const [featureFrom, setFeatureForm] = useState(inisiatailState)
+    const [id, setId] = useState()
+    const [FeatureData, setFeatureData] = useState([])
 
+    useEffect(() => {
+        const userID = localStorage.getItem("user-ID")
+        setId(userID)
+    }, [])
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         // setImagePreview(URL.createObjectURL(file))
@@ -34,20 +40,9 @@ function FeatureHeading() {
 
     const submitHandler = async () => {
 
-        // const { heroImgUrl, heroSlideSubTitle, heroSlideTitle } = featureFrom
-        // if (!heroImgUrl) {
-        //     showError("Slider Image is Required !")
-        //     return
-        // }
-        // if (!heroSlideSubTitle) {
-        //     showError("Title  is Required !")
-        //     return
-        // }
-        // if (!heroSlideTitle) {
-        //     showError("Headline Image is Required !")
-        //     return
-        // }
-        const userId = localStorage.getItem("user-ID")
+        const sectioID = FeatureData[0]
+        const sectionId = sectioID._id
+
         const formData = new FormData();
         if (featureFrom.setionImage) {
             formData.append("setionImage", featureFrom.setionImage);
@@ -58,7 +53,7 @@ function FeatureHeading() {
 
 
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-create-update/${"685efa2843641b31b1b13d1f"}`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-create-update/${id}/${sectionId}`;
             const response = await fetch(url, {
                 method: "PUT",
                 body: formData,
@@ -67,11 +62,9 @@ function FeatureHeading() {
             const result = await response.json();
 
             if (response.ok) {
-                alert(result.message)
-                // showSnackbar(result.message)
-                // setHeroFormData(initialState)
-                // setSelectedIcon(null);
-                // setInputValue("");
+
+                showSnackbar(result.message)
+
             } else {
                 console.error("Error response:", result);
                 alert("Failed to update hero section.");
@@ -82,23 +75,51 @@ function FeatureHeading() {
         }
     };
 
+    const getFeatureData = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-get/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
 
-    console.log("featureFrom", featureFrom)
+
+            const JsonData = await response.json();
+
+            if (response.ok) {
+                setFeatureData(JsonData.data)
+            }
+            else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        getFeatureData(id)
+    }, [id])
+
+    useEffect(() => {
+        if (FeatureData && FeatureData.length > 0) {
+            const firstItem = FeatureData[0];
+            setFeatureForm({
+                sectionTitle: firstItem.sectionTitle || "",
+                setionDescriptions: firstItem.setionDescriptions || "",
+                setionImage: firstItem.setionImage || ""
+            });
+        }
+    }, [FeatureData]);
+
+
+    console.log("FeatureData", FeatureData)
 
     return (
         <Fragment>
             <div className='form-contanier  w-full min-h-[95%] flex flex-col items-center justify-center gap-20'>
-                {/* <div className='w-full px-20'>
-                    <Button
-                        sx={{
-                            textTransform: "none",
-                            px: 7
-                        }}
-                        variant='outlined'
-                    >
-                        <KeyboardBackspaceIcon sx={{ mr: 1 }} />  Button
-                    </Button>
-                </div> */}
+              
                 <form className='form-main border border-slate-500/20 rounded-md w-[50%] flex flex-col gap-3 items-center p-5'>
                     <div className='w-full'>
                         <h1>Add  Features Heading</h1>
@@ -107,49 +128,66 @@ function FeatureHeading() {
                         }} />
                     </div>
                     <TextField
-
                         label="Section Title"
                         size="small"
                         variant="outlined"
-                        sx={{
-                            width: '100%'
-                        }}
                         name="sectionTitle"
                         value={featureFrom.sectionTitle}
                         onChange={onchangeFeature}
-                    // error={submitted && !portFormData.title.trim()}
-                    // helperText={
-                    //     submitted && !portFormData.title.trim() ? 'Title is required' : ''
-                    // }
+                        sx={{
+                            width: '100%',
+                            '& .MuiOutlinedInput-root': {
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                        }}
                     />
 
-                    <TextField
 
+                    <TextField
                         label="Section Descriptions"
                         size="small"
                         variant="outlined"
                         sx={{
                             width: '100%',
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
                         }}
                         name="setionDescriptions"
                         value={featureFrom.setionDescriptions}
                         onChange={onchangeFeature}
-                    // error={submitted && !portFormData.title.trim()}
-                    // helperText={
-                    //     submitted && !portFormData.title.trim() ? 'Title is required' : ''
-                    // }
                     />
+
 
                     <Button
                         sx={{
                             width: '100%',
-                            textTransform: "none"
+                            textTransform: 'none',
+                            // '&:hover': {
+                            //     borderColor: 'blue',
+                            // },
+                            // '&.Mui-focused': {
+                            //     borderColor: 'blue',
+                            // },
                         }}
                         component="label"
                         variant="outlined"
                         startIcon={<CloudUploadIcon />}
-                    // size='small'
-                    // color={submitted && !file ? 'error' : 'primary'}
+
                     >
                         Selete Section Image
                         <input
@@ -183,7 +221,8 @@ function FeatureHeading() {
                             variant='contained'
                             sx={{
                                 textTransform: "none",
-                                px: 7
+                                px: 7,
+                                backgroundColor: "white"
                             }}
                         >
                             Submit

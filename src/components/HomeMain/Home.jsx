@@ -14,6 +14,7 @@ import PrincingSection from '../PrincingSection/pages/PrincingSection'
 import TestimonialSection from '../Testimonial/Pages/TestimonialSection'
 import styled, { keyframes } from "styled-components";
 import { useRef } from 'react'
+import TeamSection from '../TeamComponent/pagesTeam/TeamSection'
 
 
 
@@ -220,7 +221,7 @@ function Home() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    
+
     return (
         <Fragment>
             <div className='nav-hero-conrainer relative' >
@@ -240,6 +241,8 @@ function Home() {
             <TestimonialSection
                 testimonialApiesDataUI={testimonialApiesDataUI}
             />
+
+            <TeamSection />
 
         </Fragment>
     )

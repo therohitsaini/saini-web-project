@@ -115,3 +115,121 @@ const Service = ({ serviceCard }) => {
 }
 
 export default Service
+
+
+// ServiceSection.jsx
+/* import styled from "styled-components";
+
+const ServiceCard = styled.div`
+  position: relative;
+  overflow: hidden;
+  transition: all 0.65s ease;
+  z-index: 1;
+  &:before {
+    content: '';
+    position: absolute;
+    inset: -16%;
+    background-color: #FAEFED;
+    transform: rotate(-54deg) translateY(61%);
+    transition: 0.3s;
+    z-index: -1;
+  }
+  &:hover:before,
+  &:focus-within:before {
+    transform: rotate(54deg) translateY(61%);
+    opacity: 0.1;
+  }
+`;
+
+const ServiceIcon = styled.div`
+  font-size: 22px;
+  border-radius: 0 0 20px 20px;
+  color: rgb(var(--pr-color));
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 60px;
+  margin-bottom: 20px;
+
+  i {
+    transform: translateY(-18px);
+  }
+
+  &:after {
+    content: '';
+    border-radius: 0 0 15px 15px;
+    background-color: #FAEFED;
+    position: absolute;
+    inset: -100% 1px 6px 1px;
+    z-index: -1;
+    transition: 0.65s;
+  }
+
+  &:before {
+    content: '';
+    border-radius: 0 0 15px 15px;
+    background-color: white;
+    position: absolute;
+    inset: -100% 3px 12px 3px;
+    transition: 0.65s;
+  }
+`;
+
+const ServiceSection = () => {
+    const services = [
+        { icon: "fa-file", title: "Banking & Marketing" },
+        { icon: "fa-id-badge", title: "Finance & Insurance" },
+        { icon: "fa-chart-area", title: "Transportation" },
+        { icon: "fa-handshake", title: "Defence Security" },
+        { icon: "fa-chart-simple", title: "Resource Industry" },
+        { icon: "fa-suitcase-medical", title: "Health Science" },
+        { icon: "fa-headphones", title: "Customer Service" },
+        { icon: "fa-rotate", title: "Other Services" },
+    ];
+
+    return (
+        <section className="py-[100px] bg-white">
+            <div className="container mx-auto px-4">
+                <div className="text-center mb-10 max-w-2xl mx-auto">
+                    <h2 className="text-[35px] font-bold text-primary">
+                        Our{" "}
+                        <span className="inline-block relative px-4 py-2 bg-primary/40 text-white rounded-[40px_20px_20px_40px] z-10">
+                            Service
+                            <span className="absolute inset-[6px_8px_6px_1px] bg-primary rounded-[40px_20px_20px_40px] -z-10"></span>
+                        </span>
+                    </h2>
+                    <p className="text-gray-600 mt-2">There are many variations of passages of Lorem Ipsum available</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {services.map((service, index) => (
+                        <ServiceCard
+                            key={index}
+                            className="bg-white p-6 text-center shadow-md hover:bg-primary transition-all duration-500 group"
+                        >
+                            <ServiceIcon>
+                                <i className={`fa ${service.icon}`}></i>
+                            </ServiceIcon>
+                            <div className="mt-4">
+                                <h4 className="text-lg font-semibold text-secondary group-hover:text-white">
+                                    <a href="#" className="no-underline">{service.title}</a>
+                                </h4>
+                                <p className="text-gray-600 mt-2 group-hover:text-white">
+                                    There are many variations of passages of Lorem Ipsum available
+                                </p>
+                                <a
+                                    href="#"
+                                    className="inline-block mt-4 px-4 py-2 bg-white/40 text-primary rounded-[20px_40px_40px_20px] relative overflow-hidden group-hover:bg-white transition-colors"
+                                >
+                                    <i className="fa fa-angle-double-right"></i>
+                                </a>
+                            </div>
+                        </ServiceCard>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default ServiceSection; */

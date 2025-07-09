@@ -22,6 +22,7 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { MdFeaturedPlayList } from "react-icons/md";
 import ListIcon from '@mui/icons-material/List';
 import { MdManageAccounts } from "react-icons/md";
+import { RiTeamLine } from "react-icons/ri";
 
 
 export const NAVIGATION = (isAdmin) => {
@@ -75,14 +76,22 @@ export const NAVIGATION = (isAdmin) => {
             icon: <MdFeaturedPlayList color='gray' />,
             children: [
                 { segment: 'feartureheading', title: 'Section Heading', icon: < PersonOutlineSharpIcon /> },
-                { segment: 'listItem', title: 'List Itemes', icon: <ListIcon fontSize="small" /> },
+                { segment: 'listItem', title: 'Feature List Item', icon: <ListIcon fontSize="small" /> },
+            ],
+        },
+        {
+            segment: 'tramsection',
+            title: 'Team Section',
+            icon: <RiTeamLine color='gray' />,
+            children: [
+                { segment: 'team', title: 'Team Heading', icon: < PersonOutlineSharpIcon /> },
+                { segment: 'teamCard', title: 'Team Member Card', icon: <ListIcon fontSize="small" /> },
             ],
         },
 
 
     ]
 };
-
 
 export const CustomAppTitle = () => {
     return (

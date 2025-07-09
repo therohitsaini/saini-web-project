@@ -39,6 +39,20 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                         name="item_TitleRight"
                         value={formDataRight?.item_TitleRight || ''}
                         onChange={onChangeHandler}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                        }}
                     />
                     <TextField
                         label="Contact"
@@ -47,6 +61,20 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                         name="item_ContactIdRight"
                         value={formDataRight.item_ContactIdRight}
                         onChange={onChangeHandler}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                        }}
                     />
 
                     <Autocomplete
@@ -85,6 +113,20 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                                         </InputAdornment>
                                     ),
                                 }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                }}
                             />
                         )}
                     />
@@ -96,6 +138,21 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                         name="item_IconeUrlRight"
                         value={formDataRight.item_IconeUrlRight}
                         onChange={onChangeHandler}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                           
+                        }}
                     />
 
                     <div className="flex items-center gap-2  sticky top-0">

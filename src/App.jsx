@@ -31,6 +31,10 @@ import TestimonialSection from './components/Testimonial/Pages/TestimonialSectio
 import FeatureSection from './components/Featuresection/pages/FeatureSection';
 import FeatureHeading from './components/Featuresection/FeatureCustom/FeatureHeading';
 import FeatureListItem from './components/Featuresection/FeatureCustom/FeatureListItem';
+import FeatureListForm from './components/Featuresection/FeatureCustom/CustomePage/FeatureListForm';
+import CustomTable from './components/Featuresection/FeatureCustom/CustomePage/CustomTable';
+import TeamPages from './components/TeamComponent/pagesTeam/TeamSection';
+import TeamSection from './components/TeamComponent/pagesTeam/TeamSection';
 
 
 
@@ -74,6 +78,12 @@ function App() {
           <Route path='/featureSection' element={< FeatureSection />} />
           <Route path='/featureheading' element={< FeatureHeading />} />
           <Route path='/featurelistitem' element={< FeatureListItem />} />
+          <Route path='/featurelistform' element={< FeatureListForm />} />
+          <Route path='/customeTable' element={< CustomTable />} />
+          <Route path='/team' element={< TeamSection />} />
+
+
+
 
 
 

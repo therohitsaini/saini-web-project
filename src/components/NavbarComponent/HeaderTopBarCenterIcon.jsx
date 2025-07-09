@@ -279,6 +279,20 @@ function HeaderTopBarCenterIcon({
                                 value={field.item_Center_Name}
                                 onChange={(e) => handleChange(index, e)}
                                 fullWidth
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                }}
                             />
 
                             <Autocomplete
@@ -318,6 +332,20 @@ function HeaderTopBarCenterIcon({
                                                 </InputAdornment>
                                             ),
                                         }}
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                fontSize: '12px',
+                                                '& input': {
+                                                    fontSize: '14px',
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: 'blue',
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: 'blue',
+                                                },
+                                            },
+                                        }}
                                     />
                                 )}
                             />
@@ -330,6 +358,20 @@ function HeaderTopBarCenterIcon({
                                 value={field.item_Center_Icone_Path}
                                 onChange={(e) => handleChange(index, e)}
                                 fullWidth
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                }}
                             />
 
                             <Tooltip title="Delete">
@@ -346,7 +388,7 @@ function HeaderTopBarCenterIcon({
                 ))}
                 <div className="flex items-center gap-2  sticky top-0">
                     <Checkbox
-                    defaultChecked
+                        defaultChecked
                         // checked={formData?.item_ShowOnWebsite || false}
                         // onChange={(e) =>
                         //     setIconeCenter((prev) => ({
