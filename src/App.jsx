@@ -35,6 +35,8 @@ import FeatureListForm from './components/Featuresection/FeatureCustom/CustomePa
 import CustomTable from './components/Featuresection/FeatureCustom/CustomePage/CustomTable';
 import TeamPages from './components/TeamComponent/pagesTeam/TeamSection';
 import TeamSection from './components/TeamComponent/pagesTeam/TeamSection';
+import TeamMain from './components/TeamComponent/TeamCustom/TeamMain';
+import BlogSection from './components/BlogComponent/BlogSection/BlogSection';
 
 
 
@@ -81,6 +83,11 @@ function App() {
           <Route path='/featurelistform' element={< FeatureListForm />} />
           <Route path='/customeTable' element={< CustomTable />} />
           <Route path='/team' element={< TeamSection />} />
+          <Route path='/teamcustome' element={< TeamMain />} />
+          <Route path='/blogsection' element={< BlogSection />} />
+
+
+
 
 
 

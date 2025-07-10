@@ -15,6 +15,7 @@ import TestimonialSection from '../Testimonial/Pages/TestimonialSection'
 import styled, { keyframes } from "styled-components";
 import { useRef } from 'react'
 import TeamSection from '../TeamComponent/pagesTeam/TeamSection'
+import BlogSection from '../BlogComponent/BlogSection/BlogSection'
 
 
 
@@ -243,6 +244,8 @@ function Home() {
             />
 
             <TeamSection />
+
+            <BlogSection />
 
         </Fragment>
     )

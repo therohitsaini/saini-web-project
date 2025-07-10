@@ -61,12 +61,12 @@
 }
 
 .swiper-pagination-bullet {
-  background-color: #df442d; 
+  background-color: #df442d;
   opacity: 0.5;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #df442d; 
+  background-color: #df442d;
   opacity: 1;
 }
 
@@ -85,3 +85,4 @@
     transform: scale(0.95);
   }
 }
+

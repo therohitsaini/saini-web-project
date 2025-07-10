@@ -11,34 +11,34 @@ const teamMembers = [
   {
     name: 'Robert Nikola',
     role: 'Executive',
-    image: 'http://127.0.0.1:5500/corpex-html/assets/images/team/team-1.jpg',
+    image: 'https://i.pinimg.com/736x/66/98/6a/66986a4cd7e89b01846a5a4dd04baeb9.jpg',
   },
   {
     name: 'Albert Fion',
     role: 'Executive',
-    image: 'http://127.0.0.1:5500/corpex-html/assets/images/team/team-2.jpg',
+    image: 'https://i.pinimg.com/736x/d6/73/1f/d6731f4c2cc28f51d9d0f82b5c569d01.jpg',
   },
   {
     name: 'Smith Wello',
     role: 'Executive',
-    image: 'http://127.0.0.1:5500/corpex-html/assets/images/team/team-3.jpg',
+    image: 'https://i.pinimg.com/736x/f5/80/18/f580189bf15bc44196430638ec458eb2.jpg',
   },
   {
     name: 'Rose Tailor',
     role: 'Executive',
-    image: 'http://127.0.0.1:5500/corpex-html/assets/images/team/team-4.jpg',
+    image: 'https://i.pinimg.com/736x/c9/0a/2a/c90a2a52662404efd47a69ebdbe81619.jpg',
   },
 ];
 
-// === ANIMATIONS ===
+
 
 const TeamSection = () => {
   return (
     <section
-      className="relative py-24  bg-cover bg-center"
+      className="relative py-10  bg-cover bg-center"
       style={{ backgroundImage: "url(https://plus.unsplash.com/premium_photo-1747949065380-72eb5f00750c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8b2ZmaWNlJTIwZW1wbG95JTIwYmclMjBpbWd8ZW58MHx8MHx8fDA%3D)" }}
     >
-      <div className="absolute inset-0 bg-black/70 z-0" />
+      <div className="absolute inset-0 bg-black/50 z-0" />
       {/* <div className="relative container mx-auto px-4 z-10">
                 <div className="text-center mb-12 text-white">
                     <h2 className="text-4xl font-bold">
@@ -84,18 +84,10 @@ const TeamSection = () => {
                     ))}
                 </div>
             </div> */}
-      <div className="relative container mx-auto px-4 z-10">
-        <div className="text-center mb-12 text-white">
-          <h2 className="text-4xl font-bold flex items-center justify-center gap-1">
-            Our  <div className="bg-red-600/20 p-3  pl-0.5 rounded-l-[100px] rounded-r-[30px]">
-              <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-4 bg-[#df442d] text-white">
-                Team
-              </span>
-            </div>
-          </h2>
-          <p className="mt-2 text-gray-300">
-            There are many variations of passages of Lorem Ipsum available
-          </p>
+      <div className="relative container mx-auto px-4 z-10 ">
+        <div className='heading-secton-top flex flex-col items-center mb-15  '>
+          <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2 text-white'>Our <div className='bg-orange-600/30 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Team </span></div> </h1>
+          <p className='paraghraph font-light text-slate-300' >There are many variations of passages of Lorem Ipsum available</p>
         </div>
 
         {teamMembers.length > 4 ? (

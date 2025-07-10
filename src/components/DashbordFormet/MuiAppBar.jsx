@@ -26,6 +26,8 @@ import FeatureHeading from '../Featuresection/FeatureCustom/FeatureHeading';
 import FeatureListItem from '../Featuresection/FeatureCustom/FeatureListItem';
 import { useSnackbar } from '../Snakbar/Snakbar';
 import TeamMain from '../TeamComponent/TeamCustom/TeamMain';
+import TeamCardItem from '../TeamComponent/TeamCustom/TeamCardItemMain';
+import TeamCardItemMain from '../TeamComponent/TeamCustom/TeamCardItemMain';
 
 
 
@@ -195,10 +197,10 @@ const MuiAppBar = (props) => {
                 return <FeatureHeading showSnackbar={showSnackbar} />;
             case '/feature/listItem':
                 return <FeatureListItem showSnackbar={showSnackbar} />;
-            case '/tramsection/team':
-                return <TeamMain />;
-            case '/tramsection/teamCard':
-                return <TeamMain />;
+            case '/teamsection/team':
+                return <TeamMain showSnackbar={showSnackbar} showError={showError} />;
+            case '/teamsection/teamCard':
+                return <TeamCardItemMain showSnackbar={showSnackbar} showError={showError} />;
             default:
                 return <NotFoundPage />;
             // 

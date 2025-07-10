@@ -1,8 +1,8 @@
-import { Button, Checkbox, Divider, TextField } from '@mui/material'
+import { Button, Checkbox, CircularProgress, Divider, TextField } from '@mui/material'
 import React from 'react'
 import { Fragment } from 'react'
 
-function TeamForm({ teamForm, setTeamForm }) {
+function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
 
     const onchangeTeam = (e) => {
         const { name, value } = e.target
@@ -11,6 +11,19 @@ function TeamForm({ teamForm, setTeamForm }) {
             [name]: value
         }))
     }
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        // setImagePreview(URL.createObjectURL(file))
+
+        if (file) {
+            setTeamForm((prev) => ({
+                ...prev,
+                teamBgImage: file,
+            }));
+        }
+    };
+
     console.log("teamForm", teamForm)
     return (
         <Fragment>
@@ -73,12 +86,15 @@ function TeamForm({ teamForm, setTeamForm }) {
                         sx={{
                             width: '100%',
                             textTransform: 'none',
-                            // '&:hover': {
-                            //     borderColor: 'blue',
-                            // },
-                            // '&.Mui-focused': {
-                            //     borderColor: 'blue',
-                            // },
+                            '&:hover': {
+                                borderColor: 'blue',
+                            },
+                            '&.Mui-focused': {
+                                borderColor: 'blue',
+                            },
+                            // border:"1px solid blue",
+                            backgroundColor: "transparent",
+                            color: "white"
                         }}
                         component="label"
                         variant="outlined"
@@ -89,8 +105,9 @@ function TeamForm({ teamForm, setTeamForm }) {
                         <input
                             type="file"
                             hidden
+                            name='teamBgImage'
                             accept="image/*"
-                        // onChange={handleFileChange}
+                            onChange={handleFileChange}
 
                         />
                     </Button>
@@ -106,15 +123,26 @@ function TeamForm({ teamForm, setTeamForm }) {
                     </div>
                     <div className='button w-full  flex justify-end'>
                         <Button
-                            // onClick={submitHandler}
+                            onClick={submitHandler}
                             variant='contained'
                             sx={{
                                 textTransform: "none",
-                                px: 7,
-                                backgroundColor: "white"
+                                minWidth: "200px",
+                                backgroundColor: "blue",
+                                color: "white"
                             }}
                         >
-                            Submit
+                            {
+                                loading ?
+                                    (
+                                        <CircularProgress color='white' size={23} sx={{ color: '#0b9ad2' }} />
+                                    )
+                                    :
+                                    (
+                                        "  Submit"
+                                    )
+                            }
+
                         </Button>
                     </div>
                 </form>
