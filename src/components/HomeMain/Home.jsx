@@ -47,6 +47,8 @@ function Home() {
     const [portFolioData, setPortFolioData] = useState([])
     const [princingGetApiesData, setPrincingGetApiesData] = useState([])
     const [testimonialApiesDataUI, setTestimonialApiesDataUI] = useState([])
+    const [teamApiesDataUi, setTeamApiesDataUi] = useState([])
+    const [teamHeading, setTeamHeading] = useState([])
 
     const dispatch = useDispatch()
 
@@ -208,6 +210,40 @@ function Home() {
         }
     };
 
+    const getTeamCardData = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-get-team-card/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const JsonData = await response.json();
+
+            if (response.ok) {
+                setTeamApiesDataUi(JsonData.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getTeamHeadingData = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-get/team-heading/${id}`;
+            const response = await fetch(url, { method: "GET" });
+            const json = await response.json();
+
+            if (response.ok) {
+                setTeamHeading(json.data);
+            } else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Error fetching team data:", error);
+        }
+    };
+
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getHeaderDataBy_(id)
@@ -217,6 +253,8 @@ function Home() {
         getPortDataByID()
         getPrincingData(id)
         getTestmonialDataByID(id)
+        getTeamCardData(id)
+        getTeamHeadingData(id)
     }, [])
 
     useEffect(() => {
@@ -227,12 +265,16 @@ function Home() {
         <Fragment>
             <div className='nav-hero-conrainer relative' >
                 <div className='nav-main absolute z-50 w-full'>
-                    <Navbar headerData={headerData} />
+                    <Navbar
+                        headerData={headerData} />
                 </div>
-                <HeroSection info={heroSectionData} />
+                <HeroSection
+                    info={heroSectionData} />
             </div>
-            <Service serviceCard={serviceCard} />
-            <Funfact funfactData={funfactSectionData} />
+            <Service
+                serviceCard={serviceCard} />
+            <Funfact
+                funfactData={funfactSectionData} />
             <PortfolioSection
                 portFolioData={portFolioData}
             />
@@ -242,8 +284,10 @@ function Home() {
             <TestimonialSection
                 testimonialApiesDataUI={testimonialApiesDataUI}
             />
-
-            <TeamSection />
+            <TeamSection
+                teamApiesDataUi={teamApiesDataUi}
+                teamHeading={teamHeading}
+            />
 
             <BlogSection />
 

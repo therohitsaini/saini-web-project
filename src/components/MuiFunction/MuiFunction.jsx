@@ -25,6 +25,7 @@ import { MdManageAccounts } from "react-icons/md";
 import { RiTeamLine } from "react-icons/ri";
 import { BiHeading } from "react-icons/bi";
 import { BsCardHeading } from "react-icons/bs";
+import { ImBlog } from "react-icons/im";
 
 
 
@@ -89,6 +90,15 @@ export const NAVIGATION = (isAdmin) => {
             children: [
                 { segment: 'team', title: 'Team Heading', icon: < BiHeading /> },
                 { segment: 'teamCard', title: 'Team Member Card', icon: <BsCardHeading fontSize="small" /> },
+            ],
+        },
+        {
+            segment: 'blogsection',
+            title: 'Blog Section',
+            icon: <ImBlog color='gray' />,
+            children: [
+                { segment: 'blogheadline', title: 'Blog Heading', icon: < BiHeading /> },
+                { segment: 'blogCard', title: 'Blogs Cards', icon: <BsCardHeading fontSize="small" /> },
             ],
         },
 

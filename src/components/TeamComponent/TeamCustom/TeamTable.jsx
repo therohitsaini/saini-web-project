@@ -126,7 +126,7 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
         id: item_?._id,
         image: item_?.image,
         name: item_?.name,
-        role: item_?.role,
+        Role: item_?.role,
 
 
     }))

@@ -1,9 +1,5 @@
 
 
-
-
-
-// featuresData.js
 export const features = [
     {
         side: 'left',
@@ -47,14 +43,14 @@ export const features = [
     },
 ];
 
-export default function FeatureSection() {
+function FeatureSection() {
     const leftFeatures = features.filter(f => f.side === 'left');
     const rightFeatures = features.filter(f => f.side === 'right');
 
     return (
         <section className="py-16 px-10 bg-white">
             <div className="container mx-auto px-4">
-                {/* Section Title */}
+
                 <div className="text-center mb-12">
                     <h2 className="text-4xl font-bold">
                         Our <span className="text-blue-600">Feature</span>
@@ -64,23 +60,20 @@ export default function FeatureSection() {
                     </p>
                 </div>
 
-                {/* Feature Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                    {/* Left Features */}
+
                     <ul className="space-y-8">
-                        {leftFeatures.map((feature, index) => (
-
-                            <div key={index} className='info-1 shadow-black/10 shadow-xl bg-white h-20 relative'>
-                                <img className='object-cover h-full w-full' src='../src/assets/photorealistic-earth-planet_23-2151075927.avif' alt="background" />
-                                <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-10 group'>
-
-
+                        {
+                            leftFeatures.map((feature, index) => (
+                                <div key={index} className='info-1 shadow-black/10 shadow-xl bg-white h-20 relative'>
+                                    <img className='object-cover h-full w-full' src='../src/assets/photorealistic-earth-planet_23-2151075927.avif' alt="background" />
+                                    <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-10 group'>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </ul>
 
-                    {/* Center Image (hidden on small screens) */}
+
                     <div className="hidden md:block text-center h-[400px]">
                         <img
                             src="http://127.0.0.1:5500/corpex-html/assets/images/feature.png"
@@ -89,7 +82,7 @@ export default function FeatureSection() {
                         />
                     </div>
 
-                    {/* Right Features */}
+
                     <ul className="space-y-8">
                         {rightFeatures.map((feature, index) => (
                             <li
@@ -111,3 +104,4 @@ export default function FeatureSection() {
         </section>
     );
 }
+export default FeatureSection

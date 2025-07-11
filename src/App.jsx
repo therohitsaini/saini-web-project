@@ -37,6 +37,8 @@ import TeamPages from './components/TeamComponent/pagesTeam/TeamSection';
 import TeamSection from './components/TeamComponent/pagesTeam/TeamSection';
 import TeamMain from './components/TeamComponent/TeamCustom/TeamMain';
 import BlogSection from './components/BlogComponent/BlogSection/BlogSection';
+import BlogHeadingSection from './components/BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
+import BlogRoot from './components/BlogComponent/BlogCustome/BlogData/BlogRoot';
 
 
 
@@ -85,6 +87,11 @@ function App() {
           <Route path='/team' element={< TeamSection />} />
           <Route path='/teamcustome' element={< TeamMain />} />
           <Route path='/blogsection' element={< BlogSection />} />
+          <Route path='/blogheadingsection' element={< BlogHeadingSection />} />
+          <Route path='/blogroot' element={< BlogRoot />} />
+
+
+
 
 
 

@@ -1,38 +1,106 @@
 import { Button, Checkbox, CircularProgress, Divider, TextField } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Fragment } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { useEffect } from 'react';
 
-function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
+function BlogHeadingSection({ showSnackbar, showError }) {
+    const initialState = {
+        _id: "",
+        blogHeading: "",
+        blogDescription: "",
+
+    };
+    const [blogHeadingForm, setBlogHeadingForm] = useState(initialState);
+    const [id, setId] = useState();
+    const [blogData, setBlogData] = useState([]);
+    const [loading, setLoading] = useState(false)
+
+
+    useEffect(() => {
+        const userID = localStorage.getItem("user-ID");
+        setId(userID);
+    }, [])
+
 
     const onchangeTeam = (e) => {
         const { name, value } = e.target
-        setTeamForm((pre) => ({
+        setBlogHeadingForm((pre) => ({
             ...pre,
             [name]: value
         }))
     }
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        // setImagePreview(URL.createObjectURL(file))
+    console.log("id", id)
+    const getBlogData = async (id) => {
 
-        if (file) {
-            setTeamForm((prev) => ({
-                ...prev,
-                teamBgImage: file,
-            }));
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-blog/api-get-heading-data/${id}`;
+            const response = await fetch(url, { method: "GET" });
+            const json = await response.json();
+
+            if (response.ok) {
+                setBlogData(json.data);
+            } else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Error fetching team data:", error);
         }
     };
+
+    useEffect(() => {
+        if (id) {
+            getBlogData(id);
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (blogData && blogData.length > 0) {
+            const firstItem = blogData[0];
+            setBlogHeadingForm({
+                _id: firstItem._id,
+                blogHeading: firstItem.blogHeading,
+                blogDescription: firstItem.blogDescription,
+                teamBgImage: "",
+            });
+        }
+    }, [blogData]);
+
+    const submitHandler = async () => {
+        const sectionId = blogHeadingForm._id
+        setLoading(true)
+        try {
+            const baseUrl = `${import.meta.env.VITE_BACK_END_URL}api-blog/api-create-update/bloges/${id}`
+            const url = sectionId ? `${baseUrl}/${sectionId}` : baseUrl;
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(blogHeadingForm)
+            })
+            const result = await response.json()
+            if (response.ok) {
+                showSnackbar(result.message)
+                setLoading(false)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+
 
     return (
         <Fragment>
             <div className='form-contanier  w-full h-[580px] flex flex-col items-center justify-center gap-20 '>
 
-                <form className='form-main border border-slate-500/20 rounded-md w-[50%] flex flex-col gap-3 items-center p-5 '>
+                <form
+                    className='form-main border border-slate-500/20 rounded-md w-[50%] flex flex-col gap-3 items-center p-5 '>
                     <div className='w-full'>
                         <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 py-2">
-                            Add Team Section Heading
+                            Add Blog Section Heading
                         </h1>
                         <Divider sx={{
                             my: 1
@@ -42,8 +110,8 @@ function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
                         label="Section Title"
                         size="small"
                         variant="outlined"
-                        name="teamHeading"
-                        value={teamForm.teamHeading}
+                        name="blogHeading"
+                        value={blogHeadingForm.blogHeading}
                         onChange={onchangeTeam}
                         sx={{
                             width: '100%',
@@ -77,47 +145,20 @@ function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
                                     borderColor: 'blue',
                                 },
                             },
+
+
                         }}
-                        name="teamDescription"
-                        value={teamForm.teamDescription}
+                        name="blogDescription"
+                        value={blogHeadingForm.blogDescription}
                         onChange={onchangeTeam}
                     />
 
 
-                    <Button
-                        sx={{
-                            width: '100%',
-                            textTransform: 'none',
-                            // 
-                            // '&:hover': {
-                            //     borderColor: 'blue',
-                            // },
-                            // '&.Mui-focused': {
-                            //     borderColor: 'blue',
-                            // },
-                            // border:"1px solid blue",
-                            // backgroundColor: "transparent",
-                            color: "white"
-                        }}
-                        component="label"
-                        variant="outlined"
-                        startIcon={<UploadFileIcon />}
 
-                    >
-                        Selete Section Image
-                        <input
-                            type="file"
-                            hidden
-                            name='teamBgImage'
-                            accept="image/*"
-                            onChange={handleFileChange}
-
-                        />
-                    </Button>
                     <div className="flex items-center gap-2  sticky top-0 w-full">
                         <Checkbox
                             defaultChecked
-                            sx={{ m: 0, p: 0 }}
+                            sx={{ m: 0, p: 0, }}
                             size="small"
                         />
                         <p className="text-[14px] text-slate-500 font-sans">
@@ -127,29 +168,24 @@ function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
                     <div className='button w-full  flex justify-end'>
                         <Button
                             onClick={submitHandler}
-                            variant='contained'
+                            variant="contained"
                             sx={{
                                 textTransform: "none",
                                 minWidth: "200px",
-                                backgroundImage: "linear-gradient(to right, #1e3a8a, #9333ea)",
+                                backgroundImage: "linear-gradient(to right, #1e3a8a, #9333ea)", // Tailwind's blue-800 to purple-600
                                 color: "white",
                                 "&:hover": {
-                                    backgroundImage: "linear-gradient(to right, #1e40af, #7c3aed)",
+                                    backgroundImage: "linear-gradient(to right, #1e40af, #7c3aed)", // slightly darker on hover
                                 },
                             }}
                         >
-                            {
-                                loading ?
-                                    (
-                                        <CircularProgress color='white' size={23} sx={{ color: '#0b9ad2' }} />
-                                    )
-                                    :
-                                    (
-                                        "  Submit"
-                                    )
-                            }
-
+                            {loading ? (
+                                <CircularProgress size={23} sx={{ color: "#ffffff" }} />
+                            ) : (
+                                "Submit"
+                            )}
                         </Button>
+
                     </div>
                 </form>
             </div>
@@ -157,4 +193,4 @@ function TeamForm({ teamForm, setTeamForm, submitHandler, loading }) {
     )
 }
 
-export default TeamForm
+export default BlogHeadingSection

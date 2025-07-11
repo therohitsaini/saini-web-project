@@ -28,6 +28,8 @@ import { useSnackbar } from '../Snakbar/Snakbar';
 import TeamMain from '../TeamComponent/TeamCustom/TeamMain';
 import TeamCardItem from '../TeamComponent/TeamCustom/TeamCardItemMain';
 import TeamCardItemMain from '../TeamComponent/TeamCustom/TeamCardItemMain';
+import BlogHeadingSection from '../BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
+import BlogRoot from '../BlogComponent/BlogCustome/BlogData/BlogRoot';
 
 
 
@@ -201,6 +203,10 @@ const MuiAppBar = (props) => {
                 return <TeamMain showSnackbar={showSnackbar} showError={showError} />;
             case '/teamsection/teamCard':
                 return <TeamCardItemMain showSnackbar={showSnackbar} showError={showError} />;
+            case '/blogsection/blogheadline':
+                return <BlogHeadingSection showSnackbar={showSnackbar} showError={showError} />;
+            case '/blogsection/blogCard':
+                return <BlogRoot showSnackbar={showSnackbar} showError={showError} />;
             default:
                 return <NotFoundPage />;
             // 
