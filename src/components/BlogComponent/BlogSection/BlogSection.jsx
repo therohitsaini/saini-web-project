@@ -1,162 +1,123 @@
 import { ArrowRightAlt } from "@mui/icons-material";
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+
+import { HoverButton, Overlay, PostImage, posts } from "./BlogData";
 
 
-const Overlay = styled.div`
-  position: absolute;
-  inset: 0;
-  background-color: rgba(3, 10, 21, 0.7);
-  z-index: 10;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.5s ease;
-`;
 
-const HoverButton = styled.a`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -150%);
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.5s ease;
-  z-index: 20;
-`;
-
-const PostImage = styled.figure`
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-
-  &:hover ${Overlay} {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  &:hover ${HoverButton} {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    visibility: visible;
-  }
-`;
-
-const BlogSection = () => {
-
-    const posts = [
-        {
-            id: 1,
-            title: "Developing Leaders & Performance Team",
-            image:
-                "https://i.pinimg.com/736x/fd/96/24/fd9624ae8ebf666a6661ff666fa06c45.jpg",
-            date: "10 Mar, 2023",
-        },
-        {
-            id: 2,
-            title: "That Should Include In Your Marketing Plan",
-            image:
-                "https://i.pinimg.com/736x/fd/96/24/fd9624ae8ebf666a6661ff666fa06c45.jpg",
-            date: "10 Mar, 2023",
-        },
-        {
-            id: 3,
-            title: "How To Manage Business Reputation",
-            image:
-                "https://i.pinimg.com/736x/fd/96/24/fd9624ae8ebf666a6661ff666fa06c45.jpg",
-            date: "10 Mar, 2023",
-        },
-    ];
-
+const BlogSection = ({ blogApiesData }) => {
+    const falbackData = Array.isArray(blogApiesData) && blogApiesData.length > 0 ? blogApiesData : posts
     return (
-        <section className="py-[100px] bg-white">
+        <section className="py-[50px] bg-white">
             <div className="container mx-auto">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold">
-                        Our <span className="text-blue-500">Blog</span>
-                    </h2>
-                    <p className="text-gray-600">
-                        There are many variations of passages of Lorem Ipsum available
-                    </p>
+                <div className="text-center ">
+                    <div className='heading-secton-top flex flex-col items-center mb-10  '>
+                        <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-2.5 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-1.5 px-3 bg-[#df442d] text-white font-bold' >Blog </span></div> </h1>
+                        <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-20">
-                    {posts.map((post) => (
-                        <article
-                            key={post.id}
-                            className="bg-white p-6 shadow-lg overflow-hidden rounded-xl"
-                        >
-                            <PostImage>
-                                <a href="#">
-                                    <img
-                                        src={post.image}
-                                        alt={post.title}
-                                        className="w-full h-60 object-cover transition-transform duration-500 hover:scale-110"
-                                    />
-                                </a>
-                                <Overlay />
-                                <HoverButton
-                                    href="#"
-                                    className="bg-[rgb(232,117,99)] text-white px-4 py-2 rounded-full shadow-md hover:bg-[rgb(232,117,99)]"
-                                >
-                                    <ArrowRightAlt />
-                                </HoverButton>
-                            </PostImage>
+                    {falbackData.map((post) => {
+                        const imgSrc = post?.blogerImage?.startsWith("http")
+                            ? post.blogerImage
+                            : `${import.meta.env.VITE_BACK_END_URL.replace(
+                                /\/$/,
+                                ""
+                            )}/${post.blogerImage?.replace(/^\/?/, "")}`;
 
-                            <div className="">
-                                <div className="relative w-full max-w-md group bg-blue-500">
-                                    <div
-                                        className="absolute bg-[#383a3a] group-hover:bg-[rgb(232,117,99)] duration-700"
-                                        style={{
-                                            clipPath: "polygon(0px 0%, 100% 17%, 100% 82%, 0% 100%)",
-                                            width: "12%",
-                                            height: "67px",
-                                            inset: "-25% auto -25% -11%",
-                                            zIndex: 5,
-                                        }}
-                                    ></div>
+                        return (
+                            <article
+                                key={post.id}
+                                className="bg-white p-6 shadow-lg overflow-hidden rounded-xl "
+                            >
+                                <div className="group">
+                                    <PostImage >
+                                        <a href="#">
+                                            <img
+                                                src={imgSrc}
+                                                alt={post.blogHeading}
+                                                className="w-full h-60 object-cover"
+                                            />
+                                        </a>
+                                        <Overlay />
 
-                                    <div
-                                        className="absolute bg-[#383a3a] group-hover:bg-[rgb(232,117,99)] duration-700"
-                                        style={{
-                                            clipPath: "polygon(0px 17%, 100% 0%, 100% 100%, 0% 82%)",
-                                            width: "12%",
-                                            height: "67px",
-                                            inset: "-25% -11% -25% auto",
-                                            zIndex: 5,
-                                        }}
-                                    ></div>
+                                        <HoverButton
+                                            href="#"
+                                            className="bg-[rgb(232,117,99)] text-white px-4 py-2 rounded-full shadow-md hover:bg-[rgb(169,160,159)]"
+                                        >
+                                            <ArrowRightAlt />
+                                        </HoverButton>
+                                    </PostImage>
 
-                                    <div className="clip-banner bg-[#242427] hover:bg-[#de442c] text-white px-6 h-11 flex justify-between items-center text-sm relative z-20 duration-700">
-                                        <span>{post.date}</span>
-                                        <span className="flex items-center gap-1">
-                                            <svg
-                                                className="w-4 h-4 text-white"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0v.75H4.5v-.75z"
-                                                />
-                                            </svg>
-                                            Admin
-                                        </span>
+
+                                    <div className="relative w-full max-w-md group bg-blue-500 ">
+                                        <div
+                                            className="absolute bg-[#383a3a] group-hover:bg-[#e25741] duration-700"
+                                            style={{
+                                                clipPath:
+                                                    "polygon(0px 0%, 100% 17%, 100% 82%, 0% 100%)",
+                                                width: "12%",
+                                                height: "67px",
+                                                inset: "-25% auto -25% -11%",
+                                                zIndex: 5,
+                                            }}
+                                        ></div>
+                                        <div
+                                            className="absolute bg-[#383a3a] group-hover:bg-[#e25741] duration-700"
+                                            style={{
+                                                clipPath:
+                                                    "polygon(0px 17%, 100% 0%, 100% 100%, 0% 82%)",
+                                                width: "12%",
+                                                height: "67px",
+                                                inset: "-25% -11% -25% auto",
+                                                zIndex: 5,
+                                            }}
+                                        ></div>
+
+                                        {/* <div className={`clip-banner bg-[#242427] text-white px-6 h-11 flex justify-between items-center text-sm relative z-20 duration-700 border border-blue-600     ${isHover ? "hover:bg-red-500" : ""}`}> */}
+                                        <div className="clip-banner bg-[#242427] text-white px-6 h-11 flex justify-between items-center text-sm relative z-20 duration-700  group-hover:bg-[#de442c]">
+
+                                            <span>{post.blogDatePicker}</span>
+                                            <span className="flex items-center gap-1">
+                                                <svg
+                                                    className="w-4 h-4 text-white"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0v.75H4.5v-.75z"
+                                                    />
+                                                </svg>
+                                                {post.blogerRole}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <h5 className="text-xl font-semibold text-black hover:text-pink-600 transition  mt-4">
-                                    <a href="#">{post.title}</a>
+                                {/* Heading and description */}
+                                <h5 className="text-xl font-semibold text-black hover:text-red-600 transition mt-4">
+                                    <a href="#">{post.blogHeading}</a>
                                 </h5>
-                                <p className="mt-2 text-gray-600">
-                                    There are many variations of passages of Lorem Ipsum available
-                                </p>
-                            </div>
-                        </article>
-                    ))}
+                                <p className="mt-2 text-gray-600">{post.blogDescription}</p>
+
+                                {/* CTA Button */}
+                                <div className="nav-quate-btn mt-4 h-13 w-33 rounded-l-3xl rounded-r-xl bg-orange-500/20 p-1.5 pl-0 pr-2 group hover:bg-black/40">
+                                    <button className="relative inline-block h-full w-full font-semibold text-white bg-[#de442c] overflow-hidden group rounded-l-3xl rounded-r-xl">
+                                        <span style={{
+                                            fontFamily: "inherit"
+                                        }} className="relative z-10 transition-colors duration-500 group-hover:text-[#db3125] font-semibold ">
+                                            Get Start
+                                        </span>
+                                        <span className="absolute top-0 right-0 w-0 h-full bg-black transition-all duration-700 group-hover:w-full z-0"></span>
+                                    </button>
+                                </div>
+                            </article>
+                        );
+                    })}
                 </div>
             </div>
         </section>

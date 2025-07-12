@@ -66,7 +66,8 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
             <div className="header-left-form-main h-[530px] flex items-center">
                 <form className="form flex justify-center items-center h-[420px] w-full">
                     <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%]">
-                        <Typography component="span">Top Bar Email Section</Typography>
+                        {/* <Typography component="span">Top Bar Email Section</Typography> */}
+                        <div className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Top Bar Email Section</div>
                         <Divider />
 
                         <TextField
@@ -204,6 +205,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                 }
                                 sx={{ m: 0, p: 0 }}
                                 size="small"
+                                color='default'
                             />
                             <p className="text-[14px] text-slate-500">
                                 If you want to show this on the website
@@ -212,7 +214,15 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
 
                         <div className='button flex justify-end '>
                             <Button
-                                sx={{ textTransform: 'none', px: 4 }}
+                                sx={{
+                                    textTransform: 'none',
+                                    minWidth: "200px",
+                                    backgroundImage: "linear-gradient(to right, #1e3a8a, #9333ea)",
+                                    color: "white",
+                                    "&:hover": {
+                                        backgroundImage: "linear-gradient(to right, #1e40af, #7c3aed)",
+                                    },
+                                }}
                                 onClick={() => submitHandler('HeaderTopLeftBar')}
                                 variant="contained"
                             >

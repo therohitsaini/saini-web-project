@@ -49,6 +49,7 @@ function Home() {
     const [testimonialApiesDataUI, setTestimonialApiesDataUI] = useState([])
     const [teamApiesDataUi, setTeamApiesDataUi] = useState([])
     const [teamHeading, setTeamHeading] = useState([])
+    const [blogApiesData, setBlogApiesData] = useState([])
 
     const dispatch = useDispatch()
 
@@ -244,6 +245,21 @@ function Home() {
         }
     };
 
+    const getBlogData = async (id) => {
+        try {
+            const resposne = await fetch(`${import.meta.env.VITE_BACK_END_URL}api-blog/api-get-blog/${id}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            const result = await resposne.json()
+            if (resposne.ok) {
+                setBlogApiesData(result.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getHeaderDataBy_(id)
@@ -255,11 +271,12 @@ function Home() {
         getTestmonialDataByID(id)
         getTeamCardData(id)
         getTeamHeadingData(id)
+        getBlogData(id)
     }, [])
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo(0, 0);
+    // }, []);
 
     return (
         <Fragment>
@@ -289,7 +306,9 @@ function Home() {
                 teamHeading={teamHeading}
             />
 
-            <BlogSection />
+            <BlogSection
+                blogApiesData={blogApiesData}
+            />
 
         </Fragment>
     )

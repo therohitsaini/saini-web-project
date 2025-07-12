@@ -8,7 +8,7 @@ function TestimonialTable({ testimonialApiesData, setTestimonialMode, setTestimo
     const testmonialUpdateHandle = async (data = {}) => {
         const id = localStorage.getItem("user-ID")
         const docsId = data.id
-        console.log("docsId", docsId)
+       
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}api/testimonial/api-get-data/by-doc-id/${id}/${docsId}`;
             const response = await fetch(url, {

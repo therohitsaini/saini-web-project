@@ -53,7 +53,8 @@ function TeamMain({ showSnackbar, showError }) {
         }
     };
 
-    const submitHandler = async () => {
+    const submitHandler = async (e) => {
+        e.preventDefault();
         const sectionId = teamForm._id;
         const formData = new FormData();
         if (teamForm.teamBgImage) {
@@ -92,7 +93,7 @@ function TeamMain({ showSnackbar, showError }) {
                 submitHandler={submitHandler}
                 loading={loading}
             />
-            
+
         </div>
     );
 }

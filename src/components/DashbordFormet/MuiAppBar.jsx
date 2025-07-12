@@ -46,9 +46,6 @@ const MuiAppBar = (props) => {
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
-
-    console.log("data", user_ID)
-
     const snackbar = useSnackbar();
     if (!snackbar) {
         throw new Error("useSnackbar must be used within a SnackbarProvider");
@@ -62,7 +59,7 @@ const MuiAppBar = (props) => {
 
 
     const getUserDataBy_ID = async (user_ID) => {
-        console.log("userID", user_ID)
+       
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}all/get/user-data-by-id/${user_ID}`
             const fetchData = await fetch(url, {
