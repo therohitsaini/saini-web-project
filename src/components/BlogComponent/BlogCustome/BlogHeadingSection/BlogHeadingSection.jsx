@@ -31,7 +31,7 @@ function BlogHeadingSection({ showSnackbar, showError }) {
         }))
     }
 
-    console.log("id", id)
+
     const getBlogData = async (id) => {
 
         try {

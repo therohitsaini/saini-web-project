@@ -30,6 +30,9 @@ import TeamCardItem from '../TeamComponent/TeamCustom/TeamCardItemMain';
 import TeamCardItemMain from '../TeamComponent/TeamCustom/TeamCardItemMain';
 import BlogHeadingSection from '../BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
 import BlogRoot from '../BlogComponent/BlogCustome/BlogData/BlogRoot';
+import FooterTopBar from '../FooterCustome/FooterSponsors';
+import FooterSponsors from '../FooterCustome/FooterSponsors';
+import FooterBackGround from '../FooterCustome/FooterBackGround';
 
 
 
@@ -59,7 +62,7 @@ const MuiAppBar = (props) => {
 
 
     const getUserDataBy_ID = async (user_ID) => {
-       
+
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}all/get/user-data-by-id/${user_ID}`
             const fetchData = await fetch(url, {
@@ -204,6 +207,10 @@ const MuiAppBar = (props) => {
                 return <BlogHeadingSection showSnackbar={showSnackbar} showError={showError} />;
             case '/blogsection/blogCard':
                 return <BlogRoot showSnackbar={showSnackbar} showError={showError} />;
+            case '/footersection/sponsors':
+                return <FooterSponsors />
+            case '/footersection/footerbg':
+                return <FooterBackGround />
             default:
                 return <NotFoundPage />;
             // 

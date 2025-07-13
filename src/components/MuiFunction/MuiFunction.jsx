@@ -101,6 +101,15 @@ export const NAVIGATION = (isAdmin) => {
                 { segment: 'blogCard', title: 'Blogs Cards', icon: <BsCardHeading fontSize="small" /> },
             ],
         },
+        {
+            segment: 'footersection',
+            title: 'Footer section',
+            icon: <ImBlog color='gray' />,
+            children: [
+                { segment: 'sponsors', title: 'Sponsors', icon: < BiHeading /> },
+                { segment: 'footerbg', title: 'Footer Background', icon: <BsCardHeading fontSize="small" /> },
+            ],
+        },
 
 
     ]

@@ -39,6 +39,9 @@ import TeamMain from './components/TeamComponent/TeamCustom/TeamMain';
 import BlogSection from './components/BlogComponent/BlogSection/BlogSection';
 import BlogHeadingSection from './components/BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
 import BlogRoot from './components/BlogComponent/BlogCustome/BlogData/BlogRoot';
+import FooterTopBar from './components/FooterCustome/FooterSponsors';
+import FooterSponsors from './components/FooterCustome/FooterSponsors';
+import FooterBackGround from './components/FooterCustome/FooterBackGround';
 
 
 
@@ -52,6 +55,7 @@ function App() {
     <Fragment>
       <BrowserRouter>
         <Routes>
+
           <Route path='/signup' element={<SignUp />} />
           <Route path='/' element={<SignIn />} />
           <Route path='/home' element={< Home />} />
@@ -89,37 +93,10 @@ function App() {
           <Route path='/blogsection' element={< BlogSection />} />
           <Route path='/blogheadingsection' element={< BlogHeadingSection />} />
           <Route path='/blogroot' element={< BlogRoot />} />
+          <Route path='/footertopbar' element={< FooterSponsors />} />
+          <Route path='/footerbackground' element={< FooterBackGround />} />
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          {/* PrincingCustom */}
-
-
-
-
-
-
-          {/* <Route path='/auto' element={< AutoIcone />} /> */}
-
-
-
-
-
-          {/* <Route path='/reactcitystate' element={<ReactCityState />} /> */}
 
         </Routes>
       </BrowserRouter>

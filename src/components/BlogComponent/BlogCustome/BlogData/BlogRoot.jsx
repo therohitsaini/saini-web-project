@@ -109,7 +109,7 @@ function BlogRoot({ showSnackbar, showError }) {
         }
     }
 
-    console.log("blogMode", blogMode)
+
 
     return (
         <Fragment>
