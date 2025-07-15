@@ -1,0 +1,495 @@
+import { Autocomplete, Avatar, Divider, IconButton, TextField, Tooltip, InputAdornment } from '@mui/material'
+import { Button } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { Box } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
+import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
+import { useMemo } from 'react'
+
+function FooterContact({ userID }) {
+   const [imagePreview, setImagePreview] = useState(null)
+   const [uploadedFile, setUploadedFile] = useState(null)
+   const [description, setDescription] = useState('')
+   const [iconFields, setIconFields] = useState([
+      {
+         _id: null,
+         item_Center_Name: "",
+         item_Center_Icone: "",
+         item_Center_Icone_Path: "",
+         selectedIconObj: null
+      }
+   ])
+   const [loading, setLoading] = useState(false)
+   const [contactId, setContactId] = useState(null)
+   const [inputValue, setInputValue] = useState('')
+
+   // Mock icons data - replace with your actual icons
+  
+
+   const filteredIcons = useMemo(() => {
+      const term = inputValue.trim().toLowerCase();
+      if (!term) return allFaMdIconsList.slice(0, 50);
+      return allFaMdIconsList
+         .filter((icon) => icon.label.toLowerCase().includes(term))
+         .slice(0, 100);
+   }, [inputValue]);
+
+   // Load existing data on component mount
+   useEffect(() => {
+      if (userID) {
+         loadFooterContactData()
+      }
+   }, [userID])
+
+   // API Functions
+   const loadFooterContactData = async () => {
+      if (!userID) return
+
+      setLoading(true)
+      try {
+         const response = await fetch(
+            `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-contact/get?userId=${userID}`,
+            {
+               method: 'GET',
+               headers: {
+                  'Content-Type': 'application/json',
+                  'user-id': userID
+               }
+            }
+         )
+         const data = await response.json()
+         console.log('Footer contact data loaded:', data)
+
+         if (data.success && data.data) {
+            const contactData = data.data
+            setContactId(contactData._id)
+            setDescription(contactData.description || '')
+            setImagePreview(contactData.logo || null)
+
+            if (contactData.icons && Array.isArray(contactData.icons)) {
+               const mappedIcons = contactData.icons.map(icon => ({
+                  _id: icon._id || null,
+                  item_Center_Name: icon.iconName || '',
+                  item_Center_Icone: icon.icon || '',
+                  item_Center_Icone_Path: icon.iconUrl || '',
+                  selectedIconObj: filteredIcons.find(mockIcon => mockIcon.label === icon.icon) || null
+               }))
+               setIconFields(mappedIcons.length > 0 ? mappedIcons : [{
+                  _id: null,
+                  item_Center_Name: "",
+                  item_Center_Icone: "",
+                  item_Center_Icone_Path: "",
+                  selectedIconObj: null
+               }])
+            }
+         }
+      } catch (error) {
+         console.error('Error loading footer contact data:', error)
+      } finally {
+         setLoading(false)
+      }
+   }
+
+   const saveFooterContactData = async (isUpdate = false) => {
+      if (!userID) {
+         alert('User ID is required!')
+         return
+      }
+
+      setLoading(true)
+      try {
+         const formData = new FormData()
+         formData.append('description', description)
+         formData.append('userId', userID)
+
+         // Add icons data
+         const iconsData = iconFields.map(field => ({
+            iconName: field.item_Center_Name,
+            icon: field.item_Center_Icone,
+            iconUrl: field.item_Center_Icone_Path
+         }))
+         formData.append('icons', JSON.stringify(iconsData))
+
+         // Add logo file if uploaded
+         if (uploadedFile) {
+            formData.append('logo', uploadedFile)
+         }
+
+         const url = isUpdate
+            ? `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-contact/update/${contactId}`
+            : `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-contact/post`
+
+         const method = isUpdate ? 'PUT' : 'POST'
+
+         const response = await fetch(url, {
+            method,
+            headers: {
+               'user-id': userID
+            },
+            body: formData
+         })
+
+         const data = await response.json()
+         console.log('Save response:', data)
+
+         if (response.ok) {
+            alert(isUpdate ? 'Footer contact updated successfully!' : 'Footer contact created successfully!')
+            if (!isUpdate && data.data) {
+               setContactId(data.data._id)
+            }
+            // Reload data to show updated values
+            await loadFooterContactData()
+         } else {
+            alert(`Error: ${data.message || 'Something went wrong'}`)
+         }
+      } catch (error) {
+         console.error('Error saving footer contact:', error)
+         alert('Error saving footer contact')
+      } finally {
+         setLoading(false)
+      }
+   }
+
+   const deleteFooterContact = async () => {
+      if (!contactId || !userID) {
+         alert('No contact data to delete!')
+         return
+      }
+
+      const confirmDelete = window.confirm('Are you sure you want to delete this footer contact?')
+      if (!confirmDelete) return
+
+      setLoading(true)
+      try {
+         const response = await fetch(
+            `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-contact/delete/${contactId}`,
+            {
+               method: 'DELETE',
+               headers: {
+                  'Content-Type': 'application/json',
+                  'user-id': userID
+               },
+               body: JSON.stringify({ userId: userID })
+            }
+         )
+
+         const data = await response.json()
+         console.log('Delete response:', data)
+
+         if (response.ok) {
+            alert('Footer contact deleted successfully!')
+            // Reset form
+            setContactId(null)
+            setDescription('')
+            setImagePreview(null)
+            setUploadedFile(null)
+            setIconFields([{
+               item_Center_Name: "",
+               item_Center_Icone: "",
+               item_Center_Icone_Path: "",
+               selectedIconObj: null
+            }])
+         } else {
+            alert(`Error: ${data.message || 'Something went wrong'}`)
+         }
+      } catch (error) {
+         console.error('Error deleting footer contact:', error)
+         alert('Error deleting footer contact')
+      } finally {
+         setLoading(false)
+      }
+   }
+
+   const deleteIcon = async (contactId, iconId) => {
+      try {
+         const response = await fetch(
+            `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-contact/${contactId}/icon/${iconId}`,
+            {
+               method: 'DELETE',
+               headers: {
+                  'Content-Type': 'application/json',
+                  'user-id': userID
+               },
+               body: JSON.stringify({ userId: userID })
+            }
+         );
+
+         const data = await response.json();
+
+         if (response.ok) {
+            alert('Icon deleted successfully!');
+            // Reload your data or update state
+            await loadFooterContactData();
+         } else {
+            alert(`Error: ${data.message || 'Something went wrong'}`);
+         }
+      } catch (error) {
+         console.error('Error deleting icon:', error);
+         alert('Error deleting icon');
+      }
+   };
+
+   // Form handlers
+   const handleImageUpload = (event) => {
+      const file = event.target.files[0]
+      if (file) {
+         setUploadedFile(file)
+         setImagePreview(URL.createObjectURL(file))
+      }
+   }
+
+   const handleChange = (index, e) => {
+      const { name, value } = e.target
+      const updatedFields = [...iconFields]
+      updatedFields[index][name] = value
+      setIconFields(updatedFields)
+   }
+
+   const addField = () => {
+      setIconFields([...iconFields, {
+         _id: null,
+         item_Center_Name: "",
+         item_Center_Icone: "",
+         item_Center_Icone_Path: "",
+         selectedIconObj: null
+      }])
+   }
+
+   const removeField = (index) => {
+      if (iconFields.length > 1) {
+         const updatedFields = iconFields.filter((_, i) => i !== index)
+         setIconFields(updatedFields)
+      }
+   }
+
+   const handleSubmit = async (e) => {
+      e.preventDefault()
+      await saveFooterContactData(contactId ? true : false)
+   }
+
+   // if (loading) {
+   //    return <div className="flex justify-center items-center h-64">Loading footer contact data...</div>
+   // }
+
+   return (
+      <div className='footer-contact w-full h-[100%] flex flex-col items-center justify-center'>
+         <form onSubmit={handleSubmit} className='w-[600px] h-full flex flex-col border border-slate-500/20 p-4 rounded-md'>
+            <h1 className='text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text'>
+               Footer Visit
+            </h1>
+            <Divider sx={{ width: '100%', mb: 1 }} />
+
+            <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+               {/* Logo Upload */}
+               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
+                  <Avatar src={imagePreview} sx={{ width: 56, height: 56, mr: 2 }} />
+                  <Button
+                     sx={{ textTransform: "none", px: 5, fontVariant: "all-small-caps" }}
+                     component="label"
+                     variant="contained"
+                  >
+                     Upload Logo
+                     <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
+                  </Button>
+               </Box>
+
+               {/* Description */}
+               <TextField
+                  label="Footer Contact Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  multiline
+                  rows={3}
+                  sx={{
+                     width: '100%',
+                     '& .MuiOutlinedInput-root': {
+                        fontSize: '12px',
+                        '& textarea': {
+                           fontSize: '14px',
+                        },
+                        '&:hover fieldset': {
+                           borderColor: 'blue',
+                        },
+                        '&.Mui-focused fieldset': {
+                           borderColor: 'blue',
+                        },
+                     },
+                  }}
+                  size="small"
+               />
+
+               {/* Icons Section */}
+               <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Social Media Icons</h3>
+                  <Button
+                     type="button"
+                     variant="outlined"
+                     startIcon={<AddIcon />}
+                     onClick={addField}
+                     size="small"
+                  >
+                     Add Icon
+                  </Button>
+               </div>
+
+               {iconFields?.map((field, index) => (
+                  <div
+                     key={index}
+                     className="border border-slate-400/20 rounded-md p-5 w-full relative"
+                  >
+                     <div className="flex flex-col md:flex-row gap-3">
+                        <TextField
+                           label={`Title ${index + 1}`}
+                           size="small"
+                           variant="outlined"
+                           name="item_Center_Name"
+                           value={field.item_Center_Name}
+                           onChange={(e) => handleChange(index, e)}
+                           fullWidth
+                           sx={{
+                              '& .MuiOutlinedInput-root': {
+                                 fontSize: '12px',
+                                 '& input': {
+                                    fontSize: '14px',
+                                 },
+                                 '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                 },
+                                 '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                 },
+                              },
+                           }}
+                        />
+
+                        <Autocomplete
+                           fullWidth
+                           options={filteredIcons}
+                           value={field.selectedIconObj || null}
+                           onChange={(e, newValue) => {
+                              const updatedFields = [...iconFields]
+                              updatedFields[index].item_Center_Icone = newValue ? newValue.label : ''
+                              updatedFields[index].selectedIconObj = newValue || null
+                              setIconFields(updatedFields)
+                           }}
+                           size="small"
+                           onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                           getOptionLabel={(option) => option.label}
+                           isOptionEqualToValue={(option, value) => option.label === value?.label}
+                           renderOption={(props, option) => (
+                              <Box
+                                 component="li"
+                                 {...props}
+                                 sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                              >
+                                 {option.Icon && <option.Icon />}
+                                 {option.label}
+                              </Box>
+                           )}
+                           renderInput={(params) => (
+                              <TextField
+                                 {...params}
+                                 label="Search Icon"
+                                 variant="outlined"
+                                 InputProps={{
+                                    ...params.InputProps,
+                                    startAdornment: field.selectedIconObj?.Icon && (
+                                       <InputAdornment position="start" sx={{ mr: 1 }}>
+                                          <field.selectedIconObj.Icon />
+                                       </InputAdornment>
+                                    ),
+                                 }}
+                                 sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                       fontSize: '12px',
+                                       '& input': {
+                                          fontSize: '14px',
+                                       },
+                                       '&:hover fieldset': {
+                                          borderColor: 'blue',
+                                       },
+                                       '&.Mui-focused fieldset': {
+                                          borderColor: 'blue',
+                                       },
+                                    },
+                                 }}
+                              />
+                           )}
+                        />
+
+                        <TextField
+                           label={`URL ${index + 1}`}
+                           size="small"
+                           variant="outlined"
+                           name="item_Center_Icone_Path"
+                           value={field.item_Center_Icone_Path}
+                           onChange={(e) => handleChange(index, e)}
+                           fullWidth
+                           sx={{
+                              '& .MuiOutlinedInput-root': {
+                                 fontSize: '12px',
+                                 '& input': {
+                                    fontSize: '14px',
+                                 },
+                                 '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                 },
+                                 '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                 },
+                              },
+                           }}
+                        />
+
+                        <Tooltip title="Delete">
+                           <IconButton
+                              onClick={() => {
+                                 if (field._id && contactId) {
+                                    // If icon has an ID and contact exists, delete from server
+                                    deleteIcon(contactId, field._id);
+                                 } else {
+                                    // If no ID, just remove from local state
+                                    removeField(index);
+                                 }
+                              }}
+                              color="error"
+                              disabled={iconFields.length === 1}
+                           >
+                              <DeleteIcon />
+                           </IconButton>
+                        </Tooltip>
+                     </div>
+                  </div>
+               ))}
+
+               {/* Action Buttons */}
+               <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                  <Button
+                     type="submit"
+                     variant="contained"
+                     disabled={loading}
+                     sx={{ flex: 1 }}
+                  >
+                     {loading ? 'Saving...' : (contactId ? 'Update Contact' : 'Save Contact')}
+                  </Button>
+
+                  {contactId && (
+                     <Button
+                        type="button"
+                        variant="outlined"
+                        color="error"
+                        onClick={deleteFooterContact}
+                        disabled={loading}
+                     >
+                        Delete
+                     </Button>
+                  )}
+               </Box>
+            </Box>
+         </form>
+      </div>
+   )
+}
+
+export default FooterContact

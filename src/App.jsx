@@ -39,9 +39,9 @@ import TeamMain from './components/TeamComponent/TeamCustom/TeamMain';
 import BlogSection from './components/BlogComponent/BlogSection/BlogSection';
 import BlogHeadingSection from './components/BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
 import BlogRoot from './components/BlogComponent/BlogCustome/BlogData/BlogRoot';
-import FooterTopBar from './components/FooterCustome/FooterSponsors';
-import FooterSponsors from './components/FooterCustome/FooterSponsors';
+import FooterTopBar from './components/FooterCustome/FooterTopBar';
 import FooterBackGround from './components/FooterCustome/FooterBackGround';
+// import FooterMainCenter from './components/FooterCustome/FooterMainCenter';
 
 
 
@@ -93,9 +93,10 @@ function App() {
           <Route path='/blogsection' element={< BlogSection />} />
           <Route path='/blogheadingsection' element={< BlogHeadingSection />} />
           <Route path='/blogroot' element={< BlogRoot />} />
-          <Route path='/footertopbar' element={< FooterSponsors />} />
+          {/* <Route path='/footertopbar' element={< FooterSponsors />} /> */}
           <Route path='/footerbackground' element={< FooterBackGround />} />
-
+          <Route path='/footertopbar' element={< FooterTopBar />} />
+          {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
 
 
         </Routes>

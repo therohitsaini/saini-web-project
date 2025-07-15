@@ -309,6 +309,7 @@ function Home() {
             <BlogSection
                 blogApiesData={blogApiesData}
             />
+            <Footer />
 
         </Fragment>
     )

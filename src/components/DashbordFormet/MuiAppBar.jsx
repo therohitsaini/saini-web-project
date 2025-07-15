@@ -30,9 +30,11 @@ import TeamCardItem from '../TeamComponent/TeamCustom/TeamCardItemMain';
 import TeamCardItemMain from '../TeamComponent/TeamCustom/TeamCardItemMain';
 import BlogHeadingSection from '../BlogComponent/BlogCustome/BlogHeadingSection/BlogHeadingSection';
 import BlogRoot from '../BlogComponent/BlogCustome/BlogData/BlogRoot';
-import FooterTopBar from '../FooterCustome/FooterSponsors';
-import FooterSponsors from '../FooterCustome/FooterSponsors';
+import FooterTopBar from '../FooterCustome/FooterTopBar';
 import FooterBackGround from '../FooterCustome/FooterBackGround';
+import FooterContactMain from '../FooterCustome/FooterContactMain';
+import FooterSponsors from '../FooterCustome/FooterSponsors';
+// import FooterMainCenter from '../FooterCustome/FooterMainCenter';
 
 
 
@@ -208,9 +210,13 @@ const MuiAppBar = (props) => {
             case '/blogsection/blogCard':
                 return <BlogRoot showSnackbar={showSnackbar} showError={showError} />;
             case '/footersection/sponsors':
-                return <FooterSponsors />
+                return <FooterSponsors showSnackbar={showSnackbar} showError={showError} />
             case '/footersection/footerbg':
-                return <FooterBackGround />
+                return <FooterBackGround showSnackbar={showSnackbar} showError={showError} />
+            case '/footersection/footertop':
+                return <FooterTopBar showSnackbar={showSnackbar} showError={showError} />
+            case '/footersection/footermaincenter':
+                return <FooterContactMain showSnackbar={showSnackbar} showError={showError} />
             default:
                 return <NotFoundPage />;
             // 

@@ -26,6 +26,7 @@ import { RiTeamLine } from "react-icons/ri";
 import { BiHeading } from "react-icons/bi";
 import { BsCardHeading } from "react-icons/bs";
 import { ImBlog } from "react-icons/im";
+import { HiAdjustmentsHorizontal } from "react-icons/hi2"
 
 
 
@@ -104,10 +105,12 @@ export const NAVIGATION = (isAdmin) => {
         {
             segment: 'footersection',
             title: 'Footer section',
-            icon: <ImBlog color='gray' />,
+            icon: <HiAdjustmentsHorizontal color='gray' />,
             children: [
                 { segment: 'sponsors', title: 'Sponsors', icon: < BiHeading /> },
                 { segment: 'footerbg', title: 'Footer Background', icon: <BsCardHeading fontSize="small" /> },
+                { segment: 'footertop', title: 'Footer Top Bar', icon: <BsCardHeading fontSize="small" /> },
+                { segment: 'footermaincenter', title: 'Footer Main ', icon: <BsCardHeading fontSize="small" /> },
             ],
         },
 
