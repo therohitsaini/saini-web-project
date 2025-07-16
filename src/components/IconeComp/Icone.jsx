@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Icon } from '@iconify/react';
 import { margin } from "@mui/system";
+import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 function Icone({ item_ }) {
@@ -41,12 +42,19 @@ export const ButtonComponent = ({ item_ }) => {
 
 export const ContactComponent = ({ Icone_Contact, heading, paragraph }) => {
     const [facebookHover, setFacebookHover] = useState(false)
+    
+    // Get the icon component from the mapping
+    const IconComponent = allFaMdIconsMap[Icone_Contact];
+    
     return (
         <div className='contact-section flex items-center gap-5'>
             <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
                 <div onMouseOver={() => setFacebookHover(true)} onMouseLeave={() => setFacebookHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500 " : "bg-white"}`}>
-                    {/* <Icone_Contact sx={{ color: facebookHover ? "white" : "#db3125", fontSize: 23 }} /> */}
-                    <Icon fontSize={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" icon={Icone_Contact} />
+                    {IconComponent ? (
+                        <IconComponent size={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" />
+                    ) : (
+                        <Icon fontSize={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" icon={Icone_Contact} />
+                    )}
                 </div>
             </div>
 

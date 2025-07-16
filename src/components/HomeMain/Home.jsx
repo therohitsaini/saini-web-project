@@ -53,6 +53,7 @@ function Home() {
     const [blogApiesData, setBlogApiesData] = useState([])
     const [footerData, setFooterData] = useState([])
     const [featureHeadlineApies, setFeatureHeadlineApies] = useState([])
+    const [featureListItemApies, setFeatureListItemApies] = useState([])
     const dispatch = useDispatch()
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
@@ -299,6 +300,28 @@ function Home() {
         }
     };
 
+    const getFeatureDataListItem = async () => {
+        const id = localStorage.getItem("user-ID")
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-get-list-item/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const JsonData = await response.json();
+            console.log("list", JsonData.data)
+            if (response.ok) {
+                setFeatureListItemApies(JsonData.data)
+            }
+            else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
+
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
         getHeaderDataBy_(id)
@@ -313,6 +336,7 @@ function Home() {
         getBlogData(id)
         getFooterData(id)
         getFeatureData(id)
+        getFeatureDataListItem(id)
     }, [])
 
     // useEffect(() => {
@@ -344,6 +368,7 @@ function Home() {
             />
             <FeatureSection
                 featureHeadlineApies={featureHeadlineApies}
+                featureListItemApies={featureListItemApies}
             />
             <TeamSection
                 teamApiesDataUi={teamApiesDataUi}

@@ -62,10 +62,10 @@ function FeatureListForm({
     };
 
     useEffect(() => {
-        if (featureListForm?.backGroundImage) {
-            const imgSrc = featureListForm?.backGroundImage?.startsWith('http')
-                ? featureListForm?.backGroundImage
-                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${featureListForm?.backGroundImage?.replace(/^\/?/, '')}`;
+        if (featureListForm?.backGroundImage && typeof featureListForm.backGroundImage === 'string') {
+            const imgSrc = featureListForm.backGroundImage.startsWith('http')
+                ? featureListForm.backGroundImage
+                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${featureListForm.backGroundImage.replace(/^\/?/, '')}`;
             setImagePreview(imgSrc)
             // setImagePreview(featureListForm.backGroundImage)
         }

@@ -10,6 +10,7 @@ import { Icon } from '@iconify/react';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Button } from '@mui/material';
 import LocationPinIcon from '@mui/icons-material/LocationPin';
+import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 export const footerIcone = [
     {
@@ -29,73 +30,48 @@ export const footerIcone = [
     }
 
 ]
-const listItem = [
-    {
-        data: "Business"
-    },
-    {
-        data: "Uncategorized"
-    },
-    {
-        data: "Marketing"
-    },
-    {
-        data: "Project"
-    },
-    {
-        data: " Technology"
-    }
+// Fallback data for categories when API data is not available
+const fallbackCategories = [
+    "Business",
+    "Uncategorized", 
+    "Marketing",
+    "Project",
+    "Technology"
 ]
 
-const buttonItem = [
-    {
-        buttonText: "Accessory"
-    },
-    {
-        buttonText: "Business"
-    },
-    {
-        buttonText: "Great"
-    },
-    {
-        buttonText: "Marketing"
-    },
-    {
-        buttonText: "Product "
-    },
-    {
-        buttonText: "Quality"
-    },
-    {
-        buttonText: "Skills"
-    },
-    {
-        buttonText: "Technology"
-    },
-    {
-        buttonText: "Terminology"
-    },
-    {
-        buttonText: "Travel"
-    }
+// Fallback data for block tag cloud when API data is not available
+const fallbackBlockTagCloud = [
+    "Accessory",
+    "Business", 
+    "Great",
+    "Marketing",
+    "Product",
+    "Quality",
+    "Skills",
+    "Technology",
+    "Terminology",
+    "Travel"
 ]
 
 
-const contactInfo = [
+
+
+// Fallback data for contact info when API data is not available
+const fallbackContactInfo = [
     {
-        icone: "mynaui:location",
+        icone: "MdEditLocation",
         heading: "Location",
         paragraph: "32 Race, Beverly Hills, California, Us"
     },
     {
-        icone: "solar:phone-bold-duotone",
+        icone: "MdCall",
         heading: "Phone",
-        paragraph: "email@company.com"
+        paragraph: "9929306874"
     },
     {
-        icone: "mage:email",
+        icone: "MdEmail",
         heading: "Email",
-        paragraph: "9929306874"
+        paragraph: "email@company.com"
     }
 ]
 const Footer = ({ footerData }) => {
@@ -107,17 +83,47 @@ const Footer = ({ footerData }) => {
     const footerMain = footerData?.data?.footerMain
     const footerContact = footerData?.FooterContact
 
-    const footerCategories = footerData
-    const footerBlockTagCloud = footerData?.FooterTags
+    const footerCategories = footerData?.FooterCategories?.[0]
+    const footerBlockTagCloud = footerData?.FooterTags?.[0] 
 
-    const footerContactUs = footerData?.data?.footerContactUs
-  
+    const footerContactUs = footerData.FooterRightContact
 
-    // const categories = footerCategories
-    const footerTages = footerBlockTagCloud 
-
-    console.log("footerData_FF", footerTages)
-
+    
+    const transformContactData = (contactData) => {
+        if (!contactData) return fallbackContactInfo;
+        
+        const transformed = [];
+        
+        if (contactData.call) {
+            transformed.push({
+                icone: contactData.call.icon || "MdCall",
+                heading: contactData.call.call || "Call",
+                paragraph: contactData.call.contactNumber || "9929306874"
+            });
+        }
+        
+        if (contactData.email) {
+            transformed.push({
+                icone: contactData.email.icon || "MdEmail",
+                heading: contactData.email.email || "Email",
+                paragraph: contactData.email.emailId || "email@gmail.com"
+            });
+        }
+        
+        if (contactData.location) {
+            transformed.push({
+                icone: contactData.location.icon || "MdEditLocation",
+                heading: contactData.location.location || "Location",
+                paragraph: contactData.location.address || "32 Race, Beverly Hills, California, Us"
+            });
+        }
+        
+        return transformed.length > 0 ? transformed : fallbackContactInfo;
+    };
+    
+    const contactInfoToRender = transformContactData(footerContactUs);
+    
+    console.log("Transformed contact data:", contactInfoToRender);
 
     const images = [
         "../src/assets/image-1.png", "../src/assets/image-2.png", "../src/assets/image-3.png", "../src/assets/image-4.png", "../src/assets/image-5.png"
@@ -176,11 +182,11 @@ const Footer = ({ footerData }) => {
 
                                             <p className='flex flex-col'>
                                                 <span className='w-full font-bold text-[#df442d]'>
-                                                    {/* Cloud Computing Service */}{footerHelpCenterForm?.rightSection.title
+                                                  {footerHelpCenterForm?.rightSection.title
                                                     }
                                                 </span>
                                                 <span className='w-full font-bold text-white hover:text-[#df442d] '>
-                                                    {/* Ckeck Eligibility */}{footerHelpCenterForm?.rightSection.subtitle
+                                                   {footerHelpCenterForm?.rightSection.subtitle
                                                     }
                                                 </span>
                                             </p>
@@ -197,34 +203,66 @@ const Footer = ({ footerData }) => {
                         </div>
                         <div className='footer-main  w-full my-5 h-96 gap-5 grid grid-cols-4'>
                             <div className='footer-contact  '>
-                                <img src='../src/assets/logo-light (1).png' />
-                                <p className='text-footer font-bold text-white my-3' > {footerContact ? footerContact[0].description : "cozipress we talk destination we shine across your organization to fully understand. ."} .</p>
+                                <img src={footerContact?.logo || '../src/assets/logo-light (1).png'} />
+                                <p className='text-footer font-bold text-white my-3' > {footerContact?.description || "cozipress we talk destination we shine across your organization to fully understand....! ."} .</p>
                                 <div className='flex gap-3'>
                                     {
-                                        footerIcone?.map((item_, index) => {
-
-                                            return (
-                                                <Icone key={index} item_={item_.icone} />
-                                            )
-                                        })
+                                        (footerContact?.icons || footerIcone)?.map((item_, index) => {
+                                            // Use dynamic icon system for FooterContact icons
+                                            if (footerContact?.icons) {
+                                                const IconComponent = allFaMdIconsMap[item_.icon];
+                                                return (
+                                                    <div key={index} className={`icon-linkdin h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
+                                                        <div onMouseOver={() => setFacebookHover(true)} onMouseLeave={() => setFacebookHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500 " : "bg-white"}`}>
+                                                            {IconComponent ? (
+                                                                <IconComponent size={20} className={`${facebookHover ? "text-white" : "text-red-700"}  duration-500`} />
+                                                            ) : (
+                                                                <Icon fontSize={20} className={`${facebookHover ? "text-white" : "text-red-700"}  duration-500`} icon={item_.icon} />
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            } else {
+                                                // Fallback to original Icone component
+                                                return (
+                                                    <Icone key={index} item_={item_.icone} />
+                                                );
+                                            }
+                                        }) || []
                                     }
                                 </div>
-                                Block Tag Cloud
+
                             </div>
 
                             <div className='categories-main '>
-                                <div className='categories p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >{"Categories"}</div>
+                                <div className='categories p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >{ footerCategories?.categoryName || "Categories"}</div>
                                 <div className='flex flex-col gap-3'>
+                                    {/* Debug info */}
+                                    <div style={{color: 'red', fontSize: '10px'}}>
+                                        Debug: {(footerCategories?.listItem || fallbackCategories)?.length || 0} items
+                                    </div>
                                     {
-                                        footerTages?.map((listItem_, index) => <FooterArrow key={index} listItem_={listItem_.data} KeyboardDoubleArrowRightIcon={KeyboardDoubleArrowRightIcon} />)
+                                        (footerCategories?.listItem || fallbackCategories)?.map((categoryItem, index) => (
+                                            <FooterArrow 
+                                                key={index} 
+                                                listItem_={categoryItem} 
+                                                KeyboardDoubleArrowRightIcon={KeyboardDoubleArrowRightIcon} 
+                                            />
+                                        )) || []
                                     }
                                 </div>
                             </div>
                             <div className='block-tag-cloud ' >
                                 <div className='block p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' > {footerBlockTagCloud?.FooterTagesName || "Block Tag Cloud"}</div>
                                 <div className='button-wrraper flex flex-wrap gap-2'>
+                                    {/* Debug info */}
+                                    {/* <div style={{color: 'red', fontSize: '10px', width: '100%'}}>
+                                        Debug: {(footerBlockTagCloud?.listItem || fallbackBlockTagCloud)?.length || 0} items
+                                    </div> */}
                                     {
-                                        buttonItem?.map((item_, index) => <ButtonComponent item_={item_.buttonText} />)
+                                        (footerBlockTagCloud?.listItem || fallbackBlockTagCloud)?.map((tagItem, index) => (
+                                            <ButtonComponent key={index} item_={tagItem} />
+                                        )) || []
                                     }
 
                                 </div>
@@ -232,7 +270,7 @@ const Footer = ({ footerData }) => {
                             <div className='contact flex flex-col gap-3'>
                                 <div className='block  p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >Contact Us</div>
                                 {
-                                    contactInfo?.map((item_, index) => <ContactComponent key={index} Icone_Contact={item_.icone} heading={item_.heading} paragraph={item_.paragraph} />)
+                                    contactInfoToRender?.map((item_, index) => <ContactComponent key={index} Icone_Contact={item_.icone} heading={item_.heading} paragraph={item_.paragraph} />) || []
                                 }
                             </div>
                         </div>
