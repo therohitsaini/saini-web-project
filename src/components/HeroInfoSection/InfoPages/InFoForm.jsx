@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
 import { useState } from 'react'
 import { useMemo } from 'react'
+import GradientButton from '../../ReuseComponent/ReuseComponent'
 
 function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUpdateHandler }) {
 
@@ -30,18 +31,41 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
             .slice(0, 100);
     }, [inputValue]);
 
+
+
     return (
         <Fragment>
             <div className='service main  h-[500px] flex items-center justify-center'>
-                <form className='service-form flex flex-col w-[500px] gap-4  border border-slate-400/20 rounded-md p-5  '>
-                    <h1>Customize Service</h1>
-                    <Divider />
+                <form className='service-form flex flex-col w-[550px] gap-4  border border-slate-400/20 rounded-md p-5  '>
+                    <h1 className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Info Section</h1>
+                    <Divider sx={{ mb: 1 }} />
                     <TextField
                         size='small'
                         label="Title"
                         name='inFoHeading'
                         value={inFoService.inFoHeading}
                         onChange={inFoOnchange}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     ></TextField>
                     <TextField
                         size='small'
@@ -49,11 +73,53 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
                         name='inFoDescription'
                         value={inFoService.inFoDescription}
                         onChange={inFoOnchange}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     ></TextField>
 
                     <Autocomplete
                         options={filteredIcons}
                         value={selectedIcon}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                         name="inFoIcone"
                         onChange={(e, newValue) => {
                             setSelectedIcon(newValue);
@@ -107,27 +173,29 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
                             If you want to show this on the website
                         </p>
                     </div>
+                    <div className='w-full flex justify-end'>
+                        {
+                            inFoIsTrue === "Edit" ?
+                                (
+                                    <GradientButton
+                                        onClick={() => infoUpdateHandler()}
 
-                    {
-                        inFoIsTrue === "Edit" ?
-                            (
-                                <Button
-                                    onClick={() => infoUpdateHandler()}
-                                    variant='outlined'
-                                >
-                                    Update
-                                </Button>
-                            )
+                                    >
+                                        Update Documents
+                                    </GradientButton>
+                                )
 
-                            : (
-                                <Button
-                                    onClick={() => infoHandler("ServiceInFo")}
-                                    variant='outlined'
-                                >Save Changes
-                                </Button>
-                            )
-                    }
+                                : (
+                                    <GradientButton
+                                        onClick={() => infoHandler("ServiceInFo")}
 
+
+                                    >
+                                        Save Documents
+                                    </GradientButton>
+                                )
+                        }
+                    </div>
                 </form>
 
             </div>

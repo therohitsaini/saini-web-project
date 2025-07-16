@@ -191,8 +191,9 @@ export default function HeaderSideBarTabs() {
 
     const snackbar = useSnackbar();
     if (!snackbar) {
-        throw new Error("useSnackbar must be used within a SnackbarProvider");
-    }
+        console.warn("Snackbar context is missing.");
+        return null; // or render fallback UI
+    }   
     const { showSnackbar } = snackbar;
 
 
@@ -440,7 +441,7 @@ export default function HeaderSideBarTabs() {
             const responseJson = await fetchData.json();
             console.log("responseJson", responseJson)
             if (fetchData.ok) {
-                showSnackbar(responseJson.message)
+                alert(responseJson.message)
                 setLoading(false)
             }
 
@@ -477,7 +478,7 @@ export default function HeaderSideBarTabs() {
 
             const result = await response.json();
             if (response.ok) {
-                showSnackbar(result.message)
+                alert(result.message)
 
             }
         } catch (err) {
@@ -604,6 +605,7 @@ export default function HeaderSideBarTabs() {
                         allFaMdIconsList={allFaMdIconsList}
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
+                        loading={loading}
 
                     />
                 </TabPanel>
@@ -620,6 +622,7 @@ export default function HeaderSideBarTabs() {
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
                         inputValue={inputValue}
+                        loading={loading}
 
                     />
                 </TabPanel>
@@ -630,11 +633,17 @@ export default function HeaderSideBarTabs() {
                         setText={setText}
                         handleSubmitLogo={submitHandler_}
                         file={file}
+                        loading={loading}
                     />
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>
-                    <NavbarListItem submitHandler={submitHandler} setIconFields={setIconFields} iconFields={iconFields} />
+                    <NavbarListItem
+                        submitHandler={submitHandler}
+                        setIconFields={setIconFields}
+                        iconFields={iconFields}
+                        loading={loading}
+                    />
                 </TabPanel>
 
                 <TabPanel value={value} index={5}>
@@ -648,6 +657,7 @@ export default function HeaderSideBarTabs() {
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
                         inputValue={inputValue}
+                        loading={loading}
 
                     />
                 </TabPanel>
@@ -664,6 +674,7 @@ export default function HeaderSideBarTabs() {
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
                         inputValue={inputValue}
+                        loading={loading}
                     />
                 </TabPanel>
 
@@ -672,6 +683,7 @@ export default function HeaderSideBarTabs() {
                         submitHandler={submitHandler}
                         headerButton={headerButton}
                         setHeaderButton={setHeaderButton}
+                        loading={loading}
                     />
                 </TabPanel>
 
@@ -687,6 +699,7 @@ export default function HeaderSideBarTabs() {
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
                         inputValue={inputValue}
+                        loading={loading}
 
                     />
                 </TabPanel>
@@ -702,6 +715,7 @@ export default function HeaderSideBarTabs() {
                         filteredIcons={filteredIcons}
                         setInputValue={setInputValue}
                         inputValue={inputValue}
+                        loading={loading}
                     />
 
                 </TabPanel>

@@ -35,6 +35,8 @@ export default function InFo() {
     }
     const { showSnackbar, showError } = snackbar;
 
+
+    console.log("inFoService", inFoService)
     useEffect(() => {
         dispatch(getHeaderData());
     }, [dispatch]);

@@ -17,6 +17,9 @@ function FeatureListItem({ showSnackbar }) {
     const [freatureMode, setFeatureMode] = useState("Table")
     const [featureListItem, setFeatureListItem] = useState([])
 
+
+
+
     const postListitemFeature = async () => {
         const id = localStorage.getItem("user-ID");
 
@@ -51,7 +54,7 @@ function FeatureListItem({ showSnackbar }) {
 
     // update docs
     const updateListitemFeature = async () => {
-        const userId = localStorage.getItem("user-ID");
+        const id = localStorage.getItem("user-ID");
         const userDocID = featureListForm.userDocID
 
         const formData = new FormData();
@@ -65,7 +68,7 @@ function FeatureListItem({ showSnackbar }) {
         formData.append("item_ShowOnWebsite", featureListForm.item_ShowOnWebsite); // if you need this
 
         try {
-            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-update/feature-list-item/${userId}/${userDocID}`;
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-update/feature-list-item/${id}/${userDocID}`;
             const response = await fetch(url, {
                 method: "PUT",
                 body: formData
@@ -74,7 +77,8 @@ function FeatureListItem({ showSnackbar }) {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message);
+                alert(result.message)
+                // showSnackbar(result.message);
             } else {
                 console.error("Server error:", result.message || result.error);
             }
@@ -92,10 +96,8 @@ function FeatureListItem({ showSnackbar }) {
                 method: "GET",
                 headers: { 'Content-Type': 'application/json' },
             });
-
-
             const JsonData = await response.json();
-
+            console.log("list", JsonData.data)
             if (response.ok) {
                 setFeatureListItem(JsonData.data)
             }
@@ -112,6 +114,8 @@ function FeatureListItem({ showSnackbar }) {
         getFeatureDataListItem()
     }, [])
 
+
+
     console.log("featureListItem", featureListItem)
 
     return (
@@ -127,6 +131,7 @@ function FeatureListItem({ showSnackbar }) {
                             freatureMode={freatureMode}
                             setFeatureMode={setFeatureMode}
                             updateListitemFeature={updateListitemFeature}
+                            inisialState={inisialState}
                         />
                     )
                     :

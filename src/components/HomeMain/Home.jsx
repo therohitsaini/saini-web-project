@@ -16,6 +16,7 @@ import styled, { keyframes } from "styled-components";
 import { useRef } from 'react'
 import TeamSection from '../TeamComponent/pagesTeam/TeamSection'
 import BlogSection from '../BlogComponent/BlogSection/BlogSection'
+import FeatureSection from '../Featuresection/pages/FeatureSection'
 
 
 
@@ -50,11 +51,12 @@ function Home() {
     const [teamApiesDataUi, setTeamApiesDataUi] = useState([])
     const [teamHeading, setTeamHeading] = useState([])
     const [blogApiesData, setBlogApiesData] = useState([])
-
+    const [footerData, setFooterData] = useState([])
+    const [featureHeadlineApies, setFeatureHeadlineApies] = useState([])
     const dispatch = useDispatch()
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
-
+    console.log("footerData", footerData)
     const sectionRef = useRef();
     const [inView, setInView] = useState(false);
     const lastScrollY = useRef(0);
@@ -259,6 +261,43 @@ function Home() {
             console.log(error)
         }
     }
+    const getFooterData = async (id) => {
+        try {
+            const resposne = await fetch(`${import.meta.env.VITE_BACK_END_URL}api-footer/footer-all-data/${id}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+            const result = await resposne.json()
+            if (resposne.ok) {
+                setFooterData(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getFeatureData = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-get/${id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+
+            const JsonData = await response.json();
+
+            if (response.ok) {
+                setFeatureHeadlineApies(JsonData.data)
+            }
+            else {
+                throw new Error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            return null;
+        }
+    };
 
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
@@ -272,6 +311,8 @@ function Home() {
         getTeamCardData(id)
         getTeamHeadingData(id)
         getBlogData(id)
+        getFooterData(id)
+        getFeatureData(id)
     }, [])
 
     // useEffect(() => {
@@ -301,6 +342,9 @@ function Home() {
             <TestimonialSection
                 testimonialApiesDataUI={testimonialApiesDataUI}
             />
+            <FeatureSection
+                featureHeadlineApies={featureHeadlineApies}
+            />
             <TeamSection
                 teamApiesDataUi={teamApiesDataUi}
                 teamHeading={teamHeading}
@@ -309,7 +353,9 @@ function Home() {
             <BlogSection
                 blogApiesData={blogApiesData}
             />
-            <Footer />
+            <Footer
+                footerData={footerData}
+            />
 
         </Fragment>
     )

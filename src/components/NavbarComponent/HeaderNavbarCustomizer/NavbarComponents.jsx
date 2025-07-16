@@ -1,13 +1,12 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Autocomplete, Box, Divider, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material'
+import { Autocomplete, Box, Checkbox, Divider, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material'
 import { Fragment } from 'react';
-
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
 import { allFaMdIconsList } from '../HeaderTopLeft';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -21,9 +20,16 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function NavbarLogo({ setFile, setText, handleSubmitLogo, file }) {
 
-    console.log("setText", file)
+
+export default function NavbarLogo({
+    setFile,
+    setText,
+    handleSubmitLogo,
+    file,
+    loading
+}) {
+
     return (
         <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
             <div className='flex flex-col w-[500px] gap-4  p-5  border border-slate-400/20 rounded-md  ' >
@@ -58,13 +64,35 @@ export default function NavbarLogo({ setFile, setText, handleSubmitLogo, file })
                 >
 
                 </TextField>
+                <div className="flex items-center gap-2">
+                    <Checkbox
+                        checked={true}
+                        onChange={(e) =>
+                            setFormData((prev) => ({
+                                ...prev,
+                                item_ShowOnWebsite: e.target.checked,
+                            }))
+                        }
+                        sx={{ m: 0, p: 0 }}
+                        size="small"
+                        color='default'
+                    />
+                    <p className="text-[14px] text-slate-500">
+                        If you want to show this on the website
+                    </p>
+                </div>
 
-                <Button
+                <GradientButton
                     onClick={() => handleSubmitLogo("Logo")}
+                    loading={loading}
+                >
+                    Save Logo
+                </GradientButton>
+                {/* <Button
                     sx={{
                         // my: 2,
                         textTransform: "none"
-                    }} variant='outlined'>Submit</Button>
+                    }} variant='outlined'>Submit</Button> */}
             </div>
         </div>
     );
@@ -72,8 +100,13 @@ export default function NavbarLogo({ setFile, setText, handleSubmitLogo, file })
 
 // < ------------- Navbar List Item --------------------  >
 
-export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => {
-    // Handle changes for individual fields
+export const NavbarListItem = ({
+    submitHandler,
+    iconFields,
+    setIconFields,
+    loading
+
+}) => {
     const handleChange = (index, event) => {
         const { name, value } = event.target;
         const updatedFields = [...iconFields];
@@ -88,7 +121,6 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
 
 
     const removeField = async (index, id) => {
-
         const userIDMain = localStorage.getItem("user-ID")
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
@@ -114,21 +146,16 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
         }
 
     };
-    console.log("iconFields", iconFields)
+
     return (
         <Fragment>
-            <form className="flex justify-center flex-col items-center min-h-[530px]">
-                <div className="flex flex-col gap-4 w-full max-w-2xl bg-[#1f1e1f] shadow-black shadow-xl p-5 rounded-md">
+            <form className="flex justify-center flex-col items-center min-h-[530px] px-10">
+                <div className="flex flex-col gap-4 w-full  border border-slate-500/20 p-5 rounded-md ">
                     <div className="flex justify-between items-center">
-                        <h1 className="text-lg font-semibold text-white">Site Menu Items</h1>
-                        <Button
-                            onClick={() => submitHandler("NavManuItem")}
-                            variant="outlined"
-                            sx={{ textTransform: 'none' }}
-                        >
-                            Save Changes
-                        </Button>
+                        <h1 className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-semibold ">Site Menu Items</h1>
+
                     </div>
+                    <Divider />
 
                     {iconFields && iconFields.map((field, index) => (
                         <div
@@ -167,14 +194,31 @@ export const NavbarListItem = ({ submitHandler, iconFields, setIconFields }) => 
                         </div>
                     ))}
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-3">
                         <Button
                             onClick={addNewField}
                             variant="outlined"
-                            sx={{ textTransform: 'none' }}
+                            sx={{
+                                textTransform: 'none',
+                                border: "2px solid #d3e35c",
+                                color: "#d3e35c",
+                                px: 4
+                            }}
                         >
                             + Add More
                         </Button>
+                        <GradientButton
+                            onClick={() => submitHandler("NavManuItem")}
+                            loading={loading}
+                        >
+                            Save Changes
+                        </GradientButton>
+                        {/* <Button
+                            variant="outlined"
+                            sx={{ textTransform: 'none' }}
+                        >
+
+                        </Button> */}
                     </div>
                 </div>
             </form>
@@ -279,7 +323,8 @@ export const NavBarSearchSection = ({
     setInputValue,
     inputValue,
     setSearchIcone,
-    searchIcone
+    searchIcone,
+    loading
 }) => {
 
     // useEffect(() => {
@@ -305,11 +350,32 @@ export const NavBarSearchSection = ({
     return (
         <Fragment>
             <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
-                <form className="nav-serach-form flex flex-col gap-4 border border-slate-500/20 p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl">
-                    <h1>Navbar Search Icon</h1>
+                <form className="nav-serach-form flex flex-col gap-4 border border-slate-500/20 p-5 py-5 w-[600px] rounded-md ">
+                    <h1 className='text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Navbar Search Icon</h1>
                     <Divider />
 
                     <Autocomplete
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                         options={filteredIcons}
                         value={selectedIcon}
                         onChange={(e, newValue) => {
@@ -325,7 +391,11 @@ export const NavBarSearchSection = ({
                         getOptionLabel={(option) => option.label}
                         isOptionEqualToValue={(option, value) => option.label === value?.label}
                         renderOption={(props, option) => (
-                            <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Box component="li" {...props} sx={{
+                                display: 'flex', alignItems: 'center', gap: 1,
+
+
+                            }}>
                                 {option.Icon && <option.Icon />}
                                 {option.label}
                             </Box>
@@ -339,7 +409,10 @@ export const NavBarSearchSection = ({
                                 InputProps={{
                                     ...params.InputProps,
                                     startAdornment: selectedIcon?.Icon && (
-                                        <InputAdornment position="start" sx={{ mr: 1 }}>
+                                        <InputAdornment position="start" sx={{
+                                            mr: 1,
+
+                                        }}>
                                             <selectedIcon.Icon />
                                         </InputAdornment>
                                     ),
@@ -348,13 +421,36 @@ export const NavBarSearchSection = ({
                         )}
                     />
 
-                    <Button
-                        sx={{ my: 2, textTransform: "none" }}
-                        variant='outlined'
-                        onClick={() => submitHandler("HeaderSerchIcone", searchIcone)} // ✅ payload added
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            checked={true}
+                            // onChange={(e) =>
+                            //     setFormData((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                            color='default'
+                        />
+                        <p className="text-[14px] text-slate-500">
+                            If you want to show this on the website
+                        </p>
+                    </div>
+
+                    <GradientButton
+                        onClick={() => submitHandler("HeaderSerchIcone", searchIcone)}
+                        loading={loading}
                     >
                         Save Changes
-                    </Button>
+                    </GradientButton>
+                    {/* <Button
+                        sx={{ my: 2, textTransform: "none" }}
+                        variant='outlined'
+                    >
+
+                    </Button> */}
                 </form>
             </div>
         </Fragment>
@@ -364,7 +460,19 @@ export const NavBarSearchSection = ({
 
 // <-------------------------------------------------Navbar Cart section ------------------  ------------------------->  //
 
-export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submitHandler, cartIcone, setCartIcone, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) => {
+export const CartSection = ({
+    selectedIcon,
+    setSelectedIcon,
+    allFaMdIcons,
+    submitHandler,
+    cartIcone,
+    setCartIcone,
+    allFaMdIconsList,
+    filteredIcons,
+    setInputValue,
+    inputValue,
+    loading
+}) => {
 
 
     useEffect(() => {
@@ -377,10 +485,31 @@ export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submi
     return (
         <Fragment>
             <div className='nav-serach-section w-full h-[530px] flex justify-center items-center'>
-                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md bg-[#1f1e1f] shadow-black shadow-xl ">
-                    <h1>Navbar Cart Icone</h1>
-                    <Divider />
+                <from className="nav-serach-form flex flex-col gap-4 border border-slate-500/20  p-5 w-[500px] rounded-md ">
+                    <h1 className='text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Navbar Cart Icone</h1>
+                    <Divider sx={{ mb: 1 }} />
                     <Autocomplete
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                         options={filteredIcons}
                         value={selectedIcon}
                         onChange={(e, newValue) => {
@@ -418,12 +547,36 @@ export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submi
                             />
                         )}
                     />
-                    <Button sx={{
-                        my: 2,
-                        textTransform: "none"
-                    }}
+
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            checked={true}
+                            // onChange={(e) =>
+                            //     setFormData((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{
+                                m: 0, p: 0,
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: 20
+                                },
+                            }}
+                            size="small"
+                            color='default'
+                        />
+                        <p className="text-[12px] text-slate-500">
+                            If you want to show this on the website
+                        </p>
+                    </div>
+                    <GradientButton
                         onClick={() => submitHandler("HeaderCartIcone")}
-                        variant='outlined'>Save Changes</Button>
+                        loading={loading}
+                    >
+                        Save Changes
+                    </GradientButton>
+
                 </from>
 
             </div>
@@ -433,7 +586,7 @@ export const CartSection = ({ selectedIcon, setSelectedIcon, allFaMdIcons, submi
 
 // <---------------- ---------------------------------Navbar Button/Profile------------------  ------------------------->  //
 
-export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler }) => {
+export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler, loading }) => {
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -458,8 +611,8 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
     return (
         <Fragment>
             <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
-                <div className='flex flex-col w-[500px]  p-5 gap-4 border border-slate-400/20 rounded-md  bg-[#1f1e1f] shadow-black shadow-xl' >
-                    <h1 className='w-96  font-bold '> Create Profile / Button  </h1>
+                <div className='flex flex-col w-[500px]  p-5 gap-4 border border-slate-400/20 rounded-md ' >
+                    <h1 className='w-96  font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 '> Create Profile / Button  </h1>
 
                     <Divider
                         sx={{
@@ -468,6 +621,7 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
 
                     <Button
                         disableElevation
+                        disabled
                         component="label"
                         role={undefined}
                         variant="outlined"
@@ -496,18 +650,44 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
                         value={headerButton.buttonText}
                         onChange={onChnageButton}
                         variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
 
                     </TextField>
 
-                    <Button sx={{
+                    <GradientButton
+                        onClick={() => submitHandler("navButton")}
+                        loading={loading}
+                    >
+                        Save Changes
+                    </GradientButton>
+                    {/* <Button sx={{
                         my: 2,
                         textTransform: "none"
                     }}
-                        onClick={() => submitHandler("navButton")}
                         variant='outlined'>
                         Submit
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
         </Fragment>
@@ -516,7 +696,18 @@ export const NavButton_Profile = ({ headerButton, setHeaderButton, submitHandler
 
 // <---------------- --------------------------------- Header Buttom Bar  ------------------  ------------------------->  //
 
-export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, setSelectedIcon, allFaMdIconsList, submitHandler, filteredIcons, setInputValue, inputValue }) => {
+export const HeaderButtomBar = ({
+    setHeaderButtom,
+    headerButtom,
+    selectedIcon,
+    setSelectedIcon,
+    allFaMdIconsList,
+    submitHandler,
+    filteredIcons,
+    setInputValue,
+    inputValue,
+    loading
+}) => {
 
     const buttomBarOnchange = (e) => {
         const { name, value } = e.target
@@ -534,16 +725,36 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
             }
         }
     }, [headerButtom?.item_Icone]);
-    console.log("headerButtom_____Icone", headerButtom)
 
     return (
         <Fragment>
             <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
-                <div className='flex flex-col w-[550px] gap-4 p-5   border border-slate-400/20 rounded-md  ' >
-                    <h1 className='w-96  font-bold '> Set Title/ Opening Hour : </h1>
-                    <Divider />
+                <div className='flex flex-col w-[580px] gap-4 p-5   border border-slate-400/20 rounded-md  ' >
+                    <h1 className='w-96  font-bold  text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 '> Set Title/ Opening Hour : </h1>
+                    <Divider sx={{ mb: 1 }} />
 
                     <Autocomplete
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                         options={filteredIcons}
                         value={selectedIcon}
 
@@ -590,6 +801,27 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
                         name='item_Title'
                         value={headerButtom?.item_Title}
                         onChange={buttomBarOnchange}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
 
                     </TextField>
@@ -601,6 +833,27 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
                         value={headerButtom?.openingTime}
                         onChange={buttomBarOnchange}
                         variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
                     </TextField>
 
@@ -612,17 +865,57 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
                         value={headerButtom?.closeTimnig}
                         onChange={buttomBarOnchange}
                         variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
                     </TextField>
 
-                    <Button sx={{
 
-                        textTransform: "none"
-                    }}
-                        onClick={() => submitHandler("HeaderButtomBar")}
-                        variant='outlined'>
-                        Submit
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            checked={true}
+                            // onChange={(e) =>
+                            //     setFormData((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                            color='default'
+                        />
+                        <p className="text-[12px] text-slate-500">
+                            If you want to show this on the website
+                        </p>
+                    </div>
+                    <div className='butn flex justify-end'>
+                        <GradientButton
+                            onClick={() => submitHandler("HeaderButtomBar")}
+                            loading={loading}
+                        >
+                            Save Chnages
+                        </GradientButton>
+                    </div>
+                   
                 </div>
             </div>
         </Fragment>
@@ -632,7 +925,18 @@ export const HeaderButtomBar = ({ setHeaderButtom, headerButtom, selectedIcon, s
 // <---------------- --------------------------------- Header Buttom left section  ------------------  ------------------------->  //
 
 
-export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsList, setHeaderButtomLeft, headerButtomLeft, submitHandler, filteredIcons, setInputValue, inputValue }) => {
+export const HeaderButtomLeft = ({
+    setSelectedIcon,
+    selectedIcon,
+    allFaMdIconsList,
+    setHeaderButtomLeft,
+    headerButtomLeft,
+    submitHandler,
+    filteredIcons,
+    setInputValue,
+    inputValue,
+    loading
+}) => {
 
     const buttomBarOnchange = (e) => {
         const { name, value } = e.target
@@ -657,8 +961,8 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsLi
         <Fragment>
             <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
                 <div className='flex flex-col w-[530px] gap-4 p-5   border border-slate-400/20 rounded-md  ' >
-                    <h1 className='w-96  font-bold '>Header Bottom - Left Contact Info</h1>
-                    <Divider />
+                    <h1 className=' font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 '>Header Bottom - Left Contact Info</h1>
+                    <Divider sx={{ mb: 1 }} />
 
                     <Autocomplete
                         options={filteredIcons}
@@ -669,6 +973,27 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsLi
                                 ...prev,
                                 item_Icone: newValue ? newValue.label : ""
                             }));
+                        }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
                         }}
                         size='small'
                         inputValue={inputValue}
@@ -705,6 +1030,27 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsLi
                         value={headerButtomLeft?.item_Title}
                         onChange={buttomBarOnchange}
                         variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
                     </TextField>
 
@@ -715,17 +1061,58 @@ export const HeaderButtomLeft = ({ setSelectedIcon, selectedIcon, allFaMdIconsLi
                         value={headerButtomLeft?.item_Paragraph}
                         onChange={buttomBarOnchange}
                         variant="outlined"
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: 'blue',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: 'blue',
+                                },
+                            },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+                        }}
                     >
                     </TextField>
-
-                    <Button sx={{
-
-                        textTransform: "none"
-                    }}
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            checked={true}
+                            // onChange={(e) =>
+                            //     setFormData((prev) => ({
+                            //         ...prev,
+                            //         item_ShowOnWebsite: e.target.checked,
+                            //     }))
+                            // }
+                            sx={{
+                                m: 0, p: 0,
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: 16, // Adjust the icon size (e.g., 16px, 20px, etc.)
+                                },
+                            }}
+                            size="small"
+                            color='default'
+                        />
+                        <p className="text-[12px] text-slate-500">
+                            If you want to show this on the website
+                        </p>
+                    </div>
+                    <GradientButton
                         onClick={() => submitHandler("HeaderButtomHirring")}
-                        variant='outlined'>
-                        Submit
-                    </Button>
+                        loading={loading}
+                    >
+                        Save Changes
+                    </GradientButton>
+
                 </div>
             </div>
         </Fragment>

@@ -29,80 +29,94 @@ export const footerIcone = [
     }
 
 ]
-const Footer = () => {
+const listItem = [
+    {
+        data: "Business"
+    },
+    {
+        data: "Uncategorized"
+    },
+    {
+        data: "Marketing"
+    },
+    {
+        data: "Project"
+    },
+    {
+        data: " Technology"
+    }
+]
+
+const buttonItem = [
+    {
+        buttonText: "Accessory"
+    },
+    {
+        buttonText: "Business"
+    },
+    {
+        buttonText: "Great"
+    },
+    {
+        buttonText: "Marketing"
+    },
+    {
+        buttonText: "Product "
+    },
+    {
+        buttonText: "Quality"
+    },
+    {
+        buttonText: "Skills"
+    },
+    {
+        buttonText: "Technology"
+    },
+    {
+        buttonText: "Terminology"
+    },
+    {
+        buttonText: "Travel"
+    }
+]
+
+
+const contactInfo = [
+    {
+        icone: "mynaui:location",
+        heading: "Location",
+        paragraph: "32 Race, Beverly Hills, California, Us"
+    },
+    {
+        icone: "solar:phone-bold-duotone",
+        heading: "Phone",
+        paragraph: "email@company.com"
+    },
+    {
+        icone: "mage:email",
+        heading: "Email",
+        paragraph: "9929306874"
+    }
+]
+const Footer = ({ footerData }) => {
+
     const [facebookHover, setFacebookHover] = useState(false)
 
+    const backGroundColor_Image = footerData?.FooterBackground?.backgroundColor
+    const footerHelpCenterForm = footerData?.FooterHelpCenter
+    const footerMain = footerData?.data?.footerMain
+    const footerContact = footerData?.FooterContact
 
-    const listItem = [
-        {
-            data: "Business"
-        },
-        {
-            data: "Uncategorized"
-        },
-        {
-            data: "Marketing"
-        },
-        {
-            data: "Project"
-        },
-        {
-            data: " Technology"
-        }
-    ]
+    const footerCategories = footerData
+    const footerBlockTagCloud = footerData?.FooterTags
 
-    const buttonItem = [
-        {
-            buttonText: "Accessory"
-        },
-        {
-            buttonText: "Business"
-        },
-        {
-            buttonText: "Great"
-        },
-        {
-            buttonText: "Marketing"
-        },
-        {
-            buttonText: "Product "
-        },
-        {
-            buttonText: "Quality"
-        },
-        {
-            buttonText: "Skills"
-        },
-        {
-            buttonText: "Technology"
-        },
-        {
-            buttonText: "Terminology"
-        },
-        {
-            buttonText: "Travel"
-        }
-    ]
+    const footerContactUs = footerData?.data?.footerContactUs
+  
 
-    const contactInfo = [
-        {
-            icone: "mynaui:location",
-            heading: "Location",
-            paragraph: "32 Race, Beverly Hills, California, Us"
-        },
-        {
-            icone: "solar:phone-bold-duotone",
-            heading: "Phone",
-            paragraph: "email@company.com"
-        },
-        {
-            icone: "mage:email",
-            heading: "Email",
-            paragraph: "9929306874"
-        }
-    ]
+    // const categories = footerCategories
+    const footerTages = footerBlockTagCloud 
 
-
+    console.log("footerData_FF", footerTages)
 
 
     const images = [
@@ -112,8 +126,8 @@ const Footer = () => {
     return (
         <Fragment>
             <Box sx={{ width: "100%", }}>
-                <div className='footer-container h-screen relative '>
-                    <img className='asets-img object-cover h-full w-full' src='../src/assets/footer-bg.jpg'></img>
+                <div className='footer-container h-screen relative bg-[backGroundColor_Image] '>
+                    {/* <img className='asets-img object-cover h-full w-full' src='../src/assets/footer-bg.jpg'></img> */}
                     <div className='footer-data h-full w-full absolute top-0 bg-black/60 px-25 flex flex-col justify-center gap-2'>
                         <div className='footer-branding  grid grid-cols-5   gap-5 py-10'>
                             {
@@ -142,10 +156,12 @@ const Footer = () => {
                                             </div>
                                             <p className='flex flex-col'>
                                                 <span className='w-full font-bold text-[#df442d]'>
-                                                    Have a Doubt We Can Help
+                                                    {/* Have a Doubt We Can Help */}{footerHelpCenterForm?.leftSection.title
+                                                    }
                                                 </span>
                                                 <span className='footer-text hover:text-[#df442d] w-full font-bold text-white '>
-                                                    Boot For Consultation
+                                                    {/* Boot For Consultation */}{footerHelpCenterForm?.leftSection.subtitle
+                                                    }
                                                 </span>
                                             </p>
                                         </div>
@@ -160,10 +176,12 @@ const Footer = () => {
 
                                             <p className='flex flex-col'>
                                                 <span className='w-full font-bold text-[#df442d]'>
-                                                    Cloud Computing Service
+                                                    {/* Cloud Computing Service */}{footerHelpCenterForm?.rightSection.title
+                                                    }
                                                 </span>
                                                 <span className='w-full font-bold text-white hover:text-[#df442d] '>
-                                                    Ckeck Eligibility
+                                                    {/* Ckeck Eligibility */}{footerHelpCenterForm?.rightSection.subtitle
+                                                    }
                                                 </span>
                                             </p>
                                             <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
@@ -180,30 +198,30 @@ const Footer = () => {
                         <div className='footer-main  w-full my-5 h-96 gap-5 grid grid-cols-4'>
                             <div className='footer-contact  '>
                                 <img src='../src/assets/logo-light (1).png' />
-                                <p className='text-footer font-bold text-white my-3' >cozipress we talk destination we shine across your organization to fully understand.</p>
+                                <p className='text-footer font-bold text-white my-3' > {footerContact ? footerContact[0].description : "cozipress we talk destination we shine across your organization to fully understand. ."} .</p>
                                 <div className='flex gap-3'>
                                     {
                                         footerIcone?.map((item_, index) => {
-                                        
+
                                             return (
                                                 <Icone key={index} item_={item_.icone} />
                                             )
                                         })
                                     }
                                 </div>
-
+                                Block Tag Cloud
                             </div>
 
                             <div className='categories-main '>
-                                <div className='categories p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >Categories</div>
+                                <div className='categories p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >{"Categories"}</div>
                                 <div className='flex flex-col gap-3'>
                                     {
-                                        listItem?.map((listItem_, index) => <FooterArrow key={index} listItem_={listItem_.data} KeyboardDoubleArrowRightIcon={KeyboardDoubleArrowRightIcon} />)
+                                        footerTages?.map((listItem_, index) => <FooterArrow key={index} listItem_={listItem_.data} KeyboardDoubleArrowRightIcon={KeyboardDoubleArrowRightIcon} />)
                                     }
                                 </div>
                             </div>
                             <div className='block-tag-cloud ' >
-                                <div className='block p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' >Block Tag Cloud</div>
+                                <div className='block p-2 bg-black/50 text-white font-bold text-xl px-3 border-r-2 border-[#df442d] mb-2' > {footerBlockTagCloud?.FooterTagesName || "Block Tag Cloud"}</div>
                                 <div className='button-wrraper flex flex-wrap gap-2'>
                                     {
                                         buttonItem?.map((item_, index) => <ButtonComponent item_={item_.buttonText} />)

@@ -5,7 +5,8 @@ import {
     Divider,
     InputAdornment,
     TextField,
-    Button
+    Button,
+    Avatar
 } from '@mui/material';
 import { allFaMdIconsList } from '../../../NavbarComponent/HeaderTopLeft';
 import { Box } from '@mui/material';
@@ -13,13 +14,32 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
-function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeature, setFeatureMode, freatureMode, updateListitemFeature }) {
+function FeatureListForm({
+    setFeatureListForm,
+    featureListForm,
+    postListitemFeature,
+    setFeatureMode,
+    freatureMode,
+    updateListitemFeature,
+    inisialState
+
+}) {
 
     const [selectedIconLeft, setSelectedIconLeft] = useState(null);
     const [selectedIconRight, setSelectedIconRight] = useState(null);
 
     const [inputLeft, setInputLeft] = useState('');
     const [inputRight, setInputRight] = useState('');
+    const [imagePreview, setImagePreview] = useState(null)
+
+    useEffect(() => {
+        if (freatureMode === "SubmitForm") {
+            setFeatureListForm(inisialState)
+            setSelectedIconLeft(null)
+            setSelectedIconRight(null)
+
+        }
+    }, [freatureMode])
 
     const featureOnchange = (e) => {
         const { name, value } = e.target;
@@ -31,7 +51,7 @@ function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeat
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        // setImagePreview(URL.createObjectURL(file))
+        setImagePreview(URL.createObjectURL(file))
 
         if (file) {
             setFeatureListForm((prev) => ({
@@ -40,6 +60,16 @@ function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeat
             }));
         }
     };
+
+    useEffect(() => {
+        if (featureListForm?.backGroundImage) {
+            const imgSrc = featureListForm?.backGroundImage?.startsWith('http')
+                ? featureListForm?.backGroundImage
+                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${featureListForm?.backGroundImage?.replace(/^\/?/, '')}`;
+            setImagePreview(imgSrc)
+            // setImagePreview(featureListForm.backGroundImage)
+        }
+    }, [featureListForm])
 
     const filteredIconsLeft = useMemo(() => {
         const term = inputLeft.trim().toLowerCase();
@@ -68,8 +98,7 @@ function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeat
         }
     }, [featureListForm]);
 
-
-
+    console.log("featureListForm____TY", featureListForm)
     return (
         <Fragment>
             <div className='service main h-[95%] flex items-center justify-center flex-col'>
@@ -90,6 +119,34 @@ function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeat
                 <form className='service-form flex flex-col w-[60%] gap-4 border border-slate-400/20 rounded-md p-5'>
                     <h1 className='heading text-2xl' >Feature List Item</h1>
                     <Divider />
+                    <div className='flex items-center gap-3'>
+                        <Avatar sx={{
+                            height: 56, width: 56
+                        }}
+                            src={imagePreview}
+                        />
+                        <Button
+                            sx={{
+                                width: 250,
+                                textTransform: "none",
+                                border: "1px solid #413f3f"
+
+                            }}
+                            component="label"
+                            variant="outlined"
+                            startIcon={<CloudUploadIcon />}
+
+                        >
+                            Selete Backgorund Image
+                            <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={handleFileChange}
+
+                            />
+                        </Button>
+                    </div>
                     <TextField
                         size='small'
                         label="Title"
@@ -217,27 +274,7 @@ function FeatureListForm({ setFeatureListForm, featureListForm, postListitemFeat
                             />
                         )}
                     />
-                    <Button
-                        sx={{
-                            width: '100%',
-                            textTransform: "none",
-                            border: "1px solid #413f3f"
 
-                        }}
-                        component="label"
-                        variant="outlined"
-                        startIcon={<CloudUploadIcon />}
-
-                    >
-                        Selete Section Image
-                        <input
-                            type="file"
-                            hidden
-                            accept="image/*"
-                            onChange={handleFileChange}
-
-                        />
-                    </Button>
 
                     <div className="flex items-center gap-2 sticky top-0">
                         <Checkbox

@@ -190,8 +190,10 @@ import {
     Autocomplete,
     InputAdornment,
     Checkbox,
+    Divider,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
 function HeaderTopBarCenterIcon({
     setIconeCenter,
@@ -202,7 +204,9 @@ function HeaderTopBarCenterIcon({
     setSelectedIcon,
     filteredIcons,
     setInputValue,
-    allFaMdIconsList
+    allFaMdIconsList,
+    loading
+
 }) {
     const initialState = {
         item_Center_Name: '',
@@ -252,18 +256,21 @@ function HeaderTopBarCenterIcon({
     const iconFields = Array.isArray(iconeCenter) ? iconeCenter : [];
 
     return (
-        <form className="flex justify-center flex-col items-center min-h-[650px] border border-slate-600/20 rounded-md">
+        <form className="flex justify-center flex-col items-center min-h-[650px] border border-slate-600/20 rounded-md py-4">
             <div className="flex flex-col gap-4 px-5 w-full max-w-4xl">
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h1 className="text-lg font-semibold sticky top-0">Header Top Bar Center Icon</h1>
-                    <Button
-                        onClick={() => submitHandler('HeaderTopBarCenterIcon')}
+                    <h1 className="text-2xl font-semibold sticky top-0 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">Header Top Bar Center Icon</h1>
+
+
+                    {/* <Button
+
                         variant="outlined"
                         sx={{ textTransform: 'none' }}
                     >
-                        Save Changes
-                    </Button>
+
+                    </Button> */}
                 </Box>
+                <Divider />
 
                 {iconFields.map((field, index) => (
                     <div
@@ -292,6 +299,13 @@ function HeaderTopBarCenterIcon({
                                             borderColor: 'blue',
                                         },
                                     },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                             />
 
@@ -345,6 +359,13 @@ function HeaderTopBarCenterIcon({
                                                     borderColor: 'blue',
                                                 },
                                             },
+                                            '& label': {
+                                                color: 'gray',
+                                                fontSize: '14px',
+                                            },
+                                            '& label.Mui-focused': {
+                                                color: 'white',
+                                            }
                                         }}
                                     />
                                 )}
@@ -371,6 +392,14 @@ function HeaderTopBarCenterIcon({
                                             borderColor: 'blue',
                                         },
                                     },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                             />
 
@@ -403,10 +432,22 @@ function HeaderTopBarCenterIcon({
                         If you want to show this on the website
                     </p>
                 </div>
-                <div className="flex justify-end">
-                    <Button onClick={addNewField} variant="contained" className="w-fit">
+                <div className="flex justify-end gap-2">
+                    <Button onClick={addNewField} variant="outlined" className="w-fit" sx={{
+                        border: "2px solid  #e0f574",
+                        color: "#e0f574",
+                        textTransform:"none",
+                        px:5
+
+                    }}>
                         + Add More
                     </Button>
+                    <GradientButton
+                        loading={loading}
+                        onClick={() => submitHandler('HeaderTopBarCenterIcon')}
+                    >
+                        Save Changes
+                    </GradientButton>
                 </div>
             </div>
         </form>

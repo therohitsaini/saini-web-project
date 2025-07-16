@@ -1,5 +1,6 @@
 import {
     Button,
+    Checkbox,
     Divider,
     IconButton,
     Paper,
@@ -12,6 +13,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useSnackbar } from '../../../Snakbar/Snakbar';
 import DownloadIcon from '@mui/icons-material/Download';
 import PrintIcon from '@mui/icons-material/Print';
+import GradientButton from '../../../ReuseComponent/ReuseComponent';
 
 
 function FunfactTable() {
@@ -210,64 +212,13 @@ function FunfactTable() {
 
     const paginationModel = { page: 0, pageSize: 5 };
 
-    // PRINT TABLE FUNCTION
-    const handlePrint = () => {
-        const printWindow = window.open('', '_blank');
-        const tableHTML = `
-      <html>
-        <head>
-          <title>Print Funfact Table</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-            th { background-color: #f0f0f0; }
-          </style>
-        </head>
-        <body>
-          <h2>Funfact Table</h2>
-          <table>
-            <thead>
-              <tr><th>Funfact Count</th><th>Paragraph</th></tr>
-            </thead>
-            <tbody>
-              ${rows.map(row => `
-                <tr>
-                  <td>${row.funfact}</td>
-                  <td>${row.paragraph}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </body>
-      </html>
-    `;
-        printWindow.document.write(tableHTML);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-    };
 
-    // CSV DOWNLOAD FUNCTION
-    const downloadCSV = () => {
-        const csvRows = [
-            ['Funfact Count', 'Paragraph'],
-            ...rows.map(row => [row.funfact, `"${row.paragraph}"`])
-        ];
-        const csvContent = csvRows.map(e => e.join(',')).join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute('download', 'funfact_data.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+
+
 
     return (
         <Fragment>
-            <div className='hero-tabel-main w-full h-[85vh] flex flex-col justify-center items-center gap-5'>
+            <div className='hero-tabel-main w-full h-[80vh] flex flex-col justify-center items-center gap-5'>
                 {
                     funfactMode === "FunfactForm" || funfactMode === "Edit" ? (
                         <div className='funfact-mian w-full flex flex-col items-center gap-30'>
@@ -276,8 +227,8 @@ function FunfactTable() {
                                     <KeyboardBackspaceIcon /> Back
                                 </Button>
                             </div>
-                            <form className='form-main flex flex-col gap-4 w-[50%] py-10 border border-slate-600/30 rounded-md p-5'>
-                                <Typography sx={{ fontSize: 20 }}>Funfact Section Form</Typography>
+                            <form className='form-main flex flex-col gap-4 w-[50%] py-5 border border-slate-600/30 rounded-md p-5'>
+                                <h1  className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Funfact Section Form</h1>
                                 <Divider />
                                 <TextField
                                     type='number'
@@ -286,6 +237,27 @@ function FunfactTable() {
                                     size='small'
                                     label="Total Project"
                                     onChange={funfactonChangeHandler}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
+                                    }}
                                 />
                                 <TextField
                                     name='aboutProject'
@@ -293,14 +265,54 @@ function FunfactTable() {
                                     size='small'
                                     label="About Project"
                                     onChange={funfactonChangeHandler}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
+                                    }}
                                 />
-                                {
-                                    funfactMode === "Edit" ? (
-                                        <Button variant='contained' onClick={funFactHandlerUpdate}>Update</Button>
-                                    ) : (
-                                        <Button variant='contained' onClick={funFactHandler}>Submit</Button>
-                                    )
-                                }
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        checked={true}
+                                        // onChange={(e) =>
+                                        //     setFormData((prev) => ({
+                                        //         ...prev,
+                                        //         item_ShowOnWebsite: e.target.checked,
+                                        //     }))
+                                        // }
+                                        sx={{ m: 0, p: 0 }}
+                                        size="small"
+                                        color='default'
+                                    />
+                                    <p className="text-[14px] text-slate-500">
+                                        If you want to show this on the website
+                                    </p>
+                                </div>
+                                <div className='flex justify-end'>
+                                    {
+                                        funfactMode === "Edit" ? (
+                                            <GradientButton onClick={funFactHandlerUpdate}>Update Document</GradientButton>
+                                        ) : (
+                                            <GradientButton onClick={funFactHandler}>Save Document</GradientButton>
+                                        )
+                                    }
+                                </div>
                             </form>
                         </div>
                     ) : (

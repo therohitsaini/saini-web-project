@@ -32,11 +32,16 @@ function CustomTable({ setFeatureMode, featureListItem, showSnackbar, setFeature
 
 
     const updateFeatureListItemHandler = async (data = {}) => {
+        const docs = data.allData
+        console.log("id", docs)
         setFeatureListForm((pre) => ({
             ...pre,
-            userDocID: data.id,
-            listTitle: data.title,
-            backGroundImage: data.bgImage
+            userDocID: docs._id,
+            listTitle: docs.listTitle,
+            backGroundImage: docs.backGroundImage,
+            listIconeLeft: docs.listIconeLeft,
+            listIconeRight: docs.listIconeRight
+
         }))
         setFeatureMode("UpdateForm")
 
@@ -137,6 +142,7 @@ function CustomTable({ setFeatureMode, featureListItem, showSnackbar, setFeature
         id: item_._id,
         bgImage: item_.backGroundImage,
         title: item_.listTitle,
+        allData: item_
 
 
     }))

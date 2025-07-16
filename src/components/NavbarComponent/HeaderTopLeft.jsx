@@ -13,6 +13,7 @@ import {
 import React, { useState, useEffect, useMemo, Fragment } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
 
 // for icone 
@@ -67,8 +68,11 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                 <form className="form flex justify-center items-center h-[420px] w-full">
                     <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%]">
                         {/* <Typography component="span">Top Bar Email Section</Typography> */}
-                        <div className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Top Bar Email Section</div>
-                        <Divider />
+                        <div
+                            className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>
+                            Top Bar Email Section
+                        </div>
+                        <Divider sx={{ mb: 1 }} />
 
                         <TextField
                             label="Title"
@@ -90,6 +94,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                         borderColor: 'blue',
                                     },
                                 },
+                                '& label': {
+                                    color: 'gray',
+                                    fontSize: '14px',
+                                },
+                                '& label.Mui-focused': {
+                                    color: 'white',
+                                }
                             }}
                         />
 
@@ -113,6 +124,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                         borderColor: 'blue',
                                     },
                                 },
+                                '& label': {
+                                    color: 'gray',
+                                    fontSize: '14px',
+                                },
+                                '& label.Mui-focused': {
+                                    color: 'white',
+                                }
                             }}
                         />
 
@@ -166,6 +184,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                                 borderColor: 'blue',
                                             },
                                         },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
                                     }}
                                 />
                             )}
@@ -191,6 +216,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                         borderColor: 'blue',
                                     },
                                 },
+                                '& label': {
+                                    color: 'gray',
+                                    fontSize: '14px',
+                                },
+                                '& label.Mui-focused': {
+                                    color: 'white',
+                                }
                             }}
                         />
 
@@ -213,7 +245,13 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                         </div>
 
                         <div className='button flex justify-end '>
-                            <Button
+                            <GradientButton
+                                loading={loading}
+                                onClick={() => submitHandler('HeaderTopLeftBar')}
+                            >
+                                Save Changes
+                            </GradientButton>
+                            {/* <Button
                                 sx={{
                                     textTransform: 'none',
                                     minWidth: "200px",
@@ -231,7 +269,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                 ) : (
                                     'Save Changes'
                                 )}
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
                 </form>

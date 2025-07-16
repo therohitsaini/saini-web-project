@@ -10,6 +10,7 @@ import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
 import { useSnackbar } from '../Snakbar/Snakbar';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
 function ServiceCustom() {
     const [serviceTableTrue, setServiceTableTrue] = useState("")
@@ -169,14 +170,35 @@ function ServiceCustom() {
                             </div>
                             <form className='service-form flex flex-col w-[60%]  gap-4  border border-slate-400/20 rounded-md p-5   '>
 
-                                <h1>Customize Service</h1>
-                                <Divider />
+                                <h1 className='text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Customize Service</h1>
+                                <Divider sx={{ mb: 1 }} />
                                 <TextField
                                     size='small'
                                     label="Title"
                                     name='serviceHeading'
                                     value={serviceCustom.serviceHeading}
                                     onChange={servieOnchange}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
+                                    }}
                                 ></TextField>
                                 <TextField
                                     size='small'
@@ -184,9 +206,51 @@ function ServiceCustom() {
                                     name='ServiceDescription'
                                     value={serviceCustom.ServiceDescription}
                                     onChange={servieOnchange}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
+                                    }}
                                 ></TextField>
 
                                 <Autocomplete
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            fontSize: '12px',
+                                            '& input': {
+                                                fontSize: '14px',
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'blue',
+                                            },
+                                        },
+                                        '& label': {
+                                            color: 'gray',
+                                            fontSize: '14px',
+                                        },
+                                        '& label.Mui-focused': {
+                                            color: 'white',
+                                        }
+                                    }}
                                     options={filteredIcons}
                                     value={selectedIcon}
                                     name="iconeTop"
@@ -245,32 +309,27 @@ function ServiceCustom() {
                                 </div>
 
                                 <div className='flex justify-end '>
+
+
                                     {
                                         serviceTableTrue === "Edit" ?
                                             (
-                                                <Button
-                                                    sx={{
-                                                        px: 5,
-                                                        textTransform: "none"
-                                                    }}
+                                                <GradientButton
                                                     onClick={serviceUpdateHandler}
-                                                    variant='contained'
+
                                                 >
-                                                    Update
-                                                </Button>
+                                                    Update Document
+                                                </GradientButton>
                                             )
                                             :
                                             (
-                                                <Button
-                                                    sx={{
-                                                        px: 5,
-                                                        textTransform: "none"
-                                                    }}
+
+                                                <GradientButton
                                                     onClick={serviceHadnler}
-                                                    variant='contained'
+
                                                 >
-                                                    Submit
-                                                </Button>
+                                                    Save Document
+                                                </GradientButton>
                                             )
                                     }
                                 </div>

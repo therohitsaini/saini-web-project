@@ -66,11 +66,14 @@ const InFoTable = ({ setInFoIsTrue, setInFoService, refresh, setRefresh }) => {
     }
 
     const updateInfoHandler = (data = {}) => {
+        const original = data.originalData || {};
         setInFoService((pre) => ({
             ...pre,
-            userDocId: data.id,
-            inFoHeading: data.title,
-            inFoDescription: data.subTitle
+            userDocId: original.id,
+            inFoHeading: original.inFoHeading,
+            inFoDescription: original.inFoDescription,
+            inFoIcone: original.inFoIcone
+
         }))
         setInFoIsTrue("Edit")
 
@@ -145,6 +148,7 @@ const InFoTable = ({ setInFoIsTrue, setInFoService, refresh, setRefresh }) => {
         id: item_._id,
         title: item_.inFoHeading,
         subTitle: item_.inFoDescription,
+        originalData: item_,
 
     }))
     const paginationModel = { page: 0, pageSize: 5 };

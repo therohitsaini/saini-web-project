@@ -14,6 +14,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useEffect } from 'react';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
 const userCategories = ['design', 'development', 'marketing', 'support']
 
 
@@ -32,8 +33,10 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
         return allFaMdIconsList
             .filter((icon) => icon.label.toLowerCase().includes(term))
             .slice(0, 100);
-            
+
     }, [inputValue]);
+
+    
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -98,10 +101,10 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                 <form className="form flex justify-center items-center h-[420px] w-full">
                     <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%]">
                         <div className='flex justify-between items-center'>
-                            <Typography component="span" fontSize={20}>Create New Post </Typography>
+                            <h1 className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Create New Post</h1>
 
                         </div>
-                        <Divider />
+                        <Divider sx={{ mb: 1 }} />
 
                         <div className='button-input flex gap-2'>
                             <Button
@@ -130,15 +133,31 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                                 size="small"
                                 variant="outlined"
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                                 name="title"
                                 value={portFormData.title}
                                 onChange={onChangeHandler}
-                                error={submitted && !portFormData.title.trim()}
-                                helperText={
-                                    submitted && !portFormData.title.trim() ? 'Title is required' : ''
-                                }
+
                             />
                         </div>
 
@@ -147,19 +166,57 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                                 label="Sub Title"
                                 size="small"
                                 sx={{
-                                    width: "100%"
+                                    width: "100%",
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                                 variant="outlined"
                                 name="subTitle"
                                 value={portFormData.subTitle}
                                 onChange={onChangeHandler}
-                                error={submitted && !portFormData.subTitle.trim()}
-                                helperText={
-                                    submitted && !portFormData.subTitle.trim() ? 'subTitle is required' : ''
-                                }
+
                             />
 
                             <Autocomplete
+                                sx={{
+                                    width: "100%",
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
+                                }}
                                 multiple
                                 size="small"
                                 disablePortal
@@ -173,14 +230,11 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                                     }))
                                 }
 
-                                sx={{ width: "100%" }}
+
                                 getOptionLabel={(option) => option}
                                 renderInput={(params) => (
                                     <TextField {...params} label="Select Categories"
-                                        error={submitted && !portFormData.category}
-                                        helperText={
-                                            submitted && !portFormData.category ? 'Category is required' : ''
-                                        }
+
                                     />
                                 )}
                             />
@@ -192,7 +246,26 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
 
                             <Autocomplete
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                                 size="small"
                                 options={filteredIcons}
@@ -230,10 +303,7 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                                                 ),
                                         }}
 
-                                        error={submitted && !portFormData.Icone}
-                                        helperText={
-                                            submitted && !portFormData.Icone ? 'Category is required' : ''
-                                        }
+
                                     />
                                 )}
                             />
@@ -246,7 +316,26 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                                 value={portFormData.item_IconeUrl}
                                 onChange={onChangeHandler}
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
 
                             />
@@ -275,22 +364,22 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                         <div className='flex justify-end'>
                             {
                                 portMode === "UpdateForm" ?
-                                    (<Button
-                                        sx={{ textTransform: 'none', px: 10 }}
+                                    (<GradientButton
+                                      
                                         onClick={updatePortHandler}
-                                        variant="contained"
+                                   
                                     >
                                         Update Information
-                                    </Button>
+                                    </GradientButton>
                                     )
                                     :
-                                    (<Button
-                                        sx={{ textTransform: 'none', px: 10 }}
+                                    (<GradientButton
+                                   
                                         onClick={submitPortHandler}
-                                        variant="contained"
+                                       
                                     >
                                         Submit
-                                    </Button>
+                                    </GradientButton>
                                     )
                             }
                         </div>

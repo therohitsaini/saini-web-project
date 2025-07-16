@@ -1,8 +1,9 @@
-import { Button, Checkbox, Divider, TextField } from '@mui/material'
+import { Avatar, Button, Checkbox, Divider, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
 
 
 function FeatureHeading({ showSnackbar }) {
@@ -14,6 +15,8 @@ function FeatureHeading({ showSnackbar }) {
     const [featureFrom, setFeatureForm] = useState(inisiatailState)
     const [id, setId] = useState()
     const [FeatureData, setFeatureData] = useState([])
+    const [imagePreviev, setImagePreview] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
@@ -21,7 +24,7 @@ function FeatureHeading({ showSnackbar }) {
     }, [])
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        // setImagePreview(URL.createObjectURL(file))
+        setImagePreview(URL.createObjectURL(file))
 
         if (file) {
             setFeatureForm((prev) => ({
@@ -39,10 +42,9 @@ function FeatureHeading({ showSnackbar }) {
     }
 
     const submitHandler = async () => {
-
         const sectioID = FeatureData[0]
         const sectionId = sectioID._id
-
+        setLoading(true)
         const formData = new FormData();
         if (featureFrom.setionImage) {
             formData.append("setionImage", featureFrom.setionImage);
@@ -62,9 +64,8 @@ function FeatureHeading({ showSnackbar }) {
             const result = await response.json();
 
             if (response.ok) {
-
                 showSnackbar(result.message)
-
+                setLoading(true)
             } else {
                 console.error("Error response:", result);
                 alert("Failed to update hero section.");
@@ -82,8 +83,6 @@ function FeatureHeading({ showSnackbar }) {
                 method: "GET",
                 headers: { 'Content-Type': 'application/json' },
             });
-
-
             const JsonData = await response.json();
 
             if (response.ok) {
@@ -102,6 +101,8 @@ function FeatureHeading({ showSnackbar }) {
         getFeatureData(id)
     }, [id])
 
+
+
     useEffect(() => {
         if (FeatureData && FeatureData.length > 0) {
             const firstItem = FeatureData[0];
@@ -110,22 +111,68 @@ function FeatureHeading({ showSnackbar }) {
                 setionDescriptions: firstItem.setionDescriptions || "",
                 setionImage: firstItem.setionImage || ""
             });
+
+            const imgSrc = firstItem?.setionImage?.startsWith('http')
+                ? firstItem.setionImage
+                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${firstItem.setionImage?.replace(/^\/?/, '')}`;
+            setImagePreview(imgSrc)
+
+
         }
     }, [FeatureData]);
 
 
-    console.log("FeatureData", FeatureData)
+
+
+
+
+
 
     return (
         <Fragment>
             <div className='form-contanier  w-full min-h-[95%] flex flex-col items-center justify-center gap-20'>
-              
+
                 <form className='form-main border border-slate-500/20 rounded-md w-[50%] flex flex-col gap-3 items-center p-5'>
                     <div className='w-full'>
-                        <h1>Add  Features Heading</h1>
+                        <h1
+                            className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                        >
+                            Add  Features Heading</h1>
                         <Divider sx={{
                             my: 1
                         }} />
+                    </div>
+                    <div className='w-full flex items-center  gap-3 mb-2'>
+                        <Avatar src={imagePreviev}
+                            sx={{
+                                height: 56, width: 56
+                            }}
+                        />
+                        <Button
+                            sx={{
+                                width: 250,
+                                textTransform: 'none',
+                                // '&:hover': {
+                                //     borderColor: 'blue',
+                                // },
+                                // '&.Mui-focused': {
+                                //     borderColor: 'blue',
+                                // },
+                            }}
+                            component="label"
+                            variant="outlined"
+                            startIcon={<CloudUploadIcon />}
+
+                        >
+                            Selete Section Image
+                            <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={handleFileChange}
+
+                            />
+                        </Button>
                     </div>
                     <TextField
                         label="Section Title"
@@ -137,6 +184,10 @@ function FeatureHeading({ showSnackbar }) {
                         sx={{
                             width: '100%',
                             '& .MuiOutlinedInput-root': {
+                                fontSize: '12px',
+                                '& input': {
+                                    fontSize: '14px',
+                                },
                                 '&:hover fieldset': {
                                     borderColor: 'blue',
                                 },
@@ -144,6 +195,13 @@ function FeatureHeading({ showSnackbar }) {
                                     borderColor: 'blue',
                                 },
                             },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
                         }}
                     />
 
@@ -166,6 +224,13 @@ function FeatureHeading({ showSnackbar }) {
                                     borderColor: 'blue',
                                 },
                             },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
                         }}
                         name="setionDescriptions"
                         value={featureFrom.setionDescriptions}
@@ -173,31 +238,7 @@ function FeatureHeading({ showSnackbar }) {
                     />
 
 
-                    <Button
-                        sx={{
-                            width: '100%',
-                            textTransform: 'none',
-                            // '&:hover': {
-                            //     borderColor: 'blue',
-                            // },
-                            // '&.Mui-focused': {
-                            //     borderColor: 'blue',
-                            // },
-                        }}
-                        component="label"
-                        variant="outlined"
-                        startIcon={<CloudUploadIcon />}
 
-                    >
-                        Selete Section Image
-                        <input
-                            type="file"
-                            hidden
-                            accept="image/*"
-                            onChange={handleFileChange}
-
-                        />
-                    </Button>
                     <div className="flex items-center gap-2  sticky top-0 w-full">
                         <Checkbox
                             defaultChecked
@@ -216,17 +257,12 @@ function FeatureHeading({ showSnackbar }) {
                         </p>
                     </div>
                     <div className='button w-full  flex justify-end'>
-                        <Button
+                        <GradientButton
                             onClick={submitHandler}
-                            variant='contained'
-                            sx={{
-                                textTransform: "none",
-                                px: 7,
-                                backgroundColor: "white"
-                            }}
+                            loading={loading}
                         >
-                            Submit
-                        </Button>
+                            Save Changes
+                        </GradientButton>
                     </div>
                 </form>
             </div>

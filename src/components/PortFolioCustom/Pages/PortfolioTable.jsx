@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 
 function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFormData, showSnackbar }) {
-   
+
     const handleActionClickDeletePort = async (data = {}) => {
         const userId = localStorage.getItem("user-ID")
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
@@ -35,20 +35,22 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
     };
 
     const portUpdatehandle = async (data = {}) => {
-      
-        const categories = Array.isArray(data.categories)
-            ? data.categories
-            : typeof data.categories === "string"
-                ? JSON.parse(data.categories)
+        const orignal = data.orignalData || {}
+        console.log("orignal", orignal)
+        const categories = Array.isArray(orignal.categories)
+            ? orignal.categories
+            : typeof orignal.categories === "string"
+                ? JSON.parse(orignal.categories)
                 : [];
 
         setPortFormData((pre) => ({
             ...pre,
-            userDocID: data.id,
-            userImage: data.profile,
-            title: data.title,
-            subTitle: data.subTitle,
+            userDocID: orignal.id,
+            userImage: orignal.profile,
+            title: orignal.title,
+            subTitle: orignal.subTitle,
             categories: categories,
+            Icone: orignal.Icone
         }));
         setPortMode("UpdateForm")
 
@@ -168,12 +170,13 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
         profile: item_?.userImage,
         title: item_?.title,
         subTitle: item_?.subTitle,
-        categories: item_.categories
+        categories: item_.categories,
+        orignalData: item_
 
     }))
 
     const paginationModel = { page: 0, pageSize: 10 };
-    
+
     return (
         <Fragment>
             <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>

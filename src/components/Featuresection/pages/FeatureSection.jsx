@@ -43,20 +43,33 @@ export const features = [
     },
 ];
 
-function FeatureSection() {
+function FeatureSection({ featureHeadlineApies }) {
+    
     const leftFeatures = features.filter(f => f.side === 'left');
     const rightFeatures = features.filter(f => f.side === 'right');
+    const imageBG = featureHeadlineApies[0]?.setionImage;
+    const imgSrc = imageBG?.startsWith('http')
+        ? imageBG
+        : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${imageBG?.replace(/^\/?/, '')}`;
 
+    console.log("featureHeadlineApies", featureHeadlineApies
+    )
     return (
-        <section className="py-16 px-10 bg-white">
+        <section className="py-16 px-10 bg-black/10">
             <div className="container mx-auto px-4">
 
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold">
-                        Our <span className="text-blue-600">Feature</span>
+                <div className="w-full flex flex-col justify-center items-center mb-12">
+                    <h2 className="text-4xl font-bold flex items-center gap-2">
+                        Our
+                        <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
+                            <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
+                                Feature
+                            </span>
+                        </div>
+
                     </h2>
                     <p className="text-gray-600 mt-2">
-                        There are many variations of passages of Lorem Ipsum available
+                        {featureHeadlineApies[0]?.setionDescriptions ? featureHeadlineApies[0].setionDescriptions : "There are many variations"}
                     </p>
                 </div>
 
@@ -76,10 +89,15 @@ function FeatureSection() {
 
                     <div className="hidden md:block text-center h-[400px]">
                         <img
-                            src="http://127.0.0.1:5500/corpex-html/assets/images/feature.png"
+                            src={
+                                imgSrc
+
+                                || "http://127.0.0.1:5500/corpex-html/assets/images/feature.png"
+                            }
                             alt="Feature"
-                            className="mx-auto max-h-[400px] "
+                            className="mx-auto max-h-[400px]"
                         />
+
                     </div>
 
 

@@ -9,11 +9,11 @@ import { SnackbarProvider } from './components/Snakbar/Snakbar.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
+  <StrictMode>
   <Provider store={store} >
-    <SnackbarProvider>
+
       <App />
-    </SnackbarProvider>
+   
   </Provider>
-  // </StrictMode>,
+  </StrictMode>,
 )

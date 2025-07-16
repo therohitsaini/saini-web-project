@@ -41,6 +41,7 @@ import BlogHeadingSection from './components/BlogComponent/BlogCustome/BlogHeadi
 import BlogRoot from './components/BlogComponent/BlogCustome/BlogData/BlogRoot';
 import FooterTopBar from './components/FooterCustome/FooterTopBar';
 import FooterBackGround from './components/FooterCustome/FooterBackGround';
+import { SnackbarProvider } from './components/Snakbar/Snakbar';
 // import FooterMainCenter from './components/FooterCustome/FooterMainCenter';
 
 
@@ -54,52 +55,54 @@ function App() {
   return (
     <Fragment>
       <BrowserRouter>
-        <Routes>
+        <SnackbarProvider maxSnack={3} >
+          <Routes>
 
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/' element={<SignIn />} />
-          <Route path='/home' element={< Home />} />
-          <Route path='/footer' element={< Footer />} />
-          <Route path='/dashboardmenu' element={<DashbordMenu />} />
-          <Route path='/herosection' element={<HeroSection />} />
-          <Route path='/dashbordcomplete' element={< DashboardLayoutWithRoutes />} />
-          <Route path='/usertable/' element={<UserTable />} />
-          <Route path='/usertablenew' element={<UserTableNew />} />
-          <Route path='/muiappbar' element={<MuiAppBar />} />
-          <Route path='dashboardhomepage' element={< DashbordHomePage />} />
-          <Route path='/muimain' element={< MuiAppBarMain />} />
-          <Route path='role_permission' element={< RolePermissionModal />} />
-          <Route path='/account' element={<  AccountDashbord />} />
-          <Route path='/dashbord' element={<  Dashbord />} />
-          <Route path='/uploadimg' element={<  Uploadimg />} />
-          <Route path='/admin' element={<  Admin />} />
-          <Route path='/roleform' element={< RolePermission />} />
-          <Route path='/service' element={< Service />} />
-          <Route path='/header-side-bar-tabs' element={< HeaderSideBarTabs />} />
-          <Route path='/serive-funfact' element={< Funfact />} />
-          <Route path='/serive-funfact-tabel' element={<FunfactTable />} />
-          <Route path='/portfollio-section' element={< PortfolioSection />} />
-          <Route path='/portfolio-custom' element={< PortfolioMain />} />
-          <Route path='/princing-section' element={< PrincingSection />} />
-          <Route path='/princingcustom' element={< PrincingCustom />} />
-          <Route path='/testimonialSection' element={< TestimonialSection />} />
-          <Route path='/featureSection' element={< FeatureSection />} />
-          <Route path='/featureheading' element={< FeatureHeading />} />
-          <Route path='/featurelistitem' element={< FeatureListItem />} />
-          <Route path='/featurelistform' element={< FeatureListForm />} />
-          <Route path='/customeTable' element={< CustomTable />} />
-          <Route path='/team' element={< TeamSection />} />
-          <Route path='/teamcustome' element={< TeamMain />} />
-          <Route path='/blogsection' element={< BlogSection />} />
-          <Route path='/blogheadingsection' element={< BlogHeadingSection />} />
-          <Route path='/blogroot' element={< BlogRoot />} />
-          {/* <Route path='/footertopbar' element={< FooterSponsors />} /> */}
-          <Route path='/footerbackground' element={< FooterBackGround />} />
-          <Route path='/footertopbar' element={< FooterTopBar />} />
-          {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/' element={<SignIn />} />
+            <Route path='/home' element={< Home />} />
+            <Route path='/footer' element={< Footer />} />
+            <Route path='/dashboardmenu' element={<DashbordMenu />} />
+            <Route path='/herosection' element={<HeroSection />} />
+            <Route path='/dashbordcomplete' element={< DashboardLayoutWithRoutes />} />
+            <Route path='/usertable/' element={<UserTable />} />
+            <Route path='/usertablenew' element={<UserTableNew />} />
+            <Route path='/muiappbar' element={<MuiAppBar />} />
+            <Route path='dashboardhomepage' element={< DashbordHomePage />} />
+            <Route path='/muimain' element={< MuiAppBarMain />} />
+            <Route path='role_permission' element={< RolePermissionModal />} />
+            <Route path='/account' element={<  AccountDashbord />} />
+            <Route path='/dashbord' element={<  Dashbord />} />
+            <Route path='/uploadimg' element={<  Uploadimg />} />
+            <Route path='/admin' element={<  Admin />} />
+            <Route path='/roleform' element={< RolePermission />} />
+            <Route path='/service' element={< Service />} />
+            <Route path='/header-side-bar-tabs' element={< HeaderSideBarTabs />} />
+            <Route path='/serive-funfact' element={< Funfact />} />
+            <Route path='/serive-funfact-tabel' element={<FunfactTable />} />
+            <Route path='/portfollio-section' element={< PortfolioSection />} />
+            <Route path='/portfolio-custom' element={< PortfolioMain />} />
+            <Route path='/princing-section' element={< PrincingSection />} />
+            <Route path='/princingcustom' element={< PrincingCustom />} />
+            <Route path='/testimonialSection' element={< TestimonialSection />} />
+            <Route path='/featureSection' element={< FeatureSection />} />
+            <Route path='/featureheading' element={< FeatureHeading />} />
+            <Route path='/featurelistitem' element={< FeatureListItem />} />
+            <Route path='/featurelistform' element={< FeatureListForm />} />
+            <Route path='/customeTable' element={< CustomTable />} />
+            <Route path='/team' element={< TeamSection />} />
+            <Route path='/teamcustome' element={< TeamMain />} />
+            <Route path='/blogsection' element={< BlogSection />} />
+            <Route path='/blogheadingsection' element={< BlogHeadingSection />} />
+            <Route path='/blogroot' element={< BlogRoot />} />
+            {/* <Route path='/footertopbar' element={< FooterSponsors />} /> */}
+            <Route path='/footerbackground' element={< FooterBackGround />} />
+            <Route path='/footertopbar' element={< FooterTopBar />} />
+            {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
 
 
-        </Routes>
+          </Routes>
+        </SnackbarProvider>
       </BrowserRouter>
 
     </Fragment>

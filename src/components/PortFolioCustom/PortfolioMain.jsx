@@ -19,12 +19,13 @@ function PortfolioMain() {
   }
   const [portFolioData, setPortFolioData] = useState([])
   const [portFormData, setPortFormData] = useState(inistialtate);
-
   const [userID, setUserID] = useState("")
   const [portMode, setPortMode] = useState("Table")
   const [portRefresh, setPortRefresh] = useState()
   const [submitted, setSubmitted] = useState(false);
 
+
+  console.log("portFormData", portFormData)
 
   useEffect(() => {
     const id = localStorage.getItem("user-ID")
@@ -143,7 +144,7 @@ function PortfolioMain() {
 
       if (response.ok) {
         showSnackbar(result.message)
-        setPortRefresh((ref) => !ref)
+        // setPortRefresh((ref) => !ref)
       } else {
         console.error("Error response:", result);
         alert("Failed to update portfolio section.");

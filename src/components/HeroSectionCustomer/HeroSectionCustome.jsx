@@ -10,7 +10,7 @@ import { getHeaderData } from '../../Store/ApisStore/ApisCollection';
 import { useEffect } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Autocomplete, Button, IconButton, InputAdornment, styled, TextField, Tooltip } from '@mui/material';
+import { Autocomplete, Button, Checkbox, Divider, IconButton, InputAdornment, styled, TextField, Tooltip } from '@mui/material';
 import HeroTable from './HeroSectionCustomePages/HeroTable';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
@@ -18,6 +18,7 @@ import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
 import { useMemo } from 'react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useSnackbar } from '../Snakbar/Snakbar';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
 export default function HeroSectionCustome() {
 
@@ -39,7 +40,7 @@ export default function HeroSectionCustome() {
     const [imagePreview, setImagePreview] = useState(null);
     const data = useSelector((state) => state?.getHeaderDataReducer_);
 
-
+    console.log("heroFormData", heroFormData)
     const allFaMdIcons_ = [
         ...Object.entries(MdIcons),
         ...Object.entries(FaIcons),
@@ -226,6 +227,13 @@ export default function HeroSectionCustome() {
             .slice(0, 100);
     }, [inputValue]);
 
+    useEffect(() => {
+        if (heroFormData?.heroPlay_Button) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === heroFormData?.heroPlay_Button);
+            if (foundIcon) setSelectedIcon(foundIcon);
+        }
+    }, [heroFormData?.heroPlay_Button, isTureTable]);
+
     return (
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
             {
@@ -262,11 +270,12 @@ export default function HeroSectionCustome() {
                         </div>
                         < form className='flex justify-center flex-col items-center w-full  min-h-[430px]   px-30 '>
                             <div className="flex flex-col gap-4 border border-slate-800  p-5 rounded-md   w-full ">
-                                <h1 className='flex justify-start w-full'>Slider Image</h1>
+                                <h1 className='flex justify-start w-full text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Slider Image</h1>
+                                <Divider sx={{ mb: 1 }} />
                                 <div
                                     className="border border-slate-400/20 rounded-md p-5 w-[100%] relative flex justify-center"
                                 >
-                                    <div className="flex flex-col justify-between gap-2 mb-3">
+                                    <div className="flex flex-col justify-between gap-4 mb-3">
                                         <div className='flex gap-3'>
 
                                             <Button
@@ -290,7 +299,27 @@ export default function HeroSectionCustome() {
                                             <Autocomplete
                                                 options={filteredIcons}
                                                 value={selectedIcon}
-
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        fontSize: '12px',
+                                                        '& input': {
+                                                            fontSize: '14px',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                    },
+                                                    '& label': {
+                                                        color: 'gray',
+                                                        fontSize: '14px',
+                                                    },
+                                                    '& label.Mui-focused': {
+                                                        color: 'white',
+                                                    }
+                                                }}
                                                 onChange={(e, newValue) => {
                                                     setSelectedIcon(newValue);
                                                     setHeroFormData((prev) => ({
@@ -340,6 +369,27 @@ export default function HeroSectionCustome() {
                                                 value={heroFormData.heroSlideSubTitle}
                                                 onChange={handleChange}
                                                 fullWidth
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        fontSize: '12px',
+                                                        '& input': {
+                                                            fontSize: '14px',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                    },
+                                                    '& label': {
+                                                        color: 'gray',
+                                                        fontSize: '14px',
+                                                    },
+                                                    '& label.Mui-focused': {
+                                                        color: 'white',
+                                                    }
+                                                }}
                                             />
 
                                             <TextField
@@ -349,6 +399,27 @@ export default function HeroSectionCustome() {
                                                 value={heroFormData.heroSlideTitle}
                                                 onChange={handleChange}
                                                 fullWidth
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        fontSize: '12px',
+                                                        '& input': {
+                                                            fontSize: '14px',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                    },
+                                                    '& label': {
+                                                        color: 'gray',
+                                                        fontSize: '14px',
+                                                    },
+                                                    '& label.Mui-focused': {
+                                                        color: 'white',
+                                                    }
+                                                }}
                                             />
                                         </div>
 
@@ -361,6 +432,27 @@ export default function HeroSectionCustome() {
                                                 value={heroFormData.heroButton_One}
                                                 onChange={handleChange}
                                                 fullWidth
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        fontSize: '12px',
+                                                        '& input': {
+                                                            fontSize: '14px',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                    },
+                                                    '& label': {
+                                                        color: 'gray',
+                                                        fontSize: '14px',
+                                                    },
+                                                    '& label.Mui-focused': {
+                                                        color: 'white',
+                                                    }
+                                                }}
                                             />
 
                                             <TextField
@@ -370,34 +462,69 @@ export default function HeroSectionCustome() {
                                                 value={heroFormData.heroButton_Two}
                                                 onChange={handleChange}
                                                 fullWidth
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        fontSize: '12px',
+                                                        '& input': {
+                                                            fontSize: '14px',
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'blue',
+                                                        },
+                                                    },
+                                                    '& label': {
+                                                        color: 'gray',
+                                                        fontSize: '14px',
+                                                    },
+                                                    '& label.Mui-focused': {
+                                                        color: 'white',
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        checked={true}
+                                        // onChange={(e) =>
+                                        //     setFormData((prev) => ({
+                                        //         ...prev,
+                                        //         item_ShowOnWebsite: e.target.checked,
+                                        //     }))
+                                        // }
+                                        sx={{ m: 0, p: 0 }}
+                                        size="small"
+                                        color='default'
+                                    />
+                                    <p className="text-[14px] text-slate-500">
+                                        If you want to show this on the website
+                                    </p>
+                                </div>
                                 <div className='button-wrraper flex justify-end'>
 
+
                                     {
-                                        isTureTable === "Edit" ? (<Button variant="contained"
-                                            sx={{
-                                                textTransform: "none",
-                                                px: 10
-                                            }}
-                                            onClick={updateHandlerSubmit}
-                                        >
-                                            Update
-                                        </Button>
-                                        ) :
-                                            (<Button variant="contained"
-                                                sx={{
-                                                    textTransform: "none",
-                                                    px: 10
-                                                }}
-                                                onClick={submitHandler}
-                                            >
-                                                Save Changes
-                                            </Button>
+                                        isTureTable === "Edit" ?
+                                            (
+                                                <GradientButton
+                                                    onClick={updateHandlerSubmit}
+
+                                                >
+                                                    Update Documents
+                                                </GradientButton>
+                                            ) :
+                                            (
+                                                <GradientButton
+                                                    onClick={submitHandler}
+
+                                                >
+                                                    Save Documents
+                                                </GradientButton>
                                             )
                                     }
                                 </div>

@@ -1,14 +1,15 @@
-import { Box, Button, CircularProgress, Divider, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, Divider, TextField, Typography } from '@mui/material';
 
 import React from 'react'
 import { Fragment } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
 
 
-function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimonialForm, submitted, postTestimonialForm, setTestimonialMode,updateTestimonialForm }) {
+function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimonialForm, submitted, postTestimonialForm, setTestimonialMode, updateTestimonialForm }) {
     const [imagePreview, setImagePreview] = useState(null)
 
     const handleFileChange = (e) => {
@@ -86,7 +87,7 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 variant="outlined"
                                 startIcon={<CloudUploadIcon />}
                                 size='small'
-                         
+
                             >
                                 Upload Image
                                 <input
@@ -104,15 +105,34 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 size="small"
                                 variant="outlined"
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                                 name="heading"
                                 value={testimonialForm.heading}
                                 onChange={onChangeHandler}
-                                // error={submitted && !testimonialForm.heading.trim()}
-                                // helperText={
-                                //     submitted && !testimonialForm.heading.trim() ? 'Title is required' : ''
-                                // }
+                            // error={submitted && !testimonialForm.heading.trim()}
+                            // helperText={
+                            //     submitted && !testimonialForm.heading.trim() ? 'Title is required' : ''
+                            // }
                             />
                         </div>
 
@@ -121,7 +141,26 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 label="Name"
                                 size="small"
                                 sx={{
-                                    width: "100%"
+                                    width: "100%",
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                                 variant="outlined"
                                 name="userName"
@@ -140,7 +179,26 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 value={testimonialForm.occupationRole}
                                 onChange={onChangeHandler}
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
 
                             />
@@ -157,53 +215,81 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
                                 value={testimonialForm.paragraph}
                                 onChange={onChangeHandler}
                                 sx={{
-                                    width: '100%'
+                                    width: '100%',
+                                    '& .MuiOutlinedInput-root': {
+                                        fontSize: '12px',
+                                        '& input': {
+                                            fontSize: '14px',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'blue',
+                                        },
+                                    },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
 
                             />
 
                         </div>
 
+                        <div className="flex items-center gap-2">
+                            <Checkbox
+                                checked={true}
+                                // onChange={(e) =>
+                                //     setFormData((prev) => ({
+                                //         ...prev,
+                                //         item_ShowOnWebsite: e.target.checked,
+                                //     }))
+                                // }
+                                sx={{ m: 0, p: 0 }}
+                                size="small"
+                                color='default'
+                            />
+                            <p className="text-[12px] text-slate-500">
+                                If you want to show this on the website
+                            </p>
+                        </div>
                         <div className='button-wrraper flex justify-end'>
                             {
                                 testimonialMode === "UpdateForm"
                                     ?
                                     (
-                                        <Button
-                                            variant="contained"
+                                        <GradientButton
+
                                             onClick={updateTestimonialForm}
-                                            disabled={loading}
-                                            sx={{
-                                                textTransform: 'none',
-                                                minWidth: 200,
-                                                position: 'relative',
-                                            }}
+                                            loading={loading}
+
                                         >
                                             {loading ? (
                                                 <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
                                             ) : (
                                                 'Update'
                                             )}
-                                        </Button>
+                                        </GradientButton>
                                     )
                                     :
                                     (
-                                        <Button
-                                            variant="contained"
+                                        <GradientButton
+
                                             onClick={postTestimonialForm}
-                                            disabled={loading}
-                                            sx={{
-                                                textTransform: 'none',
-                                                minWidth: 200,
-                                                position: 'relative',
-                                            }}
+                                            loading={loading}
+
                                         >
                                             {loading ? (
                                                 <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
                                             ) : (
                                                 'Submit'
                                             )}
-                                        </Button>
+                                        </GradientButton>
                                     )
                             }
                         </div>

@@ -6,8 +6,22 @@ import { Fragment } from 'react'
 
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
+import GradientButton from '../ReuseComponent/ReuseComponent';
 
-function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaMdIcons, selectedIcon, setSelectedIcon, allFaMdIconsList, filteredIcons, setInputValue, inputValue }) {
+function HeaderTopRight({
+    setFormDataRight,
+    formDataRight,
+    submitHandler,
+    allFaMdIcons,
+    selectedIcon,
+    setSelectedIcon,
+    allFaMdIconsList,
+    filteredIcons,
+    setInputValue,
+    inputValue,
+    loading
+
+}) {
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -30,8 +44,8 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
         <Fragment >
             <form className='form-header-top-right   flex justify-center items-center  h-[530px]'>
                 <div className="border border-slate-400/20 rounded-md p-5  flex flex-col gap-4 w-[80%] ">
-                    <Typography component="span">Top Bar Support Section</Typography>
-                    <Divider />
+                    <h1 className='text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Top Bar Support Section</h1>
+                    <Divider sx={{ mb: 1 }} />
                     <TextField
                         label="Title"
                         size="small"
@@ -52,6 +66,13 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                                     borderColor: 'blue',
                                 },
                             },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
                         }}
                     />
                     <TextField
@@ -74,6 +95,13 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                                     borderColor: 'blue',
                                 },
                             },
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
                         }}
                     />
 
@@ -126,6 +154,13 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                                             borderColor: 'blue',
                                         },
                                     },
+                                    '& label': {
+                                        color: 'gray',
+                                        fontSize: '14px',
+                                    },
+                                    '& label.Mui-focused': {
+                                        color: 'white',
+                                    }
                                 }}
                             />
                         )}
@@ -134,6 +169,7 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                     <TextField
                         label=" Url"
                         size="small"
+                        // disabled
                         variant="outlined"
                         name="item_IconeUrlRight"
                         value={formDataRight.item_IconeUrlRight}
@@ -151,13 +187,22 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                                     borderColor: 'blue',
                                 },
                             },
-                           
+                            '& label': {
+                                color: 'gray',
+                                fontSize: '14px',
+                            },
+                            '& label.Mui-focused': {
+                                color: 'white',
+                            }
+
                         }}
                     />
 
                     <div className="flex items-center gap-2  sticky top-0">
                         <Checkbox
                             defaultChecked
+                            color='defualt'
+
                             // checked={formData?.item_ShowOnWebsite || false}
                             // onChange={(e) =>
                             //     setIconeCenter((prev) => ({
@@ -168,18 +213,19 @@ function HeaderTopRight({ setFormDataRight, formDataRight, submitHandler, allFaM
                             sx={{ m: 0, p: 0 }}
                             size="small"
                         />
-                        <p className="text-[14px] text-slate-500 font-sans">
+                        <p className="text-[12px] text-slate-500/70 font-semibold">
                             If you want to show this on the website
                         </p>
                     </div>
 
                     <div className='button flex justify-end'>
-                        <Button
-                            sx={{
-                                px: 7,
-                                textTransform: "none"
-                            }}
-                            onClick={() => submitHandler("HeaderTopRightBar")} variant='contained'>Save Changes</Button>
+                        <GradientButton
+                            onClick={() => submitHandler("HeaderTopRightBar")}
+                            loading={loading}
+                        >
+                            Save Changes
+                        </GradientButton>
+
                     </div>
                 </div>
             </form>
