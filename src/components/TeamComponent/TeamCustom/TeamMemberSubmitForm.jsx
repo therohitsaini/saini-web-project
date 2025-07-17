@@ -8,20 +8,36 @@ import {
     Avatar,
     Autocomplete,
     InputAdornment,
-    CircularProgress
+    CircularProgress,
+    Divider
 } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
+import { useEffect } from 'react';
 
 
 
-const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMember, loader, setTeamMode }) => {
+const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMember, loader, setTeamMode, teamMode }) => {
 
 
     const [selectedIcons, setSelectedIcons] = useState([null, null, null, null]);
     const [inputValues, setInputValues] = useState(['', '', '', '']);
 
-  
+    useEffect(() => {
+        if (teamMemberForm.item_Icone && teamMemberForm.item_Icone.length > 0) {
+            const updatedSelectedIcons = teamMemberForm.item_Icone.map(iconName => {
+                if (iconName) {
+                    return allFaMdIconsList.find(icon => icon.label === iconName) || null;
+                }
+                return null;
+            });
+            setSelectedIcons(updatedSelectedIcons);
+        }
+    }, [teamMemberForm.item_Icone]);
+
+
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -76,28 +92,46 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                     onClick={() => setTeamMode("Table")}
                     variant='outlined'
                     sx={{
-                        px: 5
+                        px: 5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1
                     }}
-                >Back</Button>
+                >
+                    <KeyboardBackspaceIcon />
+                    Back
+                </Button>
             </div>
             <Box
 
                 // onSubmit={handleSubmit}
-                sx={{ mx: 'auto', p: 4, border: '1px solid #393636', borderRadius: 2 }}
+                sx={{ mx: 'auto', p: 4, border: '1px solid #393636', borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 2 }}
             >
-                <Typography variant="h5" >
-                    Custom Form
+                <Typography variant="h5" className='text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500' >
+                    Add Team Member
                 </Typography>
+                <Divider />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Avatar src={teamMemberForm.image ? URL.createObjectURL(teamMemberForm.image) : ''} sx={{ width: 56, height: 56, mr: 2 }} />
+                    <Avatar 
+                        src={
+                            teamMemberForm.image 
+                                ? (teamMemberForm.image instanceof File 
+                                    ? URL.createObjectURL(teamMemberForm.image) 
+                                    : (teamMemberForm.image.startsWith('http') 
+                                        ? teamMemberForm.image 
+                                        : `${import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '')}${teamMemberForm.image}`))
+                                : ''
+                        } 
+                        sx={{ width: 56, height: 56, mr: 2 }} 
+                    />
                     <Button component="label" variant="contained" startIcon={<UploadFileIcon />}>
                         Upload Image
                         <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
                     </Button>
                 </Box>
 
-                <Grid container spacing={2} mb={2}>
+                <Grid container spacing={2} >
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="Name"
@@ -121,7 +155,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                 </Grid>
 
                 {[0, 1, 2, 3].map((i) => (
-                    <Grid container spacing={2} mb={2} key={i}>
+                    <Grid container spacing={2} key={i}>
                         <Grid item xs={12} sm={6}>
                             <Autocomplete
                                 size="small"
@@ -194,29 +228,45 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                     </Grid>
                 ))}
 
-                <Button
-                    onClick={submitTeamMember}
-                    sx={{
-                        backgroundColor: loader ? "#5fb1c866" : "#1193d5ff",
-                        "&:hover": {
-                            backgroundColor: loader ? "transparent" : "#0d7cb6",
-                        },
-                        boxShadow: "none",
-                    }}
+                <div className='w-full flex justify-end items-center'>
+
+                    {
+                        teamMode === "UpdateTeamForm"
+                            ? (
+                                <GradientButton
+                                    onClick={submitTeamMember}
+                             
+                                >
 
 
-                    variant="contained" fullWidth>
+                                    {loader ?
+                                        (
+                                            <CircularProgress size={23} />
+                                        ) : (
+                                            "Update Documents"
+                                        )
+                                    }
+
+                                </GradientButton>
+                            ) : (
+                                <GradientButton
+                                    onClick={submitTeamMember}
+                             
+                                >
 
 
-                    {loader ?
-                        (
-                            <CircularProgress size={23} />
-                        ) : (
-                            "Submit"
-                        )
+                                    {loader ?
+                                        (
+                                            <CircularProgress size={23} />
+                                        ) : (
+                                            "Submit Documents"
+                                        )
+                                    }
+
+                                </GradientButton>
+                            )
                     }
-
-                </Button>
+                </div>
             </Box>
         </div>
     );

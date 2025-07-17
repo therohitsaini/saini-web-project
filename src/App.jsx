@@ -42,6 +42,7 @@ import BlogRoot from './components/BlogComponent/BlogCustome/BlogData/BlogRoot';
 import FooterTopBar from './components/FooterCustome/FooterTopBar';
 import FooterBackGround from './components/FooterCustome/FooterBackGround';
 import { SnackbarProvider } from './components/Snakbar/Snakbar';
+import Headings from './components/HeadingSettinges/Headings';
 // import FooterMainCenter from './components/FooterCustome/FooterMainCenter';
 
 
@@ -99,7 +100,7 @@ function App() {
             <Route path='/footerbackground' element={< FooterBackGround />} />
             <Route path='/footertopbar' element={< FooterTopBar />} />
             {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
-
+            <Route path='/headings' element={< Headings />} />
 
           </Routes>
         </SnackbarProvider>

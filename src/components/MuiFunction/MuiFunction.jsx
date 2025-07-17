@@ -67,6 +67,7 @@ export const NAVIGATION = (isAdmin) => {
         },
         { kind: 'divider' },
         { kind: 'header', title: 'Web Site Settings' },
+        { segment: 'headings', title: 'Headings', icon: <BiHeading /> },
         { segment: 'header', title: 'Header Section', icon: <FeedIcon color='gray' /> },
         { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon color='gray' /> },
         { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },

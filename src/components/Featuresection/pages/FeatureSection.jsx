@@ -46,18 +46,18 @@ export const features = [
 ];
 
 function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
-    
+
     // Use backend data if available, otherwise use fallback
     const featuresToUse = featureListItemApies && featureListItemApies.length > 0 ? featureListItemApies : features;
-    
+
     // Distribute items evenly: if 3 items, 2 left + 1 right
     const totalItems = featuresToUse.length;
     const leftCount = Math.ceil(totalItems / 2);
     const rightCount = totalItems - leftCount;
-    
+
     const leftFeatures = featuresToUse.slice(0, leftCount);
     const rightFeatures = featuresToUse.slice(leftCount);
-    
+
     const imageBG = featureHeadlineApies[0]?.setionImage;
     const imgSrc = imageBG?.startsWith('http')
         ? imageBG
@@ -106,7 +106,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
 
-                    <ul className="space-y-8 flex flex-col justify-center h-[400px]">
+                    <ul className="space-y-8 flex flex-col  h-[400px] px-5">
                         {
                             leftFeatures.map((feature, index) => {
                                 // Handle backend data structure
@@ -115,41 +115,49 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                                 const leftIcon = isBackendData ? feature.listIconeLeft : feature.icon;
                                 const rightIcon = isBackendData ? feature.listIconeRight : null;
                                 const bgImage = isBackendData ? feature.backGroundImage : '../src/assets/photorealistic-earth-planet_23-2151075927.avif';
-                                
+
                                 // Get icon components
                                 const LeftIconComponent = leftIcon ? allFaMdIconsMap[leftIcon] : null;
                                 const RightIconComponent = rightIcon ? allFaMdIconsMap[rightIcon] : null;
-                                
+
                                 return (
-                                    <div key={index} className='info-1 shadow-black/10 shadow-xl bg-white h-20 relative'>
-                                        <img 
-                                            className='object-cover h-full w-full' 
-                                            src={bgImage?.startsWith('http') ? bgImage : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${bgImage?.replace(/^\/?/, '')}`} 
-                                            alt="background" 
+                                    <div key={index} className='info-1 shadow-black/10 bg-white h-18 relative'>
+                                        <img
+                                            className='object-cover h-full w-full'
+                                            src={bgImage?.startsWith('http') ? bgImage : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${bgImage?.replace(/^\/?/, '')}`}
+                                            alt="background"
                                         />
-                                        <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-10 group'>
+                                        <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-5 group'>
                                             {/* Left Icon */}
                                             <div className='service-info-icone p-2 w-[20%] flex justify-start items-center'>
                                                 {LeftIconComponent && (
-                                                    <div className='icon-main h-8 w-8 rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 bg-orange-600/40'>
-                                                        <div className='icone-cover duration-700 h-6 w-6 flex justify-center items-center rounded-t-lg rounded-b-2xl shadow-black/20 shadow-sm bg-[#de442c] text-white'>
-                                                            <LeftIconComponent size={14} />
+                                                    <div className='icon-main  rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 '>
+                                                        <div className='icone-cover duration-700  flex justify-center items-center rounded-t-lg rounded-b-2xl text-slate-500'>
+                                                            <LeftIconComponent size={29} />
                                                         </div>
                                                     </div>
                                                 )}
                                             </div>
-                                            
+
                                             {/* Center Text */}
-                                            <div className='service-info flex flex-col justify-center gap-1 w-[60%] text-center'>
-                                                <h1 className='info-text text-lg font-semibold text-[#de442c] group-hover:text-white duration-700'>{title}</h1>
+                                            <div className='service-info flex flex-col justify-center gap-1 w-[60%] '>
+                                                <h1 className='info-text text-lg font-semibold text-black group-hover:text-white duration-700'>{title}</h1>
                                             </div>
-                                            
+
                                             {/* Right Icon */}
                                             <div className='service-info-icone p-2 w-[20%] flex justify-end items-center'>
+                                                {/* {
+                                                    RightIconComponent && (
+                                                        <div className='icon-main h-7 w-7   rounded-r-2xl flex justify-center items-end rounded-t-lg duration-700 bg-orange-600/40'>
+                                                            <div className='icone-cover duration-700 h-6 w-6 flex justify-center items-center rounded-t-lg rounded-r-2xl shadow-black/20 shadow-sm bg-[#de442c] text-white'>
+                                                                <RightIconComponent size={14} />
+                                                            </div>
+                                                        </div>
+                                                    )} */}
                                                 {RightIconComponent && (
-                                                    <div className='icon-main h-8 w-8 rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 bg-orange-600/40'>
-                                                        <div className='icone-cover duration-700 h-6 w-6 flex justify-center items-center rounded-t-lg rounded-b-2xl shadow-black/20 shadow-sm bg-[#de442c] text-white'>
-                                                            <RightIconComponent size={14} />
+                                                    <div className=' bg-red-500/20 rounded-r-2xl rounded-l-md p-0.5 bg-orange-600/40'>
+                                                        <div className='  rounded-r-2xl rounded-l-md my-0.5 h-9 w-10 ml-1 bg-[#de442c] flex justify-center items-center'>
+                                                            <RightIconComponent size={24} color='white' />
                                                         </div>
                                                     </div>
                                                 )}
@@ -176,7 +184,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                     </div>
 
 
-                    <ul className="space-y-8 flex flex-col justify-center h-[400px]">
+                    <ul className="space-y-8 flex flex-col  h-[400px] px-5">
                         {rightFeatures.map((feature, index) => {
                             // Handle backend data structure
                             const isBackendData = featureListItemApies && featureListItemApies.length > 0;
@@ -184,44 +192,45 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                             const leftIcon = isBackendData ? feature.listIconeLeft : feature.icon;
                             const rightIcon = isBackendData ? feature.listIconeRight : null;
                             const bgImage = isBackendData ? feature.backGroundImage : null;
-                            
+
                             // Get icon components
                             const LeftIconComponent = leftIcon ? allFaMdIconsMap[leftIcon] : null;
                             const RightIconComponent = rightIcon ? allFaMdIconsMap[rightIcon] : null;
-                            
+
                             return (
-                                <div key={index} className='info-1 shadow-black/10 shadow-xl bg-white h-15 relative'>
-                                    <img 
-                                        className='object-cover h-full w-full' 
-                                        src={bgImage?.startsWith('http') ? bgImage : '../src/assets/photorealistic-earth-planet_23-2151075927.avif'} 
-                                        alt="background" 
+                                <div key={index} className='info-1 shadow-black/10  bg-white/20  h-18 relative '>
+                                    <img
+                                        className='object-cover h-full w-full'
+                                        src={bgImage?.startsWith('http') ? bgImage : '../src/assets/photorealistic-earth-planet_23-2151075927.avif'}
+                                        alt="background"
                                     />
-                                    <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-10 group'>
+                                    <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-5 group'>
                                         {/* Left Icon */}
                                         <div className='service-info-icone p-2 w-[20%] flex justify-start items-center'>
                                             {LeftIconComponent && (
-                                                <div className='icon-main h-8 w-8 rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 bg-orange-600/40'>
-                                                    <div className='icone-cover duration-700 h-6 w-6 flex justify-center items-center rounded-t-lg rounded-b-2xl shadow-black/20 shadow-sm bg-[#de442c] text-white'>
-                                                        <LeftIconComponent size={14} />
+                                                <div className='icon-main  rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 '>
+                                                    <div className='icone-cover duration-700  flex justify-center items-center rounded-t-lg rounded-b-2xl text-slate-500'>
+                                                        <LeftIconComponent size={29} />
                                                     </div>
                                                 </div>
                                             )}
                                         </div>
-                                        
+
                                         {/* Center Text */}
-                                        <div className='service-info flex flex-col justify-center gap-1 w-[60%] text-center'>
-                                            <h1 className='info-text text-lg font-semibold text-[#de442c] group-hover:text-white duration-700'>{title}</h1>
+                                        <div className='service-info flex flex-col justify-center gap-1 w-[60%] '>
+                                            <h1 className='info-text text-lg font-semibold text-black group-hover:text-white duration-700'>{title}</h1>
                                         </div>
-                                        
+
                                         {/* Right Icon */}
                                         <div className='service-info-icone p-2 w-[20%] flex justify-end items-center'>
                                             {RightIconComponent && (
-                                                <div className='icon-main h-8 w-8 rounded-b-2xl flex justify-center items-end rounded-t-lg duration-700 bg-orange-600/40'>
-                                                    <div className='icone-cover duration-700 h-6 w-6 flex justify-center items-center rounded-t-lg rounded-b-2xl shadow-black/20 shadow-sm bg-[#de442c] text-white'>
-                                                        <RightIconComponent size={14} />
+                                                <div className=' bg-red-500/20 rounded-r-2xl rounded-l-md p-0.5 bg-orange-600/40'>
+                                                    <div className='  rounded-r-2xl rounded-l-md my-0.5 h-9 w-10 ml-1 bg-[#de442c] flex justify-center items-center'>
+                                                        <RightIconComponent size={24} color='white' />
                                                     </div>
                                                 </div>
                                             )}
+
                                         </div>
                                     </div>
                                 </div>

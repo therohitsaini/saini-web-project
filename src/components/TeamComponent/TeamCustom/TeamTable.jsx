@@ -2,7 +2,7 @@ import { Button, IconButton, Paper } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { Fragment } from 'react'
 
-function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
+function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMemberForm }) {
 
 
 
@@ -22,7 +22,7 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
             const response = await fetchData.json();
 
             if (fetchData.ok) {
-                showSnackbar(response.message)
+                // showSnackbar(response.message)
                 setPortRefresh(prev => !prev);
             }
 
@@ -30,6 +30,20 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
             console.error(error);
         }
 
+    }
+
+    const TeamMemberUpdateHandler = async (data = {}) => {
+        const { allData } = data
+        setTeamMemberForm((pre) => ({
+            ...pre,
+            image: allData?.image,
+            name: allData?.name,
+            role: allData?.role,
+            item_Icone: allData?.item_Icone,
+            urls: allData?.urls,
+        }))
+        console.log(allData)
+        setTeamMode("UpdateTeamForm")
     }
 
     const paginationModel = { page: 0, pageSize: 10 };
@@ -92,7 +106,7 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
                                 background: 'linear-gradient(45deg, #0be574 30%, #10d856 90%)',
                             },
                         }}
-                        onClick={() => portUpdatehandle(params.row)}>
+                        onClick={() => TeamMemberUpdateHandler(params.row)}>
                         Edit
                     </IconButton>
 
@@ -127,6 +141,7 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode }) {
         image: item_?.image,
         name: item_?.name,
         Role: item_?.role,
+        allData: item_
 
 
     }))

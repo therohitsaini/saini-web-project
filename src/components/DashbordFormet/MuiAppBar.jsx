@@ -34,6 +34,7 @@ import FooterTopBar from '../FooterCustome/FooterTopBar';
 import FooterBackGround from '../FooterCustome/FooterBackGround';
 import FooterContactMain from '../FooterCustome/FooterContactMain';
 import FooterSponsors from '../FooterCustome/FooterSponsors';
+import Headings from '../HeadingSettinges/Headings';
 // import FooterMainCenter from '../FooterCustome/FooterMainCenter';
 
 
@@ -177,7 +178,8 @@ const MuiAppBar = (props) => {
                 return <AccountDashbord setData={setData} data={data} user_ID={user_ID} userProfilePic={userProfilePic} setProfileRefress={setProfileRefress} profileRefress={profileRefress} loading={loading} setLoading={setLoading} />;
             case '/account/resetPassword':
                 return <ResetPassword />;
-
+            case '/headings':
+                return <Headings />;            
             case '/header':
                 return <HeaderSideBarTabs />;
 

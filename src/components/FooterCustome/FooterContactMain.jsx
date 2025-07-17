@@ -89,7 +89,7 @@ export default function FooterContactMain({ showSnackbar, showError }) {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', minWidth: 180 }}
+            sx={{ borderRight: 1, borderColor: 'divider', minWidth: 180, position: 'sticky', top: 0, left: 0, zIndex: 1000 }}
          >
             {
                tabsData?.map((tabs) => {
@@ -109,7 +109,7 @@ export default function FooterContactMain({ showSnackbar, showError }) {
             }
 
          </Tabs>
-         <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+         <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
             <TabPanel value={value} index={0}>
                <FooterContact
                   userID={userID}

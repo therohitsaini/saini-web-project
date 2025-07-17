@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Autocomplete, Box, Divider, InputAdornment, TextField, Button, CircularProgress } from '@mui/material'
+import { Autocomplete, Box, Divider, InputAdornment, TextField, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function FooterRightContact({ userID, showSnackbar, showError }) {
    const [loading, setLoading] = useState(false)
    const [contactId, setContactId] = useState(null)
+   const [successMessage, setSuccessMessage] = useState('')
+   const [showSuccess, setShowSuccess] = useState(false)
 
    // Form state
    const [formData, setFormData] = useState({
@@ -142,7 +145,10 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
          console.log('Save response:', data)
 
          if (response.ok) {
-            showSnackbar(isUpdate ? 'Footer right contact updated successfully!' : 'Footer right contact created successfully!')
+            const message = isUpdate ? 'Contact information updated successfully! 🎉' : 'Contact information created successfully! 🎉'
+            setSuccessMessage(message)
+            setShowSuccess(true)
+            
             if (!isUpdate && data.data) {
                setContactId(data.data._id)
             }
@@ -186,8 +192,9 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
          console.log('Delete response:', data)
 
          if (response.ok) {
-            showSnackbar('Footer right contact deleted successfully!')
-            // Reset form
+            setSuccessMessage('Contact information deleted successfully! 🗑️')
+            setShowSuccess(true)
+     
             setContactId(null)
             setFormData({
                location: { icon: '', location: '', address: '' },
@@ -208,7 +215,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
       }
    }
 
-   // Form handlers
+ 
    const handleInputChange = (section, field, value) => {
       setFormData(prev => ({
          ...prev,
@@ -230,7 +237,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
          }
       }))
 
-      // Update the corresponding icon state
+     
       switch (section) {
          case 'location':
             setLocationIcon(newValue)
@@ -479,6 +486,40 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                </Box>
             </Box>
          </form>
+
+         {/* Beautiful Success Message */}
+         <Snackbar
+            open={showSuccess}
+            autoHideDuration={4000}
+            onClose={() => setShowSuccess(false)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+         >
+            <Alert
+               onClose={() => setShowSuccess(false)}
+               severity="success"
+               icon={<CheckCircleIcon />}
+               sx={{
+                  width: '100%',
+                  background: 'linear-gradient(135deg,rgb(54, 110, 59) 0%, #45a049 100%)',
+                  color: 'white',
+                  // fontWeight: 'bold',
+                  fontSize: '12px',
+                  borderRadius: '12px',
+                  // boxShadow: '0 8px 32px rgba(76, 175, 80, 0.3)',
+                  // '& .MuiAlert-icon': {
+                  //    color: 'white',
+                  //    fontSize: '24px'
+                  // },
+                  '& .MuiAlert-message': {
+                     color: 'white',
+                     fontSize: '13px',
+                     fontWeight: '300'
+                  }
+               }}
+            >
+               {successMessage}
+            </Alert>
+         </Snackbar>
       </div>
    )
 }

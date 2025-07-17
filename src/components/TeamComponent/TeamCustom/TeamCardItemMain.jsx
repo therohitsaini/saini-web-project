@@ -95,7 +95,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
     return (
         <Fragment>
             {
-                teamMode === "SubmitTeamForm" ?
+                teamMode === "SubmitTeamForm" || teamMode === "UpdateTeamForm" ?
                     (
                         <TeamMemberSubmitForm
                             setTeamMemberForm={setTeamMemberForm}
@@ -103,6 +103,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
                             submitTeamMember={submitTeamMember}
                             loader={loader}
                             setTeamMode={setTeamMode}
+                            teamMode={teamMode}
                         />
                     )
                     :
@@ -111,6 +112,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
                             teamCardDataApies={teamCardDataApies}
                             showSnackbar={showSnackbar}
                             setTeamMode={setTeamMode}
+                            setTeamMemberForm={setTeamMemberForm}
                         />
                     )
             }

@@ -6,10 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
 import { useMemo } from 'react'
+import GradientButton from '../../ReuseComponent/ReuseComponent'
 
-function FooterContact({ userID }) {
+function FooterContact({ userID, footerBackgroundData }) {
    const [imagePreview, setImagePreview] = useState(null)
    const [uploadedFile, setUploadedFile] = useState(null)
+   const [existingImage, setExistingImage] = useState(null)
    const [description, setDescription] = useState('')
    const [iconFields, setIconFields] = useState([
       {
@@ -20,12 +22,42 @@ function FooterContact({ userID }) {
          selectedIconObj: null
       }
    ])
+   console.log(iconFields)
    const [loading, setLoading] = useState(false)
    const [contactId, setContactId] = useState(null)
    const [inputValue, setInputValue] = useState('')
 
+   // Background logic
+   const getBackgroundStyle = () => {
+      if (footerBackgroundData?.backgroundImage) {
+         // If image exists, use it
+         const imageUrl = footerBackgroundData.backgroundImage.startsWith('http')
+            ? footerBackgroundData.backgroundImage
+            : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${footerBackgroundData.backgroundImage.replace(/^\/?/, '')}`;
+         return {
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+         };
+      } else if (footerBackgroundData?.backgroundColor) {
+         // If color exists, use it
+         return {
+            backgroundColor: footerBackgroundData.backgroundColor
+         };
+      } else {
+         // Default fallback
+         return {
+            backgroundImage: 'url(../src/assets/footer-bg.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+         };
+      }
+   };
+
    // Mock icons data - replace with your actual icons
-  
+
 
    const filteredIcons = useMemo(() => {
       const term = inputValue.trim().toLowerCase();
@@ -65,23 +97,42 @@ function FooterContact({ userID }) {
             const contactData = data.data
             setContactId(contactData._id)
             setDescription(contactData.description || '')
-            setImagePreview(contactData.logo || null)
+
+            // Set image preview with proper URL construction
+            if (contactData.logo) {
+               const imageUrl = contactData.logo.startsWith('http')
+                  ? contactData.logo
+                  : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${contactData.logo.replace(/^\/?/, '')}`;
+               setImagePreview(imageUrl);
+               setExistingImage(contactData.logo); // Store the original path for backend
+            } else {
+               setImagePreview(null);
+               setExistingImage(null);
+            }
 
             if (contactData.icons && Array.isArray(contactData.icons)) {
-               const mappedIcons = contactData.icons.map(icon => ({
-                  _id: icon._id || null,
-                  item_Center_Name: icon.iconName || '',
-                  item_Center_Icone: icon.icon || '',
-                  item_Center_Icone_Path: icon.iconUrl || '',
-                  selectedIconObj: filteredIcons.find(mockIcon => mockIcon.label === icon.icon) || null
-               }))
+               const mappedIcons = contactData.icons.map(icon => {
+                  // Find the icon object from allFaMdIconsList
+                  const foundIcon = allFaMdIconsList.find(iconObj => iconObj.label === icon.icon);
+                  console.log(`Looking for icon: ${icon.icon}, found:`, foundIcon);
+                  
+                  return {
+                     _id: icon._id || null,
+                     item_Center_Name: icon.iconName || '',
+                     item_Center_Icone: icon.icon || '',
+                     item_Center_Icone_Path: icon.iconUrl || '',
+                     selectedIconObj: foundIcon || null
+                  };
+               });
+               
+               console.log("Mapped icons:", mappedIcons);
                setIconFields(mappedIcons.length > 0 ? mappedIcons : [{
                   _id: null,
                   item_Center_Name: "",
                   item_Center_Icone: "",
                   item_Center_Icone_Path: "",
                   selectedIconObj: null
-               }])
+               }]);
             }
          }
       } catch (error) {
@@ -111,9 +162,11 @@ function FooterContact({ userID }) {
          }))
          formData.append('icons', JSON.stringify(iconsData))
 
-         // Add logo file if uploaded
+         // Add logo file if uploaded, otherwise keep existing image
          if (uploadedFile) {
             formData.append('logo', uploadedFile)
+         } else if (existingImage) {
+            formData.append('existingLogo', existingImage)
          }
 
          const url = isUpdate
@@ -184,6 +237,7 @@ function FooterContact({ userID }) {
             setDescription('')
             setImagePreview(null)
             setUploadedFile(null)
+            setExistingImage(null)
             setIconFields([{
                item_Center_Name: "",
                item_Center_Icone: "",
@@ -273,51 +327,70 @@ function FooterContact({ userID }) {
    // }
 
    return (
-      <div className='footer-contact w-full h-[100%] flex flex-col items-center justify-center'>
-         <form onSubmit={handleSubmit} className='w-[600px] h-full flex flex-col border border-slate-500/20 p-4 rounded-md'>
+      <div
+         className='footer-contact w-full h-[100%] flex flex-col items-center justify-center sticky top-0 gap-5'
+      // style={}
+      >
+         <div className='w-[700px] h-full flex flex-col border border-slate-500/20 p-4 rounded-md mt-20 gap-4 my-2'>
             <h1 className='text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text'>
                Footer Visit
             </h1>
-            <Divider sx={{ width: '100%', mb: 1 }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
+               {/* <Avatar
+                  src={imagePreview}
+                  sx={{
+                     width: 200,
+                     height: 56,
+                     mr: 2,
+                     backgroundColor: imagePreview ? 'transparent' : '#f0f0f0'
+                  }}
+               /> */}
+               <div className='w-[230px] border border-slate-500/20 p-2'>
+                  <img src={imagePreview} className='object-cover' alt='not found' />
+               </div>
+               <Button
+                  sx={{ textTransform: "none", px: 5, fontVariant: "all-small-caps", }}
+                  component="label"
+                  variant="contained"
+               >
+                  Upload Logo
+                  <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
+               </Button>
+            </Box>
+            <TextField
+               label="Footer Contact Description"
+               value={description}
+               onChange={(e) => setDescription(e.target.value)}
+               multiline
+               rows={3}
+               sx={{
+                  width: '100%',
+                  '& .MuiOutlinedInput-root': {
+                     fontSize: '12px',
+                     '& textarea': {
+                        fontSize: '14px',
+                     },
+                     '&:hover fieldset': {
+                        borderColor: 'blue',
+                     },
+                     '&.Mui-focused fieldset': {
+                        borderColor: 'blue',
+                     },
+                  },
+               }}
+               size="small"
+            />
+         </div>
+         <form onSubmit={handleSubmit} className='w-[700px] h-full sticky top-0 flex flex-col border border-slate-500/20 p-4 rounded-md'>
+
+            {/* <Divider sx={{ width: '100%', mb: 1 }} /> */}
 
             <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
                {/* Logo Upload */}
-               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1 }}>
-                  <Avatar src={imagePreview} sx={{ width: 56, height: 56, mr: 2 }} />
-                  <Button
-                     sx={{ textTransform: "none", px: 5, fontVariant: "all-small-caps" }}
-                     component="label"
-                     variant="contained"
-                  >
-                     Upload Logo
-                     <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
-                  </Button>
-               </Box>
+
 
                {/* Description */}
-               <TextField
-                  label="Footer Contact Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  multiline
-                  rows={3}
-                  sx={{
-                     width: '100%',
-                     '& .MuiOutlinedInput-root': {
-                        fontSize: '12px',
-                        '& textarea': {
-                           fontSize: '14px',
-                        },
-                        '&:hover fieldset': {
-                           borderColor: 'blue',
-                        },
-                        '&.Mui-focused fieldset': {
-                           borderColor: 'blue',
-                        },
-                     },
-                  }}
-                  size="small"
-               />
+
 
                {/* Icons Section */}
                <div className="flex items-center justify-between">
@@ -332,152 +405,153 @@ function FooterContact({ userID }) {
                      Add Icon
                   </Button>
                </div>
-
-               {iconFields?.map((field, index) => (
-                  <div
-                     key={index}
-                     className="border border-slate-400/20 rounded-md p-5 w-full relative"
-                  >
-                     <div className="flex flex-col md:flex-row gap-3">
-                        <TextField
-                           label={`Title ${index + 1}`}
-                           size="small"
-                           variant="outlined"
-                           name="item_Center_Name"
-                           value={field.item_Center_Name}
-                           onChange={(e) => handleChange(index, e)}
-                           fullWidth
-                           sx={{
-                              '& .MuiOutlinedInput-root': {
-                                 fontSize: '12px',
-                                 '& input': {
-                                    fontSize: '14px',
-                                 },
-                                 '&:hover fieldset': {
-                                    borderColor: 'blue',
-                                 },
-                                 '&.Mui-focused fieldset': {
-                                    borderColor: 'blue',
-                                 },
-                              },
-                           }}
-                        />
-
-                        <Autocomplete
-                           fullWidth
-                           options={filteredIcons}
-                           value={field.selectedIconObj || null}
-                           onChange={(e, newValue) => {
-                              const updatedFields = [...iconFields]
-                              updatedFields[index].item_Center_Icone = newValue ? newValue.label : ''
-                              updatedFields[index].selectedIconObj = newValue || null
-                              setIconFields(updatedFields)
-                           }}
-                           size="small"
-                           onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-                           getOptionLabel={(option) => option.label}
-                           isOptionEqualToValue={(option, value) => option.label === value?.label}
-                           renderOption={(props, option) => (
-                              <Box
-                                 component="li"
-                                 {...props}
-                                 sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                              >
-                                 {option.Icon && <option.Icon />}
-                                 {option.label}
-                              </Box>
-                           )}
-                           renderInput={(params) => (
-                              <TextField
-                                 {...params}
-                                 label="Search Icon"
-                                 variant="outlined"
-                                 InputProps={{
-                                    ...params.InputProps,
-                                    startAdornment: field.selectedIconObj?.Icon && (
-                                       <InputAdornment position="start" sx={{ mr: 1 }}>
-                                          <field.selectedIconObj.Icon />
-                                       </InputAdornment>
-                                    ),
-                                 }}
-                                 sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                       fontSize: '12px',
-                                       '& input': {
-                                          fontSize: '14px',
-                                       },
-                                       '&:hover fieldset': {
-                                          borderColor: 'blue',
-                                       },
-                                       '&.Mui-focused fieldset': {
-                                          borderColor: 'blue',
-                                       },
+               <div className='flex flex-col gap-2'>
+                  {iconFields?.map((field, index) => (
+                     <div
+                        key={index}
+                        className="border border-slate-400/20 rounded-md p-5 w-full relative"
+                     >
+                        <div className="flex flex-col md:flex-row gap-3">
+                           <TextField
+                              label={`Title ${index + 1}`}
+                              size="small"
+                              variant="outlined"
+                              name="item_Center_Name"
+                              value={field.item_Center_Name}
+                              onChange={(e) => handleChange(index, e)}
+                              fullWidth
+                              sx={{
+                                 '& .MuiOutlinedInput-root': {
+                                    fontSize: '12px',
+                                    '& input': {
+                                       fontSize: '14px',
                                     },
-                                 }}
-                              />
-                           )}
-                        />
-
-                        <TextField
-                           label={`URL ${index + 1}`}
-                           size="small"
-                           variant="outlined"
-                           name="item_Center_Icone_Path"
-                           value={field.item_Center_Icone_Path}
-                           onChange={(e) => handleChange(index, e)}
-                           fullWidth
-                           sx={{
-                              '& .MuiOutlinedInput-root': {
-                                 fontSize: '12px',
-                                 '& input': {
-                                    fontSize: '14px',
+                                    '&:hover fieldset': {
+                                       borderColor: 'blue',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                       borderColor: 'blue',
+                                    },
                                  },
-                                 '&:hover fieldset': {
-                                    borderColor: 'blue',
-                                 },
-                                 '&.Mui-focused fieldset': {
-                                    borderColor: 'blue',
-                                 },
-                              },
-                           }}
-                        />
-
-                        <Tooltip title="Delete">
-                           <IconButton
-                              onClick={() => {
-                                 if (field._id && contactId) {
-                                    // If icon has an ID and contact exists, delete from server
-                                    deleteIcon(contactId, field._id);
-                                 } else {
-                                    // If no ID, just remove from local state
-                                    removeField(index);
-                                 }
                               }}
-                              color="error"
-                              disabled={iconFields.length === 1}
-                           >
-                              <DeleteIcon />
-                           </IconButton>
-                        </Tooltip>
-                     </div>
-                  </div>
-               ))}
+                           />
 
+                           <Autocomplete
+                              fullWidth
+                              options={filteredIcons}
+                              value={field.selectedIconObj || null}
+                              onChange={(e, newValue) => {
+                                 const updatedFields = [...iconFields]
+                                 updatedFields[index].item_Center_Icone = newValue ? newValue.label : ''
+                                 updatedFields[index].selectedIconObj = newValue || null
+                                 setIconFields(updatedFields)
+                              }}
+                              size="small"
+                              onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                              getOptionLabel={(option) => option.label}
+                              isOptionEqualToValue={(option, value) => option.label === value?.label}
+                              renderOption={(props, option) => (
+                                 <Box
+                                    component="li"
+                                    {...props}
+                                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                                 >
+                                    {option.Icon && <option.Icon />}
+                                    {option.label}
+                                 </Box>
+                              )}
+                              renderInput={(params) => (
+                                 <TextField
+                                    {...params}
+                                    label="Search Icon"
+                                    variant="outlined"
+                                    InputProps={{
+                                       ...params.InputProps,
+                                       startAdornment: field.selectedIconObj?.Icon && (
+                                          <InputAdornment position="start" sx={{ mr: 1 }}>
+                                             <field.selectedIconObj.Icon />
+                                          </InputAdornment>
+                                       ),
+                                    }}
+                                    sx={{
+                                       '& .MuiOutlinedInput-root': {
+                                          fontSize: '12px',
+                                          '& input': {
+                                             fontSize: '14px',
+                                          },
+                                          '&:hover fieldset': {
+                                             borderColor: 'blue',
+                                          },
+                                          '&.Mui-focused fieldset': {
+                                             borderColor: 'blue',
+                                          },
+                                       },
+                                    }}
+                                 />
+                              )}
+                           />
+
+                           <TextField
+                              label={`URL ${index + 1}`}
+                              size="small"
+                              variant="outlined"
+                              name="item_Center_Icone_Path"
+                              value={field.item_Center_Icone_Path}
+                              onChange={(e) => handleChange(index, e)}
+                              fullWidth
+                              sx={{
+                                 '& .MuiOutlinedInput-root': {
+                                    fontSize: '12px',
+                                    '& input': {
+                                       fontSize: '14px',
+                                    },
+                                    '&:hover fieldset': {
+                                       borderColor: 'blue',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                       borderColor: 'blue',
+                                    },
+                                 },
+                              }}
+                           />
+
+                           <Tooltip title="Delete">
+                              <IconButton
+                                 onClick={() => {
+                                    if (field._id && contactId) {
+                                       // If icon has an ID and contact exists, delete from server
+                                       deleteIcon(contactId, field._id);
+                                    } else {
+                                       // If no ID, just remove from local state
+                                       removeField(index);
+                                    }
+                                 }}
+                                 color="error"
+                                 disabled={iconFields.length === 1}
+                              >
+                                 <DeleteIcon />
+                              </IconButton>
+                           </Tooltip>
+                        </div>
+                     </div>
+                  ))}
+               </div>
                {/* Action Buttons */}
                <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-                  <Button
+                  <GradientButton
                      type="submit"
-                     variant="contained"
+                     // variant="contained"
                      disabled={loading}
-                     sx={{ flex: 1 }}
+                     sx={{ flex: 1, textTransform: "none", }}
                   >
                      {loading ? 'Saving...' : (contactId ? 'Update Contact' : 'Save Contact')}
-                  </Button>
+                  </GradientButton>
 
                   {contactId && (
                      <Button
                         type="button"
                         variant="outlined"
+                        sx={{ textTransform: "none", px: 5, fontVariant: "all-small-caps", }}
                         color="error"
                         onClick={deleteFooterContact}
                         disabled={loading}
