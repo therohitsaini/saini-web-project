@@ -148,9 +148,15 @@ const InFoTable = ({ setInFoIsTrue, setInFoService, refresh, setRefresh }) => {
         id: item_._id,
         title: item_.inFoHeading,
         subTitle: item_.inFoDescription,
-        originalData: item_,
+        originalData: {
+            ...item_,
+            id: item_._id 
+        },
 
     }))
+    
+    console.log('InFoTable rows:', rows)
+    console.log('InFoTable inFoData:', inFoData)
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>

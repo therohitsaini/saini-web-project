@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import ForgetPasswordModal from './ForgetPasswordModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { FETCH_FULL_NAME, fetchFullName } from '../../Store/SignInModalRedux/action'
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -14,6 +15,7 @@ function SignIn() {
     const [forgetPassword, setForgetPassword] = useState(false)
     const [emailEmptyTrue, setEmailEmptyTure] = useState(false)
     const [passwordEmptyTrue, setPasswordEmptyTure] = useState(false)
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -41,6 +43,7 @@ function SignIn() {
             setPasswordEmptyTure(true)
             return false
         }
+        setLoading(true)
 
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}all/sign_in`
@@ -54,7 +57,7 @@ function SignIn() {
             console.log("userObject", JSON.stringify(response))
 
 
-            toast(JSON.stringify(response.massage));
+
 
             if (fetchData.ok) {
                 dispatch(fetchFullName(response.userData))
@@ -64,15 +67,18 @@ function SignIn() {
                 localStorage.setItem("set-role", response.userData.role)
 
                 // setTimeout(() => {
-                    navigate("/muiappbar")
+                navigate("/muiappbar")
                 // }, 1000)
 
             } else {
                 navigate("/")
+                toast(JSON.stringify(response.massage));
             }
 
         } catch (err) {
             console.log("sign in field ui ...! ", err)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -106,8 +112,22 @@ function SignIn() {
                             <p onClick={() => setForgetPassword(!forgetPassword)} className='underline text-blue-600 cursor-pointer'>Forget Password</p>
                         </div>
 
-                        <Button onClick={signInFromHandler} variant="outlined" sx={{ fontSize: 14, p: 1, color: 'white', bgcolor: 'black', border: 'none' }}>Sign in</Button>
-
+                        {/* <Button onClick={signInFromHandler} variant="outlined" sx={{ fontSize: 14, p: 1, color: 'white', bgcolor: 'black', border: 'none' }}>Sign in</Button> */}
+                        <Button
+                            onClick={signInFromHandler}
+                            variant="outlined"
+                            disabled={loading}
+                            sx={{
+                                fontSize: 14,
+                                p: 1,
+                                color: 'white',
+                                bgcolor: loading ? '#656262' : 'black',
+                                border: 'none',
+                                minWidth: 100
+                            }}
+                        >
+                            {loading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 'Sign in'}
+                        </Button>
                         <div className=' flex gap-2 font-semibold justify-end'>
                             <p className=' underline'>If dont have an account ?</p>
                             <Link to={"/signup"} className='font-bold text-blue-600'>Sign up</Link>

@@ -89,7 +89,13 @@ export default function FooterContactMain({ showSnackbar, showError }) {
             value={value}
             onChange={handleChange}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider', minWidth: 180, position: 'sticky', top: 0, left: 0, zIndex: 1000 }}
+            sx={{
+               borderRight: 1,
+               borderColor: 'divider',
+               minWidth: 200, height: 400,
+               position: 'sticky',
+               top: 180,
+            }}
          >
             {
                tabsData?.map((tabs) => {

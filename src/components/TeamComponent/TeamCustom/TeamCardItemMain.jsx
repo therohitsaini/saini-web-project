@@ -11,13 +11,15 @@ function TeamCardItemMain({ showSnackbar, showError }) {
         role: '',
         item_Icone: ['', '', '', ''],
         urls: ['', '', '', ''],
+        docsId: null, // Add docsId for update operations
     });
 
     const [id, setID] = useState()
     const [loader, setLoader] = useState(false)
     const [teamMode, setTeamMode] = useState("Table")
     const [teamCardDataApies, setTeamcardApies] = useState([])
-
+    const [refresh, setRefresh] = useState(false)
+    console.log(teamMemberForm)
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
@@ -25,46 +27,64 @@ function TeamCardItemMain({ showSnackbar, showError }) {
     }, [])
 
     const submitTeamMember = async (e) => {
-        // e.preventDefault();
-        // setTeamMode("SubmitTeamForm")
-        // if (!teamMemberForm.image) {
-        //     showError("User Image is Requied !")
-        //     return 
-        // }
-        // if (!teamMemberForm.name) {
-        //     showError(" Name is Requied !")
-        //     return
-        // }
-        // if (!teamMemberForm.role) {
-        //     showError(" Role is Requied !")
-        //     return
-        // }
         try {
             const payload = new FormData();
-            payload.append('image', teamMemberForm.image);
+
+            // Only append image if it's a File object (new image selected)
+            if (teamMemberForm.image instanceof File) {
+                payload.append('image', teamMemberForm.image);
+            }
+
             payload.append('name', teamMemberForm.name);
             payload.append('role', teamMemberForm.role);
             payload.append('item_Icone', JSON.stringify(teamMemberForm.item_Icone));
             payload.append('urls', JSON.stringify(teamMemberForm.urls));
             setLoader(true)
 
-            const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}api-team/api-post-team/${id}`, {
-                method: 'POST',
+            let url, method;
+
+            if (teamMode === "UpdateTeamForm") {
+                // Update existing team member
+                url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-update-team/${teamMemberForm.docsId}`;
+                method = 'PUT';
+            } else {
+                // Create new team member
+                url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-post-team/${id}`;
+                method = 'POST';
+            }
+
+            const response = await fetch(url, {
+                method: method,
                 body: payload,
             });
             const result = await response.json()
 
             if (response.ok) {
-                showSnackbar(result.message)
-                // payload.append('urls', JSON.stringify(teamMemberForm.urls));
+                alert(result.message)
+                setLoader(false)
+
+                // Reset form and go back to table
+                setTeamMemberForm({
+                    image: null,
+                    name: '',
+                    role: '',
+                    item_Icone: ['', '', '', ''],
+                    urls: ['', '', '', ''],
+                    docsId: null,
+                });
+                setTeamMode("Table")
+
+                // Refresh the team data
+                setRefresh(prev => !prev)
+            } else {
+                showError(result.message || 'Something went wrong')
                 setLoader(false)
             }
 
-
         } catch (error) {
-            // showError(result.message)
+            showError('Error submitting team member')
             console.error('Error submitting team member:', error);
-            throw error;
+            setLoader(false)
         }
     };
 
@@ -77,7 +97,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
             });
 
             const JsonData = await response.json();
-
+            console.log("JsonData", JsonData)
             if (response.ok) {
                 setTeamcardApies(JsonData.data)
             }
@@ -88,7 +108,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
 
     useEffect(() => {
         getTeamCardData(id)
-    }, [id])
+    }, [id, refresh])
 
     console.log("teamCardDataApies", teamMemberForm)
 

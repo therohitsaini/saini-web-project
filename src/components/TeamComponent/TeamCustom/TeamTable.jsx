@@ -22,8 +22,9 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
             const response = await fetchData.json();
 
             if (fetchData.ok) {
-                // showSnackbar(response.message)
-                setPortRefresh(prev => !prev);
+                alert(response.message || 'Team member deleted successfully');
+                // Refresh the data by calling the parent's refresh function
+                // You might need to pass a refresh function from parent component
             }
 
         } catch (error) {
@@ -34,8 +35,10 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
 
     const TeamMemberUpdateHandler = async (data = {}) => {
         const { allData } = data
+        console.log(allData._id)
         setTeamMemberForm((pre) => ({
             ...pre,
+            docsId: allData?._id,
             image: allData?.image,
             name: allData?.name,
             role: allData?.role,
@@ -56,21 +59,45 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
                 const imgPath = params.formattedValue;
                 const baseURL = import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '');
                 const fullURL = imgPath?.startsWith("http") ? imgPath : `${baseURL}${imgPath}`;
+                
+                console.log('Image debug:', { imgPath, baseURL, fullURL });
 
                 return (
-                    <img
-
-                        src={fullURL}
-                        alt="bg"
-                        style={{
-                            width: "100px",
-                            height: "60px",
-                            objectFit: "cover",
-                            borderRadius: "4px",
-                            padding: "2px",
-                        }}
-
-                    />
+                    <div style={{ 
+                        width: "100px", 
+                        height: "60px", 
+                        borderRadius: "4px", 
+                        padding: "2px",
+                        backgroundColor: '#f0f0f0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '12px',
+                        color: '#666'
+                    }}>
+                        {imgPath ? (
+                            <img
+                                src={fullURL}
+                                alt="Team Member"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    borderRadius: "4px",
+                                }}
+                                onError={(e) => {
+                                    console.error('Image failed to load:', fullURL);
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.innerHTML = 'No Image';
+                                }}
+                                onLoad={() => {
+                                    console.log('Image loaded successfully:', fullURL);
+                                }}
+                            />
+                        ) : (
+                            'No Image'
+                        )}
+                    </div>
                 );
             }
         },
