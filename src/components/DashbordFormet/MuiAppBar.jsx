@@ -35,6 +35,8 @@ import FooterBackGround from '../FooterCustome/FooterBackGround';
 import FooterContactMain from '../FooterCustome/FooterContactMain';
 import FooterSponsors from '../FooterCustome/FooterSponsors';
 import Headings from '../HeadingSettinges/Headings';
+import FooterCopyRight from '../FooterCustome/FooterMianPages/FooterCopyRight';
+
 // import FooterMainCenter from '../FooterCustome/FooterMainCenter';
 
 
@@ -179,7 +181,7 @@ const MuiAppBar = (props) => {
             case '/account/resetPassword':
                 return <ResetPassword />;
             case '/headings':
-                return <Headings />;            
+                return <Headings />;
             case '/header':
                 return <HeaderSideBarTabs />;
 
@@ -219,6 +221,9 @@ const MuiAppBar = (props) => {
                 return <FooterTopBar showSnackbar={showSnackbar} showError={showError} />
             case '/footersection/footermaincenter':
                 return <FooterContactMain showSnackbar={showSnackbar} showError={showError} />
+            case '/footersection/footercopyright':
+                return <FooterCopyRight />
+
             default:
                 return <NotFoundPage />;
             // 

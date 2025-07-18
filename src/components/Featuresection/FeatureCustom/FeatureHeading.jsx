@@ -4,6 +4,8 @@ import { Fragment } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import GradientButton from '../../ReuseComponent/ReuseComponent';
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
 
 
 function FeatureHeading({ showSnackbar }) {
@@ -44,6 +46,23 @@ function FeatureHeading({ showSnackbar }) {
     const submitHandler = async () => {
         const sectioID = FeatureData[0]
         const sectionId = sectioID._id
+        if (!sectionId) {
+            showErrorToast("Try Again Latter !")
+            return
+        }
+        if (!featureFrom.setionImage) {
+            showErrorToast("Image is Required")
+            return
+        }
+        if (!featureFrom.sectionTitle) {
+            showErrorToast("Title is Required")
+            return
+        }
+        if (!featureFrom.setionDescriptions) {
+            showErrorToast("Description is Required")
+            return
+        }
+
         setLoading(true)
         const formData = new FormData();
         if (featureFrom.setionImage) {
@@ -64,15 +83,17 @@ function FeatureHeading({ showSnackbar }) {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message)
-                setLoading(true)
+                showSuccessToast(result.message)
+                setLoading(false)
             } else {
                 console.error("Error response:", result);
-                alert("Failed to update hero section.");
+                showErrorToast("Failed to update hero section.");
             }
         } catch (error) {
             console.error("Network error:", error);
-            alert("Something went wrong. Please try again.");
+            showErrorToast("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -122,14 +143,9 @@ function FeatureHeading({ showSnackbar }) {
     }, [FeatureData]);
 
 
-
-
-
-
-
-
     return (
         <Fragment>
+            <ToastContainer />
             <div className='form-contanier  w-full min-h-[95%] flex flex-col items-center justify-center gap-20'>
 
                 <form className='form-main border border-slate-500/20 rounded-md w-[50%] flex flex-col gap-3 items-center p-5'>

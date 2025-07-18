@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import PortfolioTable from './Pages/PortfolioTable'
 import { useSnackbar } from '../Snakbar/Snakbar'
+import { showErrorToast, showSuccessToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function PortfolioMain() {
   const inistialtate = {
@@ -23,9 +25,10 @@ function PortfolioMain() {
   const [portMode, setPortMode] = useState("Table")
   const [portRefresh, setPortRefresh] = useState()
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false)
 
 
-  console.log("portFormData", portFormData)
+
 
   useEffect(() => {
     const id = localStorage.getItem("user-ID")
@@ -39,6 +42,19 @@ function PortfolioMain() {
   const { showSnackbar } = snackbar;
 
   const submitPortHandler = async () => {
+    if (!portFormData.userImage) {
+      showErrorToast("Image is Required !")
+      return
+    }
+    if (!portFormData.title) {
+      showErrorToast("Title is Required !")
+      return
+    }
+    if (!portFormData.subTitle) {
+      showErrorToast("Sub Title is Required !")
+      return
+    }
+
     const formData = new FormData();
     if (portFormData.userImage) {
       formData.append("userImage", portFormData.userImage);
@@ -54,6 +70,7 @@ function PortfolioMain() {
     // if (!portFormData.title.trim()) {
     //   return; // prevent form submit
     // }
+    setLoading(true)
 
     try {
       const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/portfolio/api/${userID}`;
@@ -65,7 +82,7 @@ function PortfolioMain() {
       const result = await response.json();
 
       if (response.ok) {
-        showSnackbar(result.message)
+        showSuccessToast(result.message)
         setPortFormData(inistialtate)
         setPortRefresh((ref) => !ref)
       } else {
@@ -75,6 +92,9 @@ function PortfolioMain() {
     } catch (error) {
       console.error("Network error:", error);
       alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false)
+      showErrorToast(result.message)
     }
   };
 
@@ -109,10 +129,22 @@ function PortfolioMain() {
   const updatePortHandler = async () => {
     const userId = localStorage.getItem("user-ID");
     const userDocID = portFormData.userDocID;
-
     if (!userId || !userDocID) {
-      alert("Missing user ID or document ID.");
+      showErrorToast("Missing user ID or document ID.");
       return;
+    }
+
+    if (!portFormData.userImage) {
+      showErrorToast("Image is Required !")
+      return
+    }
+    if (!portFormData.title) {
+      showErrorToast("Title is Required !")
+      return
+    }
+    if (!portFormData.subTitle) {
+      showErrorToast("Sub Title is Required !")
+      return
     }
 
     const formData = new FormData();
@@ -143,7 +175,7 @@ function PortfolioMain() {
       const result = await response.json();
 
       if (response.ok) {
-        showSnackbar(result.message)
+        showSuccessToast(result.message)
         // setPortRefresh((ref) => !ref)
       } else {
         console.error("Error response:", result);
@@ -158,6 +190,7 @@ function PortfolioMain() {
 
   return (
     <Fragment>
+      <ToastContainer />
       {
         portMode === "PortForm" || portMode === "UpdateForm" ? (
           <PortfolioForm
@@ -170,6 +203,8 @@ function PortfolioMain() {
             portMode={portMode}
             submitted={submitted}
             updatePortHandler={updatePortHandler}
+            inistialtate={inistialtate}
+            loading={loading}
 
           />
 

@@ -11,6 +11,8 @@ import { useMemo } from 'react';
 import { useEffect } from 'react';
 import { useSnackbar } from '../Snakbar/Snakbar';
 import GradientButton from '../ReuseComponent/ReuseComponent';
+import { toast, ToastContainer } from 'react-toastify';
+
 
 function ServiceCustom() {
     const [serviceTableTrue, setServiceTableTrue] = useState("")
@@ -110,8 +112,17 @@ function ServiceCustom() {
             });
             const result = await response.json();
             if (response.ok) {
-                showSnackbar(result.message)
-                console.log("Updated Data:", result);
+                toast.success(result.message || 'Data updated successfully!', {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    className: 'custom-toast',
+                });
             } else {
                 console.error("Update failed:", result);
                 alert("Update failed. Check console for details.");
@@ -148,7 +159,7 @@ function ServiceCustom() {
         <Fragment>
 
             <div className='service main  h-[580px] flex items-center justify-center flex-col gap-10 w-full '>
-
+                <ToastContainer />
                 {
 
                     serviceTableTrue === "submitForm" || serviceTableTrue === "Edit"

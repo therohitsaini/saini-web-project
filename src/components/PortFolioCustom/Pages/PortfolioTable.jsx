@@ -45,7 +45,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
 
         setPortFormData((pre) => ({
             ...pre,
-            userDocID: orignal.id,
+            userDocID: orignal._id,
             userImage: orignal.profile,
             title: orignal.title,
             subTitle: orignal.subTitle,

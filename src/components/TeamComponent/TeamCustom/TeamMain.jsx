@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TeamForm from './TeamForm';
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
 
 function TeamMain({ showSnackbar, showError }) {
     const initialState = {
@@ -74,24 +76,26 @@ function TeamMain({ showSnackbar, showError }) {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message);
+                showSuccessToast(result.message);
                 setLoading(false)
                 getTeamData(id);
 
             }
         } catch (error) {
             console.error("Network error:", error);
-            showError("Something went wrong. Please try again.");
+            showErrorToast("Something went wrong. Please try again.");
         }
     };
 
     return (
         <div>
+            <ToastContainer />
             <TeamForm
                 setTeamForm={setTeamForm}
                 teamForm={teamForm}
                 submitHandler={submitHandler}
                 loading={loading}
+                teamData={teamData}
             />
 
         </div>

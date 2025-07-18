@@ -55,10 +55,7 @@ function SignIn() {
             })
             const response = await fetchData.json()
             console.log("userObject", JSON.stringify(response))
-
-
-
-
+            toast(JSON.stringify(response.massage));
             if (fetchData.ok) {
                 dispatch(fetchFullName(response.userData))
                 localStorage.setItem("user-ID", response.userData._id)
@@ -72,7 +69,7 @@ function SignIn() {
 
             } else {
                 navigate("/")
-                toast(JSON.stringify(response.massage));
+
             }
 
         } catch (err) {

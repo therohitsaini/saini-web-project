@@ -19,6 +19,7 @@ import { useMemo } from 'react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useSnackbar } from '../Snakbar/Snakbar';
 import GradientButton from '../ReuseComponent/ReuseComponent';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function HeroSectionCustome() {
 
@@ -83,6 +84,24 @@ export default function HeroSectionCustome() {
         }
     };
 
+    useEffect(() => {
+        if (heroFormData.heroImgUrl) {
+            // If it's already a string (e.g., URL from API), use as-is
+            if (typeof heroFormData.heroImgUrl === 'string') {
+                const imgSrc = heroFormData.heroImgUrl.startsWith('http')
+                    ? heroFormData.heroImgUrl
+                    : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${heroFormData.heroImgUrl.replace(/^\/?/, '')}`;
+                setImagePreview(imgSrc);
+            }
+
+            // If it's a File (from file input), generate preview
+            else if (heroFormData.heroImgUrl instanceof File) {
+                setImagePreview(URL.createObjectURL(heroFormData.heroImgUrl));
+            }
+        }
+    }, [heroFormData]);
+
+
 
     // pof use post purpse
     const submitHandler = async () => {
@@ -122,7 +141,7 @@ export default function HeroSectionCustome() {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message)
+                // showSnackbar(result.message)
                 setHeroFormData(initialState)
                 setSelectedIcon(null);
                 setInputValue("");
@@ -168,8 +187,18 @@ export default function HeroSectionCustome() {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message)
-                setHeroFormData(initialState)
+                toast.success(result.message || 'Data updated successfully!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+                // showSnackbar(result.message)
+                // setHeroFormData(initialState)
 
 
             } else {
@@ -236,6 +265,7 @@ export default function HeroSectionCustome() {
 
     return (
         <div className='hero-all-section w-full   h-[95%] flex items-center flex-col'>
+            <ToastContainer />
             {
                 isTureTable === "AddNewData" || isTureTable === "Edit" ?
 

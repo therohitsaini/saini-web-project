@@ -17,6 +17,8 @@ import * as MdIcons from 'react-icons/md';
 import * as FaIcons from 'react-icons/fa';
 import { useMemo } from 'react';
 import { useSnackbar } from '../Snakbar/Snakbar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const tabsData = [
@@ -441,12 +443,42 @@ export default function HeaderSideBarTabs() {
             const responseJson = await fetchData.json();
             console.log("responseJson", responseJson)
             if (fetchData.ok) {
-                alert(responseJson.message)
+                toast.success(responseJson.message || 'Data updated successfully!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+                setLoading(false)
+            } else {
+                toast.error(responseJson.message || 'Failed to update data!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setLoading(false)
             }
 
         } catch (error) {
             console.log(error);
+            toast.error('An error occurred while updating data!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setLoading(false)
         }
     };
 
@@ -478,11 +510,37 @@ export default function HeaderSideBarTabs() {
 
             const result = await response.json();
             if (response.ok) {
-                alert(result.message)
-
+                toast.success(result.message || 'Logo uploaded successfully!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.error(result.message || 'Failed to upload logo!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
         } catch (err) {
             console.error("Submit error:", err);
+            toast.error('An error occurred while uploading logo!', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     };
 
@@ -721,6 +779,7 @@ export default function HeaderSideBarTabs() {
                 </TabPanel>
 
             </Box>
+            <ToastContainer />
         </div>
     );
 }

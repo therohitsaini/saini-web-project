@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSnackbar } from '../Snakbar/Snakbar'
 import TestimonialTable from './TestimonialTable'
+import { showErrorToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function TestimonialCustome() {
     const [testimonialMode, setTestimonialMode] = useState("Table")
@@ -32,7 +34,7 @@ function TestimonialCustome() {
     if (!snackbar) {
         throw new Error("useSnackbar must be used within a SnackbarProvider");
     }
-    const { showSnackbar, showError } = snackbar;
+    // const { showSnackbar, showErrorToast } = snackbar;/
 
     const postTestimonialForm = async () => {
 
@@ -40,19 +42,19 @@ function TestimonialCustome() {
         const { userProfile, heading, paragraph, userName, occupationRole } = testimonialForm;
 
         if (!userProfile) {
-            showError("User Image is Required !")
+            showErrorToast("User Image is Required !")
             return;
         }
         if (!heading) {
-            showError("Title is Required !")
+            showErrorToast("Title is Required !")
             return;
         }
         if (!userName) {
-            showError("Name is Required !")
+            showErrorToast("Name is Required !")
             return;
         }
         if (!occupationRole) {
-            showError("Role is Required !")
+            showErrorToast("Role is Required !")
             return;
         }
         setLoading(true)
@@ -80,13 +82,13 @@ function TestimonialCustome() {
 
             if (response.ok) {
                 setLoading(false)
-                showSnackbar(result.message)
+                showSuccessToast(result.message)
                 setTestimonialForm(inisialState)
                 setRefresh((ref) => !ref)
 
             }
         } catch (error) {
-            showError("Try After Some Time")
+            showErrorToast("Try After Some Time")
             console.error("Network error:", error);
             alert("Something went wrong. Please try again.");
         }
@@ -98,19 +100,19 @@ function TestimonialCustome() {
         const { userProfile, heading, paragraph, userName, occupationRole } = testimonialForm;
 
         if (!userProfile) {
-            showError("User Image is Required !")
+            showErrorToast("User Image is Required !")
             return;
         }
         if (!heading) {
-            showError("Title is Required !")
+            showErrorToast("Title is Required !")
             return;
         }
         if (!userName) {
-            showError("Name is Required !")
+            showErrorToast("Name is Required !")
             return;
         }
         if (!occupationRole) {
-            showError("Role is Required !")
+            showErrorToast("Role is Required !")
             return;
         }
         const userDocID = testimonialForm.userDocID
@@ -139,14 +141,14 @@ function TestimonialCustome() {
 
             if (response.ok) {
                 setLoading(false)
-                showSnackbar(result.message)
-                setRefresh((ref) => !ref)
+                showSuccessToast(result.message)
 
+                // setRefresh((ref) => !ref)
             }
         } catch (error) {
-            showError("Try After Some Time")
+            // showErrorToast("Try After Some Time")
             console.error("Network error:", error);
-            alert("Something went wrong. Please try again.");
+            // alert("Something went wrong. Please try again.");
         }
 
     }
@@ -181,6 +183,7 @@ function TestimonialCustome() {
 
     return (
         <Fragment>
+            <ToastContainer />
 
             {
                 testimonialMode === "SubmitForm" || testimonialMode === "UpdateForm"
@@ -206,6 +209,7 @@ function TestimonialCustome() {
                             setTestimonialMode={setTestimonialMode}
                             setTestimonialForm={setTestimonialForm}
                             setRefresh={setRefresh}
+                            reFresh={reFresh}
                         />
                     )
             }

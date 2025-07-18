@@ -3,6 +3,8 @@ import { Fragment } from 'react'
 import TeamMemberSubmitForm from './TeamMemberSubmitForm'
 import { useState } from 'react';
 import TeamTable from './TeamTable';
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
 
 function TeamCardItemMain({ showSnackbar, showError }) {
     const [teamMemberForm, setTeamMemberForm] = useState({
@@ -19,7 +21,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
     const [teamMode, setTeamMode] = useState("Table")
     const [teamCardDataApies, setTeamcardApies] = useState([])
     const [refresh, setRefresh] = useState(false)
-    console.log(teamMemberForm)
+   
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
@@ -60,7 +62,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
             const result = await response.json()
 
             if (response.ok) {
-                alert(result.message)
+                showSuccessToast(result.message)
                 setLoader(false)
 
                 // Reset form and go back to table
@@ -72,17 +74,16 @@ function TeamCardItemMain({ showSnackbar, showError }) {
                     urls: ['', '', '', ''],
                     docsId: null,
                 });
-                setTeamMode("Table")
-
+            
                 // Refresh the team data
                 setRefresh(prev => !prev)
             } else {
-                showError(result.message || 'Something went wrong')
+                showErrorToast(result.message || 'Something went wrong')
                 setLoader(false)
             }
 
         } catch (error) {
-            showError('Error submitting team member')
+            
             console.error('Error submitting team member:', error);
             setLoader(false)
         }
@@ -114,6 +115,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
 
     return (
         <Fragment>
+            <ToastContainer />
             {
                 teamMode === "SubmitTeamForm" || teamMode === "UpdateTeamForm" ?
                     (

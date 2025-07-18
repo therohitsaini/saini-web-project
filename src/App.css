@@ -86,3 +86,8 @@
   }
 }
 
+.custom-toast {
+  font-size: 14px !important; /* 👈 force smaller font size */
+  background-color: #ffffff; /* optional: white background */
+  color: #b6e082; /* optional: black text */
+}

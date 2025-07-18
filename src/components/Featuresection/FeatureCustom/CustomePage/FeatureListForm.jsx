@@ -21,7 +21,8 @@ function FeatureListForm({
     setFeatureMode,
     freatureMode,
     updateListitemFeature,
-    inisialState
+    inisialState,
+    loading
 
 }) {
 
@@ -298,7 +299,9 @@ function FeatureListForm({
                             (
                                 <Button
                                     onClick={updateListitemFeature}
-                                    variant='outlined'>
+                                    loading={loading}
+                                >
+
                                     Update
                                 </Button>
 
@@ -308,7 +311,8 @@ function FeatureListForm({
                             (
                                 <Button
                                     onClick={postListitemFeature}
-                                    variant='outlined'>
+                                    loading={loading}
+                                >
                                     Save Changes
                                 </Button>
 

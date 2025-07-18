@@ -38,17 +38,17 @@ export const NAVIGATION = (isAdmin) => {
         { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
         // { segment: 'permissions', title: 'Permissions', icon: <WorkspacesOutlineIcon /> },
 
-        // {
-        //     segment: 'user',
-        //     title: 'User',
-        //     icon: <Groups3Icon />,
-        //     children: [
-        //         // ...(isAdmin === 'Super_admin' ? [
-        //         { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
-        //         { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
-        //         // ] : []),
-        //     ],
-        // },
+        {
+            segment: 'user',
+            title: 'User',
+            icon: <Groups3Icon />,
+            children: [
+                // ...(isAdmin === 'Super_admin' ? [
+                // { segment: 'adduser', title: 'Add user', icon: <GroupAddIcon /> },
+                { segment: 'allusers', title: 'All Users', icon: <Person4Icon /> }
+                // ] : []),
+            ],
+        },
         // { segment: 'admin', title: 'Admin', icon: <Person4Icon /> },
 
 
@@ -112,6 +112,8 @@ export const NAVIGATION = (isAdmin) => {
                 { segment: 'footerbg', title: 'Footer Background', icon: <BsCardHeading fontSize="small" /> },
                 { segment: 'footertop', title: 'Footer Top Bar', icon: <BsCardHeading fontSize="small" /> },
                 { segment: 'footermaincenter', title: 'Footer Main ', icon: <BsCardHeading fontSize="small" /> },
+                { segment: 'footercopyright', title: 'Footer Copy Right', icon: <BsCardHeading fontSize="small" /> },
+
             ],
         },
 

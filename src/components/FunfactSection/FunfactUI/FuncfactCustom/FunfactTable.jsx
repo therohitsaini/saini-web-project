@@ -14,6 +14,34 @@ import { useSnackbar } from '../../../Snakbar/Snakbar';
 import DownloadIcon from '@mui/icons-material/Download';
 import PrintIcon from '@mui/icons-material/Print';
 import GradientButton from '../../../ReuseComponent/ReuseComponent';
+import { toast, ToastContainer } from 'react-toastify';
+
+export const showSuccessToast = (message) => {
+    toast.success(message || 'Data updated successfully!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        className: 'custom-toast',
+    });
+};
+export const showErrorToast = (message) => {
+    toast.error(message || 'Something went wrong!', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        className: 'custom-toast',
+    });
+};
 
 
 function FunfactTable() {
@@ -42,11 +70,11 @@ function FunfactTable() {
         const { projectCount, aboutProject } = funfactForm
 
         if (!projectCount) {
-            showError("Project Count is Required !")
+            showErrorToast("Project Count is Required !")
             return
         }
         if (!aboutProject) {
-            showError("About Project is Required !")
+            showErrorToast("About Project is Required !")
             return
         }
 
@@ -59,7 +87,7 @@ function FunfactTable() {
             });
             const json = await res.json();
             if (res.ok) {
-                showSnackbar(json.message);
+                showSuccessToast(json.message);
                 setFunfactForm({ projectCount: "", aboutProject: "" });
                 setFunfactRefesh(prev => !prev);
             }
@@ -73,11 +101,11 @@ function FunfactTable() {
 
         const { projectCount, aboutProject } = funfactForm
         if (!projectCount) {
-            showError("Project Count is Required !")
+            showSuccessToast("Project Count is Required !")
             return
         }
         if (!aboutProject) {
-            showError("About Project is Required !")
+            showSuccessToast("About Project is Required !")
             return
         }
 
@@ -92,7 +120,7 @@ function FunfactTable() {
             });
             const json = await res.json();
             if (res.ok) {
-                showSnackbar(json.message);
+                showSuccessToast(json.message);
                 setFunfactRefesh(prev => !prev);
             } else {
                 alert("Update failed.");
@@ -218,6 +246,7 @@ function FunfactTable() {
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='hero-tabel-main w-full h-[80vh] flex flex-col justify-center items-center gap-5'>
                 {
                     funfactMode === "FunfactForm" || funfactMode === "Edit" ? (
@@ -228,7 +257,7 @@ function FunfactTable() {
                                 </Button>
                             </div>
                             <form className='form-main flex flex-col gap-4 w-[50%] py-5 border border-slate-600/30 rounded-md p-5'>
-                                <h1  className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Funfact Section Form</h1>
+                                <h1 className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Funfact Section Form</h1>
                                 <Divider />
                                 <TextField
                                     type='number'

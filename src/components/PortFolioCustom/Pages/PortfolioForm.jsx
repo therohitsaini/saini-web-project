@@ -18,9 +18,19 @@ import GradientButton from '../../ReuseComponent/ReuseComponent';
 const userCategories = ['design', 'development', 'marketing', 'support']
 
 
-function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPortMode, submitted, portMode, updatePortHandler }) {
+function PortfolioForm({
+    setPortFormData,
+    portFormData,
+    submitPortHandler,
+    setPortMode,
+    submitted,
+    portMode,
+    updatePortHandler,
+    inistialtate,
+    loading
+}) {
     const [selectedIcone, setSelectedIcone] = useState(
-        allFaMdIconsList.find((i) => i.label === portFormData?.item_Icone) || null
+        allFaMdIconsList.find((i) => i.label === portFormData?.Icone) || null
     );
     const [inputValue, setInputValue] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
@@ -35,8 +45,6 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
             .slice(0, 100);
 
     }, [inputValue]);
-
-    
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -58,7 +66,29 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
         }
     };
 
+    console.log("portFormData.userImage", portFormData)
 
+    useEffect(() => {
+        if (portMode === "PortForm") {
+            setPortFormData(inistialtate)
+            setSelectedIcone(null)
+
+        }
+        //  else if (portMode === "UpdateForm") {
+        //     console.log("portFormData.userImage", portFormData.userImage)
+        //     const imgSrc = portFormData?.userImage.startsWith('http')
+        //         ? portFormData.userImage
+        //         : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${portFormData.userImage.replace(/^\/?/, '')}`;
+        //     setImagePreview(imgSrc)
+        // }
+    }, [portMode])
+
+    useEffect(() => {
+        if (portFormData?.Icone) {
+            const foundIcon = allFaMdIconsList.find((i) => i.label === portFormData?.Icone);
+            if (foundIcon) setSelectedIcone(foundIcon);
+        }
+    }, [portFormData?.Icone]);
 
 
     return (
@@ -364,22 +394,24 @@ function PortfolioForm({ setPortFormData, portFormData, submitPortHandler, setPo
                         <div className='flex justify-end'>
                             {
                                 portMode === "UpdateForm" ?
-                                    (<GradientButton
-                                      
-                                        onClick={updatePortHandler}
-                                   
-                                    >
-                                        Update Information
-                                    </GradientButton>
+                                    (
+                                        <GradientButton
+                                            loading={loading}
+                                            onClick={updatePortHandler}
+
+                                        >
+                                            Update Information
+                                        </GradientButton>
                                     )
                                     :
-                                    (<GradientButton
-                                   
-                                        onClick={submitPortHandler}
-                                       
-                                    >
-                                        Submit
-                                    </GradientButton>
+                                    (
+                                        <GradientButton
+                                            loading={loading}
+                                            onClick={submitPortHandler}
+
+                                        >
+                                            Submit
+                                        </GradientButton>
                                     )
                             }
                         </div>

@@ -4,6 +4,8 @@ import FeatureListForm from './CustomePage/FeatureListForm'
 import { useState } from 'react'
 import CustomTable from './CustomePage/CustomTable'
 import { useEffect } from 'react'
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function FeatureListItem({ showSnackbar }) {
     const inisialState = {
@@ -16,13 +18,14 @@ function FeatureListItem({ showSnackbar }) {
     const [featureListForm, setFeatureListForm] = useState(inisialState)
     const [freatureMode, setFeatureMode] = useState("Table")
     const [featureListItem, setFeatureListItem] = useState([])
-
-
-
+    const [loading, setLoading] = useState(false)
 
     const postListitemFeature = async () => {
         const id = localStorage.getItem("user-ID");
-
+        if (!featureListForm.listTitle) {
+            showErrorToast("Title is Required !")
+            return
+        }
         const formData = new FormData();
         if (featureListForm.backGroundImage) {
             formData.append("backGroundImage", featureListForm.backGroundImage);
@@ -32,7 +35,7 @@ function FeatureListItem({ showSnackbar }) {
         formData.append("listIconeLeft", featureListForm.listIconeLeft);
         formData.append("listIconeRight", featureListForm.listIconeRight);
         formData.append("item_ShowOnWebsite", featureListForm.item_ShowOnWebsite); // if you need this
-
+        setLoading(true)
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-post-list-item/${id}`;
             const response = await fetch(url, {
@@ -43,12 +46,15 @@ function FeatureListItem({ showSnackbar }) {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message);
+                showSuccessToast(result.message);
             } else {
+                showErrorToast(result.message || result.error)
                 console.error("Server error:", result.message || result.error);
             }
         } catch (error) {
             console.error("Request failed:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -56,6 +62,14 @@ function FeatureListItem({ showSnackbar }) {
     const updateListitemFeature = async () => {
         const id = localStorage.getItem("user-ID");
         const userDocID = featureListForm.userDocID
+        if (!userDocID) {
+            showErrorToast("Try Again !")
+            return
+        }
+        if (!featureListForm.listTitle) {
+            showErrorToast("Title is Required !")
+            return
+        }
 
         const formData = new FormData();
         if (featureListForm.backGroundImage) {
@@ -66,7 +80,7 @@ function FeatureListItem({ showSnackbar }) {
         formData.append("listIconeLeft", featureListForm.listIconeLeft);
         formData.append("listIconeRight", featureListForm.listIconeRight);
         formData.append("item_ShowOnWebsite", featureListForm.item_ShowOnWebsite); // if you need this
-
+        setLoading(true)
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}api-feature/api-update/feature-list-item/${id}/${userDocID}`;
             const response = await fetch(url, {
@@ -77,13 +91,16 @@ function FeatureListItem({ showSnackbar }) {
             const result = await response.json();
 
             if (response.ok) {
-                alert(result.message)
+                showSuccessToast(result.message)
                 // showSnackbar(result.message);
             } else {
+                showErrorToast(result.message || result.error)
                 console.error("Server error:", result.message || result.error);
             }
         } catch (error) {
             console.error("Request failed:", error);
+        } finally {
+            setLoading(true)
         }
     };
 
@@ -114,12 +131,9 @@ function FeatureListItem({ showSnackbar }) {
         getFeatureDataListItem()
     }, [])
 
-
-
-    console.log("featureListItem", featureListItem)
-
     return (
         <Fragment>
+            <ToastContainer />
 
             {
                 freatureMode === "SubmitForm" || freatureMode === "UpdateForm" ?
@@ -132,6 +146,7 @@ function FeatureListItem({ showSnackbar }) {
                             setFeatureMode={setFeatureMode}
                             updateListitemFeature={updateListitemFeature}
                             inisialState={inisialState}
+                            loading={loading}
                         />
                     )
                     :
