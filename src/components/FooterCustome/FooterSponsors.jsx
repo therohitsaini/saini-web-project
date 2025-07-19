@@ -1,8 +1,10 @@
-import { Avatar, Button, Divider, CircularProgress } from '@mui/material'
+import { Avatar, Button, Divider, CircularProgress, Checkbox } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { Fragment } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import SaveIcon from '@mui/icons-material/Save'
+import { showErrorToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function FooterSponsors({ showSnackbar, showError }) {
     const [formData, setFormData] = useState({
@@ -14,7 +16,7 @@ function FooterSponsors({ showSnackbar, showError }) {
             { id: 5, image: null, preview: null }
         ]
     });
-    
+
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState(null);
 
@@ -41,7 +43,7 @@ function FooterSponsors({ showSnackbar, showError }) {
                     return {
                         ...sponsor,
                         image: data.data[imageFieldName] || null,
-                        preview: data.data[imageFieldName] 
+                        preview: data.data[imageFieldName]
                             ? `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${data.data[imageFieldName].replace(/^\/?/, '')}`
                             : null
                     };
@@ -61,11 +63,11 @@ function FooterSponsors({ showSnackbar, showError }) {
         const file = event.target.files[0];
         if (file) {
             const previewUrl = URL.createObjectURL(file);
-            
+
             setFormData(prev => ({
                 ...prev,
-                sponsors: prev.sponsors.map(sponsor => 
-                    sponsor.id === sponsorId 
+                sponsors: prev.sponsors.map(sponsor =>
+                    sponsor.id === sponsorId
                         ? { ...sponsor, image: file, preview: previewUrl }
                         : sponsor
                 )
@@ -99,14 +101,14 @@ function FooterSponsors({ showSnackbar, showError }) {
             const data = await response.json();
 
             if (response.ok) {
-                showSnackbar(data.message || "Footer sponsors updated successfully!");
+                showSuccessToast(data.message || "Footer sponsors updated successfully!");
                 getExistingSponsors(userId);
             } else {
-                showError(data.message || "Failed to update footer sponsors");
+                showErrorToast(data.message || "Failed to update footer sponsors");
             }
         } catch (error) {
             console.log("Error saving footer sponsors:", error);
-            showError("An error occurred while saving footer sponsors");
+            // showErrorToast("An error occurred while saving footer sponsors");
         } finally {
             setLoading(false);
         }
@@ -114,6 +116,7 @@ function FooterSponsors({ showSnackbar, showError }) {
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='footer-sponsors w-full h-full flex justify-center items-center'>
                 <form className='bg-form-footer border border-slate-400/20 rounded-md p-5 flex flex-col gap-5 w-[50%]'>
                     <div className='heading-wrraper'>
@@ -130,11 +133,13 @@ function FooterSponsors({ showSnackbar, showError }) {
                             {formData.sponsors.map((sponsor) => (
                                 <div key={sponsor.id} className='flex items-center gap-4'>
                                     {sponsor.preview && (
-                                        <Avatar
-                                            src={sponsor.preview}
-                                            alt={`Sponsor ${sponsor.id} Preview`}
-                                            sx={{ width: 56, height: 56 }}
-                                        />
+                                        <div className='w-[150px] p-1 h-13 border border-slate-400/20 rounded-md'>
+                                            <img
+                                                src={sponsor.preview}
+                                                alt={`Sponsor ${sponsor.id} Preview`}
+                                                className='object-contain  rounded-md w-full h-full object-contain'
+                                            />
+                                        </div>
                                     )}
                                     <Button
                                         component="label"
@@ -154,7 +159,17 @@ function FooterSponsors({ showSnackbar, showError }) {
                             ))}
                         </div>
                     </div>
-
+                    <div className="flex items-center gap-2  sticky top-0 w-full ">
+                        <Checkbox
+                            name='showOnWebsite'
+                            defaultChecked
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                        />
+                        <p className="text-[14px] text-slate-500 font-sans">
+                            If you want to show this on the website
+                        </p>
+                    </div>
                     <div className='flex justify-end items-center w-full mt-4'>
                         <Button
                             onClick={handleSave}

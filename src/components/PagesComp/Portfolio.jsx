@@ -79,7 +79,7 @@ const portfolioData = [
 
 const categories = ['all', 'design', 'development', 'marketing', 'support'];
 
-export default function PortfolioSection({ portFolioData }) {
+export default function PortfolioSection({ portFolioData, sectionHeadingApies }) {
     const [activeFilter, setActiveFilter] = useState('all');
 
 
@@ -91,13 +91,27 @@ export default function PortfolioSection({ portFolioData }) {
         activeFilter === 'all' || item.categories.includes(activeFilter)
     );
 
+    const serviceHeadingData = sectionHeadingApies?.data?.find(section => section.section === "PortFolioHeading");
+    const serviceHeadingItem = serviceHeadingData?.item?.[0];
+
+
     return (
         <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
-
-                <div className='title-secton-top flex flex-col items-center mb-10'>
-                    <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Portfolio </span></div> </h1>
-                    <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
+                <div className='title-secton-top flex flex-col items-center '>
+                    <div className="text-center">
+                        <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
+                            {serviceHeadingItem?.item_Title?.split(' ')[0] || 'Our'}
+                            <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
+                                <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
+                                    {serviceHeadingItem?.item_Title?.split(' ').slice(1).join(' ') || 'Portfolio'}
+                                </span>
+                            </div>
+                        </h1>
+                    </div>
+                    <p className='paraghraph font-light text-slate-600'>
+                        {serviceHeadingItem?.item_Description || 'There are many variations of passages of Lorem Ipsum available'}
+                    </p>
                 </div>
 
                 <div className="flex justify-center gap-4 mb-8 flex-wrap">

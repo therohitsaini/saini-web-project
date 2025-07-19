@@ -4,6 +4,8 @@ import { Fragment } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import SaveIcon from '@mui/icons-material/Save'
 import { ChromePicker } from 'react-color'
+import { showErrorToast, showSuccessToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function FooterBackGround({ showSnackbar, showError }) {
     const [formData, setFormData] = useState({
@@ -74,12 +76,9 @@ function FooterBackGround({ showSnackbar, showError }) {
             alert("User ID not found. Please login again.");
             return;
         }
-
         setLoading(true);
         try {
             const formDataToSend = new FormData();
-
-
             formDataToSend.append("backgroundColor", formData.backgroundColor);
 
             if (formData.backgroundImage) {
@@ -95,11 +94,10 @@ function FooterBackGround({ showSnackbar, showError }) {
             const data = await response.json();
 
             if (response.ok) {
-                showSnackbar(data.message || "Footer background updated successfully!");
-
+                showSuccessToast(data.message || "Footer background updated successfully!");
                 getExistingFooterBackground(userId);
             } else {
-                showError(data.message || "Failed to update footer background");
+                showErrorToast(data.message || "Failed to update footer background");
             }
         } catch (error) {
             console.log("Error saving footer background:", error);
@@ -111,6 +109,7 @@ function FooterBackGround({ showSnackbar, showError }) {
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='footer-bg-colour h-[100%] w-full flex justify-center items-center'>
                 <form className='bg-form-footer border border-slate-400/20 rounded-md p-5 flex flex-col gap-5 w-[50%]'>
                     <div className='heading-wrraper'>

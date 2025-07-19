@@ -19,6 +19,7 @@ import { footerIcone } from '../FooterComp/Footer';
 import { HeaderTopBarComp, HeaderTopBarCenterIcone, HeaderTopBarCompRightContent } from './HeaderTopBarComp';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { allFaMdIconsMap } from './HeaderTopLeft';
+import defaultLogo from '../../assets/logo-light (1).png';
 
 
 const headerTopBarDefualt = [
@@ -238,26 +239,43 @@ function Navbar({ headerData }) {
 
                 <div className='bg-black/70'>
                     <nav className='navbar   flex items-center justify-between  p-3 py-5 '>
-                        <div className='nav-logo h-10 w-50  '>
+                        <div className='nav-logo h-10 w-50'>
                             {
-                                HeaderLogo?.item.map((logo, index) => {
-                                    console.log(logo.item_IconeUrl)
-                                    const imgSrc = logo?.item_IconeUrl?.startsWith('http')
-                                        ? logo.item_IconeUrl
-                                        : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${logo.item_IconeUrl?.replace(/^\/?/, '')}`;
+                                HeaderLogo?.item.length > 0 ? HeaderLogo.item.map((logo, index) => {
+                                    let imgSrc;
+
+                                    // If URL is absolute
+                                    if (logo?.item_IconeUrl?.startsWith('http')) {
+                                        imgSrc = logo.item_IconeUrl;
+
+                                        // If it's a relative path from backend
+                                    } else if (logo?.item_IconeUrl) {
+                                        imgSrc = `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${logo.item_IconeUrl?.replace(/^\/?/, '')}`;
+
+                                        // If no usable path, use local fallback image
+                                    } else {
+                                        imgSrc = defaultLogo;
+                                    }
+
                                     return (
                                         <img
                                             key={index}
                                             className="h-full w-full object-cover"
-                                            src={imgSrc || logo.item_IconeUrl}
+                                            src={imgSrc}
                                             alt="Logo"
                                         />
-                                        // ../src/assets/logo-light (1).png
-
-                                    )
-                                })
+                                    );
+                                }) : (
+                                    // fallback if HeaderLogo.item is empty
+                                    <img
+                                        className="h-full w-full object-cover"
+                                        src={defaultLogo}
+                                        alt="Default Logo"
+                                    />
+                                )
                             }
                         </div>
+
                         <div className='un-order-list flex items-center gap-5'>
                             {
                                 menuSection?.item.map((item_, index) => {

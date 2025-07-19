@@ -66,14 +66,14 @@ function TeamCardItemMain({ showSnackbar, showError }) {
                 setLoader(false)
 
                 // Reset form and go back to table
-                setTeamMemberForm({
-                    image: null,
-                    name: '',
-                    role: '',
-                    item_Icone: ['', '', '', ''],
-                    urls: ['', '', '', ''],
-                    docsId: null,
-                });
+                // setTeamMemberForm({
+                //     image: null,
+                //     name: '',
+                //     role: '',
+                //     item_Icone: ['', '', '', ''],
+                //     urls: ['', '', '', ''],
+                //     docsId: null,
+                // });
             
                 // Refresh the team data
                 setRefresh(prev => !prev)
@@ -135,6 +135,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
                             showSnackbar={showSnackbar}
                             setTeamMode={setTeamMode}
                             setTeamMemberForm={setTeamMemberForm}
+                            setRefresh={setRefresh}
                         />
                     )
             }

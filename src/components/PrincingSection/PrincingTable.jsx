@@ -145,7 +145,7 @@ function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setP
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>
-            <div className='hero-tabel-main w-full h-[78vh] flex flex-col justify-center gap-5'>
+            <div className='hero-tabel-main w-[80%] border border-red-500 h-[78vh] flex flex-col justify-center gap-5'>
 
                 <div>
                     <Button

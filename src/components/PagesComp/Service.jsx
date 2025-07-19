@@ -28,7 +28,7 @@ const SectionWrapper = styled.div`
 `;
 
 
-const Service = ({ serviceCard }) => {
+const Service = ({ serviceCard, sectionHeadingApies }) => {
     const iconName = serviceCard?.iconeTop;
     const IconComponent = allFaMdIconsMap[iconName];
 
@@ -57,13 +57,34 @@ const Service = ({ serviceCard }) => {
 
         return () => observer.disconnect();
     }, []);
+    // Ensure sectionHeadingApies is defined before calling .find()
+   
+
+
+
+    console.log("sectionHeadingApies", sectionHeadingApies.data)
+
+    // Find the ServiceHeading section data
+    const serviceHeadingData = sectionHeadingApies?.data?.find(section => section.section === "ServiceHeading");
+    const serviceHeadingItem = serviceHeadingData?.item?.[0];
 
     return (
         <Fragment>
             <SectionWrapper ref={sectionRef} inView={inView} className='service-main  '>
                 <div className='title-secton-top flex flex-col items-center '>
-                    <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Service </span></div> </h1>
-                    <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
+                    <div className="text-center">
+                        <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
+                            {serviceHeadingItem?.item_Title?.split(' ')[0] || 'Our'}
+                            <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
+                                <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
+                                    {serviceHeadingItem?.item_Title?.split(' ').slice(1).join(' ') || 'Service'}
+                                </span>
+                            </div>
+                        </h1>
+                    </div>
+                    <p className='paraghraph font-light text-slate-600'>
+                        {serviceHeadingItem?.item_Description || 'There are many variations of passages of Lorem Ipsum available'}
+                    </p>
                 </div>
                 <div className='service-card-section grid grid-cols-4 my-10 gap-5 px-20 ' >
                     {

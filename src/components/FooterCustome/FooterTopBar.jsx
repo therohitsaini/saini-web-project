@@ -1,9 +1,12 @@
-import { Avatar, Button, Divider, TextField, CircularProgress, Autocomplete, Box, InputAdornment } from '@mui/material'
+import { Avatar, Button, Divider, TextField, CircularProgress, Autocomplete, Box, InputAdornment, Checkbox } from '@mui/material'
 import React, { useState, useEffect, useMemo } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import GradientButton from '../ReuseComponent/ReuseComponent';
 import { allFaMdIconsList } from '../NavbarComponent/HeaderTopLeft';
+import { showErrorToast, showSuccessToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
+// import CheckBox from '@mui/icons-material/CheckBox';
 
 function FooterTopBar({ showSnackbar, showError }) {
    const [footerTopBarForm, setFooterTopBarForm] = useState({
@@ -45,7 +48,7 @@ function FooterTopBar({ showSnackbar, showError }) {
          setUserId(id);
          getExistingFooterTopBar(id);
       }
-      
+
       // Debug: Log some available icons
       console.log("Available icons (first 10):", allFaMdIconsList.slice(0, 10).map(i => i.label));
    }, []);
@@ -153,7 +156,6 @@ function FooterTopBar({ showSnackbar, showError }) {
          .slice(0, 100);
    }, [inputValueLeft]);
 
-   // Filtered icons for right section
    const filteredIconsRight = useMemo(() => {
       const term = inputValueRight.trim().toLowerCase();
       if (!term) return allFaMdIconsList.slice(0, 50);
@@ -167,14 +169,13 @@ function FooterTopBar({ showSnackbar, showError }) {
          alert("User ID not found. Please login again.");
          return;
       }
-
       setLoading(true);
       try {
          const formData = new FormData();
          formData.append("leftTitle", footerTopBarForm.leftSection.title);
          formData.append("leftSubTitle", footerTopBarForm.leftSection.subTitle);
          formData.append("leftIcone", footerTopBarForm.leftSection.icone);
-         
+
          // Handle left section image
          if (footerTopBarForm.leftSection.image) {
             // New image uploaded
@@ -187,7 +188,7 @@ function FooterTopBar({ showSnackbar, showError }) {
          formData.append("rightTitle", footerTopBarForm.rightSection.title);
          formData.append("rightSubTitle", footerTopBarForm.rightSection.subTitle);
          formData.append("rightIcone", footerTopBarForm.rightSection.icone);
-         
+
          // Handle right section image
          if (footerTopBarForm.rightSection.image) {
             // New image uploaded
@@ -197,12 +198,12 @@ function FooterTopBar({ showSnackbar, showError }) {
             formData.append("rightExistingImage", footerTopBarForm.rightSection.existingImage);
          }
 
-         console.log("Sending Footer Top Bar Data:");
-         console.log("Left Image:", footerTopBarForm.leftSection.image);
-         console.log("Left Existing Image:", footerTopBarForm.leftSection.existingImage);
-         console.log("Right Image:", footerTopBarForm.rightSection.image);
-         console.log("Right Existing Image:", footerTopBarForm.rightSection.existingImage);
-         
+         // console.log("Sending Footer Top Bar Data:");
+         // console.log("Left Image:", footerTopBarForm.leftSection.image);
+         // console.log("Left Existing Image:", footerTopBarForm.leftSection.existingImage);
+         // console.log("Right Image:", footerTopBarForm.rightSection.image);
+         // console.log("Right Existing Image:", footerTopBarForm.rightSection.existingImage);
+
          const url = `${import.meta.env.VITE_BACK_END_URL}api-footer/footer-top-bar/${userId}`;
          const response = await fetch(url, {
             method: 'POST',
@@ -211,10 +212,10 @@ function FooterTopBar({ showSnackbar, showError }) {
          const result = await response.json();
 
          if (response.ok) {
-            showSnackbar(result.message || "Footer top bar updated successfully!");
+            showSuccessToast(result.message || "Footer top bar updated successfully!");
             getExistingFooterTopBar(userId);
          } else {
-            showError(result.message || "Failed to update footer top bar");
+            showErrorToast(result.message || "Failed to update footer top bar");
          }
 
       } catch (error) {
@@ -227,6 +228,7 @@ function FooterTopBar({ showSnackbar, showError }) {
 
    return (
       <div className='main h-full w-full flex justify-center items-center flex-col px-30'>
+         <ToastContainer />
          <div className='form-main gap-3 w-full border border-slate-500/20 p-5'>
             <div className='p-5 w-full flex gap-5'>
                {/* Left Section Form */}
@@ -484,7 +486,17 @@ function FooterTopBar({ showSnackbar, showError }) {
                </form>
             </div>
 
-            {/* Save Button */}
+            <div className="flex items-center gap-2  sticky top-0 w-full px-5 ">
+               <Checkbox
+                  defaultChecked
+                  sx={{ m: 0, p: 0 }}
+                  size="small"
+               />
+               <p className="text-[14px] text-slate-500 font-sans">
+                  If you want to show this on the website
+               </p>
+            </div>
+
             <div className='w-full flex justify-end mt-4'>
                <Button
                   onClick={postFooterTopBarData}

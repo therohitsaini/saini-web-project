@@ -4,6 +4,8 @@ import { useState } from 'react'
 import BlogPostForm from './BlogPostForm'
 import { useEffect } from 'react'
 import BlogTable from './BlogTable'
+import { showErrorToast, showSuccessToast } from '../../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
 function BlogRoot({ showSnackbar, showError }) {
     const inisialState = {
@@ -23,6 +25,7 @@ function BlogRoot({ showSnackbar, showError }) {
     const [blogData, setBlogData] = useState([])
     const [loadingRowId, setLoadingRowId] = useState(false)
     const [imagePreview, setImagePreview] = useState("")
+    const [refresh, setRefresh] = useState(false)
 
 
     useEffect(() => {
@@ -46,11 +49,26 @@ function BlogRoot({ showSnackbar, showError }) {
     }
     useEffect(() => {
         getBlogData(id)
-    }, [id])
+    }, [id, refresh])
 
-   
+
 
     const postBloges = async () => {
+        const { blogerImage, goIcone, blogDatePicker, blogerRoleIocne, blogerRole, blogHeading, blogDescription, blogButton } = blodFormData
+        if (!blogerImage) {
+            showErrorToast("Image is required")
+            return
+        }
+
+        if (!blogerRoleIocne) {
+            showErrorToast("Role Icone is required")
+            return
+        }
+        if (!blogerRole) {
+            showErrorToast("Role is required")
+            return
+        }
+
         try {
             const payload = new FormData();
             payload.append('blogerImage', blodFormData.blogerImage);
@@ -68,11 +86,14 @@ function BlogRoot({ showSnackbar, showError }) {
             });
             const result = await response.json()
             if (response.ok) {
-                showSnackbar(result.message)
-                // setLoading(false)
+                showSuccessToast(result.message)
+                setLoading(false)
+                setRefresh(prev => !prev)
+            } else {
+                showErrorToast(result.message)
             }
         } catch (error) {
-            showError(result.message)
+            showErrorToast(result.message)
             console.error('Error submitting team member:', error);
             throw error;
         }
@@ -98,21 +119,23 @@ function BlogRoot({ showSnackbar, showError }) {
             });
             const result = await response.json()
             if (response.ok) {
-              
-                showSnackbar(result.message)
-                // setLoading(false)
+                showSuccessToast(result.message)
+                setLoading(false)
+                setRefresh(prev => !prev)
+            }
+            else {
+                showErrorToast(result.message)
             }
         } catch (error) {
-            showError(result.message)
+            showErrorToast(result.message)
             console.error('Error submitting team member:', error);
             throw error;
         }
     }
 
-
-
     return (
         <Fragment>
+            <ToastContainer />
 
             {
                 blogMode === "SubmitBlogForm" || blogMode === "UpdateBlogForm" ?

@@ -60,10 +60,13 @@ const AnimatedSlide = styled.div`
 
 
 
-export default function TestimonialSection({ testimonialApiesDataUI }) {
+export default function TestimonialSection({ testimonialApiesDataUI, sectionHeadingApies }) {
     const dataToUse = Array.isArray(testimonialApiesDataUI) && testimonialApiesDataUI.length > 0
         ? testimonialApiesDataUI
         : testimonials;
+
+    const serviceHeadingData = sectionHeadingApies?.data?.find(section => section.section === "TestimonialHeading");
+    const serviceHeadingItem = serviceHeadingData?.item?.[0];
     return (
         <Fragment>
             <div className="w-full bg-gray-100 py-12 relative overflow-hidden">
@@ -74,17 +77,19 @@ export default function TestimonialSection({ testimonialApiesDataUI }) {
                 />
 
                 <div className="relative z-10 px-6 md:px-20">
-                    <div className="text-center">
-                        <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
-                            Our
-                            <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
-                                <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
-                                    Testimonial
-                                </span>
-                            </div>
-                        </h1>
-                        <p className="text-slate-600 font-light">
-                            There are many variations of passages of Lorem Ipsum available
+                    <div className='title-secton-top flex flex-col items-center '>
+                        <div className="text-center">
+                            <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
+                                {serviceHeadingItem?.item_Title?.split(' ')[0] || 'Our'}
+                                <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
+                                    <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
+                                        {serviceHeadingItem?.item_Title?.split(' ').slice(1).join(' ') || 'Testimonial'}
+                                    </span>
+                                </div>
+                            </h1>
+                        </div>
+                        <p className='paraghraph font-light text-slate-600'>
+                            {serviceHeadingItem?.item_Description || 'There are many variations of passages of Lorem Ipsum available'}
                         </p>
                     </div>
 

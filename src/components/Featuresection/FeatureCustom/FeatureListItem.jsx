@@ -100,7 +100,7 @@ function FeatureListItem({ showSnackbar }) {
         } catch (error) {
             console.error("Request failed:", error);
         } finally {
-            setLoading(true)
+            setLoading(false)
         }
     };
 

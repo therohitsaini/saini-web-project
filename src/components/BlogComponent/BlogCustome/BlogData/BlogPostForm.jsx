@@ -66,13 +66,20 @@ function BlogPostForm({ blodFormData, loading, setBlogFormData, postBloges, setB
 
 
     useEffect(() => {
-        if (blodFormData?.blogerImage) {
-            const imgSrc = blodFormData?.blogerImage?.startsWith('http')
-                ? blodFormData.blogerImage
-                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${blodFormData.blogerImage?.replace(/^\/?/, '')}`;
-            setImagePreview(imgSrc)
+        const image = blodFormData?.blogerImage;
+
+        if (typeof image === 'string') {
+            const imgSrc = image.startsWith('http')
+                ? image
+                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${image.replace(/^\/?/, '')}`;
+            setImagePreview(imgSrc);
+        } else if (image instanceof File) {
+            setImagePreview(URL.createObjectURL(image));
+        } else {
+            setImagePreview(null);
         }
-    }, [])
+    }, []);
+
 
     useEffect(() => {
         if (blogMode === "Table" || blogMode === "SubmitBlogForm") {
@@ -89,7 +96,7 @@ function BlogPostForm({ blodFormData, loading, setBlogFormData, postBloges, setB
             <div className='main-blog-form h-[100%] w-full flex flex-col gap-5  justify-center items-center'>
                 <div className='w-full px-5 '>
                     <Button
-                        // onClick={() => setBlogMode("Table")}
+                        onClick={() => setBlogMode("Table")}
                         variant='outlined'
                         sx={{
                             px: 5
@@ -99,7 +106,7 @@ function BlogPostForm({ blodFormData, loading, setBlogFormData, postBloges, setB
                 <div className='input-wrraperr border border-slate-400/20 p-5 rounded-md'>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Avatar src={imagePreview} sx={{ width: 56, height: 56, mr: 2 }} />
-                        <Button sx={{ textTransform: "none", px: 5, fontVariant: "all-small-caps" }} component="label" variant="contained" startIcon={<UploadFileIcon />}>
+                        <Button sx={{ textTransform: "none", px: 10, fontVariant: "all-small-caps" }} component="label" variant="outlined" startIcon={<UploadFileIcon />}>
                             Upload Image
                             <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
                         </Button>
@@ -331,7 +338,7 @@ function BlogPostForm({ blodFormData, loading, setBlogFormData, postBloges, setB
                         value={blodFormData.blogDescription}
                         onChange={onChangeHandler}
                     />
-                    <div className="flex items-center gap-2  sticky top-0 w-full mt-4">
+                    <div className="flex items-center gap-2  sticky top-0 w-full ">
                         <Checkbox
                             defaultChecked
                             sx={{ m: 0, p: 0 }}

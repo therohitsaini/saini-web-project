@@ -54,6 +54,7 @@ function Home() {
     const [footerData, setFooterData] = useState([])
     const [featureHeadlineApies, setFeatureHeadlineApies] = useState([])
     const [featureListItemApies, setFeatureListItemApies] = useState([])
+    const [sectionHeadingApies, setSectionHeadingApies] = useState([])
     const dispatch = useDispatch()
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
@@ -321,6 +322,24 @@ function Home() {
             return null;
         }
     };
+    const getServiceHeading = async (id) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-heading/api-get-heading-top/${id}`;
+            const fetchData = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+
+            })
+            const responseJson = await fetchData.json();
+            if (fetchData.ok) {
+                setSectionHeadingApies(responseJson)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
 
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
@@ -337,6 +356,7 @@ function Home() {
         getFooterData(id)
         getFeatureData(id)
         getFeatureDataListItem(id)
+        getServiceHeading(id)
     }, [])
 
     // useEffect(() => {
@@ -354,17 +374,23 @@ function Home() {
                     info={heroSectionData} />
             </div>
             <Service
-                serviceCard={serviceCard} />
+                serviceCard={serviceCard}
+                sectionHeadingApies={sectionHeadingApies}
+            />
+
             <Funfact
                 funfactData={funfactSectionData} />
             <PortfolioSection
                 portFolioData={portFolioData}
+                sectionHeadingApies={sectionHeadingApies}
             />
             <PrincingSection
                 princingGetApiesData={princingGetApiesData}
+                sectionHeadingApies={sectionHeadingApies}
             />
             <TestimonialSection
                 testimonialApiesDataUI={testimonialApiesDataUI}
+                sectionHeadingApies={sectionHeadingApies}
             />
             <FeatureSection
                 featureHeadlineApies={featureHeadlineApies}

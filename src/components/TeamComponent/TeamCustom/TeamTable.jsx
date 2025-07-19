@@ -1,8 +1,10 @@
 import { Button, IconButton, Paper } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { Fragment } from 'react'
+import { ToastContainer } from 'react-toastify'
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
 
-function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMemberForm }) {
+function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMemberForm, setRefresh }) {
 
 
 
@@ -22,9 +24,11 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
             const response = await fetchData.json();
 
             if (fetchData.ok) {
-                alert(response.message || 'Team member deleted successfully');
-                // Refresh the data by calling the parent's refresh function
-                // You might need to pass a refresh function from parent component
+                showSuccessToast(response.message || 'Team member deleted successfully');
+                setRefresh(prev => !prev)
+
+            } else {
+                showErrorToast(response.message || 'Something went wrong')
             }
 
         } catch (error) {
@@ -59,14 +63,14 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
                 const imgPath = params.formattedValue;
                 const baseURL = import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '');
                 const fullURL = imgPath?.startsWith("http") ? imgPath : `${baseURL}${imgPath}`;
-                
+
                 console.log('Image debug:', { imgPath, baseURL, fullURL });
 
                 return (
-                    <div style={{ 
-                        width: "100px", 
-                        height: "60px", 
-                        borderRadius: "4px", 
+                    <div style={{
+                        width: "100px",
+                        height: "60px",
+                        borderRadius: "4px",
                         padding: "2px",
                         backgroundColor: '#f0f0f0',
                         display: 'flex',
@@ -176,6 +180,7 @@ function TeamTable({ teamCardDataApies, showSnackbar, setTeamMode, setTeamMember
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='hero-tabel-main w-full h-[90vh] flex flex-col justify-center gap-5'>
 
                 <div>

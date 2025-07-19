@@ -12,7 +12,7 @@ import { allFaMdIconsList } from '../../../NavbarComponent/HeaderTopLeft';
 import { Box } from '@mui/material';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
+import GradientButton from '../../../ReuseComponent/ReuseComponent';
 
 function FeatureListForm({
     setFeatureListForm,
@@ -23,24 +23,24 @@ function FeatureListForm({
     updateListitemFeature,
     inisialState,
     loading
-
 }) {
 
     const [selectedIconLeft, setSelectedIconLeft] = useState(null);
     const [selectedIconRight, setSelectedIconRight] = useState(null);
-
     const [inputLeft, setInputLeft] = useState('');
     const [inputRight, setInputRight] = useState('');
-    const [imagePreview, setImagePreview] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null);
 
     useEffect(() => {
         if (freatureMode === "SubmitForm") {
-            setFeatureListForm(inisialState)
-            setSelectedIconLeft(null)
-            setSelectedIconRight(null)
-
+            setFeatureListForm(inisialState);
+            setSelectedIconLeft(null);
+            setSelectedIconRight(null);
+            setInputLeft('');
+            setInputRight('');
+            setImagePreview(null);
         }
-    }, [freatureMode])
+    }, [freatureMode]);
 
     const featureOnchange = (e) => {
         const { name, value } = e.target;
@@ -52,8 +52,7 @@ function FeatureListForm({
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setImagePreview(URL.createObjectURL(file))
-
+        setImagePreview(URL.createObjectURL(file));
         if (file) {
             setFeatureListForm((prev) => ({
                 ...prev,
@@ -67,10 +66,9 @@ function FeatureListForm({
             const imgSrc = featureListForm.backGroundImage.startsWith('http')
                 ? featureListForm.backGroundImage
                 : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${featureListForm.backGroundImage.replace(/^\/?/, '')}`;
-            setImagePreview(imgSrc)
-            // setImagePreview(featureListForm.backGroundImage)
+            setImagePreview(imgSrc);
         }
-    }, [featureListForm])
+    }, [featureListForm]);
 
     const filteredIconsLeft = useMemo(() => {
         const term = inputLeft.trim().toLowerCase();
@@ -89,65 +87,57 @@ function FeatureListForm({
     }, [inputRight]);
 
     useEffect(() => {
-        if (featureListForm?.listIconeLeft) {
+        // Reset icons if fields are empty
+        if (!featureListForm?.listIconeLeft) {
+            setSelectedIconLeft(null);
+        } else {
             const foundIcon = allFaMdIconsList.find((i) => i.label === featureListForm.listIconeLeft);
-            if (foundIcon) setSelectedIconLeft(foundIcon);
+            setSelectedIconLeft(foundIcon || null);
         }
-        if (featureListForm?.listIconeRight) {
+
+        if (!featureListForm?.listIconeRight) {
+            setSelectedIconRight(null);
+        } else {
             const foundIcon = allFaMdIconsList.find((i) => i.label === featureListForm.listIconeRight);
-            if (foundIcon) setSelectedIconRight(foundIcon);
+            setSelectedIconRight(foundIcon || null);
         }
     }, [featureListForm]);
 
-    console.log("featureListForm____TY", featureListForm)
     return (
         <Fragment>
             <div className='service main h-[95%] flex items-center justify-center flex-col'>
                 <div className='w-[80%] h-30 '>
                     <Button
                         onClick={() => setFeatureMode("Table")}
-                        sx={{
-                            fontVariant: "all-petite-caps",
-                            px: 5
-                        }}
+                        sx={{ fontVariant: "all-petite-caps", px: 5 }}
                         variant='outlined'
-
-
                     >
-                        <KeyboardBackspaceIcon sx={{ mr: 1 }} />  Back
+                        <KeyboardBackspaceIcon sx={{ mr: 1 }} /> Back
                     </Button>
                 </div>
-                <form className='service-form flex flex-col w-[60%] gap-4 border border-slate-400/20 rounded-md p-5'>
-                    <h1 className='heading text-2xl' >Feature List Item</h1>
-                    <Divider />
-                    <div className='flex items-center gap-3'>
-                        <Avatar sx={{
-                            height: 56, width: 56
-                        }}
-                            src={imagePreview}
-                        />
-                        <Button
-                            sx={{
-                                width: 250,
-                                textTransform: "none",
-                                border: "1px solid #413f3f"
 
-                            }}
+                <form className='service-form flex flex-col w-[60%] gap-4 border border-slate-400/20 rounded-md p-5'>
+                    <h1 className='heading text-2xl'>Feature List Item</h1>
+                    <Divider />
+
+                    <div className='flex items-center gap-3'>
+                        <Avatar sx={{ height: 56, width: 56 }} src={imagePreview} />
+                        <Button
+                            sx={{ width: 250, textTransform: "none", border: "1px solid #413f3f" }}
                             component="label"
                             variant="outlined"
                             startIcon={<CloudUploadIcon />}
-
                         >
-                            Selete Backgorund Image
+                            Select Background Image
                             <input
                                 type="file"
                                 hidden
                                 accept="image/*"
                                 onChange={handleFileChange}
-
                             />
                         </Button>
                     </div>
+
                     <TextField
                         size='small'
                         label="Title"
@@ -160,18 +150,15 @@ function FeatureListForm({
                                 '& input': {
                                     fontSize: '14px',
                                 },
-                                '&:hover fieldset': {
-                                    borderColor: 'blue',
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'blue',
-                                },
+                                '&:hover fieldset': { borderColor: 'blue' },
+                                '&.Mui-focused fieldset': { borderColor: 'blue' },
                             },
                         }}
                     />
 
                     {/* Left Icon Autocomplete */}
                     <Autocomplete
+                        key={freatureMode === "SubmitForm" ? "left-reset" : "left-active"}
                         options={filteredIconsLeft}
                         value={selectedIconLeft}
                         onChange={(e, newValue) => {
@@ -208,15 +195,9 @@ function FeatureListForm({
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         fontSize: '12px',
-                                        '& input': {
-                                            fontSize: '14px',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: 'blue',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: 'blue',
-                                        },
+                                        '& input': { fontSize: '14px' },
+                                        '&:hover fieldset': { borderColor: 'blue' },
+                                        '&.Mui-focused fieldset': { borderColor: 'blue' },
                                     },
                                 }}
                             />
@@ -225,6 +206,7 @@ function FeatureListForm({
 
                     {/* Right Icon Autocomplete */}
                     <Autocomplete
+                        key={freatureMode === "SubmitForm" ? "right-reset" : "right-active"}
                         options={filteredIconsRight}
                         value={selectedIconRight}
                         onChange={(e, newValue) => {
@@ -261,25 +243,18 @@ function FeatureListForm({
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         fontSize: '12px',
-                                        '& input': {
-                                            fontSize: '14px',
-                                        },
-                                        '&:hover fieldset': {
-                                            borderColor: 'blue',
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: 'blue',
-                                        },
+                                        '& input': { fontSize: '14px' },
+                                        '&:hover fieldset': { borderColor: 'blue' },
+                                        '&.Mui-focused fieldset': { borderColor: 'blue' },
                                     },
                                 }}
                             />
                         )}
                     />
 
-
                     <div className="flex items-center gap-2 sticky top-0">
                         <Checkbox
-                            checked={featureListForm.item_ShowOnWebsite}
+                            checked={featureListForm.item_ShowOnWebsite || true}
                             onChange={(e) =>
                                 setFeatureListForm((prev) => ({
                                     ...prev,
@@ -293,31 +268,18 @@ function FeatureListForm({
                             If you want to show this on the website
                         </p>
                     </div>
-                    {/* freatureMode */}
-                    {
-                        freatureMode === "UpdateForm" ?
-                            (
-                                <Button
-                                    onClick={updateListitemFeature}
-                                    loading={loading}
-                                >
 
-                                    Update
-                                </Button>
-
-                            )
-
-                            :
-                            (
-                                <Button
-                                    onClick={postListitemFeature}
-                                    loading={loading}
-                                >
-                                    Save Changes
-                                </Button>
-
-                            )
-                    }
+                    <div className='flex gap-2 justify-end'>
+                        {freatureMode === "UpdateForm" ? (
+                            <GradientButton onClick={updateListitemFeature} loading={loading}>
+                                Update
+                            </GradientButton>
+                        ) : (
+                            <GradientButton onClick={postListitemFeature} loading={loading}>
+                                Save Changes
+                            </GradientButton>
+                        )}
+                    </div>
                 </form>
             </div>
         </Fragment>

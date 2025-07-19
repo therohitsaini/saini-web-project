@@ -94,7 +94,7 @@ export default function FooterContactMain({ showSnackbar, showError }) {
                borderColor: 'divider',
                minWidth: 200, height: 400,
                position: 'sticky',
-               top: 180,
+               top: 240,
             }}
          >
             {

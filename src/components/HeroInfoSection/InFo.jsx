@@ -13,6 +13,9 @@ import InFoTable from './InfoPages/InFoTable';
 import InFoForm from './InfoPages/InFoForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useSnackbar } from '../Snakbar/Snakbar';
+import { showSuccessToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { Fragment } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 export default function InFo() {
 
@@ -50,15 +53,15 @@ export default function InFo() {
 
         const { inFoHeading, inFoDescription, inFoIcone } = inFoService
         if (!inFoHeading) {
-            showError("Title  is Required !")
+            showErrorToast("Title  is Required !")
             return;
         }
         if (!inFoDescription) {
-            showError("Description is Required !")
+            showErrorToast("Description is Required !")
             return;
         }
         if (!inFoIcone) {
-            showError(" Icone is Required !")
+            showErrorToast(" Icone is Required !")
             return;
         }
 
@@ -74,7 +77,7 @@ export default function InFo() {
 
             if (fetchData.ok) {
 
-                showSnackbar(response.message)
+                showSuccessToast(response.message)
                 setInFoService({
                     inFoHeading: "",
                     inFoDescription: "",
@@ -83,7 +86,7 @@ export default function InFo() {
                 setSelectedIcon(null);
             }
         } catch (error) {
-            showError("Try After Some time !")
+            showErrorToast("Try After Some time !")
             console.error("Internal Error", error);
         }
     };
@@ -118,11 +121,11 @@ export default function InFo() {
             const result = await response.json();
 
             if (response.ok) {
-                showSnackbar(result.message)
+                showSuccessToast(result.message)
 
             } else {
                 console.error("Update failed:", result);
-                alert("Update failed. Check console for details.");
+                showErrorToast("Something went wrong !");
             }
         } catch (error) {
 
@@ -130,60 +133,63 @@ export default function InFo() {
     }
 
     return (
-        <Box
-            sx={{
-                flexGrow: 1,
-                bgcolor: 'background.paper',
-                display: 'flex',
-                justifyContent: "center",
-                flexDirection: 'column',
-                alignItems: 'center',
-                p: 2,
+        <Fragment>
+            <ToastContainer />
+            <Box
+                sx={{
+                    flexGrow: 1,
+                    bgcolor: 'background.paper',
+                    display: 'flex',
+                    justifyContent: "center",
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    p: 2,
 
 
-            }}
-        >
-            {inFoIsTrue === "Save" || inFoIsTrue === "Edit" ? (
-                <Box className="tabs-container w-full">
-                    <Box className="btn w-full px-20 ">
-                        <Button
-                            onClick={() => setInFoIsTrue("")}
-                            sx={{
-                                textTransform: "none",
-                                fontVariant: "all-small-caps",
-                                px: 5
-                            }}
-                            variant="outlined"
-                        >
-                            <KeyboardBackspaceIcon sx={{ mr: 1 }} />   Back
-                        </Button>
+                }}
+            >
+                {inFoIsTrue === "Save" || inFoIsTrue === "Edit" ? (
+                    <Box className="tabs-container w-full">
+                        <Box className="btn w-full px-20 ">
+                            <Button
+                                onClick={() => setInFoIsTrue("")}
+                                sx={{
+                                    textTransform: "none",
+                                    fontVariant: "all-small-caps",
+                                    px: 5
+                                }}
+                                variant="outlined"
+                            >
+                                <KeyboardBackspaceIcon sx={{ mr: 1 }} />   Back
+                            </Button>
+                        </Box>
+
+                        <InFoForm
+                            inFoService={inFoService}
+                            setInFoService={setInFoService}
+                            selectedIcon={selectedIcon}
+                            infoHandler={infoHandler}
+                            setSelectedIcon={setSelectedIcon}
+                            inFoIsTrue={inFoIsTrue}
+                            infoUpdateHandler={infoUpdateHandler}
+                        // allFaMdIcons={allIcons}
+                        />
+
                     </Box>
 
-                    <InFoForm
-                        inFoService={inFoService}
-                        setInFoService={setInFoService}
-                        selectedIcon={selectedIcon}
-                        infoHandler={infoHandler}
-                        setSelectedIcon={setSelectedIcon}
-                        inFoIsTrue={inFoIsTrue}
-                        infoUpdateHandler={infoUpdateHandler}
-                    // allFaMdIcons={allIcons}
-                    />
-
-                </Box>
-
-            ) : (
-                <div className='flex justify-center items-center'>
-                    <InFoTable
-                        setInFoIsTrue={setInFoIsTrue}
-                        setInFoService={setInFoService}
-                        inFoDataRedux={inFoDataRedux}
-                        refresh={refresh}
-                        setRefresh={setRefresh}
-                    />
-                </div>
-            )
-            }
-        </Box >
+                ) : (
+                    <div className='flex justify-center items-center'>
+                        <InFoTable
+                            setInFoIsTrue={setInFoIsTrue}
+                            setInFoService={setInFoService}
+                            inFoDataRedux={inFoDataRedux}
+                            refresh={refresh}
+                            setRefresh={setRefresh}
+                        />
+                    </div>
+                )
+                }
+            </Box >
+        </Fragment>
     );
 }

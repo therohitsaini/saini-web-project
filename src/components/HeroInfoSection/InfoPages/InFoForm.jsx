@@ -5,6 +5,7 @@ import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
 import { useState } from 'react'
 import { useMemo } from 'react'
 import GradientButton from '../../ReuseComponent/ReuseComponent'
+import { useEffect } from 'react'
 
 function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUpdateHandler }) {
 
@@ -17,6 +18,18 @@ function InFoForm({ setInFoService, inFoService, infoHandler, inFoIsTrue, infoUp
         }))
 
     }
+
+    useEffect(() => {
+        if (inFoIsTrue === "Save") {
+            setInFoService({
+                inFoHeading: "",
+                inFoDescription: "",
+                inFoIcone: ""
+            })
+            setSelectedIcon(null); 
+            setInputValue("");
+        }
+    }, [])
 
     const [selectedIcon, setSelectedIcon] = useState(
         allFaMdIconsList.find((i) => i.label === inFoService?.inFoIcone) || null

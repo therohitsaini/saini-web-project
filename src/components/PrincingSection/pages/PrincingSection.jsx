@@ -47,12 +47,13 @@ const pricingPlans = [
 
 
 
-function PrincingSection({ princingGetApiesData }) {
+function PrincingSection({ princingGetApiesData, sectionHeadingApies }) {
 
     const plansToRender = Array.isArray(princingGetApiesData) && princingGetApiesData.length > 0
         ? princingGetApiesData
         : pricingPlans;
-
+    const serviceHeadingData = sectionHeadingApies?.data?.find(section => section.section === "PrincingHeading");
+    const serviceHeadingItem = serviceHeadingData?.item?.[0];
 
     return (
         <Fragment>
@@ -60,14 +61,25 @@ function PrincingSection({ princingGetApiesData }) {
                 <div className='main  bg-black/10 pb-20'>
                     <img className='h-[750px]   w-full object-cover' src='./src/assets/shape2.png' />
                     <div className='absolute top-0 w-full px-20 flex flex-col  '>
-                        <div className='heading-secton-top flex flex-col items-center mb-10 mt-10 '>
-                            <h1 className='heading font-bold text-3xl my-3 flex items-center gap-2'>Our <div className='bg-red-600/40 pl-0 p-3 px-3 rounded-l-[100px] rounded-r-[30px]' > <span className='rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white' >Princing </span></div> </h1>
-                            <p className='paraghraph font-light text-slate-600' >There are many variations of passages of Lorem Ipsum available</p>
+                        <div className='title-secton-top flex flex-col items-center '>
+                            <div className="text-center">
+                                <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
+                                    {serviceHeadingItem?.item_Title?.split(' ')[0] || 'Our'}
+                                    <div className="bg-red-600/40 p-3 px-3 rounded-l-[100px] rounded-r-[30px]">
+                                        <span className="rounded-l-[100px] rounded-r-[30px] p-2 px-3 bg-[#df442d] text-white">
+                                            {serviceHeadingItem?.item_Title?.split(' ').slice(1).join(' ') || 'Princing'}
+                                        </span>
+                                    </div>
+                                </h1>
+                            </div>
+                            <p className='paraghraph font-light text-slate-600'>
+                                {serviceHeadingItem?.item_Description || 'There are many variations of passages of Lorem Ipsum available'}
+                            </p>
                         </div>
                         <div className='grid grid-cols-3 px-12 gap-10  '>
                             {
                                 plansToRender?.map((item_, index_) => {
-                                   
+
                                     return (
                                         < div key={index_} className={`main-princing  ${index_ === 1 ? "bg-black" : "bg-[#f7f5f5] "} relative px-5 `} >
                                             <div className={`${index_ === 1 ? "bg-white/30 " : "bg-amber-100/40"}  rounded-b-[50%]`}>

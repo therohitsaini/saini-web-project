@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Fragment } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import { showErrorToast, showSuccessToast } from '../../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 
 function BlogHeadingSection({ showSnackbar, showError }) {
     const initialState = {
@@ -69,6 +71,14 @@ function BlogHeadingSection({ showSnackbar, showError }) {
 
     const submitHandler = async () => {
         const sectionId = blogHeadingForm._id
+        if (!blogHeadingForm.blogHeading) {
+            showErrorToast("Heading is required")
+            return
+        }
+        if (!blogHeadingForm.blogDescription) {
+            showErrorToast("Description is required")
+            return
+        }
         setLoading(true)
         try {
             const baseUrl = `${import.meta.env.VITE_BACK_END_URL}api-blog/api-create-update/bloges/${id}`
@@ -80,8 +90,10 @@ function BlogHeadingSection({ showSnackbar, showError }) {
             })
             const result = await response.json()
             if (response.ok) {
-                showSnackbar(result.message)
+                showSuccessToast(result.message)
                 setLoading(false)
+            } else {
+                showErrorToast(result.message)
             }
 
         } catch (err) {
@@ -94,6 +106,7 @@ function BlogHeadingSection({ showSnackbar, showError }) {
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='form-contanier  w-full h-[580px] flex flex-col items-center justify-center gap-20 '>
 
                 <form
