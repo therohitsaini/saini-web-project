@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { Autocomplete, Box, Divider, InputAdornment, TextField, Button, CircularProgress, Snackbar, Alert } from '@mui/material'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
 
 function FooterRightContact({ userID, showSnackbar, showError }) {
    const [loading, setLoading] = useState(false)
@@ -148,7 +149,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
             const message = isUpdate ? 'Contact information updated successfully! 🎉' : 'Contact information created successfully! 🎉'
             setSuccessMessage(message)
             setShowSuccess(true)
-            
+
             if (!isUpdate && data.data) {
                setContactId(data.data._id)
             }
@@ -194,7 +195,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
          if (response.ok) {
             setSuccessMessage('Contact information deleted successfully! 🗑️')
             setShowSuccess(true)
-     
+
             setContactId(null)
             setFormData({
                location: { icon: '', location: '', address: '' },
@@ -215,7 +216,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
       }
    }
 
- 
+
    const handleInputChange = (section, field, value) => {
       setFormData(prev => ({
          ...prev,
@@ -237,7 +238,7 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
          }
       }))
 
-     
+
       switch (section) {
          case 'location':
             setLocationIcon(newValue)
@@ -327,6 +328,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                               }}
                            />
                         )}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -335,6 +357,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.location.location}
                         onChange={(e) => handleInputChange('location', 'location', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -343,6 +386,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.location.address}
                         onChange={(e) => handleInputChange('location', 'address', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                   </div>
 
@@ -379,6 +443,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                               }}
                            />
                         )}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -387,6 +472,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.call.call}
                         onChange={(e) => handleInputChange('call', 'call', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -395,6 +501,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.call.contactNumber}
                         onChange={(e) => handleInputChange('call', 'contactNumber', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                   </div>
 
@@ -431,6 +558,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                               }}
                            />
                         )}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -439,6 +587,27 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.email.email}
                         onChange={(e) => handleInputChange('email', 'email', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                      <TextField
                         size='small'
@@ -447,42 +616,69 @@ function FooterRightContact({ userID, showSnackbar, showError }) {
                         fullWidth
                         value={formData.email.emailId}
                         onChange={(e) => handleInputChange('email', 'emailId', e.target.value)}
+                        sx={{
+                           '& .MuiOutlinedInput-root': {
+                              fontSize: '12px',
+                              '& input': {
+                                 fontSize: '14px',
+                              },
+                              '&:hover fieldset': {
+                                 borderColor: 'blue',
+                              },
+                              '&.Mui-focused fieldset': {
+                                 borderColor: 'blue',
+                              },
+                           },
+                           '& label': {
+                              color: 'gray',
+                              fontSize: '14px',
+                           },
+                           '& label.Mui-focused': {
+                              color: 'white',
+                           }
+                        }}
                      />
                   </div>
                </Box>
 
                {/* Action Buttons */}
-               <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-                                    <Button 
-                     type="submit" 
-                     variant="contained" 
-                     disabled={loading}
-                     sx={{ 
-                        textTransform: 'none',
-                        flex: 1,
-                        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                        '&:hover': {
-                           background: 'linear-gradient(45deg, #1976D2 30%, #1E88E5 90%)',
-                        },
-                        '&:disabled': {
-                           background: 'linear-gradient(45deg, #BDBDBD 30%, #E0E0E0 90%)',
-                        }
-                     }}
+               <Box sx={{ display: 'flex', gap: 2, mt: 2, width: "100%" }}>
+
+                  <div>
+                     {contactId && (
+                        <Button
+                           type="button"
+                           variant="outlined"
+                           color="error"
+                           onClick={deleteFooterRightContact}
+                           disabled={loading}
+                           sx={{
+                              px: 5
+                           }}
+                        >
+                           Delete
+                        </Button>
+                     )}
+                  </div>
+                  <GradientButton
+                     type="submit"
+                     loading={loading}
+                  // variant="contained"
+                  // disabled={loading}
+                  // sx={{
+                  //    textTransform: 'none',
+                  //    flex: 1,
+                  //    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                  //    '&:hover': {
+                  //       background: 'linear-gradient(45deg, #1976D2 30%, #1E88E5 90%)',
+                  //    },
+                  //    '&:disabled': {
+                  //       background: 'linear-gradient(45deg, #BDBDBD 30%, #E0E0E0 90%)',
+                  //    }
+                  // }}
                   >
                      {loading ? 'Saving...' : (contactId ? 'Update Contact' : 'Save Contact')}
-                  </Button>
-
-                  {contactId && (
-                     <Button
-                        type="button"
-                        variant="outlined"
-                        color="error"
-                        onClick={deleteFooterRightContact}
-                        disabled={loading}
-                     >
-                        Delete
-                     </Button>
-                  )}
+                  </GradientButton>
                </Box>
             </Box>
          </form>

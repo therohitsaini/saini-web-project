@@ -5,7 +5,7 @@ import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 
 
 function Icone({ item_ }) {
-    
+
     const [linkdinHover, setLinkdinHover] = useState(false)
 
     return (
@@ -41,28 +41,41 @@ export const ButtonComponent = ({ item_ }) => {
 
 
 export const ContactComponent = ({ Icone_Contact, heading, paragraph }) => {
-    const [facebookHover, setFacebookHover] = useState(false)
-    
-    // Get the icon component from the mapping
+    const [facebookHover, setFacebookHover] = useState(false);
+
     const IconComponent = allFaMdIconsMap[Icone_Contact];
-    
+
     return (
         <div className='contact-section flex items-center gap-5'>
-            <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                <div onMouseOver={() => setFacebookHover(true)} onMouseLeave={() => setFacebookHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500 " : "bg-white"}`}>
+            <div
+                className={`icon-fecebook h-12 w-12 rounded-b-3xl flex justify-center items-end rounded-t-xl duration-700 ${facebookHover ? "bg-red-600/40" : "bg-white/50"
+                    }`}
+            >
+                <div
+                    onMouseOver={() => setFacebookHover(true)}
+                    onMouseLeave={() => setFacebookHover(false)}
+                    className={`icone-cover duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl shadow-black/20 shadow-sm ${facebookHover ? "bg-red-500" : "bg-white"
+                        }`}
+                >
                     {IconComponent ? (
-                        <IconComponent size={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" />
+                        <IconComponent
+                            size={20}
+                            className={facebookHover ? "text-white" : "text-[#db3125]"}
+                        />
                     ) : (
-                        <Icon fontSize={20} className={`${facebookHover ? "text-white" : ""}`} color="#db3125" icon={Icone_Contact} />
+                        <Icon
+                            fontSize={20}
+                            className={facebookHover ? "text-white" : "text-[#db3125]"}
+                            icon={Icone_Contact}
+                        />
                     )}
                 </div>
             </div>
 
             <div className='contact-info flex flex-col'>
-                <sapn className=" font-semibold text-[#db3125] text-xl" >{heading}</sapn>
+                <span className="font-semibold text-[#db3125] text-xl">{heading}</span>
                 <span className='font-medium text-white text-base'>{paragraph}</span>
             </div>
-
         </div>
-    )
-}
+    );
+};

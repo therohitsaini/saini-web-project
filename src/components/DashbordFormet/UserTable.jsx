@@ -277,7 +277,15 @@ function UserTable() {
                 <div>
                     <div className='flex flex-col w-full gap-4'>
                         <div className='flex justify-between'>
-                            <Button variant="contained" onClick={goToAddUser}>Add New User</Button>
+                            <Button
+                                variant="outlined"
+                                onClick={goToAddUser}
+                                sx={{
+                                    textTransform: "none"
+                                }}
+                            >
+                               + Add New User
+                            </Button>
                             <Button variant="outlined" color="error" onClick={handleDelete} disabled={arrIds.length === 0}>Delete Selected</Button>
                         </div>
 
@@ -287,7 +295,7 @@ function UserTable() {
                             height: 600,
                             width: "100%",
                             '& .MuiDataGrid-main': {
-                                backgroundColor: "black",
+                                // backgroundColor: "black",
                                 color: 'white',
                             },
                             "& .MuiToolbar-root": {

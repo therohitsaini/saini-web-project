@@ -145,13 +145,13 @@ function PrincingTable({ setPrincingMode, princingGetApiesData, setRefresh, setP
     const paginationModel = { page: 0, pageSize: 5 };
     return (
         <Fragment>
-            <div className='hero-tabel-main w-[80%] border border-red-500 h-[78vh] flex flex-col justify-center gap-5'>
+            <div className='hero-tabel-main w-[100%]  h-[78vh] flex flex-col justify-center gap-5'>
 
                 <div>
                     <Button
                         onClick={() => setPrincingMode("SubmitForm")}
                         sx={{
-                            px: 10,
+                        px: 10,
                             textTransform: "none",
                             fontVariant: "all-small-caps"
                         }} variant="outlined">

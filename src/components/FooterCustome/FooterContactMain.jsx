@@ -66,9 +66,6 @@ function a11yProps(index) {
 export default function FooterContactMain({ showSnackbar, showError }) {
    const [value, setValue] = React.useState(0);
 
-
-
-
    const [userID, setUserID] = useState('');
    useEffect(() => {
       const userID = localStorage.getItem("user-ID");
@@ -80,42 +77,48 @@ export default function FooterContactMain({ showSnackbar, showError }) {
    };
 
    return (
+      //  <div className='w-full h-[100%] border border-red-500 flex justify-center items-center'>
       <Box
-         sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', alignItems: 'center', height: 224, width: '100%' }}
+         sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 224, width: '100%' }}
       >
-         <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            sx={{
-               borderRight: 1,
-               borderColor: 'divider',
-               minWidth: 200, height: 400,
-               position: 'sticky',
-               top: 240,
-            }}
-         >
-            {
-               tabsData?.map((tabs) => {
-                  return (
-                     <Tab sx={{
-                        textTransform: 'none',
-                        bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
-                        color: value === tabs.value ? 'black' : 'white',
-                        borderRadius: 1,
+         <div className=' flex justify-center items-center sticky top-10'>
+            <Tabs
+               orientation="vertical"
+               variant="scrollable"
+               value={value}
+               onChange={handleChange}
+               aria-label="Vertical tabs example"
+               sx={{
+                  borderRight: 1,
+                  borderColor: 'divider',
+                  minWidth: 200, height: 200,
+                  display: 'flex',
+                  //   justifyContent: 'center',
+                  //   alignItems: 'center',
+                  //   alignSelf: 'center',
 
-                     }}
+               }}
+            >
+               {
+                  tabsData?.map((tabs) => {
+                     return (
+                        <Tab sx={{
+                           textTransform: 'none',
+                           bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
+                           color: value === tabs.value ? 'black' : 'white',
+                           borderRadius: 1,
 
-                        label={tabs.label} {...a11yProps(tabs.value)}
-                     />
-                  )
-               })
-            }
+                        }}
 
-         </Tabs>
-         <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                           label={tabs.label} {...a11yProps(tabs.value)}
+                        />
+                     )
+                  })
+               }
+
+            </Tabs>
+         </div>
+         <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', }}>
             <TabPanel value={value} index={0}>
                <FooterContact
                   userID={userID}
@@ -135,5 +138,6 @@ export default function FooterContactMain({ showSnackbar, showError }) {
 
          </Box>
       </Box>
+      // </div>
    );
 }

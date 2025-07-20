@@ -112,7 +112,7 @@ export default function HeaderSideBarTabs() {
         item_Title: "",
         item_Icone: "",
         item_IconeUrl: "",
-        item_ShowOnWebsite: true
+        item_ShowOnWebsite: ""
 
     }
 
@@ -121,7 +121,8 @@ export default function HeaderSideBarTabs() {
         item_ContactIdRight: "",
         item_TitleRight: "",
         item_IconeRight: "",
-        item_IconeUrlRight: ""
+        item_IconeUrlRight: "",
+        item_ShowOnWebsite: ""
     }
     const [formData, setFormData] = useState(initialState);
     const [formDataRight, setFormDataRight] = useState(initialStateRight)
@@ -137,6 +138,7 @@ export default function HeaderSideBarTabs() {
             item_Center_Name: "",
             item_Center_Icone: "",
             item_Center_Icone_Path: "",
+            item_ShowOnWebsite: ""
         }]
     )
 
@@ -145,7 +147,8 @@ export default function HeaderSideBarTabs() {
             item_Icone: "",
             item_Title: "",
             openingTime: "",
-            closeTimnig: ""
+            closeTimnig: "",
+            item_ShowOnWebsite: ""
         }
     )
 
@@ -153,20 +156,21 @@ export default function HeaderSideBarTabs() {
         {
             item_Icone: "",
             item_Title: "",
-            item_Paragraph: ""
+            item_Paragraph: "",
+            item_ShowOnWebsite: ""
         }
     )
 
 
     const [searchIcone, setSearchIcone] = useState(
-        { item_SearchIcone: "" }
+        { item_SearchIcone: "", item_ShowOnWebsite: "" }
     )
     const [cartIcone, setCartIcone] = useState(
-        { item_CartIcone: "" }
+        { item_CartIcone: "", item_ShowOnWebsite: "" }
     )
 
     const [headerButton, setHeaderButton] = useState({
-        buttonText: ""
+        buttonText: "", item_ShowOnWebsite: ""
     })
     const [loading, setLoading] = useState(false)
 
@@ -195,7 +199,7 @@ export default function HeaderSideBarTabs() {
     if (!snackbar) {
         console.warn("Snackbar context is missing.");
         return null; // or render fallback UI
-    }   
+    }
     const { showSnackbar } = snackbar;
 
 
@@ -346,7 +350,8 @@ export default function HeaderSideBarTabs() {
                 item: iconeCenter?.map(field => ({
                     item_Title: field.item_Center_Name,
                     item_IconeUrl: field.item_Center_Icone_Path,
-                    item_Icone: field.item_Center_Icone
+                    item_Icone: field.item_Center_Icone,
+                    item_ShowOnWebsite: formData.item_ShowOnWebsite
                 }))
             }
         }
@@ -360,6 +365,7 @@ export default function HeaderSideBarTabs() {
                         item_Title: formDataRight.item_TitleRight,
                         item_Icone: formDataRight.item_IconeRight,
                         item_IconeUrl: formDataRight.item_IconeUrlRight,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
                     }
                 ]
             };
@@ -368,7 +374,8 @@ export default function HeaderSideBarTabs() {
                 section: section,
                 item: iconFields.map(field => ({
                     item_Title: field.menuItem,
-                    item_IconeUrl: field.menuItemRoute
+                    item_IconeUrl: field.menuItemRoute,
+                    item_ShowOnWebsite: formData.item_ShowOnWebsite
                 }))
             };
         }
@@ -377,7 +384,8 @@ export default function HeaderSideBarTabs() {
                 section: section,
                 item: [
                     {
-                        item_Icone: searchIcone.item_SearchIcone
+                        item_Icone: searchIcone.item_SearchIcone,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
                     }
                 ]
             };
@@ -387,7 +395,8 @@ export default function HeaderSideBarTabs() {
                 section: section,
                 item: [
                     {
-                        item_Icone: cartIcone.item_CartIcone
+                        item_Icone: cartIcone.item_CartIcone,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
                     }
                 ]
             };
@@ -397,7 +406,8 @@ export default function HeaderSideBarTabs() {
                 section: section,
                 item: [
                     {
-                        item_Title: headerButton.buttonText
+                        item_Title: headerButton.buttonText,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
                     }
                 ]
             };
@@ -409,7 +419,8 @@ export default function HeaderSideBarTabs() {
                     {
                         item_Icone: headerButtomLeft.item_Icone,
                         item_Title: headerButtomLeft.item_Title,
-                        item_IconeUrl: headerButtomLeft.item_Paragraph
+                        item_IconeUrl: headerButtomLeft.item_Paragraph,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
 
                     }
                 ]
@@ -423,7 +434,8 @@ export default function HeaderSideBarTabs() {
                         item_Icone: headerButtom.item_Icone,
                         item_Title: headerButtom.item_Title,
                         item_ContactId: headerButtom.openingTime,
-                        item_IconeUrl: headerButtom.closeTimnig
+                        item_IconeUrl: headerButtom.closeTimnig,
+                        item_ShowOnWebsite: formData.item_ShowOnWebsite
 
                     }
                 ]

@@ -7,7 +7,7 @@ export const posts = [
         blogerImage:
             "https://i.pinimg.com/736x/fd/96/24/fd9624ae8ebf666a6661ff666fa06c45.jpg",
         blogDatePicker: "10 Mar, 2023",
-        goIcone: "",
+        goIcone: "MdKeyboardDoubleArrowRight",
         blogerRoleIocne: "",
         blogerRole: "Admin",
         blogDescription: "There are many variations of passages of Lorem Ipsum available",

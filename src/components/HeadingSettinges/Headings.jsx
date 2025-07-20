@@ -112,16 +112,7 @@ function Headings() {
       });
    };
 
-   const showError = (message) => {
-      showSnackbar(message, 'error');
-   };
-
-   const handleCloseSnackbar = () => {
-      setSnackbar(prev => ({
-         ...prev,
-         open: false
-      }));
-   };
+ 
 
    useEffect(() => {
       if (serviceHeadingApiData?.data?.length > 0) {

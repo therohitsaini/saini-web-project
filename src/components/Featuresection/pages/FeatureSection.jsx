@@ -1,6 +1,7 @@
 import { allFaMdIconsMap } from '../../NavbarComponent/HeaderTopLeft';
 import img from "../../../assets/feature.png"
 import fallbackImage from '../../../assets/feature.png';
+// import defaultImage from '../../../assets/';
 
 console.log("fallbackImage", fallbackImage)
 export const features = [
@@ -75,13 +76,10 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
         ? (sectionImage.startsWith('http')
             ? sectionImage
             : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${sectionImage.replace(/^\/?/, '')}`)
-        : fallbackImage; 
+        : fallbackImage;
 
 
 
-    console.log("featureListItemApies", imgSrc)
-    console.log("leftFeatures", leftFeatures)
-    console.log("rightFeatures", rightFeatures)
 
     return (
         <section className="py-16 px-10 bg-black/10">
@@ -117,7 +115,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                         }
                     </h2>
                     <p className="text-gray-600 mt-2">
-                        {featureHeadlineApies[0]?.setionDescriptions || "There are many variations"}
+                        {featureHeadlineApies[0]?.setionDescriptions || "There are many variations of passages of Lorem Ipsum available"}
                     </p>
                 </div>
 
@@ -131,8 +129,8 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                                 const title = isBackendData ? feature.listTitle : feature.title;
                                 const leftIcon = isBackendData ? feature.listIconeLeft : feature.icon;
                                 const rightIcon = isBackendData ? feature.listIconeRight : feature.listIconeRight
-                                const bgImage = isBackendData ? feature.backGroundImage : '../src/assets/photorealistic-earth-planet_23-2151075927.avif';
-
+                                const bgImage = isBackendData ? feature.backGroundImage : 'https://media.istockphoto.com/id/1136542562/photo/abstract-lights.jpg?b=1&s=612x612&w=0&k=20&c=VzNUPz7Ci6-YFa05W-wJ7TxR2b3qmJyyH6K33QzA4eU=';
+// console.log()
                                 const LeftIconComponent = leftIcon ? allFaMdIconsMap[leftIcon] : null;
                                 const RightIconComponent = rightIcon ? allFaMdIconsMap[rightIcon] : null;
 
@@ -141,7 +139,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                                         <img
                                             className='object-cover h-full w-full'
                                             src={bgImage?.startsWith('http') ? bgImage : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${bgImage?.replace(/^\/?/, '')}`}
-                                            alt="background"
+
                                         />
                                         <div className='data-container h-full w-full absolute top-0 bg-white hover:bg-black/40 duration-1000 flex px-5 group'>
                                             {/* Left Icon */}
@@ -206,7 +204,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                                 const title = isBackendData ? feature.listTitle : feature.title;
                                 const leftIcon = isBackendData ? feature.listIconeLeft : feature.icon;
                                 const rightIcon = isBackendData ? feature.listIconeRight : feature.listIconeRight
-                                const bgImage = isBackendData ? feature.backGroundImage : null;
+                                const bgImage = isBackendData ? feature.backGroundImage : "https://media.istockphoto.com/id/1136542562/photo/abstract-lights.jpg?b=1&s=612x612&w=0&k=20&c=VzNUPz7Ci6-YFa05W-wJ7TxR2b3qmJyyH6K33QzA4eU= ";
 
                                 // Get icon components
                                 const LeftIconComponent = leftIcon ? allFaMdIconsMap[leftIcon] : null;

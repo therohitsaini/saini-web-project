@@ -395,7 +395,7 @@ function HeaderTopBarCenterIcon({
                                     '& label': {
                                         color: 'gray',
                                         fontSize: '14px',
-                                    
+
                                     },
                                     '& label.Mui-focused': {
                                         color: 'white',
@@ -418,7 +418,7 @@ function HeaderTopBarCenterIcon({
                 <div className="flex items-center gap-2  sticky top-0">
                     <Checkbox
                         defaultChecked
-                        // checked={formData?.item_ShowOnWebsite || false}
+                        checked={true}
                         // onChange={(e) =>
                         //     setIconeCenter((prev) => ({
                         //         ...prev,
@@ -436,8 +436,8 @@ function HeaderTopBarCenterIcon({
                     <Button onClick={addNewField} variant="outlined" className="w-fit" sx={{
                         border: "2px solid  #e0f574",
                         color: "#e0f574",
-                        textTransform:"none",
-                        px:5
+                        textTransform: "none",
+                        px: 5
 
                     }}>
                         + Add More

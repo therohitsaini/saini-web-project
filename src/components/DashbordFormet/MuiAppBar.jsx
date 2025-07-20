@@ -39,11 +39,6 @@ import FooterCopyRight from '../FooterCustome/FooterMianPages/FooterCopyRight';
 
 // import FooterMainCenter from '../FooterCustome/FooterMainCenter';
 
-
-
-
-
-
 const MuiAppBar = (props) => {
 
     const [isAdmin, setIsAdmin] = useState("admin")
@@ -75,13 +70,17 @@ const MuiAppBar = (props) => {
                 method: "GET",
             })
             const response = await fetchData.json()
-            setData(response.find_Data)
-            console.log("data", response)
+            if (fetchData.ok) {
+                setData(response.find_Data)
+                console.log("UserData", response)
+            }
+
 
         } catch (error) {
             console.log("Somthing Went Wrong!")
         }
     }
+
 
     useEffect(() => {
         const ID = localStorage.getItem("user-ID");

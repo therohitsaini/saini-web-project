@@ -1,33 +1,36 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { 
-    TextField, 
-    Button, 
-    Divider, 
-    IconButton, 
-    Box, 
+import {
+    TextField,
+    Button,
+    Divider,
+    IconButton,
+    Box,
     Typography,
     Card,
     CardContent,
     Grid,
     CircularProgress,
     Autocomplete,
-    InputAdornment
+    InputAdornment,
+    Checkbox
 } from '@mui/material'
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { Fragment } from 'react'
 import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft'
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { ToastContainer } from 'react-toastify'
 
-function FooterCopyRight({ showSnackbar, showError }) {
+function FooterCopyRight({ showSuccessToast, showErrorToast }) {
     const [copyrightForm, setCopyrightForm] = useState({
         copyrightText: '',
         poweredByText: ''
     })
-    
+
     const [paymentIcons, setPaymentIcons] = useState([
         { name: '', icon: '', url: '', isActive: true },
-       
+
     ])
-    
+
     const [loading, setLoading] = useState(false)
     const [id, setId] = useState()
     const [inputValues, setInputValues] = useState({})
@@ -45,7 +48,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
     useEffect(() => {
         const initialSelectedIcons = {}
         const initialInputValues = {}
-        
+
         paymentIcons.forEach(icon => {
             if (icon.icon) {
                 const foundIcon = allFaMdIconsList.find(i => i.label === icon.icon)
@@ -55,7 +58,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                 }
             }
         })
-        
+
         setSelectedIcons(initialSelectedIcons)
         setInputValues(initialInputValues)
     }, [paymentIcons])
@@ -70,8 +73,8 @@ function FooterCopyRight({ showSnackbar, showError }) {
                 const footerData = json.data.find(item => item.section === 'copyright')
                 if (footerData) {
                     setCopyrightForm({
-                        copyrightText: footerData.copyrightText || 'Copyright © 2023 Corpex | Powered By Corpex',
-                        poweredByText: footerData.poweredByText || 'Corpex'
+                        copyrightText: footerData.copyrightText || '',
+                        poweredByText: footerData.poweredByText || ''
                     })
                     if (footerData.paymentIcons) {
                         setPaymentIcons(footerData.paymentIcons)
@@ -97,7 +100,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
     const addPaymentIcon = () => {
         const newIcon = {
             id: Date.now(),
-            name: `Payment ${paymentIcons.length + 1}`,
+            name: ``,
             icon: '',
             url: '',
             isActive: true
@@ -109,21 +112,21 @@ function FooterCopyRight({ showSnackbar, showError }) {
     const deleteIconById = async (iconId) => {
         console.log('deleteIconById called with iconId:', iconId)
         console.log('Current user ID:', id)
-        
+
         try {
             // Direct API call to delete icon by ID
             const deleteUrl = `${import.meta.env.VITE_BACK_END_URL}api-footer/api-delete-icon-by-id/${id}/${iconId}`
             console.log('Making DELETE request to:', deleteUrl)
-            
+
             const response = await fetch(deleteUrl, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
             })
-            
+
             const result = await response.json()
-            
+
             if (response.ok) {
-                showSnackbar(result.message || `Icon ${iconId} deleted successfully!`)
+                showSuccessToast(result.message || `Icon ${iconId} deleted successfully!`)
                 // Remove from local state
                 setPaymentIcons(prev => prev.filter(icon => icon.id !== iconId))
                 // Clean up related state
@@ -138,11 +141,11 @@ function FooterCopyRight({ showSnackbar, showError }) {
                     return newState
                 })
             } else {
-                showError(result.message || `Failed to delete icon ${iconId}`)
+                showErrorToast(result.message || `Failed to delete icon ${iconId}`)
             }
         } catch (error) {
             console.error(`Error deleting icon ${iconId}:`, error)
-            showError(`An error occurred while deleting icon ${iconId}`)
+            showErrorToast(`An error occurred while deleting icon ${iconId}`)
             // Fallback: remove from local state
             setPaymentIcons(prev => prev.filter(icon => icon.id !== iconId))
             setSelectedIcons(prev => {
@@ -161,17 +164,17 @@ function FooterCopyRight({ showSnackbar, showError }) {
     // Keep the original function for backward compatibility
     const removePaymentIcon = async (iconId) => {
         console.log('removePaymentIcon called with iconId:', iconId)
-        
+
         // For testing - you can uncomment this to test without API
         // alert(`Delete icon with ID: ${iconId}`)
         // setPaymentIcons(prev => prev.filter(icon => icon.id !== iconId))
         // return
-        
+
         await deleteIconById(iconId)
     }
 
     const updatePaymentIcon = (iconId, field, value) => {
-        setPaymentIcons(prev => prev.map(icon => 
+        setPaymentIcons(prev => prev.map(icon =>
             icon.id === iconId ? { ...icon, [field]: value } : icon
         ))
     }
@@ -213,11 +216,11 @@ function FooterCopyRight({ showSnackbar, showError }) {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" }
                 })
-                
+
                 const result = await response.json()
-                
+
                 if (response.ok) {
-                    showSnackbar(result.message || "Footer section deleted successfully!")
+                    showErrorToast(result.message || "Footer section deleted successfully!")
                     // Reset form to default state
                     setCopyrightForm({
                         copyrightText: '',
@@ -227,14 +230,14 @@ function FooterCopyRight({ showSnackbar, showError }) {
                     setSelectedIcons({})
                     setInputValues({})
                 } else {
-                    showError(result.message || "Failed to delete footer section")
+                    showErrorToast(result.message || "Failed to delete footer section")
                 }
             } else {
-                showError("No footer data found to delete")
+                showErrorToast("No footer data found to delete")
             }
         } catch (error) {
             console.error("Error deleting footer section:", error)
-            showError("An error occurred while deleting footer section")
+            showErrorToast("An error occurred while deleting footer section")
         }
     }
 
@@ -252,11 +255,11 @@ function FooterCopyRight({ showSnackbar, showError }) {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ iconIds })
                 })
-                
+
                 const result = await response.json()
-                
+
                 if (response.ok) {
-                    showSnackbar(result.message || `${iconIds.length} payment icon(s) deleted successfully!`)
+                    showSuccessToast(result.message || `${iconIds.length} payment icon(s) deleted successfully!`)
                     // Remove deleted icons from local state
                     setPaymentIcons(prev => prev.filter(icon => !iconIds.includes(icon.id)))
                     // Clean up state for deleted icons
@@ -271,14 +274,14 @@ function FooterCopyRight({ showSnackbar, showError }) {
                         return newState
                     })
                 } else {
-                    showError(result.message || "Failed to delete payment icons")
+                    showErrorToast(result.message || "Failed to delete payment icons")
                 }
             } else {
-                showError("No footer data found")
+                showErrorToast("No footer data found")
             }
         } catch (error) {
             console.error("Error deleting payment icons:", error)
-            showError("An error occurred while deleting payment icons")
+            showErrorToast("An error occurred while deleting payment icons")
         }
     }
 
@@ -294,23 +297,23 @@ function FooterCopyRight({ showSnackbar, showError }) {
             }
 
             const url = `${import.meta.env.VITE_BACK_END_URL}api-footer/api-create-update-footer/${id}`
-            
+
             const response = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             })
-            
+
             const result = await response.json()
-            
+
             if (response.ok) {
-                alert(result.message || "Footer copyright updated successfully!")
+                showSuccessToast(result.message || "Footer copyright updated successfully!")
             } else {
-                alert(result.message || "Failed to update footer copyright")
+                showErrorToast(result.message || "Failed to update footer copyright")
             }
         } catch (err) {
             console.error(err)
-            showError("An error occurred while updating footer copyright")
+            showErrorToast("An error occurred while updating footer copyright")
         } finally {
             setLoading(false)
         }
@@ -324,10 +327,11 @@ function FooterCopyRight({ showSnackbar, showError }) {
 
     return (
         <Fragment>
+            <ToastContainer />
             <div className='form-container w-full h-full flex flex-col items-center justify-center gap-6 p-4'>
-                <form className='form-main border border-slate-500/20 rounded-md w-full max-w-4xl flex flex-col gap-6 p-6'>
+                <form className='form-main border border-slate-500/20 rounded-md w-full max-w-4xl flex flex-col gap-4 p-6 sticky top-0'>
                     <div className='w-full'>
-                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 py-2">
+                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ">
                             Footer Copyright Settings
                         </h1>
                         <Divider sx={{ my: 1 }} />
@@ -338,7 +342,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                         <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
                             Copyright Information
                         </Typography>
-                        
+
                         <TextField
                             label="Copyright Text"
                             size="small"
@@ -360,6 +364,10 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                 },
                                 '& label': {
                                     color: 'gray',
+                                },
+                                '& label': {
+                                    color: 'gray',
+                                    fontSize: '12px',
                                 },
                                 '& label.Mui-focused': {
                                     color: 'white',
@@ -414,7 +422,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                     textTransform: 'none',
                                 }}
                             >
-                                 ADD ICON
+                                ADD ICON
                             </Button>
                         </div>
 
@@ -423,18 +431,18 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                 const IconComponent = getIconComponent(icon.icon)
                                 const selectedIcon = selectedIcons[icon.id] || null
                                 const inputValue = inputValues[icon.id] || ''
-                                
+
                                 return (
                                     <div key={icon.id} className='border border-slate-500/20 rounded-md p-4'>
                                         <div className='grid grid-cols-1 md:grid-cols-4 gap-4 items-center w-full'>
-                                            {/* Title Field */}
+
                                             <TextField
                                                 label={`Title`}
                                                 size="small"
                                                 variant="outlined"
                                                 value={icon.name}
                                                 onChange={(e) => updatePaymentIcon(icon.id, 'name', e.target.value)}
-                                            
+
                                                 sx={{
                                                     '& .MuiOutlinedInput-root': {
                                                         fontSize: '12px',
@@ -458,7 +466,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                                     width: '100%',
                                                 }}
                                             />
-                                            
+
                                             {/* Icon Selection */}
                                             <Autocomplete
                                                 size="small"
@@ -513,7 +521,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                                     />
                                                 )}
                                             />
-                                            
+
                                             {/* URL Field */}
                                             <TextField
                                                 label={`URL ${index + 1}`}
@@ -545,7 +553,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                                     }
                                                 }}
                                             />
-                                            
+
                                             {/* Delete Button */}
                                             {/* <div className='flex justify-end'>
                                                 <IconButton
@@ -572,10 +580,20 @@ function FooterCopyRight({ showSnackbar, showError }) {
                     </div>
 
                     {/* Preview Section */}
-                   
 
+                    <div className="flex items-center gap-2  sticky top-0 w-full ">
+                        <Checkbox
+                            name='showOnWebsite'
+                            defaultChecked
+                            sx={{ m: 0, p: 0 }}
+                            size="small"
+                        />
+                        <p className="text-[14px] text-slate-500 font-sans">
+                            If you want to show this on the website
+                        </p>
+                    </div>
                     {/* Action Buttons */}
-                    <div className='button w-full flex justify-between items-center'>
+                    <div className='button w-full flex justify-end gap-2 items-center'>
                         <div className='flex gap-2'>
                             <Button
                                 onClick={deleteEntireFooter}
@@ -593,7 +611,7 @@ function FooterCopyRight({ showSnackbar, showError }) {
                                 DELETE
                             </Button>
                         </div>
-                        
+
                         <div className='flex gap-2'>
                             <Button
                                 onClick={submitHandler}

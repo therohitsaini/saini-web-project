@@ -55,6 +55,7 @@ function Home() {
     const [featureHeadlineApies, setFeatureHeadlineApies] = useState([])
     const [featureListItemApies, setFeatureListItemApies] = useState([])
     const [sectionHeadingApies, setSectionHeadingApies] = useState([])
+    const [footerCopyRightApies, setCopyRightApies] = useState([])
     const dispatch = useDispatch()
 
     const funfactData = useSelector((state) => state.getSerivceSectionReducer_?.funfactSection?.FunfactBox)
@@ -340,6 +341,25 @@ function Home() {
     }
 
 
+    const getFooterDataCopyRight = async (userId) => {
+        try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-footer/api-get-footer-data/${userId}`
+            const response = await fetch(url, { method: "GET" })
+            const json = await response.json()
+
+            if (response.ok && json.data) {
+                const footerData = json.data.find(item => item.section === 'copyright')
+                setCopyRightApies(footerData)
+            }
+            return null
+        } catch (error) {
+            console.error("Error fetching footer data:", error)
+            return null
+        }
+    }
+
+
+
 
     useEffect(() => {
         const id = localStorage.getItem("user-ID")
@@ -357,6 +377,7 @@ function Home() {
         getFeatureData(id)
         getFeatureDataListItem(id)
         getServiceHeading(id)
+        getFooterDataCopyRight(id)
     }, [])
 
     // useEffect(() => {
@@ -406,6 +427,7 @@ function Home() {
             />
             <Footer
                 footerData={footerData}
+                footerCopyRightApies={footerCopyRightApies}
             />
 
         </Fragment>

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Divider, TextField, Button, Chip, Box } from '@mui/material';
+import { Divider, TextField, Button, Chip, Box, Checkbox } from '@mui/material';
+import GradientButton from '../../ReuseComponent/ReuseComponent';
+import { showErrorToast, showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
 
 function FooterCategory({ userID }) {
     const [categoryName, setCategoryName] = useState('');
@@ -81,7 +84,7 @@ function FooterCategory({ userID }) {
             userId: userID
         };
         console.log("Submitting payload:", payload);
-
+        setLoading(true)
         const url = categoryId
             ? `${import.meta.env.VITE_BACK_END_URL}api-footer/api-footer-update/${categoryId}`
             : `${import.meta.env.VITE_BACK_END_URL}api-footer/api-footer/post`;
@@ -102,28 +105,30 @@ function FooterCategory({ userID }) {
             console.log('Submit response:', data);
 
             if (res.ok) {
-                alert(categoryId ? 'Category updated successfully!' : 'Category created!');
+                showSuccessToast(categoryId ? 'Category updated successfully!' : 'Category created!');
+                setLoading(false)
                 if (!categoryId) {
                     loadCategoryData()
                 }
             } else {
-                alert(`Error: ${data.message || 'Something went wrong'}`);
+                showErrorToast(`Error: ${data.message || 'Something went wrong'}`);
             }
         } catch (error) {
             console.error('Request error:', error);
-            alert('Server error');
+            showErrorToast('Server error');
         }
     };
 
-    if (loading) {
-        return <div>Loading category data...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading category data...</div>;
+    // }
 
     return (
         <form
             onSubmit={handleSubmit}
             className="form-category border border-slate-400/20 p-5 w-[600px] flex flex-col gap-3 rounded-md bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text"
         >
+            <ToastContainer />
             <h1 className="text-2xl font-bold">
                 {categoryId ? 'Edit Footer Category' : 'Add Footer Category'}
             </h1>
@@ -151,7 +156,7 @@ function FooterCategory({ userID }) {
 
             <TextField
                 label="Add Item"
-                value={inputItem }
+                value={inputItem}
                 onChange={(e) => setInputItem(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
@@ -170,10 +175,15 @@ function FooterCategory({ userID }) {
                     },
                 }}
             />
-
-            <Button type="button" variant="outlined" onClick={handleAddItem}>
-                Add Item
-            </Button>
+            <div className='flex justify-end'>
+                <Button
+                    sx={{
+                        textTransform: 'none',
+                    }}
+                    type="button" variant="outlined" onClick={handleAddItem}>
+                    + Add Item
+                </Button>
+            </div>
 
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {items.map((item, index) => (
@@ -186,10 +196,38 @@ function FooterCategory({ userID }) {
                     />
                 ))}
             </Box>
-
-            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                {categoryId ? 'Update Category' : 'Save Category'}
-            </Button>
+            <div className="flex items-center gap-2  sticky top-0 w-full ">
+                <Checkbox
+                    name='showOnWebsite'
+                    defaultChecked
+                    sx={{ m: 0, p: 0 }}
+                    size="small"
+                />
+                <p className="text-[14px] text-slate-500 font-sans">
+                    If you want to show this on the website
+                </p>
+            </div>
+            <div className='flex justify-end'>
+                <GradientButton
+                    sx={{
+                        textTransform: 'none',
+                        minWidth: '200px',
+                        backgroundImage: loading
+                            ? 'none'
+                            : 'linear-gradient(to right, #1e3a8a, #9333ea)',
+                        backgroundColor: loading ? '#c2c2c2' : undefined,
+                        color: 'white',
+                        '&:hover': {
+                            backgroundImage: loading
+                                ? 'none'
+                                : 'linear-gradient(to right, #1e40af, #7c3aed)',
+                            backgroundColor: loading ? '#c2c2c2' : undefined,
+                        },
+                    }}
+                    type="submit" variant="contained" loading={loading}>
+                    {categoryId ? 'Update Category' : 'Save Category'}
+                </GradientButton>
+            </div>
         </form>
     );
 }

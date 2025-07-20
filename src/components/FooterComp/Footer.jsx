@@ -11,6 +11,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import { Button } from '@mui/material';
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
+import { Link } from 'react-router-dom';
 
 export const footerIcone = [
     {
@@ -97,32 +98,32 @@ const ChevronButton = () => {
             <div className="relative bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full px-6 py-3 shadow-lg">
                 {/* Inner shadow/glow effect */}
                 <div className="absolute inset-0 bg-red-400 rounded-full opacity-30 blur-sm"></div>
-                
+
                 {/* Main content */}
                 <div className="relative flex items-center justify-center space-x-1">
                     {/* First chevron */}
-                    <svg 
-                        className="w-4 h-4 text-white" 
-                        fill="currentColor" 
+                    <svg
+                        className="w-4 h-4 text-white"
+                        fill="currentColor"
                         viewBox="0 0 20 20"
                     >
-                        <path 
-                            fillRule="evenodd" 
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
-                            clipRule="evenodd" 
+                        <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
                         />
                     </svg>
-                    
+
                     {/* Second chevron */}
-                    <svg 
-                        className="w-4 h-4 text-white" 
-                        fill="currentColor" 
+                    <svg
+                        className="w-4 h-4 text-white"
+                        fill="currentColor"
                         viewBox="0 0 20 20"
                     >
-                        <path 
-                            fillRule="evenodd" 
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
-                            clipRule="evenodd" 
+                        <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
                         />
                     </svg>
                 </div>
@@ -131,51 +132,34 @@ const ChevronButton = () => {
     );
 };
 
-// Alternative version with more rounded left side (tab-like appearance)
-const TabChevronButton = () => {
-    return (
-        <div className="relative inline-block">
-            {/* Main red button with tab-like shape */}
-            <div className="relative bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-l-full rounded-r-full px-6 py-3 shadow-lg">
-                {/* Inner shadow/glow effect */}
-                <div className="absolute inset-0 bg-red-400 rounded-l-full rounded-r-full opacity-30 blur-sm"></div>
-                
-                {/* Main content */}
-                <div className="relative flex items-center justify-center space-x-1">
-                    {/* First chevron */}
-                    <svg 
-                        className="w-4 h-4 text-white" 
-                        fill="currentColor" 
-                        viewBox="0 0 20 20"
-                    >
-                        <path 
-                            fillRule="evenodd" 
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
-                            clipRule="evenodd" 
-                        />
-                    </svg>
-                    
-                    {/* Second chevron */}
-                    <svg 
-                        className="w-4 h-4 text-white" 
-                        fill="currentColor" 
-                        viewBox="0 0 20 20"
-                    >
-                        <path 
-                            fillRule="evenodd" 
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" 
-                            clipRule="evenodd" 
-                        />
-                    </svg>
-                </div>
-            </div>
-        </div>
-    );
+const defaultFooterCopyRightApi = {
+    copyrightText: "Copyright © 2023 Corpex | Powered Corpex",
+    poweredByText: "Corpex",
+    section: "copyright",
+    paymentIcons: [
+        {
+            id: 1,
+            name: "Payment 1",
+            icon: "FaCcApplePay",
+            url: "",
+            isActive: true,
+        },
+        {
+            id: 1752921912261,
+            name: "visa",
+            icon: "FaCcVisa",
+            url: "",
+            isActive: true,
+        },
+    ],
 };
 
-const Footer = ({ footerData }) => {
+
+const Footer = ({ footerData, footerCopyRightApies }) => {
 
     const [iconHover, setIconHover] = useState(false)
+    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [right, setRight] = useState(null)
 
     const footerBackground = footerData?.FooterBackground
     const footerHelpCenterForm = footerData?.FooterHelpCenter || fallbackHelpCenterData
@@ -222,38 +206,37 @@ const Footer = ({ footerData }) => {
 
     const contactInfoToRender = transformContactData(footerContactUs);
 
-    // Helper function to construct proper image URLs
     const getImageUrl = (imagePath) => {
         if (!imagePath) return '';
         if (imagePath.startsWith('http')) return imagePath;
         return `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${imagePath.replace(/^\/?/, '')}`;
     };
 
-    console.log("Transformed ", footerData);
+
 
     const footerTopBar = footerData?.FooterTopBar || fallbackHelpCenterData;
     const footerSponsors = footerData?.FooterSponsors;
 
     // Fallback sponsor images if backend data is not available
     const fallbackSponsorImages = [
-        "../src/assets/image-1.png", 
-        "../src/assets/image-2.png", 
-        "../src/assets/image-3.png", 
-        "../src/assets/image-4.png", 
+        "../src/assets/image-1.png",
+        "../src/assets/image-2.png",
+        "../src/assets/image-3.png",
+        "../src/assets/image-4.png",
         "../src/assets/image-5.png"
     ];
 
-    // Helper function to get sponsor images with fallback
+
     const getSponsorImages = () => {
         if (footerSponsors) {
-            // Extract sponsor images from backend data
+
             const sponsorImages = [
                 footerSponsors.sponsorsOne,
                 footerSponsors.sponsorsTwo,
                 footerSponsors.sponsorsThree,
                 footerSponsors.sponsorsFour,
                 footerSponsors.sponsorsFive
-            ].filter(img => img && img.trim() !== ''); // Filter out empty/null values
+            ].filter(img => img && img.trim() !== '');
 
             if (sponsorImages.length > 0) {
                 return sponsorImages.map(img => getImageUrl(img));
@@ -264,10 +247,10 @@ const Footer = ({ footerData }) => {
 
     const sponsorImagesToDisplay = getSponsorImages();
 
-    // Helper function to get background style with fallback
+
     const getBackgroundStyle = () => {
         if (footerBackground?.backgroundImage) {
-            // If background image exists, use it
+
             const imageUrl = footerBackground.backgroundImage.startsWith('http')
                 ? footerBackground.backgroundImage
                 : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${footerBackground.backgroundImage.replace(/^\/?/, '')}`;
@@ -278,12 +261,12 @@ const Footer = ({ footerData }) => {
                 backgroundRepeat: 'no-repeat'
             };
         } else if (footerBackground?.backgroundColor) {
-            // If only background color exists, use it
+
             return {
                 backgroundColor: footerBackground.backgroundColor
             };
         } else {
-            // Fallback to default background image
+
             return {
                 backgroundImage: 'url(../src/assets/footer-bg.jpg)',
                 backgroundSize: 'cover',
@@ -292,6 +275,10 @@ const Footer = ({ footerData }) => {
             };
         }
     };
+
+    const data = footerCopyRightApies || defaultFooterCopyRightApi;
+
+    console.log("footerCopyRightApies", footerCopyRightApies)
 
     return (
         <Fragment>
@@ -310,18 +297,18 @@ const Footer = ({ footerData }) => {
                             }
 
                         </div>
-                        
+
                         {/* Example usage of the chevron buttons */}
                         <div className='flex justify-center items-center gap-4 py-4'>
-                            <ChevronButton />
-                            <TabChevronButton />
+                            {/* <ChevronButton />
+                            <TabChevronButton /> */}
                         </div>
 
                         <div className='footer-help-center h-45  rounded-full bg-black/40 grid grid-cols-2 p-5 gap-4'>
                             {/* Left Section */}
                             <div className='box-1 bg-[#df442d]  rounded-l-[100px] rounded-r-[19px] flex items-center  p-2 py-3 pl-0'>
                                 <div className='img-help h-25  w-full  relative   mr-6'>
-                                    <img 
+                                    <img
                                         className='object-cover h-full w-full rounded-l-[100px] rounded-r-[19px]'
                                         src={footerTopBar.leftSection.image ? getImageUrl(footerTopBar.leftSection.image) : fallbackHelpCenterData.leftSection.image}
                                         alt="Help Center Left"
@@ -351,7 +338,7 @@ const Footer = ({ footerData }) => {
                             {/* Right Section */}
                             <div className='box-1 bg-[#df442d]  rounded-r-[100px] rounded-l-[19px] flex items-center p-2 pr-0 '>
                                 <div className='img-help h-25  w-full  relative  ml-6 rounded-l-[19px]'>
-                                    <img 
+                                    <img
                                         className='object-cover h-full w-full rounded-r-[100px] rounded-l-[19px]'
                                         src={footerTopBar.rightSection.image ? getImageUrl(footerTopBar.rightSection.image) : fallbackHelpCenterData.rightSection.image}
                                         alt="Help Center Right"
@@ -366,11 +353,11 @@ const Footer = ({ footerData }) => {
                                                     {footerTopBar.rightSection.subTitle || fallbackHelpCenterData.rightSection.subtitle}
                                                 </span>
                                             </p>
-                                            <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${iconHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                                                <div onMouseOver={() => setIconHover(true)} onMouseLeave={() => setIconHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${iconHover ? "bg-red-500 " : "bg-white"}`}>
+                                            <div className={`icon-fecebook h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${right ? "bg-red-600/40" : "bg-white/50"}`}>
+                                                <div onMouseOver={() => setRight(true)} onMouseLeave={() => setRight(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${right ? "bg-red-500 " : "bg-white"}`}>
                                                     {allFaMdIconsMap[footerTopBar.rightSection.icone] ?
-                                                        React.createElement(allFaMdIconsMap[footerTopBar.rightSection.icone], { style: { color: iconHover ? "white" : "#db3125", fontSize: 23 } }) :
-                                                        <CloudIcon sx={{ color: iconHover ? "white" : "#db3125", fontSize: 23 }} />
+                                                        React.createElement(allFaMdIconsMap[footerTopBar.rightSection.icone], { style: { color: right ? "white" : "#db3125", fontSize: 23 } }) :
+                                                        <CloudIcon sx={{ color: right ? "white" : "#db3125", fontSize: 23 }} />
                                                     }
                                                 </div>
                                             </div>
@@ -386,16 +373,16 @@ const Footer = ({ footerData }) => {
                                 <div className='flex gap-3'>
                                     {
                                         (footerContact?.icons || footerIcone)?.map((item_, index) => {
-                                            // Use dynamic icon system for FooterContact icons
+
                                             if (footerContact?.icons) {
                                                 const IconComponent = allFaMdIconsMap[item_.icon];
                                                 return (
-                                                    <div key={index} className={`icon-linkdin h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${iconHover ? "bg-red-600/40" : "bg-white/50"}`}>
-                                                        <div onMouseOver={() => setIconHover(true)} onMouseLeave={() => setIconHover(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${iconHover ? "bg-red-500 " : "bg-white"}`}>
+                                                    <div key={index} className={`icon-linkdin h-12 w-12 rounded-b-3xl  flex justify-center items-end rounded-t-xl duration-700 ${hoveredIndex ? "bg-red-600/40" : "bg-white/50"}`}>
+                                                        <div onMouseOver={() => setHoveredIndex(true)} onMouseLeave={() => setHoveredIndex(false)} className={`icone-cover   duration-700 h-10 w-10 flex justify-center items-center rounded-t-xl rounded-b-3xl  shadow-black/20 shadow-sm ${hoveredIndex ? "bg-red-500 " : "bg-white"}`}>
                                                             {IconComponent ? (
-                                                                <IconComponent size={20} className={`${iconHover ? "text-white" : "text-red-700"}  duration-500`} />
+                                                                <IconComponent size={20} className={`${hoveredIndex ? "text-white" : "text-red-700"}  duration-500`} />
                                                             ) : (
-                                                                <Icon fontSize={20} className={`${iconHover ? "text-white" : "text-red-700"}  duration-500`} icon={item_.icon} />
+                                                                <Icon fontSize={20} className={`${hoveredIndex ? "text-white" : "text-red-700"}  duration-500`} icon={item_.icon} />
                                                             )}
                                                         </div>
                                                     </div>
@@ -453,6 +440,43 @@ const Footer = ({ footerData }) => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className='copyRIgth  h-20 w-full bg-black  flex items-center justify-between px-20 text-white'>
+                    <div className="flex justify-between  items-center gap-2 w-full">
+                        {/* Copyright Text */}
+                        <div className="flex items-center gap-2 text-white font-semibold">
+                            <span>
+                                {
+                                    // Show text before "|"
+                                    data?.copyrightText?.split('|')[0]?.trim()
+                                }
+                            </span>
+                            <span>| Powered By</span>
+                            <span className="text-orange-600 underline">
+                                <Link to="#">
+                                    {data?.poweredByText || defaultFooterCopyRightApi.poweredByText}
+                                </Link>
+                            </span>
+                        </div>
+
+                        {/* Payment Icons */}
+                        <div className="flex gap-3 mt-1">
+                            {(data?.paymentIcons || defaultFooterCopyRightApi.paymentIcons).map((item) => {
+                                if (!item.isActive || !item.icon) return null;
+
+                                const IconComponent = allFaMdIconsMap[item.icon];
+                                return (
+                                    <div key={item.id} title={item.name}>
+                                        {IconComponent && (
+                                            <IconComponent className="text-white text-2xl" />
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+
                 </div>
             </Box>
         </Fragment>

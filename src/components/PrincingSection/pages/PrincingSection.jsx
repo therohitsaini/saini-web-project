@@ -57,10 +57,10 @@ function PrincingSection({ princingGetApiesData, sectionHeadingApies }) {
 
     return (
         <Fragment>
-            <div className='w-full h-full relative'>
-                <div className='main  bg-black/10 pb-20'>
+            <div className='w-full h-full relative '>
+                <div className='main  bg-black/10 pb-20 '>
                     <img className='h-[750px]   w-full object-cover' src='./src/assets/shape2.png' />
-                    <div className='absolute top-0 w-full px-20 flex flex-col  '>
+                    <div className='absolute top-0 w-full px-20 flex flex-col pt-10 '>
                         <div className='title-secton-top flex flex-col items-center '>
                             <div className="text-center">
                                 <h1 className="heading font-bold text-3xl my-3 flex justify-center items-center gap-2">
@@ -76,7 +76,7 @@ function PrincingSection({ princingGetApiesData, sectionHeadingApies }) {
                                 {serviceHeadingItem?.item_Description || 'There are many variations of passages of Lorem Ipsum available'}
                             </p>
                         </div>
-                        <div className='grid grid-cols-3 px-12 gap-10  '>
+                        <div className='grid grid-cols-3 px-12 gap-10 mt-15 '>
                             {
                                 plansToRender?.map((item_, index_) => {
 

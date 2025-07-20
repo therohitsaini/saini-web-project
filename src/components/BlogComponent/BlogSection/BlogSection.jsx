@@ -2,6 +2,7 @@ import { ArrowRightAlt } from "@mui/icons-material";
 import React, { useState } from "react";
 
 import { HoverButton, Overlay, PostImage, posts } from "./BlogData";
+import { allFaMdIconsList } from "../../NavbarComponent/HeaderTopLeft";
 
 
 
@@ -26,6 +27,10 @@ const BlogSection = ({ blogApiesData }) => {
                                 ""
                             )}/${post.blogerImage?.replace(/^\/?/, "")}`;
 
+
+                        const iconName = post?.goIcone;
+                        const IconComponent = allFaMdIconsList[iconName]
+                        console.log(post, IconComponent)
                         return (
                             <article
                                 key={post.id}
@@ -46,6 +51,7 @@ const BlogSection = ({ blogApiesData }) => {
                                             href="#"
                                             className="bg-[rgb(232,117,99)] text-white px-4 py-2 rounded-full shadow-md hover:bg-[rgb(169,160,159)]"
                                         >
+
                                             <ArrowRightAlt />
                                         </HoverButton>
                                     </PostImage>
@@ -110,7 +116,7 @@ const BlogSection = ({ blogApiesData }) => {
                                         <span style={{
                                             fontFamily: "inherit"
                                         }} className="relative z-10 transition-colors duration-500 group-hover:text-[#db3125] font-semibold ">
-                                            Get Start
+                                            {post.blogButton || "Get Start"}
                                         </span>
                                         <span className="absolute top-0 right-0 w-0 h-full bg-black transition-all duration-700 group-hover:w-full z-0"></span>
                                     </button>

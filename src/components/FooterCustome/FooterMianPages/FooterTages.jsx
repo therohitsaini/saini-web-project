@@ -1,17 +1,8 @@
-// import React from 'react'
-
-// function FooterTages() {
-//    return (
-//       <div>FooterTages</div>
-//    )
-// }
-
-// export default FooterTages
-
-
 
 import React, { useState, useEffect } from 'react';
-import { Divider, TextField, Button, Chip, Box } from '@mui/material';
+import { Divider, TextField, Button, Chip, Box, Checkbox } from '@mui/material';
+import { showSuccessToast } from '../../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
+import { ToastContainer } from 'react-toastify';
 
 function FooterTages({ userID }) {
    const [FooterTagesName, setFooterTagesName] = useState('');
@@ -21,11 +12,7 @@ function FooterTages({ userID }) {
    const [getCategoryDataApies, setGetCategoryDataApies] = useState([])
    const [tagsId, setTagsId] = useState()
 
-   // useEffect(() => {
-   //     if (getCategoryDataApies) {
 
-   //     }
-   // }, [tagsId, userID]);
 
    const loadCategoryData = async (userID) => {
       try {
@@ -59,7 +46,7 @@ function FooterTages({ userID }) {
       loadCategoryData(userID)
    }, [])
 
-   console.log("result___GET", getCategoryDataApies[0])
+
 
    const handleAddItem = () => {
       const trimmed = inputItem.trim();
@@ -114,7 +101,7 @@ function FooterTages({ userID }) {
          console.log('Submit response:', data);
 
          if (res.ok) {
-            alert(tagsId ? 'Category updated successfully!' : 'Category created!');
+            showSuccessToast(tagsId ? 'Category updated successfully!' : 'Category created!');
             if (!tagsId) {
                loadCategoryData()
             }
@@ -136,12 +123,23 @@ function FooterTages({ userID }) {
          onSubmit={handleSubmit}
          className="form-category border border-slate-400/20 p-5 w-[600px] flex flex-col gap-3 rounded-md"
       >
-         <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
-            {tagsId ? 'Edit Footer Tags' : 'Add Footer Tags'}
-         </h1>
+         <ToastContainer />
+         <div className='flex justify-between items-center'>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+               {tagsId ? 'Edit Footer Tags' : 'Add Footer Tags'}
+            </h1>
+            <Button
+               type="button" variant="outlined" onClick={handleAddItem}
+               sx={{
+                  textTransform: 'none',
+               }}
+            >
+               + Add Item
+            </Button>
+         </div>
          <Divider sx={{ mb: 1 }} />
 
-         {/* Debug Info - Remove this later */}
+
 
 
          <TextField
@@ -183,9 +181,6 @@ function FooterTages({ userID }) {
             }}
          />
 
-         <Button type="button" variant="outlined" onClick={handleAddItem}>
-            Add Item
-         </Button>
 
          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {items.map((item, index) => (
@@ -199,9 +194,38 @@ function FooterTages({ userID }) {
             ))}
          </Box>
 
-         <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-            {tagsId ? 'Update Category' : 'Save Category'}
-         </Button>
+         <div className="flex items-center gap-2  sticky top-0 w-full ">
+            <Checkbox
+               name='showOnWebsite'
+               defaultChecked
+               sx={{ m: 0, p: 0 }}
+               size="small"
+            />
+            <p className="text-[14px] text-slate-500 font-sans">
+               If you want to show this on the website
+            </p>
+         </div>
+         <div className='flex justify-end'>
+            <Button type="submit" variant="contained"
+               sx={{
+                  textTransform: 'none',
+                  minWidth: '200px',
+                  backgroundImage: loading
+                     ? 'none'
+                     : 'linear-gradient(to right, #1e3a8a, #9333ea)',
+                  backgroundColor: loading ? '#c2c2c2' : undefined,
+                  color: 'white',
+                  '&:hover': {
+                     backgroundImage: loading
+                        ? 'none'
+                        : 'linear-gradient(to right, #1e40af, #7c3aed)',
+                     backgroundColor: loading ? '#c2c2c2' : undefined,
+                  },
+               }}
+            >
+               {tagsId ? 'Update Category' : 'Save Category'}
+            </Button>
+         </div>
       </form>
    );
 }
