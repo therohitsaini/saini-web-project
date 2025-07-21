@@ -19,48 +19,61 @@ import { useMemo } from 'react';
 import { useSnackbar } from '../Snakbar/Snakbar';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CarTaxiFront, Codepen, Headset, HeadsetIcon, Logs, MailCheckIcon, RectangleCircle, RectangleCircleIcon, ServerCrashIcon, Share2, StickerIcon, Timer, TimerIcon, } from "lucide-react"
+import { icon } from '@fortawesome/fontawesome-svg-core';
+import { showErrorToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable';
 
 
 export const tabsData = [
     {
         value: 0,
-        label: "Email Section"
+        label: "Email Section",
+        icon: <MailCheckIcon size={18} />
     },
     {
         value: 1,
-        label: "Center Icone"
+        label: "Center Icone",
+        icon: <Share2 size={18} />
     },
     {
         value: 2,
-        label: "Support Section"
+        label: "Support Section",
+        icon: <HeadsetIcon size={18} />
     },
     {
         value: 3,
-        label: "Site Logo"
+        label: "Site Logo",
+        icon: <Codepen size={18} />
     },
     {
         value: 4,
-        label: "Site Menu List"
+        label: "Site Menu List",
+        icon: <Logs size={18} />
     },
     {
         value: 5,
-        label: "Site Search"
+        label: "Site Search",
+        icon: <ServerCrashIcon size={18} />
     },
     {
         value: 6,
-        label: "Site Cart"
+        label: "Site Cart",
+        //  icon: < size={18} />
     },
     {
         value: 7,
-        label: "Site Button"
+        label: "Site Button",
+        icon: <RectangleCircleIcon size={18} />
     },
     {
         value: 8,
-        label: "Herring Section"
+        label: "Herring Section",
+        icon: <StickerIcon size={18} />
     },
     {
         value: 9,
-        label: "Opening Hour"
+        label: "Opening Hour",
+        icon: <TimerIcon size={18} />
     }
 ]
 
@@ -286,6 +299,8 @@ export default function HeaderSideBarTabs() {
             }))
 
 
+
+
             const navButton = headerToBarData.headerData.headerTopBar.find(
                 (section) => section.section === "navButton"
             )?.item[0];
@@ -318,6 +333,16 @@ export default function HeaderSideBarTabs() {
                 closeTimnig: headerBottomRight?.item_IconeUrl || ""
 
             }))
+
+            const headerLogo = headerToBarData.headerData.headerTopBar.find(
+                (section) => section.section === "Logo"
+            )?.item[0];
+
+            if (headerLogo) {
+                setFile(headerLogo.item_IconeUrl);
+            }
+            // console.log("headerLogo", headerLogo)
+
 
         }
 
@@ -503,6 +528,10 @@ export default function HeaderSideBarTabs() {
     const submitHandler_ = async (section) => {
         const id = localStorage.getItem("user-ID");
         const formData = new FormData();
+        if (!file) {
+            showErrorToast("Site Logo is Requied ! ")
+            return
+        }
 
         formData.append("section", section);
 
@@ -578,35 +607,35 @@ export default function HeaderSideBarTabs() {
     }, [inputValue]);
 
 
-    const deleteListItem = async (data = {}) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-        if (!confirmDelete) return;
-        try {
+    // const deleteListItem = async (data = {}) => {
+    //     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    //     if (!confirmDelete) return;
+    //     try {
 
-            const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/delete-dyanamic-data/`;
-            const fetchData = await fetch(url, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data: data.id, pageId: userIDMain })
-            });
-            const response = await fetchData.json();
+    //         const url = `${import.meta.env.VITE_BACK_END_URL}admin-api/delete-dyanamic-data/`;
+    //         const fetchData = await fetch(url, {
+    //             method: "DELETE",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ data: data.id, pageId: userIDMain })
+    //         });
+    //         const response = await fetchData.json();
 
-            if (fetchData.ok) {
-                setRefresh(prev => !prev);
-            }
+    //         if (fetchData.ok) {
+    //             setRefresh(prev => !prev);
+    //         }
 
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     return (
         <div className=' w-full  '>
-
+            <ToastContainer />
             <Box
                 sx={{ bgcolor: 'background.paper', display: 'flex', }}
             >
-                <div className="pb-5" >
+                <div className=" " >
                     {/* <h1 className='bg-cyan-300' >Header Customize Manu</h1> */}
                     <Tabs
                         orientation="vertical"
@@ -614,18 +643,25 @@ export default function HeaderSideBarTabs() {
                         value={value}
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
+                        className='
+                        bg-[#1f2937]'
                         sx={{
 
-                            borderRight: 2,
+                            // borderRight: 2,
                             borderColor: 'divider',
-                            minWidth: 200, height: 400,
+                            minWidth: 220, height: 450,
                             position: 'sticky',
-                            top: 120,
+                            top: 100,
+                            backdropFilter: 'blur(8px)',
+                            borderRadius: 2,
+                            
+                            // backgroundColor: 'rgba(216, 207, 207, 0.724)',
 
                         }}
+                        // className='bg-[#0c0c0e82]'
                         TabIndicatorProps={{
                             style: {
-                                backgroundColor: "#f6f0f0"
+                                backgroundColor: "#6366f1"
                             }
                         }}
                     >
@@ -633,13 +669,21 @@ export default function HeaderSideBarTabs() {
                         {
                             tabsData?.map((tabs) => {
                                 return (
-                                    <Tab sx={{
-                                        textTransform: 'none',
-                                        bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
-                                        color: value === tabs.value ? 'black' : 'white',
-                                        borderRadius: 1,
+                                    <Tab
+                                        key={tabs.value}
+                                        icon={tabs.icon}
+                                        iconPosition="start"
+                                        sx={{
+                                            textTransform: 'none',
+                                            bgcolor: value === tabs.value ? '#6366f1' : 'transparent',
+                                            color: value === tabs.value ? 'black' : 'white',
+                                            borderRadius: 1,
+                                            p: 3,
+                                            display: "flex",
+                                            justifyContent: "start",
 
-                                    }}
+
+                                        }}
 
                                         label={tabs.label} {...a11yProps(tabs.value)}
                                     />

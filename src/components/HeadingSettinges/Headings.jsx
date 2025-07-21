@@ -1,48 +1,37 @@
-import { Box, Tab, Tabs, Typography, Snackbar, Alert } from '@mui/material'
-import React from 'react'
-import PropTypes from 'prop-types';
-import { Fragment } from 'react';
-import { useState } from 'react';
-import ServiceHeading from './Pages/ServiceHeading';
-import PortFolioHeading from './Pages/PortFolioHeading';
-import PrincingHeading from './Pages/PrincingHeading';
-import TestiminialHeadings from './Pages/TestiminialHeadings';
-import { toast, ToastContainer } from 'react-toastify';
-import { useEffect } from 'react';
+import {
+   Box,
+   Tab,
+   Tabs,
+   Typography,
+   CircularProgress,
+   Divider
+} from "@mui/material";
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import ServiceHeading from "./Pages/ServiceHeading";
+import PortFolioHeading from "./Pages/PortFolioHeading";
+import PrincingHeading from "./Pages/PrincingHeading";
+import TestiminialHeadings from "./Pages/TestiminialHeadings";
+import { toast, ToastContainer } from "react-toastify";
+import {
+   Layers,
+   Briefcase,
+   DollarSign,
+   ThumbsUp
+} from "lucide-react"; // For modern icons
 
-export const tabsData = [
-   {
-      value: 0,
-      label: "Service  Heading"
-   },
-   {
-      value: 1,
-      label: "Portfolio  Heading"
-   },
-   {
-      value: 2,
-      label: "Pricing  Heading"
-   },
-   {
-      value: 3,
-      label: "Testimonial  Heading"
-   },
-]
+const tabsData = [
+   { value: 0, label: "Service Heading", icon: <Layers size={18} /> },
+   { value: 1, label: "Portfolio Heading", icon: <Briefcase size={18} /> },
+   { value: 2, label: "Pricing Heading", icon: <DollarSign size={18} /> },
+   { value: 3, label: "Testimonial Heading", icon: <ThumbsUp size={18} /> }
+];
 
-function TabPanel(props) {
-   const { children, value, index, ...other } = props;
-
+function TabPanel({ children, value, index }) {
    return (
-      <div
-         role="tabpanel"
-         hidden={value !== index}
-         id={`vertical-tabpanel-${index}`}
-         aria-labelledby={`vertical-tab-${index}`}
-         {...other}
-         className='w-[100%] '
-      >
+      <div hidden={value !== index} role="tabpanel" className="w-full">
          {value === index && (
-            <Box sx={{ p: 3, width: "100%" }}>
+            <Box className="p-4 w-full">
                <Typography>{children}</Typography>
             </Box>
          )}
@@ -53,328 +42,173 @@ function TabPanel(props) {
 TabPanel.propTypes = {
    children: PropTypes.node,
    index: PropTypes.number.isRequired,
-   value: PropTypes.number.isRequired,
+   value: PropTypes.number.isRequired
 };
 
-function a11yProps(index) {
-   return {
-      id: `vertical-tab-${index}`,
-      'aria-controls': `vertical-tabpanel-${index}`,
-   };
-}
-
-function Headings() {
+export default function Headings() {
    const [value, setValue] = useState(0);
-   const [snackbar, setSnackbar] = useState({
-      open: false,
-      message: '',
-      severity: 'success'
+   const [loading, setLoading] = useState(false);
+   const [id, setId] = useState("");
+   const [serviceHeadingApiData, setServiceHeadingApiData] = useState([]);
+   const [headingsState, setHeadingsState] = useState({
+      ServiceHeading: { title: "", Descriptions: "", item_ShowOnWebsite: "true" },
+      PortFolioHeading: { title: "", Descriptions: "", item_ShowOnWebsite: "" },
+      PrincingHeading: { title: "", Descriptions: "", item_ShowOnWebsite: "" },
+      TestimonialHeading: { title: "", Descriptions: "", item_ShowOnWebsite: "" }
    });
-   const [serviceHeading, setServiceHeading] = useState({
-      title: '',
-      Descriptions: '',
-      item_ShowOnWebsite: ''
-   })
-   const [portfolioHeading, setPortfolioHeading] = useState({
-      title: '',
-      Descriptions: '',
-      item_ShowOnWebsite: ''
-   })
-
-   const [princingHeading, setPrincingHeading] = useState({
-      title: '',
-      Descriptions: '',
-      item_ShowOnWebsite: ''
-   })
-   const [testimonialHeading, setTestimonialHeading] = useState({
-      title: '',
-      Descriptions: '',
-      item_ShowOnWebsite: ''
-   })
-   const [id, setId] = useState("")
-   const [serviceHeadingApiData, setServiceHeadingApiData] = useState([])
-   const [loading, setLoading] = useState(false)
 
    useEffect(() => {
-      const _id = localStorage.getItem("user-ID")
-      setId(_id)
-   }, [])
-
-   const handleChange = (event, newValue) => {
-      setValue(newValue);
-   };
-
-   const showSnackbar = (message, severity = 'success') => {
-      setSnackbar({
-         open: true,
-         message,
-         severity
-      });
-   };
-
- 
+      const userId = localStorage.getItem("user-ID");
+      setId(userId);
+   }, []);
 
    useEffect(() => {
-      if (serviceHeadingApiData?.data?.length > 0) {
-         serviceHeadingApiData.data.forEach((sectionBlock) => {
-            const item = sectionBlock?.item?.[0];
-
-            if (!item) return; // Skip if item is missing
-
-            switch (sectionBlock.section) {
-               case "ServiceHeading":
-                  setServiceHeading({
-                     title: item.item_Title || '',
-                     Descriptions: item.item_Description || '',
-                     item_ShowOnWebsite: item.item_ShowOnWebsite || ''
-                  });
-                  break;
-
-               case "PortFolioHeading":
-                  setPortfolioHeading({
-                     title: item.item_Title || '',
-                     Descriptions: item.item_Description || '',
-                     item_ShowOnWebsite: item.item_ShowOnWebsite || ''
-                  });
-                  break;
-
-               case "PrincingHeading":
-                  setPrincingHeading({
-                     title: item.item_Title || '',
-                     Descriptions: item.item_Description || '',
-                     item_ShowOnWebsite: item.item_ShowOnWebsite || ''
-                  });
-                  break;
-
-               case "TestimonialHeading":
-                  setTestimonialHeading({
-                     title: item.item_Title || '',
-                     Descriptions: item.item_Description || '',
-                     item_ShowOnWebsite: item.item_ShowOnWebsite || ''
-                  });
-                  break;
-
-               default:
-                  // Unrecognized section — optionally log or ignore
-                  console.warn(`Unknown section: ${sectionBlock.section}`);
-                  break;
+      if (!id) return;
+      (async () => {
+         try {
+            const url = `${import.meta.env.VITE_BACK_END_URL}api-heading/api-get-heading-top/${id}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (res.ok) {
+               const updated = { ...headingsState };
+               data?.data?.forEach(({ section, item }) => {
+                  if (item && item[0]) {
+                     updated[section] = {
+                        title: item[0].item_Title || "",
+                        Descriptions: item[0].item_Description || "",
+                        item_ShowOnWebsite: item[0].item_ShowOnWebsite || ""
+                     };
+                  }
+               });
+               setHeadingsState(updated);
             }
-         });
-      }
-   }, [serviceHeadingApiData]);
+         } catch (err) {
+            console.error(err);
+         }
+      })();
+   }, [id]);
 
-
-
-   console.log("serviceHeadingApiData____", serviceHeadingApiData)
+   const handleChange = (event, newValue) => setValue(newValue);
 
    const submitHandler = async (section) => {
-      let payload;
-      if (section === "ServiceHeading") {
-         payload = {
-            section: section,
-            item: [
-               {
-                  item_Title: serviceHeading.title,
-                  item_Description: serviceHeading.Descriptions,
-                  item_ShowOnWebsite: serviceHeading.item_ShowOnWebsite
-               }
-            ]
-         }
-      }
-      else if (section === "PortFolioHeading") {
-         payload = {
-            section: section,
-            item: [
-               {
-                  item_Title: portfolioHeading.title,
-                  item_Description: portfolioHeading.Descriptions,
-                  item_ShowOnWebsite: portfolioHeading.item_ShowOnWebsite
-               }
-            ]
-         }
-      }
-      else if (section === "PrincingHeading") {
-         payload = {
-            section: section,
-            item: [
-               {
-                  item_Title: princingHeading.title,
-                  item_Description: princingHeading.Descriptions,
-                  item_ShowOnWebsite: princingHeading.item_ShowOnWebsite
-               }
-            ]
-         }
-      }
-      else if (section === "TestimonialHeading") {
-         payload = {
-            section: section,
-            item: [
-               {
-                  item_Title: testimonialHeading.title,
-                  item_Description: testimonialHeading.Descriptions,
-                  item_ShowOnWebsite: testimonialHeading.item_ShowOnWebsite
-               }
-            ]
-         }
-      }
-      setLoading(true)
-
+      setLoading(true);
       try {
          const url = `${import.meta.env.VITE_BACK_END_URL}api-heading/api-headingtop-api/${id}`;
-         const fetchData = await fetch(url, {
+         const payload = {
+            section,
+            item: [headingsState[section]]
+         };
+         const res = await fetch(url, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
          });
-
-         const responseJson = await fetchData.json();
-         console.log("responseJson", responseJson)
-         if (fetchData.ok) {
-            toast.success(responseJson.message || 'Data updated successfully!', {
-               position: "bottom-right",
-               autoClose: 3000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               progress: undefined,
-               theme: "colored",
-            });
-         } else {
-            toast.error(responseJson.message || 'Failed to update data!', {
-               position: "bottom-right",
-               autoClose: 3000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: true,
-               draggable: true,
-               progress: undefined,
-               theme: "red",
-            });
-         }
-
-      } catch (error) {
-         console.log(error)
+         const data = await res.json();
+         toast[res.ok ? "success" : "error"](data.message || (res.ok ? "Updated" : "Failed"));
+      } catch (err) {
+         console.error(err);
+         toast.error("Something went wrong.");
       } finally {
-         setLoading(false)
+         setLoading(false);
       }
-   }
-
-
-
-   const getServiceHeading = async (id) => {
-      try {
-         const url = `${import.meta.env.VITE_BACK_END_URL}api-heading/api-get-heading-top/${id}`;
-         const fetchData = await fetch(url, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-
-         })
-         const responseJson = await fetchData.json();
-         console.log("responseJson", responseJson)
-         if (fetchData.ok) {
-            setServiceHeadingApiData(responseJson)
-         }
-      } catch (error) {
-         console.log(error)
-      }
-   }
-
-   useEffect(() => {
-      getServiceHeading(id)
-   }, [id])
-
-
+   };
 
    return (
       <Fragment>
-         <Box
-            sx={{ bgcolor: 'background.paper', display: 'flex', borderRadius: 2, height: "100%", }}
-         >
-            <div className="pb-5" >
+         <Box className="flex w-full  rounded-xl overflow-hidden shadow-lg">
+            {/* Sidebar Tabs */}
+            <Box className="min-w-[250px] bg-[#1f2937] text-white h-[85vh] p-3 sticky top-[90px] shadow-md">
+               <Typography
+                  variant="h5"
+                  sx={{
+                     fontWeight: 700,
+                     textAlign: 'center',
+                     mb: 2,
+                     background: 'linear-gradient(to right, #6a11cb, #2575fc)',
+                     WebkitBackgroundClip: 'text',
+                     WebkitTextFillColor: 'transparent',
+                  }}
+               >
+                  Heading Settings
+               </Typography>
+               <Divider sx={{
+                  mb: 2
+               }} />
+
                <Tabs
                   orientation="vertical"
                   variant="scrollable"
                   value={value}
                   onChange={handleChange}
-                  aria-label="Vertical tabs example"
-                  sx={{
-                     borderRight: 2,
-                     borderColor: 'divider',
-                     minWidth: 200, height: 400,
-                     position: 'sticky',
-                     top: 150,
-                     display: "flex",
-
-                  }}
-                  TabIndicatorProps={{
-                     style: {
-                        backgroundColor: "#f6f0f0"
-                     }
-                  }}
+                  TabIndicatorProps={{ style: { background: "#6366f1" } }}
                >
-                  {
-                     tabsData?.map((tabs) => {
-                        return (
-                           <Tab
-                              key={tabs.value}
-                              sx={{
-                                 textTransform: 'none',
-                                 bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
-                                 color: value === tabs.value ? 'black' : 'white',
-                                 borderRadius: 1,
-                              }}
-                              label={tabs.label}
-                              {...a11yProps(tabs.value)}
-                           />
-                        )
-                     })
-                  }
+
+                  {tabsData.map((tab) => (
+                     <Tab
+                        key={tab.value}
+                        icon={tab.icon}
+                        iconPosition="start"
+                        label={tab.label}
+                        sx={{
+                           color: value === tab.value ? "white" : "#cbd5e1",
+                           backgroundColor: value === tab.value ? "#6366f1" : "transparent",
+                           borderRadius: 1,
+                           marginBottom: 1,
+                           textTransform: "none",
+                           justifyContent: "start",
+                           paddingX: 2,
+                           fontWeight: 500
+                        }}
+                     />
+                  ))}
                </Tabs>
-            </div>
-            <div className='w-[100%] h-[80vh] flex justify-center items-center '>
-               <TabPanel sx={{ width: '90%' }} value={value} index={0}>
+            </Box>
+
+            {/* Main Panel */}
+            <Box className="flex-1 h-[85vh] overflow-y-auto  text-white p-6  flex items-center">
+               <TabPanel value={value} index={0}>
                   <ServiceHeading
+                     serviceHeading={headingsState.ServiceHeading}
+                     setServiceHeading={(v) =>
+                        setHeadingsState((prev) => ({ ...prev, ServiceHeading: v }))
+                     }
                      submitHandler={submitHandler}
-                     serviceHeading={serviceHeading}
-                     setServiceHeading={setServiceHeading}
                      loading={loading}
                   />
                </TabPanel>
-
-               <TabPanel sx={{ width: '100%' }} value={value} index={1}>
+               <TabPanel value={value} index={1}>
                   <PortFolioHeading
-                     portfolioHeading={portfolioHeading}
-                     setPortfolioHeading={setPortfolioHeading}
+                     portfolioHeading={headingsState.PortFolioHeading}
+                     setPortfolioHeading={(v) =>
+                        setHeadingsState((prev) => ({ ...prev, PortFolioHeading: v }))
+                     }
                      submitHandler={submitHandler}
                      loading={loading}
                   />
                </TabPanel>
-
-               <TabPanel sx={{ width: '100%' }} value={value} index={2}>
+               <TabPanel value={value} index={2}>
                   <PrincingHeading
-                     princingHeading={princingHeading}
-                     setPrincingHeading={setPrincingHeading}
+                     princingHeading={headingsState.PrincingHeading}
+                     setPrincingHeading={(v) =>
+                        setHeadingsState((prev) => ({ ...prev, PrincingHeading: v }))
+                     }
                      submitHandler={submitHandler}
                      loading={loading}
                   />
                </TabPanel>
-
-               <TabPanel sx={{ width: '100%' }} value={value} index={3}>
+               <TabPanel value={value} index={3}>
                   <TestiminialHeadings
-                     testimonialHeading={testimonialHeading}
-                     setTestimonialHeading={setTestimonialHeading}
+                     testimonialHeading={headingsState.TestimonialHeading}
+                     setTestimonialHeading={(v) =>
+                        setHeadingsState((prev) => ({ ...prev, TestimonialHeading: v }))
+                     }
                      submitHandler={submitHandler}
                      loading={loading}
                   />
                </TabPanel>
-            </div>
+            </Box>
          </Box>
-
          <ToastContainer />
-
       </Fragment>
-   )
+   );
 }
-
-export default Headings

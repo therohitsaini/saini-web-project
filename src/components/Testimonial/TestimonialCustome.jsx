@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useSnackbar } from '../Snakbar/Snakbar'
 import TestimonialTable from './TestimonialTable'
-import { showErrorToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
+import { showErrorToast, showSuccessToast } from '../FunfactSection/FunfactUI/FuncfactCustom/FunfactTable'
 import { ToastContainer } from 'react-toastify'
 
 function TestimonialCustome() {
@@ -142,13 +142,10 @@ function TestimonialCustome() {
             if (response.ok) {
                 setLoading(false)
                 showSuccessToast(result.message)
-
-                // setRefresh((ref) => !ref)
+                setRefresh((ref) => !ref)
             }
         } catch (error) {
-            // showErrorToast("Try After Some Time")
             console.error("Network error:", error);
-            // alert("Something went wrong. Please try again.");
         }
 
     }

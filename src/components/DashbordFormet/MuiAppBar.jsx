@@ -36,8 +36,57 @@ import FooterContactMain from '../FooterCustome/FooterContactMain';
 import FooterSponsors from '../FooterCustome/FooterSponsors';
 import Headings from '../HeadingSettinges/Headings';
 import FooterCopyRight from '../FooterCustome/FooterMianPages/FooterCopyRight';
+import { Fragment } from 'react';
+import { Alert, Box, CssBaseline, Modal, ThemeProvider, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import { useRef } from 'react';
+import theme from '../DahbordTheme/Theme';
+import { styled, keyframes } from 'styled-components';
 
-// import FooterMainCenter from '../FooterCustome/FooterMainCenter';
+// Keyframe for bottom-to-top slide in
+const slideUp = keyframes`
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+`;
+
+// Styled Box with animation
+const AnimatedModalBox = styled(Box)`
+  background-color: #1e293b; /* dark background */
+  border-radius: 10px;
+  padding: 24px;
+  position: relative;
+  width: 400px;
+  margin: auto;
+  margin-top: 15%;
+  animation: ${slideUp} 0.4s ease-out;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+`;
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: 2,
+    minWidth: 300,
+    textAlign: 'center',
+    backdropFilter: 'blur(8px)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    height: 200, // <- fix typo from "hieght"
+    padding: 4,
+    color: 'white',
+    boxShadow: "0px 10px 40px rgba(98, 90, 90, 0.2)",
+};
+
 
 const MuiAppBar = (props) => {
 
@@ -47,6 +96,8 @@ const MuiAppBar = (props) => {
     const [userProfilePic, setUserProflePic] = useState("")
     const [profileRefress, setProfileRefress] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
+    const timeoutRef = useRef(null)
 
     const dispatch = useDispatch()
     const snackbar = useSnackbar();
@@ -61,8 +112,9 @@ const MuiAppBar = (props) => {
     const demoWindow = window ? window() : undefined;
 
 
-    const getUserDataBy_ID = async (user_ID) => {
 
+
+    const getUserDataBy_ID = async (user_ID) => {
         try {
             const url = `${import.meta.env.VITE_BACK_END_URL}all/get/user-data-by-id/${user_ID}`
             const fetchData = await fetch(url, {
@@ -72,7 +124,7 @@ const MuiAppBar = (props) => {
             const response = await fetchData.json()
             if (fetchData.ok) {
                 setData(response.find_Data)
-                console.log("UserData", response)
+
             }
 
 
@@ -80,7 +132,6 @@ const MuiAppBar = (props) => {
             console.log("Somthing Went Wrong!")
         }
     }
-
 
     useEffect(() => {
         const ID = localStorage.getItem("user-ID");
@@ -112,9 +163,6 @@ const MuiAppBar = (props) => {
             dispatch(userInformationCurrent(picResponse.imgURL))
 
             // }
-
-            console.log(picResponse)
-
         } catch (error) {
             console.log(error)
 
@@ -126,6 +174,28 @@ const MuiAppBar = (props) => {
             fetchProfilePicture(user_ID);
         }
     }, [user_ID, profileRefress]);
+
+    useEffect(() => {
+        const shouldShow = sessionStorage.getItem("WELCOMEMODAL");
+
+        if (shouldShow === "true") {
+            setOpenModal(true);
+            timeoutRef.current = setTimeout(() => {
+                setOpenModal(false);
+                sessionStorage.removeItem("WELCOMEMODAL");
+            }, 10000);
+        }
+        return () => clearTimeout(timeoutRef.current);
+    }, []);
+
+    const ModalHandle = () => {
+        setOpenModal(false);
+        sessionStorage.removeItem("WELCOMEMODAL");
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+    };
 
 
     function DashboardPage() {
@@ -157,9 +227,6 @@ const MuiAppBar = (props) => {
     function NotFoundPage() {
         return <div>404 - Page Not Found</div>;
     }
-
-
-
 
 
     const RenderRoute = ({ pathname }) => {
@@ -229,91 +296,150 @@ const MuiAppBar = (props) => {
         }
     }
 
+
+
     return (
 
         // 
-        <AppProvider
-            navigation={NAVIGATION(isAdmin)}
-            // session={session}
-            // authentication={authentication}
-            router={router}
-            // theme={demoTheme}
-            window={demoWindow}
+        <Fragment>
+            <div>
+                <Modal
+                    open={openModal}
+                    // sx={{ ...backdropStyle }}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
 
-        >
+                    <Box sx={style}>
+                        {/* Close Icon */}
+                        <IconButton
+                            onClick={() => ModalHandle()}
+                            sx={{
+                                position: 'absolute',
+                                top: 8,
+                                right: 8,
+                                color: 'white',
 
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        {/* <Alert severity="success">This is a success Alert.</Alert> */}
+                        <div className='mt-7 w-full flex justify-center my-1'>
+                            <Box sx={{
+                                width: 200,
+                                fontSize:12,
+                                fontVariant:"all-small-caps",
+                                // p:"1px",
+                                // backgroundColor:"#72c66eabf",
+                                border:"1px solid #47d052b8",
+                                borderRadius:3
+                            }}>Log In Successfully</Box>
+                        </div>
+                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ color: 'white',fontVariant:"discretionary-ligatures" }}>
+                            👋 Welcome to {data.fullname} on the  Dashbord
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2, color: 'white', fontSize: "10px" }}>
+                            We're glad to have you back on the dashboard. Let's get started!
+                        </Typography>
+                    </Box>
+                </Modal>
 
-            <DashboardLayout slots={{
-                appTitle: CustomAppTitle,
-                toolbarActions: ToolbarActionsSearch,
-            }}
+            </div>
 
-                sx={{
+            <AppProvider
+                navigation={NAVIGATION(isAdmin)}
+                // session={session}
+                // authentication={authentication}
+                router={router}
+                // theme={demoTheme}
+                window={demoWindow}
+            >
+                <DashboardLayout slots={{
+                    appTitle: CustomAppTitle,
+                    toolbarActions: ToolbarActionsSearch,
+                }}
 
+                    sx={{
+                        // '& .MuiToolbar-root ': {
+                        //     background: 'linear-gradient(to bottom right, #1e293b, #0f172a)', // This applies to full layout
+                        // },
+                        // '& .MuiBox-root': {
+                        //     background: 'linear-gradient(to bottom right, #101317, #0f172a)', // This applies to full layout
 
-                    "& .MuiContainer-root  ": {
-                        paddingX: 1,
+                        // },
 
-                    },
-                    // "& .MuiPaper-root ": {
-                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
-                    //     // background: "linear-gradient(to top right, #131823, #051116a4)",
-                    // },
-                    // "& .MuiListSubheader-root ": {
-                    //     background: "linear-gradient(to top right, #080e11, #18292e , #0d9dda99)",
-                    // },
+                        // "& .MuiContainer-root  ": {
+                        //     paddingX: 1,
+                        // },
+                        // "& .MuiListSubheader-root": {
+                        //     background: 'linear-gradient(to bottom right, #29384c, #0f172a)', // This applies to full layout
 
-                    // "& .MuiTypography-root": {
-                    //     // ml: 2,
-                    //     transition: "margin-left 0.3s ease",
-                    //     "&:hover": {
-                    //         ml: 2, // or any value you want on hover
-                    //     },
-                    // },
-
-
-                    "& .MuiListItemText-root": {
-                        "& .MuiTypography-root ": {
+                        // },
+                        // background: 'linear-gradient(to bottom right, #1e293b, #0f172a)', // This applies to full layout
+                        minHeight: '100vh',
+                        "& .MuiContainer-root": {
+                            px: 1,
+                        },
+                        "& .MuiListItemText-root .MuiTypography-root": {
                             color: "#AFDDFF",
                             fontSize: "13px",
-                            // fontVariant: "all-small-caps"
+                        },
+                        "& .MuiBox-root:hover": {
+                            color: "#ededef"
+                        },
+                        "& .MuiSvgIcon-root": {
+                            color: "#73b6c0",
+                            fontSize: "1.5rem"
+                        },
+                        "& .MuiBreadcrumbs-ol, & .css-lc31tn": {
+                            display: "none"
+                        },
+
+                        "& .MuiListItemText-root": {
+                            "& .MuiTypography-root ": {
+                                color: "#AFDDFF",
+                                fontSize: "13px",
+                                // fontVariant: "all-small-caps"
+
+                            },
+                        },
+
+                        "& .MuiBox-root:hover": {
+                            color: "#ededef"
+                        },
+                        "& .MuiSvgIcon-root": {
+                            color: "#73b6c0"
+                        },
+                        "& .MuiSvgIcon-root": {
+                            fontSize: "1.5rem"
+                        },
+                        "& .MuiButtonBase-root": {
 
                         },
-                    },
-
-                    "& .MuiBox-root:hover": {
-                        color: "#ededef"
-                    },
-                    "& .MuiSvgIcon-root": {
-                        color: "#73b6c0"
-                    },
-                    "& .MuiSvgIcon-root": {
-                        fontSize: "1.5rem"
-                    },
-                    "& .MuiButtonBase-root": {
-
-                    },
-                    "& .MuiDataGridVariables": {
-                        backgroundColor: "white"
-                    },
-                    "& .MuiBreadcrumbs-ol": {
-                        display: "none"
-                    },
-                    "& .css-lc31tn": {
-                        display: "none"
-                    }
+                        "& .MuiDataGridVariables": {
+                            backgroundColor: "white"
+                        },
+                        "& .MuiBreadcrumbs-ol": {
+                            display: "none"
+                        },
+                        "& .css-lc31tn": {
+                            display: "none"
+                        }
 
 
-                }}
-            >
+                    }}
+                >
 
-                <PageContainer>
-                    <RenderRoute pathname={router.pathname} />
-                </PageContainer>
+                    <PageContainer>
+                        <RenderRoute pathname={router.pathname} />
+                    </PageContainer>
 
-            </DashboardLayout>
+                </DashboardLayout>
 
-        </AppProvider >
+            </AppProvider >
+
+        </Fragment >
 
     );
 }

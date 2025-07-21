@@ -89,8 +89,9 @@ function ServiceHeading({ serviceHeading, setServiceHeading, loading, submitHand
 
                     <div className="flex items-center gap-2">
                         <Checkbox
+                            defaultChecked
                             checked={serviceHeading.item_ShowOnWebsite}
-                            onChange={(e) => setServiceHeading((prev) => ({ ...prev, item_ShowOnWebsite: e.target.checked }))}
+                            // onChange={(e) => setServiceHeading((prev) => ({ ...prev, item_ShowOnWebsite: e.target.checked }))}
                             sx={{ m: 0, p: 0 }}
                             size="small"
                         />

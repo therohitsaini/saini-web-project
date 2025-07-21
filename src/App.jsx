@@ -44,6 +44,7 @@ import FooterBackGround from './components/FooterCustome/FooterBackGround';
 import { SnackbarProvider } from './components/Snakbar/Snakbar';
 import Headings from './components/HeadingSettinges/Headings';
 import FooterCopyRight from './components/FooterCustome/FooterMianPages/FooterCopyRight';
+import Test from './components/Test';
 // import FooterMainCenter from './components/FooterCustome/FooterMainCenter';
 
 
@@ -103,6 +104,8 @@ function App() {
             {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
             <Route path='/headings' element={< Headings />} />
             <Route path='/footercopyright' element={< FooterCopyRight />} />
+            <Route path='/test' element={< Test />} />
+
 
           </Routes>
         </SnackbarProvider>

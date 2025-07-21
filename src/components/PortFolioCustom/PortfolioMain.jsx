@@ -23,9 +23,10 @@ function PortfolioMain() {
   const [portFormData, setPortFormData] = useState(inistialtate);
   const [userID, setUserID] = useState("")
   const [portMode, setPortMode] = useState("Table")
-  const [portRefresh, setPortRefresh] = useState()
+  const [portRefresh, setPortRefresh] = useState(false)
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false)
+
 
 
 
@@ -127,13 +128,14 @@ function PortfolioMain() {
 
 
   const updatePortHandler = async () => {
-    const userId = localStorage.getItem("user-ID");
+    const id = localStorage.getItem("user-ID");
+
     const userDocID = portFormData.userDocID;
-    if (!userId || !userDocID) {
+    if (!id || !userDocID) {
       showErrorToast("Missing user ID or document ID.");
       return;
     }
-
+    console.log("id", id, userDocID)
     if (!portFormData.userImage) {
       showErrorToast("Image is Required !")
       return
@@ -166,7 +168,7 @@ function PortfolioMain() {
 
 
     try {
-      const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/update-port-folio/${userId}/${userDocID}`;
+      const url = `${import.meta.env.VITE_BACK_END_URL}api-portfolio/update-port-folio/${id}/${userDocID}`;
       const response = await fetch(url, {
         method: "PUT",
         body: formData,
@@ -176,7 +178,7 @@ function PortfolioMain() {
 
       if (response.ok) {
         showSuccessToast(result.message)
-        // setPortRefresh((ref) => !ref)
+        setPortRefresh((ref) => !ref)
       } else {
         console.error("Error response:", result);
         alert("Failed to update portfolio section.");

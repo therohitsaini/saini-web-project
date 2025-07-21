@@ -21,7 +21,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
     const [teamMode, setTeamMode] = useState("Table")
     const [teamCardDataApies, setTeamcardApies] = useState([])
     const [refresh, setRefresh] = useState(false)
-   
+
 
     useEffect(() => {
         const userID = localStorage.getItem("user-ID")
@@ -47,7 +47,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
 
             if (teamMode === "UpdateTeamForm") {
                 // Update existing team member
-                url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-update-team/${teamMemberForm.docsId}`;
+                url = `${import.meta.env.VITE_BACK_END_URL}api-team/api-update-team/${id}/${teamMemberForm.docsId}`;
                 method = 'PUT';
             } else {
                 // Create new team member
@@ -62,20 +62,8 @@ function TeamCardItemMain({ showSnackbar, showError }) {
             const result = await response.json()
 
             if (response.ok) {
-                showSuccessToast(result.message)
                 setLoader(false)
-
-                // Reset form and go back to table
-                // setTeamMemberForm({
-                //     image: null,
-                //     name: '',
-                //     role: '',
-                //     item_Icone: ['', '', '', ''],
-                //     urls: ['', '', '', ''],
-                //     docsId: null,
-                // });
-            
-                // Refresh the team data
+                showSuccessToast(result.message)
                 setRefresh(prev => !prev)
             } else {
                 showErrorToast(result.message || 'Something went wrong')
@@ -83,7 +71,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
             }
 
         } catch (error) {
-            
+
             console.error('Error submitting team member:', error);
             setLoader(false)
         }
@@ -98,7 +86,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
             });
 
             const JsonData = await response.json();
-            console.log("JsonData", JsonData)
+            // console.log("JsonData", JsonData)
             if (response.ok) {
                 setTeamcardApies(JsonData.data)
             }
@@ -111,7 +99,7 @@ function TeamCardItemMain({ showSnackbar, showError }) {
         getTeamCardData(id)
     }, [id, refresh])
 
-    console.log("teamCardDataApies", teamMemberForm)
+    // console.log("teamCardDataApies", teamMemberForm)
 
     return (
         <Fragment>

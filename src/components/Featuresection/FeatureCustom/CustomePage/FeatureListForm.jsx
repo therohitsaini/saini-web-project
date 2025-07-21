@@ -117,7 +117,7 @@ function FeatureListForm({
                 </div>
 
                 <form className='service-form flex flex-col w-[60%] gap-4 border border-slate-400/20 rounded-md p-5'>
-                    <h1 className='heading text-2xl'>Feature List Item</h1>
+                    <h1 className='text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>Feature List Item</h1>
                     <Divider />
 
                     <div className='flex items-center gap-3'>
@@ -270,15 +270,17 @@ function FeatureListForm({
                     </div>
 
                     <div className='flex gap-2 justify-end'>
-                        {freatureMode === "UpdateForm" ? (
-                            <GradientButton onClick={updateListitemFeature} loading={loading}>
-                                Update
-                            </GradientButton>
-                        ) : (
-                            <GradientButton onClick={postListitemFeature} loading={loading}>
-                                Save Changes
-                            </GradientButton>
-                        )}
+                        {
+                            freatureMode === "UpdateForm" ? (
+                                <GradientButton onClick={updateListitemFeature} loading={loading}>
+                                    Update
+                                </GradientButton>
+                            ) : (
+                                <GradientButton onClick={postListitemFeature} loading={loading}>
+                                    Save Changes
+                                </GradientButton>
+                            )
+                        }
                     </div>
                 </form>
             </div>

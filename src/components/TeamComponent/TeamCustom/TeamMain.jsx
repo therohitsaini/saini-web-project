@@ -56,7 +56,7 @@ function TeamMain({ showSnackbar, showError }) {
     };
 
     const submitHandler = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const sectionId = teamForm._id;
         const formData = new FormData();
         if (teamForm.teamBgImage) {

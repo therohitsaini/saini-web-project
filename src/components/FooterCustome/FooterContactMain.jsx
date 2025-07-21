@@ -17,15 +17,15 @@ export const tabsData = [
    },
    {
       value: 1,
-      label: "Footer Categories"
+      label: "Footer Categories Visit"
    },
    {
       value: 2,
-      label: "Footer Tags"
+      label: "Footer Tags Visit"
    },
    {
       value: 3,
-      label: "Footer Contact"
+      label: "Footer Contact Viist"
    },
 
 ]
@@ -81,21 +81,24 @@ export default function FooterContactMain({ showSnackbar, showError }) {
       <Box
          sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 224, width: '100%' }}
       >
-         <div className=' flex justify-center items-center sticky top-10'>
+         <div className=' flex justify-center items-center sticky top-40 '>
             <Tabs
                orientation="vertical"
                variant="scrollable"
                value={value}
                onChange={handleChange}
                aria-label="Vertical tabs example"
+               className='
+                        bg-[#1f2937]'
                sx={{
-                  borderRight: 1,
+                  // borderRight: 1,
                   borderColor: 'divider',
-                  minWidth: 200, height: 200,
+                  minWidth: 220, height: 350,
                   display: 'flex',
-                  //   justifyContent: 'center',
-                  //   alignItems: 'center',
-                  //   alignSelf: 'center',
+                  py: 3,
+                  borderRadius: 1,
+
+
 
                }}
             >
@@ -104,9 +107,10 @@ export default function FooterContactMain({ showSnackbar, showError }) {
                      return (
                         <Tab sx={{
                            textTransform: 'none',
-                           bgcolor: value === tabs.value ? '#3105c2' : 'transparent',
+                           bgcolor: value === tabs.value ? '#6366f1' : 'transparent',
                            color: value === tabs.value ? 'black' : 'white',
                            borderRadius: 1,
+                           p: 3
 
                         }}
 

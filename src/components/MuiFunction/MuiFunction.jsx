@@ -12,8 +12,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePathAction } from '../../Store/UserDetailsHeader/action';
 import FeedIcon from '@mui/icons-material/Feed';
-import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline';
-import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+// import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline';
+import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AdjustIcon from '@mui/icons-material/Adjust';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CurrencyFrancIcon from '@mui/icons-material/CurrencyFranc';
@@ -70,7 +71,7 @@ export const NAVIGATION = (isAdmin) => {
         { segment: 'headings', title: 'Headings', icon: <BiHeading /> },
         { segment: 'header', title: 'Header Section', icon: <FeedIcon color='gray' /> },
         { segment: 'herosection', title: 'Hero Section', icon: <AdjustIcon color='gray' /> },
-        { segment: 'info', title: 'Info Section', icon: <InfoOutlineIcon /> },
+        { segment: 'info', title: 'Info Section', icon: <InfoOutlinedIcon /> },
         { segment: 'service', title: 'Service Section', icon: <AutorenewIcon color='red' /> },
         { segment: 'funfact', title: 'Funfact Section', icon: <CurrencyFrancIcon /> },
         { segment: 'portfolio', title: 'Portfolio Section', icon: <BusinessCenterIcon /> },
@@ -111,7 +112,7 @@ export const NAVIGATION = (isAdmin) => {
                 { segment: 'sponsors', title: 'Sponsors', icon: < BiHeading /> },
                 { segment: 'footerbg', title: 'Footer Background', icon: <BsCardHeading fontSize="small" /> },
                 { segment: 'footertop', title: 'Footer Top Bar', icon: <BsCardHeading fontSize="small" /> },
-                { segment: 'footermaincenter', title: 'Footer Main ', icon: <BsCardHeading fontSize="small" /> },
+                { segment: 'footermaincenter', title: 'Footer Visit ', icon: <BsCardHeading fontSize="small" /> },
                 { segment: 'footercopyright', title: 'Footer Copy Right', icon: <BsCardHeading fontSize="small" /> },
 
             ],

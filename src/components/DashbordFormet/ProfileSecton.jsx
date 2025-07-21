@@ -35,8 +35,6 @@ function ProfileSection() {
         setAnchorEl(null);
     };
 
-    // const userDetails = useSelector((state) => state.fullName.data)
-    // console.log("userDetails", userDetails)
 
     useEffect(() => {
 
@@ -47,9 +45,9 @@ function ProfileSection() {
 
     }, [])
 
-    console.log(headerDetails)
+  
     const userDetails = useSelector((state) => state.user_info)
-    // console.log("userDetails", userDetails)
+    
 
     return (
         <Fragment>

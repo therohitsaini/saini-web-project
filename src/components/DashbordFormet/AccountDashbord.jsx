@@ -196,7 +196,8 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     isHover &&
                                     <div className=' absolute   top-0 rounded-full h-30 w-30  bg-black/70 flex justify-center items-center duration-900'>
                                         <div className=' p-2 rounded-full'>   <AddAPhotoIcon size="10px" /></div>
-                                    </div>}
+                                    </div>
+                                }
                             </label>
                         </div>
 
@@ -268,7 +269,6 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     <option value="Male">Male</option>
                                     <option value="Male">Female</option>
                                     <option value="Male">Other</option>
-
                                 </select>
                             </ul>
                             <ul className='flex flex-col w-full'>
@@ -301,9 +301,6 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
 
                                 </select>
                             </ul>
-
-
-
                         </div>
                         <div className='flex  gap-3 w-full  items-center'>
                             <ul className='flex flex-col w-full'>
@@ -329,7 +326,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                         </div>
                         <div className='flex justify-end'>
                             <Button
-                               
+
                                 onClick={() => setIsDilogeTrue(true)}
                                 variant="outlined"
                                 sx={{
@@ -338,7 +335,7 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     color: 'primary.main',
                                     borderColor: 'primary.main',
                                     zIndex: 1,
-                                    textTransform:"none",
+                                    textTransform: "none",
                                     fontFamily: "revert-layer",
                                     transition: 'color 0.4s ease, border-color 0.4s ease',
                                     fontFamily: 'Roboto, sans-serif',
@@ -358,9 +355,6 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     },
                                     '&:hover::before': {
                                         width: '100%',
-
-
-
                                     },
                                     '&:hover': {
                                         color: 'black',
@@ -368,11 +362,17 @@ const AccountDashbord = ({ data, setData, user_ID, userProfilePic, setProfileRef
                                     },
                                 }}
                             >
-                                {loading ? (
-                                    <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
-                                ) : (
-                                    ' Save Changes'
-                                )}
+                                {
+                                    loading
+                                        ?
+                                        (
+                                            <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
+                                        )
+                                        :
+                                        (
+                                            'Save Changes'
+                                        )
+                                }
 
                             </Button>
                         </div>

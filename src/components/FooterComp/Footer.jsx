@@ -9,7 +9,7 @@ import Icone, { ButtonComponent, ContactComponent, FooterArrow } from '../IconeC
 import { Icon } from '@iconify/react';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Button } from '@mui/material';
-import LocationPinIcon from '@mui/icons-material/LocationPin';
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 import { Link } from 'react-router-dom';
 
@@ -248,38 +248,77 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
     const sponsorImagesToDisplay = getSponsorImages();
 
 
+    // const getBackgroundStyle = () => {
+    //     if (footerBackground?.backgroundImage) {
+
+    //         const imageUrl = footerBackground.backgroundImage.startsWith('http')
+    //             ? footerBackground.backgroundImage
+    //             : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${footerBackground.backgroundImage.replace(/^\/?/, '')}`;
+    //         return {
+    //             backgroundImage: `url(${imageUrl})`,
+    //             backgroundSize: 'cover',
+    //             backgroundPosition: 'center',
+    //             backgroundRepeat: 'no-repeat'
+    //         };
+    //     } else if (footerBackground?.backgroundColor) {
+
+    //         return {
+    //             backgroundColor: footerBackground.backgroundColor
+    //         };
+    //     } else {
+
+    //         return {
+    //             backgroundImage: 'url(../src/assets/footer-bg.jpg)',
+    //             backgroundSize: 'cover',
+    //             backgroundPosition: 'center',
+    //             backgroundRepeat: 'no-repeat'
+    //         };
+    //     }
+    // };
+
     const getBackgroundStyle = () => {
-        if (footerBackground?.backgroundImage) {
+        const color = footerBackground?.backgroundColor;
+        const image = footerBackground?.backgroundImage;
 
-            const imageUrl = footerBackground.backgroundImage.startsWith('http')
-                ? footerBackground.backgroundImage
-                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${footerBackground.backgroundImage.replace(/^\/?/, '')}`;
-            return {
-                backgroundImage: `url(${imageUrl})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-            };
-        } else if (footerBackground?.backgroundColor) {
+        // Full image URL handling
+        const getFullImageUrl = (img) => {
+            if (!img) return null;
+            return img.startsWith('http')
+                ? img
+                : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${img.replace(/^\/?/, '')}`;
+        };
 
+        // Priority: Background Color
+        if (color && color !== "#ffffff" && color !== "transparent") {
             return {
-                backgroundColor: footerBackground.backgroundColor
-            };
-        } else {
-
-            return {
-                backgroundImage: 'url(../src/assets/footer-bg.jpg)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundColor: color,
             };
         }
+
+        // Next: Background Image
+        if (image) {
+            return {
+                backgroundImage: `url(${getFullImageUrl(image)})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            };
+        }
+
+        // Fallback: Local image
+        return {
+            backgroundImage: 'url(/src/assets/footer-bg.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        };
     };
+
+
 
     const data = footerCopyRightApies || defaultFooterCopyRightApi;
 
-    console.log("footerCopyRightApies", footerCopyRightApies)
-
+    console.log("footerData", footerData)
     return (
         <Fragment>
             <Box sx={{ width: "100%", }}>

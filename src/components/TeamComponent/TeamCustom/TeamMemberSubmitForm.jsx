@@ -16,6 +16,11 @@ import { allFaMdIconsList } from '../../NavbarComponent/HeaderTopLeft';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import GradientButton from '../../ReuseComponent/ReuseComponent';
 import { useEffect } from 'react';
+import { inputBaseStyle } from '../../ResueCss/ResuseCss';
+
+
+
+
 
 
 
@@ -113,19 +118,19 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                 <Divider />
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Avatar 
+                    <Avatar
                         src={
-                            teamMemberForm.image 
-                                ? (teamMemberForm.image instanceof File 
-                                    ? URL.createObjectURL(teamMemberForm.image) 
-                                    : (teamMemberForm.image.startsWith('http') 
-                                        ? teamMemberForm.image 
+                            teamMemberForm.image
+                                ? (teamMemberForm.image instanceof File
+                                    ? URL.createObjectURL(teamMemberForm.image)
+                                    : (teamMemberForm.image.startsWith('http')
+                                        ? teamMemberForm.image
                                         : `${import.meta.env.VITE_BACK_END_URL?.replace(/\/$/, '')}${teamMemberForm.image}`))
                                 : ''
-                        } 
-                        sx={{ width: 56, height: 56, mr: 2 }} 
+                        }
+                        sx={{ width: 56, height: 56, mr: 2 }}
                     />
-                    <Button component="label" variant="contained" startIcon={<UploadFileIcon />}>
+                    <Button component="label" variant="outlined" sx={{px:5}} startIcon={<UploadFileIcon />}>
                         Upload Image
                         <input type="file" hidden onChange={handleImageUpload} accept="image/*" />
                     </Button>
@@ -134,8 +139,9 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                 <Grid container spacing={2} >
                     <Grid item xs={12} sm={6}>
                         <TextField
+
                             label="Name"
-                            sx={{ width: 300 }}
+                            sx={inputBaseStyle}
                             size="small"
                             name="name"
                             value={teamMemberForm.name}
@@ -145,7 +151,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="Role"
-                            sx={{ width: 300 }}
+                            sx={inputBaseStyle}
                             size="small"
                             name="role"
                             value={teamMemberForm.role}
@@ -159,6 +165,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                         <Grid item xs={12} sm={6}>
                             <Autocomplete
                                 size="small"
+                                sx={inputBaseStyle}
                                 options={filteredIcons(inputValues[i])}
                                 value={selectedIcons[i]}
                                 onChange={(e, newValue) => onIconChange(i, newValue)}
@@ -212,7 +219,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label={`URL ${i + 1}`}
-                                sx={{ width: 300 }}
+                                sx={inputBaseStyle}
                                 size="small"
                                 value={teamMemberForm.urls[i]}
                                 onChange={(e) => {
@@ -235,7 +242,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                             ? (
                                 <GradientButton
                                     onClick={submitTeamMember}
-                             
+
                                 >
 
 
@@ -251,7 +258,7 @@ const TeamMemberSubmitForm = ({ setTeamMemberForm, teamMemberForm, submitTeamMem
                             ) : (
                                 <GradientButton
                                     onClick={submitTeamMember}
-                             
+
                                 >
 
 

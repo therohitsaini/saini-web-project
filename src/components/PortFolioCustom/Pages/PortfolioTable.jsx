@@ -36,6 +36,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
 
     const portUpdatehandle = async (data = {}) => {
         const orignal = data.orignalData || {}
+        // console.log("orignal")
         console.log("orignal", orignal)
         const categories = Array.isArray(orignal.categories)
             ? orignal.categories
@@ -46,7 +47,7 @@ function PortfolioTable({ portFolioData, setPortMode, setPortRefresh, setPortFor
         setPortFormData((pre) => ({
             ...pre,
             userDocID: orignal._id,
-            userImage: orignal.profile,
+            userImage: orignal.userImage,
             title: orignal.title,
             subTitle: orignal.subTitle,
             categories: categories,

@@ -1,36 +1,26 @@
-
 import {
     Autocomplete,
     Box,
-    Button,
     Checkbox,
-    CircularProgress,
     Divider,
     InputAdornment,
     TextField,
-    Typography,
 } from '@mui/material';
 import React, { useState, useEffect, useMemo, Fragment } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 import GradientButton from '../ReuseComponent/ReuseComponent';
 
-
-// for icone 
+// Combine icon sets
 export const allFaMdIconsMap = {
     ...MdIcons,
     ...FaIcons,
 };
 
-
 export const allFaMdIconsList = Object.entries(allFaMdIconsMap).map(([name, Icon]) => ({
     label: name,
     Icon,
 }));
-
-// end
-
-
 
 function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loading }) {
     const [selectedIcon, setSelectedIcon] = useState(
@@ -46,10 +36,9 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
         }));
     };
 
-
     const filteredIcons = useMemo(() => {
         const term = inputValue.trim().toLowerCase();
-        if (!term) return allFaMdIconsList.slice(0, 50); // default first 50
+        if (!term) return allFaMdIconsList.slice(0, 50);
         return allFaMdIconsList
             .filter((icon) => icon.label.toLowerCase().includes(term))
             .slice(0, 100);
@@ -64,14 +53,23 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
 
     return (
         <Fragment>
-            <div className="header-left-form-main h-[530px] flex items-center">
-                <form className="form flex justify-center items-center h-[420px] w-full">
-                    <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%]">
-                        {/* <Typography component="span">Top Bar Email Section</Typography> */}
-                        <div
-                            className=' text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'>
+            <div className="header-left-form-main relative w-full min-h-[530px] flex items-center justify-center ">
+                {/* Optional Background Layer */}
+                <div className="
+                absolute
+                //  inset-0 opacity-30 bg-[url('/bg.jpg')] bg-cover bg-center blur-sm z-0
+                " />
+
+                {/* Content Form Card */}
+                <form className="form relative z-10 flex justify-center items-center h-[420px] w-full ">
+                    <div className="border border-slate-400/20 rounded-md p-5 flex flex-col gap-4 w-[80%] 
+                    
+                     ">
+
+                        <div className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-semibold">
                             Top Bar Email Section
                         </div>
+
                         <Divider sx={{ mb: 1 }} />
 
                         <TextField
@@ -81,27 +79,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_Title"
                             value={formData?.item_Title}
                             onChange={onChangeHandler}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    fontSize: '12px',
-                                    '& input': {
-                                        fontSize: '14px',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                },
-                                '& label': {
-                                    color: 'gray',
-                                    fontSize: '14px',
-                                },
-                                '& label.Mui-focused': {
-                                    color: 'white',
-                                }
-                            }}
+                            sx={textFieldStyles}
                         />
 
                         <TextField
@@ -111,27 +89,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_ContactId"
                             value={formData?.item_ContactId}
                             onChange={onChangeHandler}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    fontSize: '12px',
-                                    '& input': {
-                                        fontSize: '14px',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                },
-                                '& label': {
-                                    color: 'gray',
-                                    fontSize: '14px',
-                                },
-                                '& label.Mui-focused': {
-                                    color: 'white',
-                                }
-                            }}
+                            sx={textFieldStyles}
                         />
 
                         <Autocomplete
@@ -145,7 +103,6 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                     item_Icone: newValue ? newValue.label : '',
                                 }));
                             }}
-
                             inputValue={inputValue}
                             onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                             getOptionLabel={(option) => option.label}
@@ -156,7 +113,6 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                     {option.label}
                                 </Box>
                             )}
-
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -171,27 +127,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                             </InputAdornment>
                                         ),
                                     }}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            fontSize: '12px',
-                                            '& input': {
-                                                fontSize: '14px',
-                                            },
-                                            '&:hover fieldset': {
-                                                borderColor: 'blue',
-                                            },
-                                            '&.Mui-focused fieldset': {
-                                                borderColor: 'blue',
-                                            },
-                                        },
-                                        '& label': {
-                                            color: 'gray',
-                                            fontSize: '14px',
-                                        },
-                                        '& label.Mui-focused': {
-                                            color: 'white',
-                                        }
-                                    }}
+                                    sx={textFieldStyles}
                                 />
                             )}
                         />
@@ -203,27 +139,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                             name="item_IconeUrl"
                             value={formData?.item_IconeUrl}
                             onChange={onChangeHandler}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    fontSize: '12px',
-                                    '& input': {
-                                        fontSize: '14px',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'blue',
-                                    },
-                                },
-                                '& label': {
-                                    color: 'gray',
-                                    fontSize: '14px',
-                                },
-                                '& label.Mui-focused': {
-                                    color: 'white',
-                                }
-                            }}
+                            sx={textFieldStyles}
                         />
 
                         <div className="flex items-center gap-2">
@@ -237,39 +153,20 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                 }
                                 sx={{ m: 0, p: 0 }}
                                 size="small"
-                                color='default'
+                                color="default"
                             />
-                            <p className="text-[14px] text-slate-500">
+                            <p className="text-[14px] text-slate-300">
                                 If you want to show this on the website
                             </p>
                         </div>
 
-                        <div className='button flex justify-end '>
+                        <div className="flex justify-end">
                             <GradientButton
                                 loading={loading}
                                 onClick={() => submitHandler('HeaderTopLeftBar')}
                             >
                                 Save Changes
                             </GradientButton>
-                            {/* <Button
-                                sx={{
-                                    textTransform: 'none',
-                                    minWidth: "200px",
-                                    backgroundImage: "linear-gradient(to right, #1e3a8a, #9333ea)",
-                                    color: "white",
-                                    "&:hover": {
-                                        backgroundImage: "linear-gradient(to right, #1e40af, #7c3aed)",
-                                    },
-                                }}
-                                onClick={() => submitHandler('HeaderTopLeftBar')}
-                                variant="contained"
-                            >
-                                {loading ? (
-                                    <CircularProgress size={23} sx={{ color: '#0b9ad2' }} />
-                                ) : (
-                                    'Save Changes'
-                                )}
-                            </Button> */}
                         </div>
                     </div>
                 </form>
@@ -279,3 +176,30 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
 }
 
 export default HeaderTopLeft;
+
+// Styling for all MUI TextFields
+const textFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+        fontSize: '12px',
+        '& input': {
+            fontSize: '14px',
+            color: 'white',
+        },
+        '& fieldset': {
+            borderColor: 'gray',
+        },
+        '&:hover fieldset': {
+            borderColor: 'blue',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'blue',
+        },
+    },
+    '& label': {
+        color: 'gray',
+        fontSize: '14px',
+    },
+    '& label.Mui-focused': {
+        color: 'white',
+    },
+};

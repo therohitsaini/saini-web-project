@@ -66,7 +66,24 @@ function PortfolioForm({
         }
     };
 
-    console.log("portFormData.userImage", portFormData)
+    useEffect(() => {
+        if (portFormData?.userImage) {
+            // If it's already a string (e.g., URL from API), use as-is
+            if (typeof portFormData?.userImage === 'string') {
+                const imgSrc = portFormData?.userImage.startsWith('http')
+                    ? portFormData?.userImage
+                    : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${portFormData?.userImage.replace(/^\/?/, '')}`;
+                setImagePreview(imgSrc);
+            }
+
+            // // If it's a File (from file input), generate preview
+            // else if (file instanceof File) {
+            //     setImagePreview(URL.createObjectURL(file));
+            // }
+        }
+    }, [portFormData]);
+
+    console.log("portFormData", portFormData)
 
     useEffect(() => {
         if (portMode === "PortForm") {

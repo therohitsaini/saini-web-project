@@ -9,11 +9,11 @@ import { ToastContainer } from 'react-toastify'
 
 function FooterBackGround({ showSnackbar, showError }) {
     const [formData, setFormData] = useState({
-        backgroundColor: '#513838',
+        backgroundColor: '',
         backgroundImage: null,
         showColorPicker: false
     });
-    console.log(formData)
+    console.log("formData", formData)
     const [preview, setPreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState(null);
@@ -38,7 +38,7 @@ function FooterBackGround({ showSnackbar, showError }) {
             if (response.ok && data.data) {
                 setFormData(prev => ({
                     ...prev,
-                    backgroundColor: data.data.backgroundColor || '#ffffff',
+                    backgroundColor: data.data.backgroundColor || '',
                     backgroundImage: data.data.backgroundImage || null
                 }));
 

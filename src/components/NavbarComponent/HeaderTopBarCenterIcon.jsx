@@ -256,8 +256,8 @@ function HeaderTopBarCenterIcon({
     const iconFields = Array.isArray(iconeCenter) ? iconeCenter : [];
 
     return (
-        <form className="flex justify-center flex-col items-center min-h-[650px] border border-slate-600/20 rounded-md py-4">
-            <div className="flex flex-col gap-4 px-5 w-full max-w-4xl">
+        <form className="flex justify-center flex-col items-center min-h-[650px] border border-slate-600/20 rounded-md py-4 ">
+            <div className="flex flex-col gap-4 px-5  w-[90%]">
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 className="text-2xl font-semibold sticky top-0 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">Header Top Bar Center Icon</h1>
 
@@ -419,12 +419,12 @@ function HeaderTopBarCenterIcon({
                     <Checkbox
                         defaultChecked
                         checked={true}
-                        // onChange={(e) =>
-                        //     setIconeCenter((prev) => ({
-                        //         ...prev,
-                        //         item_ShowOnWebsite: e.target.checked,
-                        //     }))
-                        // }
+                        onChange={(e) =>
+                            setIconeCenter((prev) => ({
+                                ...prev,
+                                item_ShowOnWebsite: e.target.checked,
+                            }))
+                        }
                         sx={{ m: 0, p: 0 }}
                         size="small"
                     />

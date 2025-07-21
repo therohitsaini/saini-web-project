@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
 import { allFaMdIconsList } from '../HeaderTopLeft';
 import GradientButton from '../../ReuseComponent/ReuseComponent';
+import { useState } from 'react';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -21,7 +22,6 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 
-
 export default function NavbarLogo({
     setFile,
     setText,
@@ -29,28 +29,74 @@ export default function NavbarLogo({
     file,
     loading
 }) {
+    const [preview, setPreview] = useState(null);
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setPreview(URL.createObjectURL(selectedFile)); // ✅ generate preview here
+        }
+    };
+
+    // Optional: clean up the object URL to prevent memory leaks
+    useEffect(() => {
+        if (typeof file === 'string') {
+            setPreview(`${import.meta.env.VITE_API_BASE_URL}${file}`);
+        }
+    }, [file]);
+    console.log(file)
+    useEffect(() => {
+        if (file) {
+            // If it's already a string (e.g., URL from API), use as-is
+            if (typeof file === 'string') {
+                const imgSrc = file.startsWith('http')
+                    ? file
+                    : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${file.replace(/^\/?/, '')}`;
+                setPreview(imgSrc);
+            }
+
+            // If it's a File (from file input), generate preview
+            else if (file instanceof File) {
+                setPreview(URL.createObjectURL(file));
+            }
+        }
+    }, [file]);
+
 
     return (
-        <div className='w-[100%] justify-center items-center h-[530px] flex flex-col' >
-            <div className='flex flex-col w-[500px] gap-4  p-5  border border-slate-400/20 rounded-md  ' >
-                <h1 className='w-96  font-bold '> Change Site logo </h1>
+        <div className='w-full h-[530px] flex justify-center items-center'>
+            <div className='w-[500px] flex flex-col gap-4 p-5 border border-slate-400/20 rounded-md'>
+                <div className='w-full flex justify-between items-center'>
+                    <h1 className='text-2xl w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-semibold'>
+                        Change Site Logo
+                    </h1>
+
+                    {/* ✅ Show preview only if available */}
+                    <div className='h-10 w-100'>
+                        {preview && (
+                            <img
+                                src={preview}
+                                alt="Preview"
+                                className="h-full w-full object-contain rounded"
+                            />
+                        )}
+                    </div>
+                </div>
+
                 <Divider />
 
                 <Button
                     component="label"
-                    role={undefined}
                     variant="outlined"
-                    tabIndex={-1}
                     startIcon={<CloudUploadIcon />}
-                    sx={{
-                        textTransform: "none"
-                    }}
+                    sx={{ textTransform: "none" }}
                 >
                     Upload Site Logo
                     <VisuallyHiddenInput
                         type="file"
-                        onChange={(e) => setFile(e.target.files[0])}
-                        multiple
+                        onChange={handleFileChange}
+                        accept="image/*"
                     />
                 </Button>
 
@@ -58,22 +104,18 @@ export default function NavbarLogo({
                     label="Site Logo"
                     size="small"
                     name='logo'
-                    // value={text.logo}
-                    // onChange={(e) => setText(e.target.value)}
                     variant="outlined"
-                >
+                />
 
-                </TextField>
                 <div className="flex items-center gap-2">
                     <Checkbox
                         checked={true}
                         onChange={(e) =>
-                            setFormData((prev) => ({
+                            setText((prev) => ({
                                 ...prev,
                                 item_ShowOnWebsite: e.target.checked,
                             }))
                         }
-                        sx={{ m: 0, p: 0 }}
                         size="small"
                         color='default'
                     />
@@ -82,17 +124,9 @@ export default function NavbarLogo({
                     </p>
                 </div>
 
-                <GradientButton
-                    onClick={() => handleSubmitLogo("Logo")}
-                    loading={loading}
-                >
+                <GradientButton onClick={() => handleSubmitLogo("Logo")} loading={loading}>
                     Save Logo
                 </GradientButton>
-                {/* <Button
-                    sx={{
-                        // my: 2,
-                        textTransform: "none"
-                    }} variant='outlined'>Submit</Button> */}
             </div>
         </div>
     );
@@ -915,7 +949,7 @@ export const HeaderButtomBar = ({
                             Save Chnages
                         </GradientButton>
                     </div>
-                   
+
                 </div>
             </div>
         </Fragment>

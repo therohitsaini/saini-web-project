@@ -1,9 +1,7 @@
 import { allFaMdIconsMap } from '../../NavbarComponent/HeaderTopLeft';
 import img from "../../../assets/feature.png"
 import fallbackImage from '../../../assets/feature.png';
-// import defaultImage from '../../../assets/';
 
-console.log("fallbackImage", fallbackImage)
 export const features = [
     {
         side: 'left',
@@ -130,7 +128,7 @@ function FeatureSection({ featureHeadlineApies, featureListItemApies }) {
                                 const leftIcon = isBackendData ? feature.listIconeLeft : feature.icon;
                                 const rightIcon = isBackendData ? feature.listIconeRight : feature.listIconeRight
                                 const bgImage = isBackendData ? feature.backGroundImage : 'https://media.istockphoto.com/id/1136542562/photo/abstract-lights.jpg?b=1&s=612x612&w=0&k=20&c=VzNUPz7Ci6-YFa05W-wJ7TxR2b3qmJyyH6K33QzA4eU=';
-// console.log()
+                                // console.log()
                                 const LeftIconComponent = leftIcon ? allFaMdIconsMap[leftIcon] : null;
                                 const RightIconComponent = rightIcon ? allFaMdIconsMap[rightIcon] : null;
 

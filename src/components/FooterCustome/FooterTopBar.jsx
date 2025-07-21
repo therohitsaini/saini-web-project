@@ -229,7 +229,7 @@ function FooterTopBar({ showSnackbar, showError }) {
    return (
       <div className='main h-full w-full flex justify-center items-center flex-col px-30'>
          <ToastContainer />
-         <div className='form-main gap-3 w-full border border-slate-500/20 p-5'>
+         <div className='form-main gap-3 w-full border border-slate-500/20 p-5 rounded-md' >
             <div className='p-5 w-full flex gap-5'>
                {/* Left Section Form */}
                <form className='border border-slate-500/20 w-full h-full rounded-md p-3 flex flex-col gap-3'>

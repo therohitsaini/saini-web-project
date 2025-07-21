@@ -54,22 +54,21 @@ function SignIn() {
 
             })
             const response = await fetchData.json()
-            console.log("userObject", JSON.stringify(response))
-            toast(JSON.stringify(response.massage));
+            // console.log("userObject", JSON.stringify(response))
+
             if (fetchData.ok) {
                 dispatch(fetchFullName(response.userData))
                 localStorage.setItem("user-ID", response.userData._id)
                 localStorage.setItem("header-email", response.userData.email)
                 localStorage.setItem("header-username", response.userData.username)
                 localStorage.setItem("set-role", response.userData.role)
-
+                sessionStorage.setItem("WELCOMEMODAL", true)
                 // setTimeout(() => {
                 navigate("/muiappbar")
+                toast(JSON.stringify(response.massage));
                 // }, 1000)
-
             } else {
                 navigate("/")
-
             }
 
         } catch (err) {

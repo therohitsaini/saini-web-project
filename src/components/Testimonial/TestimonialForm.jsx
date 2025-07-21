@@ -6,6 +6,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import GradientButton from '../ReuseComponent/ReuseComponent';
+import { useEffect } from 'react';
 
 
 
@@ -32,7 +33,23 @@ function TestimonialForm({ testimonialMode, loading, setTestimonialForm, testimo
             [name]: value
         }))
     }
+    useEffect(() => {
+        if (testimonialForm?.userProfile) {
+            // If it's already a string (e.g., URL from API), use as-is
+            if (typeof testimonialForm?.userProfile === 'string') {
+                const imgSrc = testimonialForm?.userProfile.startsWith('http')
+                    ? testimonialForm?.userProfile
+                    : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${testimonialForm?.userProfile.replace(/^\/?/, '')}`;
+                setImagePreview(imgSrc);
+            }
 
+            // // If it's a File (from file input), generate preview
+            // else if (file instanceof File) {
+            //     setImagePreview(URL.createObjectURL(file));
+            // }
+        }
+    }, [testimonialForm]);
+    console.log("testimonialForm", testimonialForm)
 
     return (
         <Fragment>

@@ -5,7 +5,7 @@ import {
 import {
     Paper, Button, IconButton, Tooltip, Backdrop, CircularProgress
 } from '@mui/material';
-import EditSquareIcon from '@mui/icons-material/EditSquare';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState, useEffect, Fragment } from 'react';
 import RoleUpdateModal from '../../ModalComponent/RoleUpdateModal';
@@ -130,16 +130,16 @@ function UserTable() {
 
     const columns = [
         // { field: 'id', headerName: 'ID', width: 190 },
-        { field: 'firstName', headerName: 'Full Name', width: 170 },
+        { field: 'firstName', headerName: 'Full Name', width: 200 },
         { field: 'Username', headerName: 'Username', width: 200 },
-        { field: 'emailID', headerName: 'User Mail ID', width: 250 },
-        { field: 'permission', headerName: 'Permissions', width: 160 },
+        { field: 'emailID', headerName: 'Gmail ID', width: 290 },
+        // { field: 'permission', headerName: 'Permissions', width: 160 },
 
 
         {
             field: 'status',
             headerName: 'Status',
-            width: 120,
+            width: 180,
             renderCell: (params) => {
                 const isActive = params.row.status === true;
                 // console.log("isActive", isActive)
@@ -171,7 +171,7 @@ function UserTable() {
         {
             field: 'action',
             headerName: 'Action',
-            width: 190,
+            width: 230,
             renderCell: (params) => (
                 <div className='flex gap-1 items-center'>
                     {/* <Tooltip title="Update"> */}
@@ -284,7 +284,7 @@ function UserTable() {
                                     textTransform: "none"
                                 }}
                             >
-                               + Add New User
+                                + Add New User
                             </Button>
                             <Button variant="outlined" color="error" onClick={handleDelete} disabled={arrIds.length === 0}>Delete Selected</Button>
                         </div>
