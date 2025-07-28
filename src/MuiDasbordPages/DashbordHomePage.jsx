@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react'
 import UserChart from './UserChart'
 import { data } from 'react-router-dom';
-import { Gauge } from '@mui/x-charts/Gauge';
+// import { Gauge } from '@mui/x-charts-pro/Gauge';
 import { blue } from '@mui/material/colors';
 import PrintChart from './PrintChart';
 import ColorScale from './ColorScale';
 import StatCards from './StatCards';
+import { GaugeCircle } from 'lucide-react';
+import { Gauge } from '@mui/x-charts';
 
 
 function DashbordHomePage() {

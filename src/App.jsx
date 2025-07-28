@@ -45,6 +45,8 @@ import { SnackbarProvider } from './components/Snakbar/Snakbar';
 import Headings from './components/HeadingSettinges/Headings';
 import FooterCopyRight from './components/FooterCustome/FooterMianPages/FooterCopyRight';
 import Test from './components/Test';
+import AboutCustome from './components/AboutComponet/AboutCustome/AboutCustome';
+import BreadCrumbCustome from './components/BreadCrumbSection/BreadCrumbCustome/BreadCrumbCustome';
 // import FooterMainCenter from './components/FooterCustome/FooterMainCenter';
 
 
@@ -104,8 +106,8 @@ function App() {
             {/* <Route path='/footermaincenter' element={< FooterMainCenter />} /> */}
             <Route path='/headings' element={< Headings />} />
             <Route path='/footercopyright' element={< FooterCopyRight />} />
-            <Route path='/test' element={< Test />} />
-
+            <Route path='/aboutCustome' element={< AboutCustome />} />
+            <Route path='/breadCrumbCustome' element={< BreadCrumbCustome />} />
 
           </Routes>
         </SnackbarProvider>

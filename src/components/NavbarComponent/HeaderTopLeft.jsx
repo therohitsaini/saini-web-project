@@ -104,7 +104,7 @@ function HeaderTopLeft({ formData, setFormData, submitHandler, setLoading, loadi
                                 }));
                             }}
                             inputValue={inputValue}
-                            onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
+                           onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
                             getOptionLabel={(option) => option.label}
                             isOptionEqualToValue={(option, value) => option.label === value?.label}
                             renderOption={(props, option) => (

@@ -255,8 +255,13 @@ function Chart({ apiRef, type }) {
                 <BarChartPro
                     apiRef={apiRef}
                     height={300}
+
                     xAxis={[
-                        { data: data.map((p) => Math.round(p.x1)).toSorted((a, b) => a - b) },
+
+                        {
+                            scaleType: 'band',
+                            data: data.map((p) => Math.round(p.x1)).toSorted((a, b) => a - b)
+                        },
                     ]}
                     series={series}
                 />
@@ -285,6 +290,7 @@ function Chart({ apiRef, type }) {
             return (
                 <Heatmap
                     apiRef={apiRef}
+
                     xAxis={[{ data: [1, 2, 3, 4] }]}
                     yAxis={[{ data: ['A', 'B', 'C', 'D', 'E'] }]}
                     series={[{ data: heatmapData }]}

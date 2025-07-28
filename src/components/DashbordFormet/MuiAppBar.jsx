@@ -43,6 +43,8 @@ import IconButton from '@mui/material/IconButton';
 import { useRef } from 'react';
 import theme from '../DahbordTheme/Theme';
 import { styled, keyframes } from 'styled-components';
+import AboutCustome from '../AboutComponet/AboutCustome/AboutCustome';
+import BreadCrumbCustome from '../BreadCrumbSection/BreadCrumbCustome/BreadCrumbCustome';
 
 // Keyframe for bottom-to-top slide in
 const slideUp = keyframes`
@@ -289,6 +291,10 @@ const MuiAppBar = (props) => {
                 return <FooterContactMain showSnackbar={showSnackbar} showError={showError} />
             case '/footersection/footercopyright':
                 return <FooterCopyRight />
+            case '/aboutsection':
+                return <AboutCustome />
+            case '/breadcrumbsection':
+                return <BreadCrumbCustome />
 
             default:
                 return <NotFoundPage />;
@@ -328,15 +334,15 @@ const MuiAppBar = (props) => {
                         <div className='mt-7 w-full flex justify-center my-1'>
                             <Box sx={{
                                 width: 200,
-                                fontSize:12,
-                                fontVariant:"all-small-caps",
+                                fontSize: 12,
+                                fontVariant: "all-small-caps",
                                 // p:"1px",
                                 // backgroundColor:"#72c66eabf",
-                                border:"1px solid #47d052b8",
-                                borderRadius:3
+                                border: "1px solid #47d052b8",
+                                borderRadius: 3
                             }}>Log In Successfully</Box>
                         </div>
-                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ color: 'white',fontVariant:"discretionary-ligatures" }}>
+                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ color: 'white', fontVariant: "discretionary-ligatures" }}>
                             👋 Welcome to {data.fullname} on the  Dashbord
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2, color: 'white', fontSize: "10px" }}>

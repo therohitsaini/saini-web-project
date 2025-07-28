@@ -16,15 +16,15 @@ export const inputBaseStyle = {
 export const inputBaseStyleAccount = {
     width:"100%",
     '& .MuiOutlinedInput-root': {
-        fontSize: '12px',
+        fontSize: '14px',
         '& input': {
             fontSize: '14px',
         },
         '&:hover fieldset': {
-            borderColor: 'blue',
+            borderColor: 'black',
         },
         '&.Mui-focused fieldset': {
-            borderColor: 'blue',
+            borderColor: 'black',
         },
     }
 };

@@ -1,28 +1,31 @@
-import * as React from 'react';
+// src/MuiDasbordPages/UserChart.jsx
+import React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-function UserChart() {
+
+const UserChart = () => {
     return (
-        <div className=' bg-cyan-200/20 rounded-md'>
+        <div style={{ width: '100%', maxWidth: 600, margin: 'auto', }} className='bg-cyan-200/20'>
             <BarChart
-                xAxis={[{ data: ['Admin  A', 'Admin B', 'Admin C'] }]}
-                series={[{
-                    data: [4, 3, 5],
-                    color: "#64E2B7"
-                },
-                {
-                    data: [1, 6, 3],
-                    color: "#FFA955"
-
-                },
-                {
-                    data: [2, 5, 6],
-                    color: "red"
-
-                }]}
+                xAxis={[
+                    {
+                        id: 'x-axis',         // ✅ Custom ID to match series
+                        scaleType: 'band',    // ✅ REQUIRED for bar charts
+                        data: ['Jan', 'Feb', 'Mar', 'Apr'],
+                    }
+                ]}
+                series={[
+                    {
+                        id: 'user-series',    // ✅ Optional custom ID
+                        label: 'Users',
+                        data: [5, 10, 15, 20],
+                        xAxisKey: 'x-axis',   // ✅ REQUIRED if xAxis has custom `id`
+                    }
+                ]}
+                width={500}
                 height={300}
             />
         </div>
     );
-}
+};
 
-export default UserChart
+export default UserChart;

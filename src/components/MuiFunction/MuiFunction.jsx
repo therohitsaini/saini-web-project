@@ -28,6 +28,7 @@ import { BiHeading } from "react-icons/bi";
 import { BsCardHeading } from "react-icons/bs";
 import { ImBlog } from "react-icons/im";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2"
+import { GoStop } from "react-icons/go";
 
 
 
@@ -117,6 +118,11 @@ export const NAVIGATION = (isAdmin) => {
 
             ],
         },
+        { kind: 'divider' },
+        { kind: 'header', title: 'Pages Settings' },
+        { segment: 'breadcrumbsection', title: 'Bread Crumb Section', icon: <GoStop fontSize="small" /> },
+        { segment: 'aboutsection', title: 'About Section', icon: <GoStop fontSize="small" /> },
+
 
 
     ]
