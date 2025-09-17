@@ -169,7 +169,7 @@ const headerTopBarDefualt = [
             {
 
 
-                item_IconeUrl: "http://127.0.0.1:5500/corpex-html/assets/images/logo-light.png",
+                item_IconeUrl: "",
 
             }
         ],
