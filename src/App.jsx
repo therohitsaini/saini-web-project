@@ -62,10 +62,10 @@ function App() {
       <BrowserRouter>
         <SnackbarProvider maxSnack={3} >
           <Routes>
-
+            <Route path='/' element={< Home />} />
             <Route path='/signup' element={<SignUp />} />
-            <Route path='/' element={<SignIn />} />
-            <Route path='/home' element={< Home />} />
+            <Route path='/dign' element={<SignIn />} />
+
             <Route path='/footer' element={< Footer />} />
             <Route path='/dashboardmenu' element={<DashbordMenu />} />
             <Route path='/herosection' element={<HeroSection />} />
