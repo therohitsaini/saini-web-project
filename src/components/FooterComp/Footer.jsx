@@ -12,6 +12,15 @@ import { Button } from '@mui/material';
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { allFaMdIconsMap } from '../NavbarComponent/HeaderTopLeft';
 import { Link } from 'react-router-dom';
+import Image1 from "../../assets/image-1.png"
+import Image2 from "../../assets/image-2.png"
+import Image3 from "../../assets/image-3.png"
+import Image4 from "../../assets/image-4.png"
+import Image5 from "../../assets/image-5.png"
+// import WebLogo from "../src/assets/logo-light(1).png"
+import defaultLogo from '../../assets/logo-light (1).png';
+
+
 
 export const footerIcone = [
     {
@@ -80,7 +89,8 @@ const fallbackHelpCenterData = {
         title: "Have a Doubt We Can Help",
         subtitle: "Boot For Consultation",
         icone: "MdHeadphones",
-        image: "../src/assets/businesswoman-looking-away-while-sitting-cafe_1048944-12388088.png"
+        image: "https://img.freepik.com/premium-photo/morning-inspiration-close-up-image-pensive-young-woman-holding-coffee-cup-looking-away-while-sitting-her-working-place-rough-wooden-table_425904-13861.jpg?uid=R167309508&ga=GA1.1.1036802377.1749109170&semt=ais_hybrid&w=740"
+
     },
     rightSection: {
         title: "Need Support?",
@@ -217,14 +227,15 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
     const footerTopBar = footerData?.FooterTopBar || fallbackHelpCenterData;
     const footerSponsors = footerData?.FooterSponsors;
 
-    // Fallback sponsor images if backend data is not available
+    /**
+     * Sponsors image here 
+     */
+
     const fallbackSponsorImages = [
-        "../src/assets/image-1.png",
-        "../src/assets/image-2.png",
-        "../src/assets/image-3.png",
-        "../src/assets/image-4.png",
-        "../src/assets/image-5.png"
+        Image1, Image2, Image3, Image4, Image5
     ];
+
+
 
 
     const getSponsorImages = () => {
@@ -247,40 +258,11 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
 
     const sponsorImagesToDisplay = getSponsorImages();
 
-
-    // const getBackgroundStyle = () => {
-    //     if (footerBackground?.backgroundImage) {
-
-    //         const imageUrl = footerBackground.backgroundImage.startsWith('http')
-    //             ? footerBackground.backgroundImage
-    //             : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${footerBackground.backgroundImage.replace(/^\/?/, '')}`;
-    //         return {
-    //             backgroundImage: `url(${imageUrl})`,
-    //             backgroundSize: 'cover',
-    //             backgroundPosition: 'center',
-    //             backgroundRepeat: 'no-repeat'
-    //         };
-    //     } else if (footerBackground?.backgroundColor) {
-
-    //         return {
-    //             backgroundColor: footerBackground.backgroundColor
-    //         };
-    //     } else {
-
-    //         return {
-    //             backgroundImage: 'url(../src/assets/footer-bg.jpg)',
-    //             backgroundSize: 'cover',
-    //             backgroundPosition: 'center',
-    //             backgroundRepeat: 'no-repeat'
-    //         };
-    //     }
-    // };
-
     const getBackgroundStyle = () => {
         const color = footerBackground?.backgroundColor;
         const image = footerBackground?.backgroundImage;
 
-        // Full image URL handling
+
         const getFullImageUrl = (img) => {
             if (!img) return null;
             return img.startsWith('http')
@@ -288,14 +270,14 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
                 : `${import.meta.env.VITE_BACK_END_URL.replace(/\/$/, '')}/${img.replace(/^\/?/, '')}`;
         };
 
-        // Priority: Background Color
+
         if (color && color !== "#ffffff" && color !== "transparent") {
             return {
                 backgroundColor: color,
             };
         }
 
-        // Next: Background Image
+
         if (image) {
             return {
                 backgroundImage: `url(${getFullImageUrl(image)})`,
@@ -305,7 +287,7 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
             };
         }
 
-        // Fallback: Local image
+
         return {
             backgroundImage: 'url(/src/assets/footer-bg.jpg)',
             backgroundSize: 'cover',
@@ -318,7 +300,7 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
 
     const data = footerCopyRightApies || defaultFooterCopyRightApi;
 
-    console.log("footerData", footerData)
+
     return (
         <Fragment>
             <Box sx={{ width: "100%", }}>
@@ -407,7 +389,7 @@ const Footer = ({ footerData, footerCopyRightApies }) => {
                         </div>
                         <div className='footer-main  w-full my-5 h-96 gap-5 grid grid-cols-4'>
                             <div className='footer-contact  '>
-                                <img src={footerContact?.logo ? getImageUrl(footerContact.logo) : '../src/assets/logo-light (1).png'} />
+                                <img src={footerContact?.logo ? getImageUrl(footerContact.logo) : defaultLogo} />
                                 <p className='text-footer font-bold text-white my-3' > {footerContact?.description || "cozipress we talk destination we shine across your organization to fully understand....! ."} .</p>
                                 <div className='flex gap-3'>
                                     {
